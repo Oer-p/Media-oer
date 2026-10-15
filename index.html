@@ -1,799 +1,774 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050707">
-<meta name="description" content="OER — Connect Everything">
-<title>OER — Connect Everything</title>
+<meta name="theme-color" content="#080b0e">
+<meta name="description" content="OER Chat — Connect Everything">
+<title>OER Chat</title>
 
 <style>
 :root {
-  --bg: #050707;
-  --panel: #0b1113;
-  --panel2: #10191c;
+  color-scheme: dark;
+  --bg: #080b0e;
+  --panel: #10161c;
+  --panel2: #151d24;
+  --line: #26323b;
   --cyan: #05b9df;
-  --cyan-soft: #092e35;
-  --text: #f5f8f9;
-  --muted: #89979c;
-  --border: #273438;
+  --text: #f3f7f9;
+  --muted: #91a0aa;
+  --danger: #ff7777;
 }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+* { box-sizing: border-box; }
 body {
+  margin: 0;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
 .app {
+  width: 100%;
   max-width: 1100px;
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 500px;
   margin: auto;
-  padding-bottom: 85px;
+  display: grid;
+  grid-template-columns: 340px minmax(0,1fr);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
 }
-
-/* HEADER */
-
-.header {
-  min-height: 76px;
-  padding: 14px 22px;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 18px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(5,7,7,.97);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  flex-shrink: 0;
-}
-
-.brand-icon {
-  width: 43px;
-  height: 43px;
-  display: block;
-  flex-shrink: 0;
-}
-
-.brand-name {
-  font-size: 27px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.search {
-  flex: 1 1 auto;
-  width: 0;
+.sidebar {
   min-width: 0;
-  height: 43px;
-  padding: 0 16px;
-  border: 1px solid #354246;
-  background: #090d0e;
-  color: white;
-  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+}
+.brand {
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #063b48;
+  color: var(--cyan);
+  font-weight: 900;
+  font-size: 18px;
+}
+.brand-name { font-size: 20px; font-weight: 850; letter-spacing: 1px; }
+.brand-sub { color: var(--muted); font-size: 12px; margin-top: 3px; }
+.identity {
+  padding: 15px;
+  border-bottom: 1px solid var(--line);
+}
+.small-label {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.id-row { display: flex; gap: 8px; }
+input {
+  width: 100%;
+  min-width: 0;
+  color: var(--text);
+  background: #0a0f13;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
   outline: none;
 }
-
-.search:focus {
-  border-color: var(--cyan);
+input:focus { border-color: var(--cyan); }
+#myId {
+  font-size: 11px;
+  flex: 1;
 }
-
-.profile-btn {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  background: #071315;
-  color: #b7f6ff;
-  border: 1px solid #456168;
-  padding: 11px 17px;
-  border-radius: 13px;
-}
-
-/* TOP NAVIGATION */
-
-.top-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 8px 12px 0;
-  border-bottom: 1px solid var(--border);
-  background: #050707;
-}
-
-.nav-item {
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: #aeb9bd;
-  min-height: 76px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  transition: .2s;
-}
-
-.nav-item svg {
-  width: 27px;
-  height: 27px;
-  display: block;
-}
-
-.nav-item span {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.nav-item.active {
-  color: #eafcff;
-  border-bottom-color: var(--cyan);
-}
-
-.nav-item.active .nav-icon-bg {
-  background: var(--cyan-soft);
-}
-
-.nav-icon-bg {
-  width: 37px;
-  height: 35px;
+.btn {
+  border: 1px solid var(--line);
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px 13px;
+  color: var(--text);
+  background: var(--panel2);
 }
-
-/* PAGE */
-
-.page {
-  padding: 25px 22px;
-}
-
-.page-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 21px;
-}
-
-.page-heading h1 {
-  font-size: 27px;
-  letter-spacing: -.6px;
-}
-
-.page-heading p {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 6px;
-}
-
-.primary-btn {
+.btn:hover { border-color: var(--cyan); }
+.btn-primary {
+  color: #00151b;
   background: var(--cyan);
-  color: #001317;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-weight: 700;
+  border-color: var(--cyan);
+  font-weight: 750;
 }
-
-.filters {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 16px;
-}
-
-.filter {
-  border: 1px solid var(--border);
-  color: #aebbc0;
-  background: var(--panel);
-  padding: 9px 15px;
-  border-radius: 20px;
-  white-space: nowrap;
+.start-chat { padding: 15px; border-bottom: 1px solid var(--line); }
+.start-chat .btn { width: 100%; margin-top: 9px; }
+.conversation-heading {
+  padding: 16px 15px 8px;
   font-size: 13px;
+  font-weight: 750;
 }
-
-.filter.active {
-  color: #c5faff;
-  background: var(--cyan-soft);
-  border-color: #126879;
+#conversationList {
+  padding: 5px 9px 15px;
+  overflow-y: auto;
+  flex: 1;
 }
-
-/* CHAT LIST */
-
-.chat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.chat-item {
+.conversation-item {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 13px;
-  padding: 15px;
-  background: var(--panel);
-  border: 1px solid #1e2a2e;
-  border-radius: 17px;
-  color: var(--text);
+  gap: 11px;
   text-align: left;
-  transition: background .2s, border-color .2s;
-}
-
-.chat-item:hover {
-  background: #10191c;
-  border-color: #31515a;
-}
-
-.avatar {
-  flex-shrink: 0;
-  width: 49px;
-  height: 49px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #103b43;
-  color: #c6faff;
-  font-weight: 700;
-  font-size: 17px;
-  position: relative;
-}
-
-.avatar.a2 { background: #30304d; color: #d7d8ff; }
-.avatar.a3 { background: #493021; color: #ffdbba; }
-.avatar.a4 { background: #1d4535; color: #c5ffe1; }
-.avatar.a5 { background: #453044; color: #f8d4ff; }
-
-.online {
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  border: 2px solid var(--panel);
-  background: #36d98c;
-  border-radius: 50%;
-  right: 0;
-  bottom: 1px;
-}
-
-.chat-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.chat-name-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 6px;
-}
-
-.chat-name {
-  font-size: 15px;
-  font-weight: 700;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.verified {
-  color: var(--cyan);
-  font-size: 13px;
-}
-
-.chat-preview {
-  color: var(--muted);
-  font-size: 13px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.chat-meta {
-  flex-shrink: 0;
-  min-width: 36px;
-  display: flex;
-  align-items: flex-end;
-  gap: 9px;
-  flex-direction: column;
-}
-
-.chat-time {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.unread {
-  background: var(--cyan);
-  color: #001216;
-  font-size: 11px;
-  font-weight: 800;
-  min-width: 19px;
-  height: 19px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 5px;
-}
-
-/* EMPTY / CONTENT */
-
-.empty {
-  text-align: center;
-  padding: 60px 20px;
-  border: 1px dashed var(--border);
-  border-radius: 18px;
-  color: var(--muted);
-}
-
-.empty strong {
-  display: block;
-  color: white;
-  font-size: 17px;
-  margin-bottom: 8px;
-}
-
-.empty p {
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.page[hidden] {
-  display: none;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav {
-  position: fixed;
-  z-index: 20;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 67px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 5px max(8px, calc((100vw - 700px) / 2));
-  background: rgba(5,7,7,.97);
-  border-top: 1px solid var(--border);
-  backdrop-filter: blur(15px);
-}
-
-.bottom-item {
-  border: none;
+  color: var(--text);
   background: transparent;
-  color: #8e9da1;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px 10px;
+  margin-bottom: 3px;
+}
+.conversation-item:hover,
+.conversation-item.active {
+  background: #18232b;
+  border-color: #273b46;
+}
+.avatar {
+  flex: 0 0 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #123a47;
+  color: #75e7ff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+.conversation-info { min-width: 0; }
+.conversation-name {
+  font-size: 13px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conversation-preview {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chat {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at top right, #10232b 0, transparent 40%),
+    var(--bg);
+}
+.chat-header {
+  min-height: 76px;
+  padding: 15px 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 4px;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(12,17,21,.92);
+}
+.chat-heading { min-width: 0; flex: 1; }
+.chat-title { font-size: 15px; font-weight: 800; }
+.chat-subtitle {
+  margin-top: 5px;
+  color: var(--muted);
   font-size: 11px;
 }
-
-.bottom-item svg {
-  width: 22px;
-  height: 22px;
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #36d99a;
+  margin-right: 5px;
 }
-
-.bottom-item.active {
+#messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.welcome {
+  margin: auto;
+  max-width: 340px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 13px;
+}
+.welcome-icon {
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 18px;
+  border: 1px solid #185363;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
   color: var(--cyan);
+  background: #0c2028;
 }
-
-/* RESPONSIVE */
-
-@media (min-width: 760px) {
-  .page {
-    padding: 30px 34px;
-  }
-
-  .chat-list {
-    max-width: 850px;
-  }
-
-  .nav-item {
-    min-height: 80px;
-  }
-
-  .nav-item svg {
-    width: 29px;
-    height: 29px;
-  }
+.welcome strong { color: var(--text); display: block; font-size: 19px; margin-bottom: 7px; }
+.message {
+  max-width: min(78%, 470px);
+  padding: 11px 14px;
+  border-radius: 15px;
+  background: #172129;
+  border: 1px solid #26343e;
+  align-self: flex-start;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
-
-@media (max-width: 480px) {
-  .header {
-    min-height: 65px;
-    padding: 11px 13px;
-    gap: 10px;
-  }
-
-  .brand-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .brand-name {
-    font-size: 23px;
-  }
-
-  .search {
-    height: 38px;
-    padding: 0 11px;
-    font-size: 12px;
-  }
-
-  .profile-btn {
-    padding: 10px 11px;
-    font-size: 12px;
-  }
-
-  .top-nav {
-    padding: 5px 8px 0;
-  }
-
-  .nav-item {
-    min-height: 67px;
-    gap: 3px;
-  }
-
-  .nav-icon-bg {
-    width: 32px;
-    height: 31px;
-  }
-
-  .nav-item svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .nav-item span {
-    font-size: 11px;
-  }
-
-  .page {
-    padding: 22px 13px;
-  }
-
-  .page-heading h1 {
-    font-size: 24px;
-  }
-
-  .chat-item {
-    padding: 12px 10px;
-    gap: 10px;
-    border-radius: 14px;
-  }
-
-  .avatar {
-    width: 44px;
-    height: 44px;
-  }
-
-  .chat-name {
-    font-size: 13px;
-  }
-
-  .chat-preview {
-    font-size: 12px;
-  }
-
-  .chat-time {
-    font-size: 10px;
-  }
-
-  .primary-btn {
-    padding: 10px 12px;
-    font-size: 12px;
-  }
+.message.mine {
+  align-self: flex-end;
+  background: #063d4a;
+  border-color: #0b5969;
+  border-bottom-right-radius: 4px;
 }
+.message.theirs { border-bottom-left-radius: 4px; }
+.message-text { font-size: 14px; line-height: 1.55; }
+.message-time {
+  color: #9eb0ba;
+  text-align: right;
+  font-size: 10px;
+  margin-top: 6px;
+}
+.composer {
+  padding: 15px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 10px;
+  background: rgba(12,17,21,.95);
+}
+.composer input { border-radius: 13px; padding: 13px 15px; }
+.composer button { min-width: 76px; }
+#status {
+  padding: 8px 15px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+#status.error { color: var(--danger); }
+#mobileBack { display: none; }
+.hidden { display: none !important; }
 
-@media (max-width: 350px) {
-  .brand-name {
-    font-size: 20px;
-  }
-
-  .brand-icon {
-    width: 31px;
-    height: 31px;
-  }
-
-  .profile-btn {
-    padding: 9px;
-  }
-
-  .chat-meta {
-    min-width: 27px;
-  }
+@media(max-width:650px) {
+  .app { display: block; height: 100dvh; min-height: 0; border: 0; }
+  .sidebar { height: 100%; border: 0; }
+  .chat { display: none; height: 100%; }
+  .app.chat-open .sidebar { display: none; }
+  .app.chat-open .chat { display: flex; }
+  #mobileBack { display: inline-block; padding: 9px 11px; }
+  .chat-header { padding: 12px; }
+  #messages { padding: 15px; }
+  .message { max-width: 88%; }
 }
 </style>
 </head>
 
 <body>
-<div class="app">
-
-  <!-- HEADER -->
-  <header class="header">
+<div class="app" id="app">
+  <aside class="sidebar">
     <div class="brand">
-      <!-- Logo OER saat ini; ganti SVG ini dengan SVG logo utama yang asli -->
-      <svg class="brand-icon" viewBox="0 0 64 64"
-           xmlns="http://www.w3.org/2000/svg" aria-label="Logo OER">
-        <rect x="2" y="2" width="60" height="48" rx="13" fill="#05b9df"/>
-        <path d="M15 44 L10 59 Q10 61 14 59 L29 49" fill="#05b9df"/>
-        <path d="M20 17 Q20 12 25 12 H43 Q48 12 48 17 V30
-                 Q48 35 43 35 H30 L23 41 L25 35 Q20 34 20 29 Z"
-              fill="white"/>
-      </svg>
-      <span class="brand-name">OER</span>
+      <div class="logo">O</div>
+      <div>
+        <div class="brand-name">OER <span style="color:var(--cyan)">CHAT</span></div>
+        <div class="brand-sub">Connect Everything</div>
+      </div>
     </div>
 
-    <input
-      class="search"
-      id="globalSearch"
-      type="search"
-      placeholder="Cari teman, konten..."
-      aria-label="Cari teman dan konten"
-    >
-
-    <button class="profile-btn" onclick="showPage('profil')">
-      Profil
-    </button>
-  </header>
-
-  <!-- NAVIGASI UTAMA -->
-  <nav class="top-nav" aria-label="Navigasi utama">
-
-    <button class="nav-item" data-page="beranda"
-            onclick="showPage('beranda')">
-      <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="3" width="38" height="35" rx="10" fill="#05b9df"/>
-          <path d="M13 19 L24 10 L35 19 V31 H27 V24 H21 V31 H13 Z" fill="white"/>
-          <path d="M15 38 L10 45 L24 39" fill="#05b9df"/>
-        </svg>
-      </span>
-      <span>Beranda</span>
-    </button>
-
-    <button class="nav-item" data-page="postingan"
-            onclick="showPage('postingan')">
-      <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
-          <circle cx="17" cy="19" r="7" stroke="white" stroke-width="4"/>
-          <path d="M29 13 H37 M29 19 H37 M29 25 H37" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
-        </svg>
-      </span>
-      <span>Postingan</span>
-    </button>
-
-    <button class="nav-item" data-page="reels"
-            onclick="showPage('reels')">
-      <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
-          <circle cx="24" cy="19" r="11" stroke="white" stroke-width="4"/>
-          <path d="M22 13.5 Q21 13 21 15 V23 Q21 25 23 24 L30 20 Q32 19 30 18 Z" fill="white"/>
-          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
-        </svg>
-      </span>
-      <span>Reels</span>
-    </button>
-
-    <button class="nav-item active" data-page="pesan"
-            onclick="showPage('pesan')">
-      <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
-          <path d="M12 17 Q12 10 21 10 H29 Q37 10 37 18 Q37 26 28 26 H22 L15 31 L17 25 Q12 23 12 17 Z" fill="white"/>
-          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
-        </svg>
-      </span>
-      <span>Pesan</span>
-    </button>
-
-  </nav>
-
-  <main>
-    <section class="page" id="page-beranda" hidden>
-      <div class="page-heading">
-        <div>
-          <h1>Beranda</h1>
-          <p>Temukan kabar terbaru dari temanmu.</p>
-        </div>
-        <button class="primary-btn" onclick="showPage('postingan')">+ Buat postingan</button>
+    <div class="identity">
+      <div class="small-label">ID pengguna kamu</div>
+      <div class="id-row">
+        <input id="myId" readonly placeholder="Menghubungkan...">
+        <button class="btn" id="copyId" type="button">Salin</button>
       </div>
-      <div class="empty">
-        <strong>Selamat datang di OER</strong>
-        <p>Ruang untuk terhubung, berbagi cerita, dan menemukan hal baru.</p>
+    </div>
+
+    <form class="start-chat" id="startForm">
+      <div class="small-label">Mulai percakapan</div>
+      <input id="targetId" placeholder="Tempel ID pengguna teman" autocomplete="off" required>
+      <button class="btn btn-primary" id="startButton" type="submit">＋ Mulai chat</button>
+    </form>
+
+    <div class="conversation-heading">Percakapan</div>
+    <div id="conversationList">
+      <div class="conversation-preview" style="padding:10px">Memuat percakapan...</div>
+    </div>
+  </aside>
+
+  <main class="chat">
+    <header class="chat-header">
+      <button id="mobileBack" class="btn" type="button" aria-label="Kembali">←</button>
+      <div class="avatar" id="chatAvatar">O</div>
+      <div class="chat-heading">
+        <div class="chat-title" id="chatTitle">OER Chat</div>
+        <div class="chat-subtitle" id="chatSubtitle">Pilih percakapan untuk mulai</div>
+      </div>
+      <button class="btn" id="refreshButton" type="button">↻</button>
+    </header>
+
+    <section id="messages" aria-live="polite">
+      <div class="welcome">
+        <div class="welcome-icon">✉</div>
+        <strong>Selamat datang di OER Chat</strong>
+        Pilih percakapan atau masukkan ID teman untuk mulai mengobrol secara realtime.
       </div>
     </section>
 
-    <section class="page" id="page-postingan" hidden>
-      <div class="page-heading">
-        <div>
-          <h1>Postingan</h1>
-          <p>Bagikan momen dan ceritamu.</p>
-        </div>
-        <button class="primary-btn" onclick="alert('Form postingan dapat ditambahkan di sini.')">+ Buat</button>
-      </div>
-      <div class="empty">
-        <strong>Postingan</strong>
-        <p>Konten yang dibagikan akan ditampilkan di halaman ini.</p>
-      </div>
-    </section>
-
-    <section class="page" id="page-reels" hidden>
-      <div class="page-heading">
-        <div>
-          <h1>Reels</h1>
-          <p>Video singkat pilihan komunitas OER.</p>
-        </div>
-      </div>
-      <div class="empty">
-        <strong>Jelajahi Reels</strong>
-        <p>Video akan ditampilkan di sini setelah fitur video dihubungkan.</p>
-      </div>
-    </section>
-
-    <section class="page" id="page-pesan">
-      <div class="page-heading">
-        <div>
-          <h1>Chat</h1>
-          <p>Percakapan dan teman yang terhubung.</p>
-        </div>
-        <button class="primary-btn" onclick="alert('Fitur percakapan baru dapat dihubungkan di sini.')">+ Pesan</button>
-      </div>
-
-      <div class="filters">
-        <button class="filter active" data-filter="semua" onclick="filterChats('semua',this)">Semua</button>
-        <button class="filter" data-filter="belum" onclick="filterChats('belum',this)">Belum dibaca</button>
-        <button class="filter" data-filter="online" onclick="filterChats('online',this)">Online</button>
-      </div>
-
-      <div class="chat-list" id="chatList">
-        <button class="chat-item" data-name="Nadia Putri" data-online="true" data-unread="1" onclick="openChat('Nadia Putri')">
-          <span class="avatar">N<span class="online"></span></span>
-          <span class="chat-info">
-            <span class="chat-name-row"><span class="chat-name">Nadia Putri</span></span>
-            <span class="chat-preview">Halo! Selamat datang di ruang chat OER.</span>
-          </span>
-          <span class="chat-meta"><span class="chat-time">11.45</span><span class="unread">1</span></span>
-        </button>
-
-        <button class="chat-item" data-name="Rizky Pratama" data-online="true" data-unread="2" onclick="openChat('Rizky Pratama')">
-          <span class="avatar a2">R<span class="online"></span></span>
-          <span class="chat-info">
-            <span class="chat-name-row"><span class="chat-name">Rizky Pratama</span></span>
-            <span class="chat-preview">Sampai nanti, ya!</span>
-          </span>
-          <span class="chat-meta"><span class="chat-time">10.32</span><span class="unread">2</span></span>
-        </button>
-
-        <button class="chat-item" data-name="Alya Safitri" data-online="false" data-unread="0" onclick="openChat('Alya Safitri')">
-          <span class="avatar a3">A</span>
-          <span class="chat-info">
-            <span class="chat-name-row"><span class="chat-name">Alya Safitri</span></span>
-            <span class="chat-preview">Foto yang kemarin bagus banget.</span>
-          </span>
-          <span class="chat-meta"><span class="chat-time">Kemarin</span></span>
-        </button>
-
-        <button class="chat-item" data-name="Dimas Saputra" data-online="true" data-unread="0" onclick="openChat('Dimas Saputra')">
-          <span class="avatar a4">D<span class="online"></span></span>
-          <span class="chat-info">
-            <span class="chat-name-row"><span class="chat-name">Dimas Saputra</span></span>
-            <span class="chat-preview">Oke, terima kasih!</span>
-          </span>
-          <span class="chat-meta"><span class="chat-time">Kemarin</span></span>
-        </button>
-
-        <button class="chat-item" data-name="Salsa Maharani" data-online="false" data-unread="0" onclick="openChat('Salsa Maharani')">
-          <span class="avatar a5">S</span>
-          <span class="chat-info">
-            <span class="chat-name-row"><span class="chat-name">Salsa Maharani</span></span>
-            <span class="chat-preview">Ada kabar baru?</span>
-          </span>
-          <span class="chat-meta"><span class="chat-time">Senin</span></span>
-        </button>
-      </div>
-    </section>
-
-    <section class="page" id="page-profil" hidden>
-      <div class="page-heading">
-        <div>
-          <h1>Profil</h1>
-          <p>Pengaturan dan informasi akunmu.</p>
-        </div>
-      </div>
-      <div class="empty">
-        <strong>Profil OER</strong>
-        <p>Informasi akun dapat ditambahkan di halaman ini.</p>
-      </div>
-    </section>
+    <form class="composer" id="sendForm">
+      <input id="messageInput" placeholder="Tulis pesan..." maxlength="5000" autocomplete="off" disabled>
+      <button class="btn btn-primary" id="sendButton" type="submit" disabled>Kirim ➤</button>
+    </form>
+    <div id="status">Menghubungkan ke OER Chat...</div>
   </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function showPage(page) {
-  const pages = document.querySelectorAll('main .page');
+(() => {
+  "use strict";
 
-  pages.forEach(section => {
-    section.hidden = section.id !== 'page-' + page;
-  });
+  // Konfigurasi proyek Supabase OER Chat.
+  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 
-  document.querySelectorAll('.top-nav .nav-item').forEach(button => {
-    button.classList.toggle('active', button.dataset.page === page);
-  });
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
+  const $ = id => document.getElementById(id);
+  const app = $("app");
 
-function openChat(name) {
-  alert('Percakapan dengan ' + name +
-        '\n\nTampilan ini masih demo lokal. Hubungkan ke sistem chat untuk mengirim pesan sungguhan.');
-}
+  let currentUser = null;
+  let activeConversation = null;
+  let activePartner = null;
+  let messageChannel = null;
+  let conversations = [];
+  let sending = false;
 
-function filterChats(type, button) {
-  document.querySelectorAll('.filters .filter').forEach(item => {
-    item.classList.toggle('active', item === button);
-  });
-
-  document.querySelectorAll('#chatList .chat-item').forEach(item => {
-    const online = item.dataset.online === 'true';
-    const unread = Number(item.dataset.unread) > 0;
-
-    item.style.display =
-      type === 'semua' ||
-      (type === 'online' && online) ||
-      (type === 'belum' && unread)
-        ? 'flex'
-        : 'none';
-  });
-}
-
-document.getElementById('globalSearch').addEventListener('input', function() {
-  const query = this.value.trim().toLowerCase();
-
-  const currentPage = document.querySelector('main .page:not([hidden])');
-  if (!currentPage || currentPage.id !== 'page-pesan') {
-    if (query) showPage('pesan');
+  function setStatus(message, isError = false) {
+    $("status").textContent = message;
+    $("status").classList.toggle("error", isError);
   }
 
-  document.querySelectorAll('#chatList .chat-item').forEach(item => {
-    const text = item.innerText.toLowerCase();
-    item.style.display = text.includes(query) ? 'flex' : 'none';
-  });
-});
+  function escapeText(value) {
+    return String(value ?? "");
+  }
 
-showPage('pesan');
+  function shortId(id) {
+    return id ? id.slice(0, 8) + "…" : "Pengguna";
+  }
+
+  function formatTime(value) {
+    return new Date(value).toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  function validUuid(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+  }
+
+  async function initialize() {
+    try {
+      setStatus("Menghubungkan ke Supabase...");
+
+      // Menggunakan identitas anonim sementara, tanpa formulir login.
+      const { data: sessionData, error: sessionError } =
+        await db.auth.getSession();
+
+      if (sessionError) throw sessionError;
+
+      let user = sessionData.session?.user;
+
+      if (!user) {
+        const { data, error } = await db.auth.signInAnonymously();
+        if (error) throw error;
+        user = data.user;
+      }
+
+      if (!user) throw new Error("Identitas pengguna tidak berhasil dibuat.");
+
+      currentUser = user;
+      $("myId").value = user.id;
+
+      await loadConversations();
+      setStatus("Terhubung. Identitas anonim aktif.");
+    } catch (error) {
+      console.error(error);
+      setStatus(
+        "Gagal terhubung: " + (error.message || "Periksa konfigurasi Supabase."),
+        true
+      );
+    }
+  }
+
+  async function loadConversations() {
+    if (!currentUser) return;
+
+    const { data, error } = await db
+      .from("conversations")
+      .select("id,user_one,user_two,created_at")
+      .or(`user_one.eq.${currentUser.id},user_two.eq.${currentUser.id}`)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    conversations = data || [];
+    renderConversations();
+
+    if (activeConversation) {
+      const stillExists = conversations.find(c => c.id === activeConversation.id);
+      if (stillExists) {
+        activeConversation = stillExists;
+        activePartner = stillExists.user_one === currentUser.id
+          ? stillExists.user_two : stillExists.user_one;
+      } else {
+        clearActiveChat();
+      }
+    }
+  }
+
+  function renderConversations() {
+    const list = $("conversationList");
+    list.replaceChildren();
+
+    if (!conversations.length) {
+      const empty = document.createElement("div");
+      empty.className = "conversation-preview";
+      empty.style.padding = "10px";
+      empty.textContent = "Belum ada percakapan. Masukkan ID teman di atas.";
+      list.appendChild(empty);
+      return;
+    }
+
+    conversations.forEach(conversation => {
+      const partner = conversation.user_one === currentUser.id
+        ? conversation.user_two : conversation.user_one;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "conversation-item" +
+        (activeConversation?.id === conversation.id ? " active" : "");
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = "O";
+
+      const info = document.createElement("div");
+      info.className = "conversation-info";
+
+      const name = document.createElement("div");
+      name.className = "conversation-name";
+      name.textContent = "Pengguna " + shortId(partner);
+
+      const preview = document.createElement("div");
+      preview.className = "conversation-preview";
+      preview.textContent = "Buka percakapan";
+
+      info.append(name, preview);
+      button.append(avatar, info);
+      button.addEventListener("click", () => openConversation(conversation));
+      list.appendChild(button);
+    });
+  }
+
+  async function startConversation(event) {
+    event.preventDefault();
+    if (!currentUser) {
+      setStatus("Identitas belum siap. Coba muat ulang halaman.", true);
+      return;
+    }
+
+    const target = $("targetId").value.trim();
+
+    if (!validUuid(target)) {
+      setStatus("ID teman tidak valid. Masukkan UUID lengkap.", true);
+      return;
+    }
+
+    if (target === currentUser.id) {
+      setStatus("Kamu tidak bisa memulai chat dengan ID sendiri.", true);
+      return;
+    }
+
+    $("startButton").disabled = true;
+    setStatus("Mencari percakapan...");
+
+    try {
+      // Cari percakapan yang sudah dibuat oleh salah satu pihak.
+      let { data, error } = await db
+        .from("conversations")
+        .select("id,user_one,user_two,created_at")
+        .eq("user_one", currentUser.id)
+        .eq("user_two", target)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!data) {
+        const reverse = await db
+          .from("conversations")
+          .select("id,user_one,user_two,created_at")
+          .eq("user_one", target)
+          .eq("user_two", currentUser.id)
+          .maybeSingle();
+
+        if (reverse.error) throw reverse.error;
+        data = reverse.data;
+      }
+
+      if (!data) {
+        // RLS mengizinkan pembuatan percakapan oleh user_one.
+        const created = await db
+          .from("conversations")
+          .insert({
+            user_one: currentUser.id,
+            user_two: target
+          })
+          .select("id,user_one,user_two,created_at")
+          .single();
+
+        if (created.error) throw created.error;
+        data = created.data;
+      }
+
+      $("targetId").value = "";
+      await loadConversations();
+      await openConversation(data);
+    } catch (error) {
+      console.error(error);
+      setStatus(
+        "Gagal memulai chat: " + error.message +
+        ". Pastikan ID teman benar dan teman sudah pernah membuka OER Chat.",
+        true
+      );
+    } finally {
+      $("startButton").disabled = false;
+    }
+  }
+
+  async function openConversation(conversation) {
+    if (!currentUser) return;
+
+    activeConversation = conversation;
+    activePartner = conversation.user_one === currentUser.id
+      ? conversation.user_two : conversation.user_one;
+
+    $("chatTitle").textContent = "Pengguna " + shortId(activePartner);
+    $("chatSubtitle").textContent = "Percakapan OER";
+    $("chatAvatar").textContent = "O";
+    $("messageInput").disabled = false;
+    $("sendButton").disabled = false;
+    app.classList.add("chat-open");
+
+    renderConversations();
+    await loadMessages();
+    subscribeToMessages();
+    $("messageInput").focus();
+  }
+
+  async function loadMessages() {
+    if (!activeConversation) return;
+
+    setStatus("Memuat pesan...");
+
+    const { data, error } = await db
+      .from("messages")
+      .select("id,conversation_id,sender_id,content,created_at")
+      .eq("conversation_id", activeConversation.id)
+      .order("created_at", { ascending: true })
+      .limit(300);
+
+    if (error) {
+      console.error(error);
+      setStatus("Gagal memuat pesan: " + error.message, true);
+      return;
+    }
+
+    renderMessages(data || []);
+    setStatus("Realtime siap");
+  }
+
+  function renderMessages(messages) {
+    const container = $("messages");
+    container.replaceChildren();
+
+    if (!messages.length) {
+      const empty = document.createElement("div");
+      empty.className = "welcome";
+      const strong = document.createElement("strong");
+      strong.textContent = "Mulai percakapan";
+      const text = document.createElement("div");
+      text.textContent = "Kirim pesan pertama kamu.";
+      empty.append(strong, text);
+      container.appendChild(empty);
+      return;
+    }
+
+    messages.forEach(message => {
+      const bubble = document.createElement("div");
+      bubble.className = "message " +
+        (message.sender_id === currentUser.id ? "mine" : "theirs");
+
+      const content = document.createElement("div");
+      content.className = "message-text";
+      content.textContent = escapeText(message.content);
+
+      const time = document.createElement("div");
+      time.className = "message-time";
+      time.textContent = formatTime(message.created_at);
+
+      bubble.append(content, time);
+      container.appendChild(bubble);
+    });
+
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function subscribeToMessages() {
+    if (messageChannel) {
+      db.removeChannel(messageChannel);
+      messageChannel = null;
+    }
+
+    if (!activeConversation) return;
+
+    const conversationId = activeConversation.id;
+
+    messageChannel = db
+      .channel("oer-messages-" + conversationId)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: "conversation_id=eq." + conversationId
+        },
+        payload => {
+          // Muat ulang agar pesan tampil terurut dan menghindari duplikat.
+          if (activeConversation?.id === conversationId) {
+            loadMessages();
+          }
+        }
+      )
+      .subscribe(status => {
+        if (status === "SUBSCRIBED") {
+          setStatus("Realtime aktif");
+        } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          setStatus("Realtime bermasalah. Coba tekan tombol ↻.", true);
+        }
+      });
+  }
+
+  async function sendMessage(event) {
+    event.preventDefault();
+
+    if (!currentUser || !activeConversation || sending) return;
+
+    const input = $("messageInput");
+    const content = input.value.trim();
+    if (!content) return;
+
+    sending = true;
+    $("sendButton").disabled = true;
+
+    try {
+      const { error } = await db
+        .from("messages")
+        .insert({
+          conversation_id: activeConversation.id,
+          sender_id: currentUser.id,
+          content
+        });
+
+      if (error) throw error;
+
+      input.value = "";
+      await loadMessages();
+    } catch (error) {
+      console.error(error);
+      setStatus("Pesan gagal dikirim: " + error.message, true);
+    } finally {
+      sending = false;
+      $("sendButton").disabled = !activeConversation;
+      input.focus();
+    }
+  }
+
+  function clearActiveChat() {
+    activeConversation = null;
+    activePartner = null;
+
+    if (messageChannel) {
+      db.removeChannel(messageChannel);
+      messageChannel = null;
+    }
+
+    $("chatTitle").textContent = "OER Chat";
+    $("chatSubtitle").textContent = "Pilih percakapan untuk mulai";
+    $("messageInput").disabled = true;
+    $("sendButton").disabled = true;
+    $("messages").replaceChildren();
+
+    const welcome = document.createElement("div");
+    welcome.className = "welcome";
+    welcome.textContent = "Pilih percakapan untuk mulai mengobrol.";
+    $("messages").appendChild(welcome);
+  }
+
+  $("startForm").addEventListener("submit", startConversation);
+  $("sendForm").addEventListener("submit", sendMessage);
+
+  $("copyId").addEventListener("click", async () => {
+    if (!currentUser) return;
+    try {
+      await navigator.clipboard.writeText(currentUser.id);
+      setStatus("ID pengguna berhasil disalin.");
+    } catch {
+      $("myId").select();
+      setStatus("ID dipilih. Salin secara manual.");
+    }
+  });
+
+  $("refreshButton").addEventListener("click", async () => {
+    try {
+      await loadConversations();
+      if (activeConversation) await loadMessages();
+      setStatus("Data diperbarui.");
+    } catch (error) {
+      setStatus("Gagal memperbarui: " + error.message, true);
+    }
+  });
+
+  $("mobileBack").addEventListener("click", () => {
+    app.classList.remove("chat-open");
+  });
+
+  initialize();
+})();
 </script>
 </body>
 </html>
