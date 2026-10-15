@@ -1038,6 +1038,7 @@ input:focus-visible {
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <!-- SUPABASE CLIENT -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1061,21 +1062,31 @@ const OER_PROFILE_URL =
 const OER_CHAT_URL =
   "https://oer-p.github.io/Media-oer/chat.html";
 
-/* SAMBUNGKAN NAVIGASI PROFIL */
+const OER_POSTING_URL =
+  "https://oer-p.github.io/Media-oer/postingan.html";
+
+/* NAVIGASI PROFIL */
 document.querySelectorAll('[data-feature="profil"]').forEach(button => {
   button.addEventListener("click", function () {
     window.location.href = OER_PROFILE_URL;
   });
 });
 
-/* SAMBUNGKAN NAVIGASI CHAT */
+/* NAVIGASI CHAT */
 document.querySelectorAll('[data-feature="chat"]').forEach(button => {
   button.addEventListener("click", function () {
     window.location.href = OER_CHAT_URL;
   });
 });
 
-/* PERIKSA LOGIN TANPA MENGUBAH DESAIN HOME */
+/* NAVIGASI POSTINGAN */
+document.querySelectorAll('[data-feature="postingan"]').forEach(button => {
+  button.addEventListener("click", function () {
+    window.location.href = OER_POSTING_URL;
+  });
+});
+
+/* CEK LOGIN DAN SUPABASE */
 (async function checkOERLogin() {
   document.documentElement.style.visibility = "hidden";
 
