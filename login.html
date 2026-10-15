@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050707">
+<meta name="description" content="Login dan daftar akun OER">
+<title>OER — Masuk atau Daftar</title>
+
+<style>
+:root {
+  --bg: #050707;
+  --panel: #0b1012;
+  --panel2: #101719;
+  --border: #202b2d;
+  --text: #f3f7f7;
+  --muted: #879596;
+  --cyan: #00e5d0;
+  --cyan2: #00bfae;
+  --red: #ff5b68;
+  --green: #26e6a0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(0,229,208,.10), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.auth-shell {
+  width: 100%;
+  max-width: 430px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.brand-mark {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0,229,208,.45);
+  border-radius: 15px;
+  background: rgba(0,229,208,.08);
+  color: var(--cyan);
+  font-size: 25px;
+  font-weight: 900;
+  box-shadow: 0 0 28px rgba(0,229,208,.08);
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.brand-tagline {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.auth-card {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 23px;
+  background: rgba(11,16,18,.96);
+  box-shadow: 0 25px 80px rgba(0,0,0,.35);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  margin-bottom: 27px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #070b0c;
+}
+
+.tab {
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.tab.active {
+  background: var(--cyan);
+  color: #001210;
+}
+
+.heading {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.subtitle {
+  margin: 9px 0 25px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #dce5e5;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.field input {
+  width: 100%;
+  height: 49px;
+  padding: 0 14px;
+  border: 1px solid #273436;
+  border-radius: 11px;
+  outline: none;
+  background: #070b0c;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.field input::placeholder {
+  color: #5c6a6b;
+}
+
+.field input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0,229,208,.08);
+}
+
+.password-input {
+  padding-right: 70px !important;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.password-meter {
+  display: flex;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.meter-segment {
+  height: 4px;
+  flex: 1;
+  border-radius: 10px;
+  background: #263032;
+  transition: background .2s;
+}
+
+.password-hint {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.password-hint.error {
+  color: var(--red);
+}
+
+.password-hint.success {
+  color: var(--green);
+}
+
+.options-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -3px 0 20px;
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.primary-button {
+  width: 100%;
+  min-height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--cyan);
+  color: #001210;
+  font-size: 14px;
+  font-weight: 900;
+  transition: .2s;
+}
+
+.primary-button:hover {
+  background: #48f5e5;
+  transform: translateY(-1px);
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+  transform: none;
+}
+
+.message {
+  display: none;
+  padding: 12px 13px;
+  margin: 0 0 17px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  border-color: rgba(255,91,104,.35);
+  background: rgba(255,91,104,.07);
+  color: #ff9aa3;
+}
+
+.message.success {
+  border-color: rgba(38,230,160,.3);
+  background: rgba(38,230,160,.06);
+  color: var(--green);
+}
+
+.switch-text {
+  margin: 23px 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+.switch-text button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 21px;
+  color: #657475;
+  font-size: 11px;
+  text-align: center;
+}
+
+.security-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 18px 12px;
+  }
+
+  .auth-card {
+    padding: 23px 19px;
+  }
+
+  .heading {
+    font-size: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="auth-shell">
+  <header class="brand">
+    <div class="brand-mark">O</div>
+    <div>
+      <h1 class="brand-name">OER</h1>
+      <p class="brand-tagline">CONNECT EVERYTHING</p>
+    </div>
+  </header>
+
+  <section class="auth-card">
+    <div class="tabs">
+      <button type="button" class="tab active" id="loginTab">Masuk</button>
+      <button type="button" class="tab" id="signupTab">Daftar</button>
+    </div>
+
+    <h2 class="heading" id="formHeading">Selamat datang kembali</h2>
+    <p class="subtitle" id="formSubtitle">
+      Masuk ke akun OER untuk melanjutkan.
+    </p>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <form id="authForm" novalidate>
+      <div class="field hidden" id="nameField">
+        <label for="displayName">Nama lengkap</label>
+        <input
+          id="displayName"
+          name="displayName"
+          type="text"
+          placeholder="Masukkan nama kamu"
+          autocomplete="name"
+          maxlength="80"
+        >
+      </div>
+
+      <div class="field">
+        <label for="email">Alamat email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="nama@email.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input
+            class="password-input"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Masukkan password"
+            autocomplete="current-password"
+            minlength="8"
+            required
+          >
+          <button class="toggle-password" type="button" data-target="password">Lihat</button>
+        </div>
+
+        <div class="password-meter hidden" id="passwordMeter">
+          <span class="meter-segment"></span>
+          <span class="meter-segment"></span>
+          <span class="meter-segment"></span>
+          <span class="meter-segment"></span>
+        </div>
+        <p class="password-hint hidden" id="passwordHint">
+          Minimal 8 karakter, gunakan huruf besar, huruf kecil, dan angka.
+        </p>
+      </div>
+
+      <div class="field hidden" id="confirmField">
+        <label for="confirmPassword">Konfirmasi password</label>
+        <div class="input-wrap">
+          <input
+            class="password-input"
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="Ulangi password"
+            autocomplete="new-password"
+          >
+          <button class="toggle-password" type="button" data-target="confirmPassword">Lihat</button>
+        </div>
+        <p class="password-hint hidden" id="confirmHint"></p>
+      </div>
+
+      <div class="options-row" id="forgotRow">
+        <button type="button" class="text-button" id="forgotButton">Lupa password?</button>
+      </div>
+
+      <button type="submit" class="primary-button" id="submitButton">
+        <span id="submitLabel">Masuk ke OER</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+
+    <p class="switch-text" id="switchText">
+      Belum punya akun?
+      <button type="button" id="switchButton">Daftar sekarang</button>
+    </p>
+  </section>
+
+  <div class="security-note">
+    <span class="security-dot"></span>
+    Autentikasi akun dilindungi oleh Supabase
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+/*
+  Gunakan project Supabase OER yang sudah ada.
+  Jangan masukkan service_role key ke dalam HTML.
+*/
+const OER_CONFIG = {
+  SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
+  SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
+};
+
+/*
+  Sesuaikan HOME_URL jika file Home kamu memakai nama/lokasi berbeda.
+  Contoh ini menganggap index.html berada di folder yang sama.
+*/
+const HOME_URL = "index.html";
+
+const supabaseReady =
+  window.supabase &&
+  OER_CONFIG.SUPABASE_URL.startsWith("https://") &&
+  OER_CONFIG.SUPABASE_KEY.length > 20;
+
+const supabaseClient = supabaseReady
+  ? window.supabase.createClient(
+      OER_CONFIG.SUPABASE_URL,
+      OER_CONFIG.SUPABASE_KEY
+    )
+  : null;
+
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
+const formHeading = document.getElementById("formHeading");
+const formSubtitle = document.getElementById("formSubtitle");
+const authForm = document.getElementById("authForm");
+const messageBox = document.getElementById("message");
+const nameField = document.getElementById("nameField");
+const confirmField = document.getElementById("confirmField");
+const forgotRow = document.getElementById("forgotRow");
+const switchText = document.getElementById("switchText");
+const switchButton = document.getElementById("switchButton");
+const passwordInput = document.getElementById("password");
+const confirmInput = document.getElementById("confirmPassword");
+const passwordMeter = document.getElementById("passwordMeter");
+const passwordHint = document.getElementById("passwordHint");
+const confirmHint = document.getElementById("confirmHint");
+const submitButton = document.getElementById("submitButton");
+const submitLabel = document.getElementById("submitLabel");
+const forgotButton = document.getElementById("forgotButton");
+
+let currentMode = "login";
+let isSubmitting = false;
+
+function showMessage(text, type) {
+  messageBox.textContent = text;
+  messageBox.className = "message show " + type;
+}
+
+function clearMessage() {
+  messageBox.textContent = "";
+  messageBox.className = "message";
+}
+
+function setLoading(loading, label) {
+  isSubmitting = loading;
+  submitButton.disabled = loading;
+  submitLabel.textContent = loading ? label : (
+    currentMode === "login" ? "Masuk ke OER" :
+    currentMode === "signup" ? "Buat akun OER" :
+    "Kirim tautan pemulihan"
+  );
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  clearMessage();
+
+  const isLogin = mode === "login";
+  const isSignup = mode === "signup";
+  const isReset = mode === "reset";
+
+  loginTab.classList.toggle("active", isLogin);
+  signupTab.classList.toggle("active", isSignup);
+  loginTab.setAttribute("aria-pressed", String(isLogin));
+  signupTab.setAttribute("aria-pressed", String(isSignup));
+
+  nameField.classList.toggle("hidden", !isSignup);
+  confirmField.classList.toggle("hidden", !isSignup);
+  passwordMeter.classList.toggle("hidden", !isSignup);
+  passwordHint.classList.toggle("hidden", !isSignup);
+  forgotRow.classList.toggle("hidden", !isLogin);
+  switchText.classList.toggle("hidden", isReset);
+
+  document.getElementById("displayName").required = isSignup;
+  confirmInput.required = isSignup;
+  passwordInput.autocomplete = isLogin
+    ? "current-password"
+    : "new-password";
+
+  if (isLogin) {
+    formHeading.textContent = "Selamat datang kembali";
+    formSubtitle.textContent = "Masuk ke akun OER untuk melanjutkan.";
+    submitLabel.textContent = "Masuk ke OER";
+    switchText.innerHTML = 'Belum punya akun? <button type="button" id="switchButton">Daftar sekarang</button>';
+  } else if (isSignup) {
+    formHeading.textContent = "Buat akun OER";
+    formSubtitle.textContent = "Daftar dan mulai terhubung dengan komunitas OER.";
+    submitLabel.textContent = "Buat akun OER";
+    switchText.innerHTML = 'Sudah punya akun? <button type="button" id="switchButton">Masuk sekarang</button>';
+  } else {
+    formHeading.textContent = "Pulihkan password";
+    formSubtitle.textContent = "Masukkan email untuk menerima tautan pemulihan password.";
+    submitLabel.textContent = "Kirim tautan pemulihan";
+  }
+
+  passwordInput.value = "";
+  confirmInput.value = "";
+  document.getElementById("displayName").value = "";
+  passwordHint.textContent =
+    "Minimal 8 karakter, gunakan huruf besar, huruf kecil, dan angka.";
+  passwordHint.className = "password-hint";
+  confirmHint.classList.add("hidden");
+  updatePasswordStrength();
+  bindSwitchButton();
+}
+
+function bindSwitchButton() {
+  const button = document.getElementById("switchButton");
+  if (!button) return;
+
+  button.addEventListener("click", () => {
+    setMode(currentMode === "login" ? "signup" : "login");
+  });
+}
+
+function passwordStrength(value) {
+  let score = 0;
+
+  if (value.length >= 8) score++;
+  if (/[a-z]/.test(value)) score++;
+  if (/[A-Z]/.test(value)) score++;
+  if (/[0-9]/.test(value)) score++;
+
+  const strong =
+    value.length >= 8 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /[0-9]/.test(value);
+
+  return { score, strong };
+}
+
+function updatePasswordStrength() {
+  const value = passwordInput.value;
+  const segments = passwordMeter.querySelectorAll(".meter-segment");
+  const result = passwordStrength(value);
+
+  segments.forEach((segment, index) => {
+    segment.style.background =
+      value && index < result.score
+        ? (result.strong ? "var(--green)" : "var(--red)")
+        : "#263032";
+  });
+
+  if (currentMode !== "signup") return;
+
+  if (!value) {
+    passwordHint.textContent =
+      "Minimal 8 karakter, gunakan huruf besar, huruf kecil, dan angka.";
+    passwordHint.className = "password-hint";
+  } else if (value.length < 8) {
+    passwordHint.textContent = "Password terlalu pendek. Minimal 8 karakter.";
+    passwordHint.className = "password-hint error";
+  } else if (!result.strong) {
+    passwordHint.textContent =
+      "Password belum kuat. Tambahkan huruf besar, huruf kecil, dan angka.";
+    passwordHint.className = "password-hint error";
+  } else {
+    passwordHint.textContent = "Password kuat. Kamu bisa melanjutkan.";
+    passwordHint.className = "password-hint success";
+  }
+
+  validateConfirmation();
+}
+
+function validateConfirmation() {
+  if (currentMode !== "signup") return true;
+
+  const confirm = confirmInput.value;
+
+  if (!confirm) {
+    confirmHint.textContent = "";
+    confirmHint.className = "password-hint hidden";
+    return false;
+  }
+
+  if (confirm !== passwordInput.value) {
+    confirmHint.textContent = "Konfirmasi password belum cocok.";
+    confirmHint.className = "password-hint error";
+    return false;
+  }
+
+  confirmHint.textContent = "Password cocok.";
+  confirmHint.className = "password-hint success";
+  return true;
+}
+
+function friendlyError(error) {
+  const message = String(error && error.message || "").toLowerCase();
+
+  if (message.includes("invalid login credentials")) {
+    return "Email atau password salah. Periksa kembali datamu.";
+  }
+  if (message.includes("email not confirmed")) {
+    return "Email belum dikonfirmasi. Periksa kotak masuk email kamu.";
+  }
+  if (message.includes("user already registered")) {
+    return "Email ini sudah terdaftar. Silakan masuk.";
+  }
+  if (message.includes("password should be at least")) {
+    return "Password terlalu pendek. Gunakan minimal 8 karakter.";
+  }
+  if (message.includes("unable to validate email")) {
+    return "Format email tidak valid.";
+  }
+  if (message.includes("rate limit")) {
+    return "Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.";
+  }
+  if (message.includes("fetch") || message.includes("network")) {
+    return "Tidak bisa terhubung. Periksa koneksi internet kamu.";
+  }
+
+  return error && error.message
+    ? error.message
+    : "Terjadi kesalahan. Silakan coba lagi.";
+}
+
+function goHome() {
+  window.location.replace(HOME_URL);
+}
+
+loginTab.addEventListener("click", () => setMode("login"));
+signupTab.addEventListener("click", () => setMode("signup"));
+passwordInput.addEventListener("input", updatePasswordStrength);
+confirmInput.addEventListener("input", validateConfirmation);
+
+document.querySelectorAll(".toggle-password").forEach(button => {
+  button.addEventListener("click", () => {
+    const input = document.getElementById(button.dataset.target);
+    const show = input.type === "password";
+    input.type = show ? "text" : "password";
+    button.textContent = show ? "Sembunyikan" : "Lihat";
+  });
+});
+
+forgotButton.addEventListener("click", () => setMode("reset"));
+
+authForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (isSubmitting) return;
+  clearMessage();
+
+  if (!supabaseClient) {
+    showMessage(
+      "Supabase belum berhasil dimuat. Periksa koneksi internet dan konfigurasi project.",
+      "error"
+    );
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMessage("Masukkan alamat email yang valid.", "error");
+    return;
+  }
+
+  if (currentMode !== "reset" && !password) {
+    showMessage("Masukkan password kamu.", "error");
+    return;
+  }
+
+  if (currentMode === "signup") {
+    const displayName = document.getElementById("displayName").value.trim();
+
+    if (!displayName) {
+      showMessage("Masukkan nama lengkap kamu.", "error");
+      return;
+    }
+
+    if (password.length < 8) {
+      showMessage("Password harus minimal 8 karakter.", "error");
+      return;
+    }
+
+    if (!passwordStrength(password).strong) {
+      showMessage(
+        "Gunakan huruf besar, huruf kecil, dan angka agar password kuat.",
+        "error"
+      );
+      return;
+    }
+
+    if (password !== confirmInput.value) {
+      showMessage("Konfirmasi password tidak cocok.", "error");
+      return;
+    }
+  }
+
+  try {
+    if (currentMode === "login") {
+      setLoading(true, "Sedang masuk...");
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      if (!data.session) {
+        showMessage("Login belum menghasilkan sesi. Silakan coba lagi.", "error");
+        return;
+      }
+
+      goHome();
+      return;
+    }
+
+    if (currentMode === "signup") {
+      setLoading(true, "Membuat akun...");
+
+      const displayName = document.getElementById("displayName").value.trim();
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: displayName,
+            display_name: displayName
+          },
+          emailRedirectTo: window.location.origin + "/" + HOME_URL
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.session) {
+        showMessage("Akun berhasil dibuat. Membuka Home OER...", "success");
+        window.setTimeout(goHome, 700);
+      } else {
+        showMessage(
+          "Pendaftaran berhasil dikirim. Periksa email untuk konfirmasi akun, lalu masuk ke OER.",
+          "success"
+        );
+        setMode("login");
+      }
+
+      return;
+    }
+
+    if (currentMode === "reset") {
+      setLoading(true, "Mengirim email...");
+
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + "/" + HOME_URL
+      });
+
+      if (error) throw error;
+
+      showMessage(
+        "Jika email tersebut terdaftar, tautan pemulihan password akan dikirim ke kotak masuk kamu.",
+        "success"
+      );
+    }
+  } catch (error) {
+    showMessage(friendlyError(error), "error");
+  } finally {
+    setLoading(false);
+  }
+});
+
+async function checkExistingSession() {
+  if (!supabaseClient) return;
+
+  try {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (!error && data.session) {
+      goHome();
+    }
+  } catch (error) {
+    console.error("Pemeriksaan sesi gagal:", error);
+  }
+}
+
+bindSwitchButton();
+checkExistingSession();
+</script>
+</body>
+</html>
