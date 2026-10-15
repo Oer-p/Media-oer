@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b0e">
+<meta name="description" content="OER Chat — Connect Everything">
+<title>OER Chat</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #080b0e;
+  --panel: #10161c;
+  --panel2: #151d24;
+  --line: #26323b;
+  --cyan: #05b9df;
+  --text: #f3f7f9;
+  --muted: #91a0aa;
+  --danger: #ff7777;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.app {
+  width: 100%;
+  max-width: 1100px;
+  height: 100dvh;
+  min-height: 500px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 340px minmax(0,1fr);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+.sidebar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+}
+.brand {
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #063b48;
+  color: var(--cyan);
+  font-weight: 900;
+  font-size: 18px;
+}
+.brand-name { font-size: 20px; font-weight: 850; letter-spacing: 1px; }
+.brand-sub { color: var(--muted); font-size: 12px; margin-top: 3px; }
+.identity {
+  padding: 15px;
+  border-bottom: 1px solid var(--line);
+}
+.small-label {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.id-row { display: flex; gap: 8px; }
+input {
+  width: 100%;
+  min-width: 0;
+  color: var(--text);
+  background: #0a0f13;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  outline: none;
+}
+input:focus { border-color: var(--cyan); }
+#myId {
+  font-size: 11px;
+  flex: 1;
+}
+.btn {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 13px;
+  color: var(--text);
+  background: var(--panel2);
+}
+.btn:hover { border-color: var(--cyan); }
+.btn-primary {
+  color: #00151b;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  font-weight: 750;
+}
+.start-chat { padding: 15px; border-bottom: 1px solid var(--line); }
+.start-chat .btn { width: 100%; margin-top: 9px; }
+.conversation-heading {
+  padding: 16px 15px 8px;
+  font-size: 13px;
+  font-weight: 750;
+}
+#conversationList {
+  padding: 5px 9px 15px;
+  overflow-y: auto;
+  flex: 1;
+}
+.conversation-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px 10px;
+  margin-bottom: 3px;
+}
+.conversation-item:hover,
+.conversation-item.active {
+  background: #18232b;
+  border-color: #273b46;
+}
+.avatar {
+  flex: 0 0 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #123a47;
+  color: #75e7ff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+.conversation-info { min-width: 0; }
+.conversation-name {
+  font-size: 13px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conversation-preview {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chat {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at top right, #10232b 0, transparent 40%),
+    var(--bg);
+}
+.chat-header {
+  min-height: 76px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(12,17,21,.92);
+}
+.chat-heading { min-width: 0; flex: 1; }
+.chat-title { font-size: 15px; font-weight: 800; }
+.chat-subtitle {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #36d99a;
+  margin-right: 5px;
+}
+#messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.welcome {
+  margin: auto;
+  max-width: 340px;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 13px;
+}
+.welcome-icon {
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 18px;
+  border: 1px solid #185363;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  color: var(--cyan);
+  background: #0c2028;
+}
+.welcome strong { color: var(--text); display: block; font-size: 19px; margin-bottom: 7px; }
+.message {
+  max-width: min(78%, 470px);
+  padding: 11px 14px;
+  border-radius: 15px;
+  background: #172129;
+  border: 1px solid #26343e;
+  align-self: flex-start;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.message.mine {
+  align-self: flex-end;
+  background: #063d4a;
+  border-color: #0b5969;
+  border-bottom-right-radius: 4px;
+}
+.message.theirs { border-bottom-left-radius: 4px; }
+.message-text { font-size: 14px; line-height: 1.55; }
+.message-time {
+  color: #9eb0ba;
+  text-align: right;
+  font-size: 10px;
+  margin-top: 6px;
+}
+.composer {
+  padding: 15px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 10px;
+  background: rgba(12,17,21,.95);
+}
+.composer input { border-radius: 13px; padding: 13px 15px; }
+.composer button { min-width: 76px; }
+#status {
+  padding: 8px 15px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+#status.error { color: var(--danger); }
+#mobileBack { display: none; }
+.hidden { display: none !important; }
+
+@media(max-width:650px) {
+  .app { display: block; height: 100dvh; min-height: 0; border: 0; }
+  .sidebar { height: 100%; border: 0; }
+  .chat { display: none; height: 100%; }
+  .app.chat-open .sidebar { display: none; }
+  .app.chat-open .chat { display: flex; }
+  #mobileBack { display: inline-block; padding: 9px 11px; }
+  .chat-header { padding: 12px; }
+  #messages { padding: 15px; }
+  .message { max-width: 88%; }
+}
+</style>
+</head>
+
+<body>
+<div class="app" id="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">O</div>
+      <div>
+        <div class="brand-name">OER <span style="color:var(--cyan)">CHAT</span></div>
+        <div class="brand-sub">Connect Everything</div>
+      </div>
+    </div>
+
+    <div class="identity">
+      <div class="small-label">ID pengguna kamu</div>
+      <div class="id-row">
+        <input id="myId" readonly placeholder="Menghubungkan...">
+        <button class="btn" id="copyId" type="button">Salin</button>
+      </div>
+    </div>
+
+    <form class="start-chat" id="startForm">
+      <div class="small-label">Mulai percakapan</div>
+      <input id="targetId" placeholder="Tempel ID pengguna teman" autocomplete="off" required>
+      <button class="btn btn-primary" id="startButton" type="submit">＋ Mulai chat</button>
+    </form>
+
+    <div class="conversation-heading">Percakapan</div>
+    <div id="conversationList">
+      <div class="conversation-preview" style="padding:10px">Memuat percakapan...</div>
+    </div>
+  </aside>
+
+  <main class="chat">
+    <header class="chat-header">
+      <button id="mobileBack" class="btn" type="button" aria-label="Kembali">←</button>
+      <div class="avatar" id="chatAvatar">O</div>
+      <div class="chat-heading">
+        <div class="chat-title" id="chatTitle">OER Chat</div>
+        <div class="chat-subtitle" id="chatSubtitle">Pilih percakapan untuk mulai</div>
+      </div>
+      <button class="btn" id="refreshButton" type="button">↻</button>
+    </header>
+
+    <section id="messages" aria-live="polite">
+      <div class="welcome">
+        <div class="welcome-icon">✉</div>
+        <strong>Selamat datang di OER Chat</strong>
+        Pilih percakapan atau masukkan ID teman untuk mulai mengobrol secara realtime.
+      </div>
+    </section>
+
+    <form class="composer" id="sendForm">
+      <input id="messageInput" placeholder="Tulis pesan..." maxlength="5000" autocomplete="off" disabled>
+      <button class="btn btn-primary" id="sendButton" type="submit" disabled>Kirim ➤</button>
+    </form>
+    <div id="status">Menghubungkan ke OER Chat...</div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  "use strict";
+
+  // Konfigurasi proyek Supabase OER Chat.
+  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const $ = id => document.getElementById(id);
+  const app = $("app");
+
+  let currentUser = null;
+  let activeConversation = null;
+  let activePartner = null;
+  let messageChannel = null;
+  let conversations = [];
+  let sending = false;
+
+  function setStatus(message, isError = false) {
+    $("status").textContent = message;
+    $("status").classList.toggle("error", isError);
+  }
+
+  function escapeText(value) {
+    return String(value ?? "");
+  }
+
+  function shortId(id) {
+    return id ? id.slice(0, 8) + "…" : "Pengguna";
+  }
+
+  function formatTime(value) {
+    return new Date(value).toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  function validUuid(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+  }
+
+  async function initialize() {
+    try {
+      setStatus("Menghubungkan ke Supabase...");
+
+      // Menggunakan identitas anonim sementara, tanpa formulir login.
+      const { data: sessionData, error: sessionError } =
+        await db.auth.getSession();
+
+      if (sessionError) throw sessionError;
+
+      let user = sessionData.session?.user;
+
+      if (!user) {
+        const { data, error } = await db.auth.signInAnonymously();
+        if (error) throw error;
+        user = data.user;
+      }
+
+      if (!user) throw new Error("Identitas pengguna tidak berhasil dibuat.");
+
+      currentUser = user;
+      $("myId").value = user.id;
+
+      await loadConversations();
+      setStatus("Terhubung. Identitas anonim aktif.");
+    } catch (error) {
+      console.error(error);
+      setStatus(
+        "Gagal terhubung: " + (error.message || "Periksa konfigurasi Supabase."),
+        true
+      );
+    }
+  }
+
+  async function loadConversations() {
+    if (!currentUser) return;
+
+    const { data, error } = await db
+      .from("conversations")
+      .select("id,user_one,user_two,created_at")
+      .or(`user_one.eq.${currentUser.id},user_two.eq.${currentUser.id}`)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    conversations = data || [];
+    renderConversations();
+
+    if (activeConversation) {
+      const stillExists = conversations.find(c => c.id === activeConversation.id);
+      if (stillExists) {
+        activeConversation = stillExists;
+        activePartner = stillExists.user_one === currentUser.id
+          ? stillExists.user_two : stillExists.user_one;
+      } else {
+        clearActiveChat();
+      }
+    }
+  }
+
+  function renderConversations() {
+    const list = $("conversationList");
+    list.replaceChildren();
+
+    if (!conversations.length) {
+      const empty = document.createElement("div");
+      empty.className = "conversation-preview";
+      empty.style.padding = "10px";
+      empty.textContent = "Belum ada percakapan. Masukkan ID teman di atas.";
+      list.appendChild(empty);
+      return;
+    }
+
+    conversations.forEach(conversation => {
+      const partner = conversation.user_one === currentUser.id
+        ? conversation.user_two : conversation.user_one;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "conversation-item" +
+        (activeConversation?.id === conversation.id ? " active" : "");
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = "O";
+
+      const info = document.createElement("div");
+      info.className = "conversation-info";
+
+      const name = document.createElement("div");
+      name.className = "conversation-name";
+      name.textContent = "Pengguna " + shortId(partner);
+
+      const preview = document.createElement("div");
+      preview.className = "conversation-preview";
+      preview.textContent = "Buka percakapan";
+
+      info.append(name, preview);
+      button.append(avatar, info);
+      button.addEventListener("click", () => openConversation(conversation));
+      list.appendChild(button);
+    });
+  }
+
+  async function startConversation(event) {
+    event.preventDefault();
+    if (!currentUser) {
+      setStatus("Identitas belum siap. Coba muat ulang halaman.", true);
+      return;
+    }
+
+    const target = $("targetId").value.trim();
+
+    if (!validUuid(target)) {
+      setStatus("ID teman tidak valid. Masukkan UUID lengkap.", true);
+      return;
+    }
+
+    if (target === currentUser.id) {
+      setStatus("Kamu tidak bisa memulai chat dengan ID sendiri.", true);
+      return;
+    }
+
+    $("startButton").disabled = true;
+    setStatus("Mencari percakapan...");
+
+    try {
+      // Cari percakapan yang sudah dibuat oleh salah satu pihak.
+      let { data, error } = await db
+        .from("conversations")
+        .select("id,user_one,user_two,created_at")
+        .eq("user_one", currentUser.id)
+        .eq("user_two", target)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!data) {
+        const reverse = await db
+          .from("conversations")
+          .select("id,user_one,user_two,created_at")
+          .eq("user_one", target)
+          .eq("user_two", currentUser.id)
+          .maybeSingle();
+
+        if (reverse.error) throw reverse.error;
+        data = reverse.data;
+      }
+
+      if (!data) {
+        // RLS mengizinkan pembuatan percakapan oleh user_one.
+        const created = await db
+          .from("conversations")
+          .insert({
+            user_one: currentUser.id,
+            user_two: target
+          })
+          .select("id,user_one,user_two,created_at")
+          .single();
+
+        if (created.error) throw created.error;
+        data = created.data;
+      }
+
+      $("targetId").value = "";
+      await loadConversations();
+      await openConversation(data);
+    } catch (error) {
+      console.error(error);
+      setStatus(
+        "Gagal memulai chat: " + error.message +
+        ". Pastikan ID teman benar dan teman sudah pernah membuka OER Chat.",
+        true
+      );
+    } finally {
+      $("startButton").disabled = false;
+    }
+  }
+
+  async function openConversation(conversation) {
+    if (!currentUser) return;
+
+    activeConversation = conversation;
+    activePartner = conversation.user_one === currentUser.id
+      ? conversation.user_two : conversation.user_one;
+
+    $("chatTitle").textContent = "Pengguna " + shortId(activePartner);
+    $("chatSubtitle").textContent = "Percakapan OER";
+    $("chatAvatar").textContent = "O";
+    $("messageInput").disabled = false;
+    $("sendButton").disabled = false;
+    app.classList.add("chat-open");
+
+    renderConversations();
+    await loadMessages();
+    subscribeToMessages();
+    $("messageInput").focus();
+  }
+
+  async function loadMessages() {
+    if (!activeConversation) return;
+
+    setStatus("Memuat pesan...");
+
+    const { data, error } = await db
+      .from("messages")
+      .select("id,conversation_id,sender_id,content,created_at")
+      .eq("conversation_id", activeConversation.id)
+      .order("created_at", { ascending: true })
+      .limit(300);
+
+    if (error) {
+      console.error(error);
+      setStatus("Gagal memuat pesan: " + error.message, true);
+      return;
+    }
+
+    renderMessages(data || []);
+    setStatus("Realtime siap");
+  }
+
+  function renderMessages(messages) {
+    const container = $("messages");
+    container.replaceChildren();
+
+    if (!messages.length) {
+      const empty = document.createElement("div");
+      empty.className = "welcome";
+      const strong = document.createElement("strong");
+      strong.textContent = "Mulai percakapan";
+      const text = document.createElement("div");
+      text.textContent = "Kirim pesan pertama kamu.";
+      empty.append(strong, text);
+      container.appendChild(empty);
+      return;
+    }
+
+    messages.forEach(message => {
+      const bubble = document.createElement("div");
+      bubble.className = "message " +
+        (message.sender_id === currentUser.id ? "mine" : "theirs");
+
+      const content = document.createElement("div");
+      content.className = "message-text";
+      content.textContent = escapeText(message.content);
+
+      const time = document.createElement("div");
+      time.className = "message-time";
+      time.textContent = formatTime(message.created_at);
+
+      bubble.append(content, time);
+      container.appendChild(bubble);
+    });
+
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function subscribeToMessages() {
+    if (messageChannel) {
+      db.removeChannel(messageChannel);
+      messageChannel = null;
+    }
+
+    if (!activeConversation) return;
+
+    const conversationId = activeConversation.id;
+
+    messageChannel = db
+      .channel("oer-messages-" + conversationId)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: "conversation_id=eq." + conversationId
+        },
+        payload => {
+          // Muat ulang agar pesan tampil terurut dan menghindari duplikat.
+          if (activeConversation?.id === conversationId) {
+            loadMessages();
+          }
+        }
+      )
+      .subscribe(status => {
+        if (status === "SUBSCRIBED") {
+          setStatus("Realtime aktif");
+        } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          setStatus("Realtime bermasalah. Coba tekan tombol ↻.", true);
+        }
+      });
+  }
+
+  async function sendMessage(event) {
+    event.preventDefault();
+
+    if (!currentUser || !activeConversation || sending) return;
+
+    const input = $("messageInput");
+    const content = input.value.trim();
+    if (!content) return;
+
+    sending = true;
+    $("sendButton").disabled = true;
+
+    try {
+      const { error } = await db
+        .from("messages")
+        .insert({
+          conversation_id: activeConversation.id,
+          sender_id: currentUser.id,
+          content
+        });
+
+      if (error) throw error;
+
+      input.value = "";
+      await loadMessages();
+    } catch (error) {
+      console.error(error);
+      setStatus("Pesan gagal dikirim: " + error.message, true);
+    } finally {
+      sending = false;
+      $("sendButton").disabled = !activeConversation;
+      input.focus();
+    }
+  }
+
+  function clearActiveChat() {
+    activeConversation = null;
+    activePartner = null;
+
+    if (messageChannel) {
+      db.removeChannel(messageChannel);
+      messageChannel = null;
+    }
+
+    $("chatTitle").textContent = "OER Chat";
+    $("chatSubtitle").textContent = "Pilih percakapan untuk mulai";
+    $("messageInput").disabled = true;
+    $("sendButton").disabled = true;
+    $("messages").replaceChildren();
+
+    const welcome = document.createElement("div");
+    welcome.className = "welcome";
+    welcome.textContent = "Pilih percakapan untuk mulai mengobrol.";
+    $("messages").appendChild(welcome);
+  }
+
+  $("startForm").addEventListener("submit", startConversation);
+  $("sendForm").addEventListener("submit", sendMessage);
+
+  $("copyId").addEventListener("click", async () => {
+    if (!currentUser) return;
+    try {
+      await navigator.clipboard.writeText(currentUser.id);
+      setStatus("ID pengguna berhasil disalin.");
+    } catch {
+      $("myId").select();
+      setStatus("ID dipilih. Salin secara manual.");
+    }
+  });
+
+  $("refreshButton").addEventListener("click", async () => {
+    try {
+      await loadConversations();
+      if (activeConversation) await loadMessages();
+      setStatus("Data diperbarui.");
+    } catch (error) {
+      setStatus("Gagal memperbarui: " + error.message, true);
+    }
+  });
+
+  $("mobileBack").addEventListener("click", () => {
+    app.classList.remove("chat-open");
+  });
+
+  initialize();
+})();
+</script>
+</body>
+</html>
