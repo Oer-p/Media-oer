@@ -47,41 +47,41 @@ button {
   padding-bottom: 85px;
 }
 
-/* HEADER */
-
+/* HEADER OER — SEMUA SEJAJAR */
 .header {
   min-height: 76px;
-  padding: 14px 22px;
+  padding: 12px 22px;
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   border-bottom: 1px solid var(--border);
   background: rgba(5,7,7,.97);
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100%;
 }
+
 .brand {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .brand-logo {
   display: block;
   width: 130px;
   height: 49px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 
-.brand-name {
-  font-size: 27px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
 .search {
-  flex: 1;
+  flex: 1 1 auto;
+  width: 100%;
   min-width: 0;
   height: 43px;
   padding: 0 16px;
@@ -97,6 +97,8 @@ button {
 }
 
 .profile-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
   background: #071315;
   color: #b7f6ff;
   border: 1px solid #456168;
@@ -104,6 +106,50 @@ button {
   border-radius: 13px;
 }
 
+/* RESPONSIVE HP — TETAP SATU BARIS */
+@media (max-width: 480px) {
+  .header {
+    min-height: 65px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 82px;
+    height: 36px;
+  }
+
+  .search {
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .profile-btn {
+    padding: 10px 9px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 350px) {
+  .header {
+    gap: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .brand-logo {
+    width: 70px;
+    height: 32px;
+  }
+
+  .profile-btn {
+    padding: 9px 7px;
+    font-size: 11px;
+  }
 /* TOP NAVIGATION */
 
 .top-nav {
