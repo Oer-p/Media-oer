@@ -47,41 +47,45 @@ button {
   padding-bottom: 85px;
 }
 
-/* HEADER OER — SEMUA SEJAJAR */
+/* HEADER */
+
 .header {
   min-height: 76px;
-  padding: 12px 22px;
+  padding: 14px 22px;
   display: flex;
-  flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   border-bottom: 1px solid var(--border);
   background: rgba(5,7,7,.97);
   position: sticky;
   top: 0;
   z-index: 10;
-  width: 100%;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
-  min-width: 0;
+  gap: 9px;
+  flex-shrink: 0;
 }
 
-.brand-logo {
+.brand-icon {
+  width: 43px;
+  height: 43px;
   display: block;
-  width: 130px;
-  height: 49px;
-  object-fit: contain;
   flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
 .search {
   flex: 1 1 auto;
-  width: 100%;
+  width: 0;
   min-width: 0;
   height: 43px;
   padding: 0 16px;
@@ -106,50 +110,6 @@ button {
   border-radius: 13px;
 }
 
-/* RESPONSIVE HP — TETAP SATU BARIS */
-@media (max-width: 480px) {
-  .header {
-    min-height: 65px;
-    padding: 10px 12px;
-    gap: 8px;
-  }
-
-  .brand-logo {
-    width: 82px;
-    height: 36px;
-  }
-
-  .search {
-    flex: 1 1 0;
-    width: 0;
-    min-width: 0;
-    height: 38px;
-    padding: 0 10px;
-    font-size: 12px;
-  }
-
-  .profile-btn {
-    padding: 10px 9px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 350px) {
-  .header {
-    gap: 6px;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-  .brand-logo {
-    width: 70px;
-    height: 32px;
-  }
-
-  .profile-btn {
-    padding: 9px 7px;
-    font-size: 11px;
-  }
 /* TOP NAVIGATION */
 
 .top-nav {
@@ -470,18 +430,12 @@ button {
     padding: 11px 13px;
     gap: 10px;
   }
-  .brand-logo {
-  width: 105px;
-  height: 40px;
-}
 
   .brand-icon {
-  width: 43px;
-  height: 43px;
-  object-fit: contain;
-  display: block;
-  flex-shrink: 0;
+    width: 36px;
+    height: 36px;
   }
+
   .brand-name {
     font-size: 23px;
   }
@@ -561,6 +515,7 @@ button {
   .brand-name {
     font-size: 20px;
   }
+
   .brand-icon {
     width: 31px;
     height: 31px;
@@ -578,69 +533,24 @@ button {
 </head>
 
 <body>
-<div class="brand">
-  <svg class="brand-logo"
-       viewBox="0 0 320 120"
-       xmlns="http://www.w3.org/2000/svg"
-       role="img"
-       aria-label="Logo OER">
+<div class="app">
 
-    <defs>
-      <linearGradient id="oerBlue" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#08b8df"/>
-        <stop offset="100%" stop-color="#00a9d2"/>
-      </linearGradient>
-    </defs>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <!-- Logo OER saat ini; ganti SVG ini dengan SVG logo utama yang asli -->
+      <svg class="brand-icon" viewBox="0 0 64 64"
+           xmlns="http://www.w3.org/2000/svg" aria-label="Logo OER">
+        <rect x="2" y="2" width="60" height="48" rx="13" fill="#05b9df"/>
+        <path d="M15 44 L10 59 Q10 61 14 59 L29 49" fill="#05b9df"/>
+        <path d="M20 17 Q20 12 25 12 H43 Q48 12 48 17 V30
+                 Q48 35 43 35 H30 L23 41 L25 35 Q20 34 20 29 Z"
+              fill="white"/>
+      </svg>
+      <span class="brand-name">OER</span>
+    </div>
 
-    <!-- Simbol kotak biru dengan tetesan -->
-    <path
-      d="M35 5 H91
-         Q111 5 111 25 V75
-         Q111 94 92 94
-         H80 V107
-         Q80 116 73 116
-         Q66 116 66 107 V94
-         H48 V108
-         Q48 115 42 115
-         Q36 115 36 108 V94
-         Q5 94 5 65 V35
-         Q5 5 35 5 Z"
-      fill="url(#oerBlue)"
-      transform="translate(0 0)"/>
-
-    <!-- Huruf O dengan tetesan putih -->
-    <path
-      d="M58 22
-         A24 24 0 1 0 58 70
-         A24 24 0 1 0 58 22 Z
-         M58 34
-         A12 12 0 1 1 58 58
-         A12 12 0 1 1 58 34 Z"
-      fill="#ffffff"
-      fill-rule="evenodd"/>
-
-    <path
-      d="M48 67 V77 Q48 81 52 81
-         Q56 81 56 77 V69
-         M68 67 V73 Q68 77 72 77
-         Q76 77 76 73 V65"
-      fill="none"
-      stroke="#ffffff"
-      stroke-width="5"
-      stroke-linecap="round"/>
-
-    <!-- Tulisan OER -->
-    <g fill="#ffffff"
-       font-family="Arial, Helvetica, sans-serif"
-       font-size="91"
-       font-weight="800"
-       letter-spacing="-5">
-      <text x="126" y="83">OER</text>
-    </g>
-
-  </svg>
-</div>
-  <input
+    <input
       class="search"
       id="globalSearch"
       type="search"
@@ -653,81 +563,54 @@ button {
     </button>
   </header>
 
-  <!-- 4 NAVIGASI MENGGUNAKAN IKON DESAIN OER -->
+  <!-- NAVIGASI UTAMA -->
   <nav class="top-nav" aria-label="Navigasi utama">
 
-    <!-- BERANDA: ikon rumah -->
     <button class="nav-item" data-page="beranda"
             onclick="showPage('beranda')">
       <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="3" width="38" height="35" rx="10"
-                fill="#05b9df"/>
-          <path d="M13 19 L24 10 L35 19 V31 H27 V24 H21 V31 H13 Z"
-                fill="white"/>
-          <path d="M15 38 L10 45 L24 39"
-                fill="#05b9df"/>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="3" width="38" height="35" rx="10" fill="#05b9df"/>
+          <path d="M13 19 L24 10 L35 19 V31 H27 V24 H21 V31 H13 Z" fill="white"/>
+          <path d="M15 38 L10 45 L24 39" fill="#05b9df"/>
         </svg>
       </span>
       <span>Beranda</span>
     </button>
 
-    <!-- POSTINGAN: ikon O dan tiga garis -->
     <button class="nav-item" data-page="postingan"
             onclick="showPage('postingan')">
       <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10"
-                fill="#05b9df"/>
-          <circle cx="17" cy="19" r="7" stroke="white"
-                  stroke-width="4"/>
-          <path d="M29 13 H37 M29 19 H37 M29 25 H37"
-                stroke="white" stroke-width="3.5"
-                stroke-linecap="round"/>
-          <path d="M15 37 L10 45 L24 38"
-                fill="#05b9df"/>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
+          <circle cx="17" cy="19" r="7" stroke="white" stroke-width="4"/>
+          <path d="M29 13 H37 M29 19 H37 M29 25 H37" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
         </svg>
       </span>
       <span>Postingan</span>
     </button>
 
-    <!-- REELS: ikon play dalam lingkaran -->
     <button class="nav-item" data-page="reels"
             onclick="showPage('reels')">
       <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10"
-                fill="#05b9df"/>
-          <circle cx="24" cy="19" r="11"
-                  stroke="white" stroke-width="4"/>
-          <path d="M22 13.5 Q21 13 21 15 V23
-                   Q21 25 23 24 L30 20
-                   Q32 19 30 18 Z"
-                fill="white"/>
-          <path d="M15 37 L10 45 L24 38"
-                fill="#05b9df"/>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
+          <circle cx="24" cy="19" r="11" stroke="white" stroke-width="4"/>
+          <path d="M22 13.5 Q21 13 21 15 V23 Q21 25 23 24 L30 20 Q32 19 30 18 Z" fill="white"/>
+          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
         </svg>
       </span>
       <span>Reels</span>
     </button>
 
-    <!-- PESAN: ikon gelembung percakapan -->
     <button class="nav-item active" data-page="pesan"
             onclick="showPage('pesan')">
       <span class="nav-icon-bg">
-        <svg viewBox="0 0 48 48" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="3" width="40" height="35" rx="10"
-                fill="#05b9df"/>
-          <path d="M12 17 Q12 10 21 10 H29
-                   Q37 10 37 18 Q37 26 28 26
-                   H22 L15 31 L17 25 Q12 23 12 17 Z"
-                fill="white"/>
-          <path d="M15 37 L10 45 L24 38"
-                fill="#05b9df"/>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10" fill="#05b9df"/>
+          <path d="M12 17 Q12 10 21 10 H29 Q37 10 37 18 Q37 26 28 26 H22 L15 31 L17 25 Q12 23 12 17 Z" fill="white"/>
+          <path d="M15 37 L10 45 L24 38" fill="#05b9df"/>
         </svg>
       </span>
       <span>Pesan</span>
@@ -735,7 +618,6 @@ button {
 
   </nav>
 
-  <!-- HALAMAN BERANDA -->
   <main>
     <section class="page" id="page-beranda" hidden>
       <div class="page-heading">
@@ -743,9 +625,7 @@ button {
           <h1>Beranda</h1>
           <p>Temukan kabar terbaru dari temanmu.</p>
         </div>
-        <button class="primary-btn" onclick="showPage('postingan')">
-          + Buat postingan
-        </button>
+        <button class="primary-btn" onclick="showPage('postingan')">+ Buat postingan</button>
       </div>
       <div class="empty">
         <strong>Selamat datang di OER</strong>
@@ -753,16 +633,13 @@ button {
       </div>
     </section>
 
-    <!-- HALAMAN POSTINGAN -->
     <section class="page" id="page-postingan" hidden>
       <div class="page-heading">
         <div>
           <h1>Postingan</h1>
           <p>Bagikan momen dan ceritamu.</p>
         </div>
-        <button class="primary-btn" onclick="alert('Form postingan dapat ditambahkan di sini.')">
-          + Buat
-        </button>
+        <button class="primary-btn" onclick="alert('Form postingan dapat ditambahkan di sini.')">+ Buat</button>
       </div>
       <div class="empty">
         <strong>Postingan</strong>
@@ -770,7 +647,6 @@ button {
       </div>
     </section>
 
-    <!-- HALAMAN REELS -->
     <section class="page" id="page-reels" hidden>
       <div class="page-heading">
         <div>
@@ -784,111 +660,69 @@ button {
       </div>
     </section>
 
-    <!-- HALAMAN PESAN -->
     <section class="page" id="page-pesan">
       <div class="page-heading">
         <div>
           <h1>Chat</h1>
           <p>Percakapan dan teman yang terhubung.</p>
         </div>
-        <button class="primary-btn"
-                onclick="alert('Fitur percakapan baru dapat dihubungkan di sini.')">
-          + Pesan
-        </button>
+        <button class="primary-btn" onclick="alert('Fitur percakapan baru dapat dihubungkan di sini.')">+ Pesan</button>
       </div>
 
       <div class="filters">
-        <button class="filter active" data-filter="semua"
-                onclick="filterChats('semua',this)">Semua</button>
-        <button class="filter" data-filter="belum"
-                onclick="filterChats('belum',this)">Belum dibaca</button>
-        <button class="filter" data-filter="online"
-                onclick="filterChats('online',this)">Online</button>
+        <button class="filter active" data-filter="semua" onclick="filterChats('semua',this)">Semua</button>
+        <button class="filter" data-filter="belum" onclick="filterChats('belum',this)">Belum dibaca</button>
+        <button class="filter" data-filter="online" onclick="filterChats('online',this)">Online</button>
       </div>
 
       <div class="chat-list" id="chatList">
-
-        <button class="chat-item" data-name="Nadia Putri"
-                data-online="true" data-unread="1"
-                onclick="openChat('Nadia Putri')">
+        <button class="chat-item" data-name="Nadia Putri" data-online="true" data-unread="1" onclick="openChat('Nadia Putri')">
           <span class="avatar">N<span class="online"></span></span>
           <span class="chat-info">
-            <span class="chat-name-row">
-              <span class="chat-name">Nadia Putri</span>
-            </span>
+            <span class="chat-name-row"><span class="chat-name">Nadia Putri</span></span>
             <span class="chat-preview">Halo! Selamat datang di ruang chat OER.</span>
           </span>
-          <span class="chat-meta">
-            <span class="chat-time">11.45</span>
-            <span class="unread">1</span>
-          </span>
+          <span class="chat-meta"><span class="chat-time">11.45</span><span class="unread">1</span></span>
         </button>
 
-        <button class="chat-item" data-name="Rizky Pratama"
-                data-online="true" data-unread="2"
-                onclick="openChat('Rizky Pratama')">
+        <button class="chat-item" data-name="Rizky Pratama" data-online="true" data-unread="2" onclick="openChat('Rizky Pratama')">
           <span class="avatar a2">R<span class="online"></span></span>
           <span class="chat-info">
-            <span class="chat-name-row">
-              <span class="chat-name">Rizky Pratama</span>
-            </span>
+            <span class="chat-name-row"><span class="chat-name">Rizky Pratama</span></span>
             <span class="chat-preview">Sampai nanti, ya!</span>
           </span>
-          <span class="chat-meta">
-            <span class="chat-time">10.32</span>
-            <span class="unread">2</span>
-          </span>
+          <span class="chat-meta"><span class="chat-time">10.32</span><span class="unread">2</span></span>
         </button>
 
-        <button class="chat-item" data-name="Alya Safitri"
-                data-online="false" data-unread="0"
-                onclick="openChat('Alya Safitri')">
+        <button class="chat-item" data-name="Alya Safitri" data-online="false" data-unread="0" onclick="openChat('Alya Safitri')">
           <span class="avatar a3">A</span>
           <span class="chat-info">
-            <span class="chat-name-row">
-              <span class="chat-name">Alya Safitri</span>
-            </span>
+            <span class="chat-name-row"><span class="chat-name">Alya Safitri</span></span>
             <span class="chat-preview">Foto yang kemarin bagus banget.</span>
           </span>
-          <span class="chat-meta">
-            <span class="chat-time">Kemarin</span>
-          </span>
+          <span class="chat-meta"><span class="chat-time">Kemarin</span></span>
         </button>
 
-        <button class="chat-item" data-name="Dimas Saputra"
-                data-online="true" data-unread="0"
-                onclick="openChat('Dimas Saputra')">
+        <button class="chat-item" data-name="Dimas Saputra" data-online="true" data-unread="0" onclick="openChat('Dimas Saputra')">
           <span class="avatar a4">D<span class="online"></span></span>
           <span class="chat-info">
-            <span class="chat-name-row">
-              <span class="chat-name">Dimas Saputra</span>
-            </span>
+            <span class="chat-name-row"><span class="chat-name">Dimas Saputra</span></span>
             <span class="chat-preview">Oke, terima kasih!</span>
           </span>
-          <span class="chat-meta">
-            <span class="chat-time">Kemarin</span>
-          </span>
+          <span class="chat-meta"><span class="chat-time">Kemarin</span></span>
         </button>
 
-        <button class="chat-item" data-name="Salsa Maharani"
-                data-online="false" data-unread="0"
-                onclick="openChat('Salsa Maharani')">
+        <button class="chat-item" data-name="Salsa Maharani" data-online="false" data-unread="0" onclick="openChat('Salsa Maharani')">
           <span class="avatar a5">S</span>
           <span class="chat-info">
-            <span class="chat-name-row">
-              <span class="chat-name">Salsa Maharani</span>
-            </span>
+            <span class="chat-name-row"><span class="chat-name">Salsa Maharani</span></span>
             <span class="chat-preview">Ada kabar baru?</span>
           </span>
-          <span class="chat-meta">
-            <span class="chat-time">Senin</span>
-          </span>
+          <span class="chat-meta"><span class="chat-time">Senin</span></span>
         </button>
-
       </div>
     </section>
 
-    <!-- HALAMAN PROFIL -->
     <section class="page" id="page-profil" hidden>
       <div class="page-heading">
         <div>
@@ -921,7 +755,8 @@ function showPage(page) {
     behavior: 'smooth'
   });
 }
-  function openChat(name) {
+
+function openChat(name) {
   alert('Percakapan dengan ' + name +
         '\n\nTampilan ini masih demo lokal. Hubungkan ke sistem chat untuk mengirim pesan sungguhan.');
 }
