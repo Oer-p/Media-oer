@@ -1049,11 +1049,34 @@ const OER_CONFIG = {
   SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
 };
 
-const OER_LOGIN_URL = "/Media-oer/login.html";
-const OER_HOME_URL = "/Media-oer/";
+const OER_LOGIN_URL =
+  "https://oer-p.github.io/Media-oer/login.html";
 
+const OER_HOME_URL =
+  "https://oer-p.github.io/Media-oer/";
+
+const OER_PROFILE_URL =
+  "https://oer-p.github.io/Media-oer/profile.html";
+
+const OER_CHAT_URL =
+  "https://oer-p.github.io/Media-oer/chat.html";
+
+/* SAMBUNGKAN NAVIGASI PROFIL */
+document.querySelectorAll('[data-feature="profil"]').forEach(button => {
+  button.addEventListener("click", function () {
+    window.location.href = OER_PROFILE_URL;
+  });
+});
+
+/* SAMBUNGKAN NAVIGASI CHAT */
+document.querySelectorAll('[data-feature="chat"]').forEach(button => {
+  button.addEventListener("click", function () {
+    window.location.href = OER_CHAT_URL;
+  });
+});
+
+/* PERIKSA LOGIN TANPA MENGUBAH DESAIN HOME */
 (async function checkOERLogin() {
-  // Jangan biarkan Home tampil sebelum status login diperiksa.
   document.documentElement.style.visibility = "hidden";
 
   try {
@@ -1074,19 +1097,13 @@ const OER_HOME_URL = "/Media-oer/";
       return;
     }
 
-    // Sudah login: izinkan Home ditampilkan.
     document.documentElement.style.visibility = "visible";
+
   } catch (error) {
     console.error("Pemeriksaan login OER gagal:", error);
     window.location.replace(OER_LOGIN_URL);
   }
 })();
-  <script>
-document.querySelectorAll('[data-page="profile"]').forEach(button => {
-  button.addEventListener('click', function () {
-    window.location.href = 'https://oer-p.github.io/Media-oer/profile.html';
-  });
-});
 </script>
 </body>
 </html>
