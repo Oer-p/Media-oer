@@ -1081,6 +1081,12 @@ const OER_HOME_URL = "/Media-oer/";
     window.location.replace(OER_LOGIN_URL);
   }
 })();
+  <script>
+document.querySelectorAll('[data-page="profile"]').forEach(button => {
+  button.addEventListener('click', function () {
+    window.location.href = 'https://oer-p.github.io/Media-oer/profile.html';
+  });
+});
 </script>
 </body>
 </html>
