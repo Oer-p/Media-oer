@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050707">
+<meta name="description" content="Profil pengguna OER">
+<title>Profil Pengguna — OER</title>
+
+<style>
+:root{
+  --bg:#050707;
+  --panel:#0d1115;
+  --panel2:#11171c;
+  --line:#202a30;
+  --text:#f4f8fa;
+  --muted:#87949d;
+  --cyan:#00e5ff;
+  --cyan2:#00aeca;
+  --danger:#ff6677;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid var(--line);
+  background:#080b0d;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.brand{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--cyan);
+}
+.back{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 14px;
+}
+.back:hover{border-color:var(--cyan)}
+main{
+  width:min(680px,100%);
+  margin:36px auto;
+  padding:0 16px 40px;
+}
+.heading{margin-bottom:22px}
+.heading h1{font-size:27px;margin:0 0 8px}
+.heading p{color:var(--muted);margin:0;font-size:14px}
+.card{
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  background:var(--panel);
+}
+.cover{
+  height:115px;
+  background:
+    radial-gradient(ellipse at 70% 0%,#005b6b 0%,transparent 55%),
+    linear-gradient(135deg,#0d252b,#0a1014 65%);
+  border-bottom:1px solid var(--line);
+}
+.profile-head{
+  display:flex;
+  align-items:flex-end;
+  gap:18px;
+  padding:0 24px;
+  margin-top:-56px;
+}
+.avatar-wrap{
+  position:relative;
+  width:112px;
+  height:112px;
+  flex-shrink:0;
+}
+.avatar{
+  width:112px;
+  height:112px;
+  object-fit:cover;
+  border-radius:50%;
+  border:4px solid var(--panel);
+  background:#172128;
+  display:block;
+}
+.avatar-edit{
+  position:absolute;
+  right:0;
+  bottom:2px;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--cyan);
+  color:#001014;
+  border:3px solid var(--panel);
+  font-size:17px;
+}
+.profile-name{padding-bottom:9px;min-width:0}
+.profile-name h2{
+  margin:0 0 5px;
+  font-size:20px;
+  overflow-wrap:anywhere;
+}
+.profile-name p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+.form{
+  padding:26px 24px 24px;
+}
+.field{margin-bottom:20px}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:9px;
+}
+.field input{
+  width:100%;
+  border:1px solid var(--line);
+  background:#080c0f;
+  color:var(--text);
+  border-radius:11px;
+  padding:14px;
+  outline:none;
+}
+.field input:focus{border-color:var(--cyan)}
+.field input:disabled{opacity:.65}
+.hint{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:7px;
+  line-height:1.5;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:26px;
+}
+.primary,.secondary,.logout{
+  border-radius:11px;
+  padding:13px 17px;
+  font-weight:800;
+}
+.primary{
+  border:0;
+  color:#001014;
+  background:var(--cyan);
+  flex:1;
+  min-width:150px;
+}
+.primary:hover{background:#6af1ff}
+.primary:disabled{opacity:.55;cursor:wait}
+.secondary{
+  border:1px solid var(--line);
+  color:var(--text);
+  background:var(--panel2);
+}
+.logout{
+  width:100%;
+  margin-top:14px;
+  border:1px solid #4a252b;
+  background:#1b0e11;
+  color:#ff9aa5;
+}
+.status{
+  display:none;
+  padding:12px 14px;
+  margin-bottom:20px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+}
+.status.show{display:block}
+.status.info{background:#10252a;color:#9cefff}
+.status.success{background:#10251a;color:#a6f4bd}
+.status.error{background:#2a1317;color:#ffadb6}
+#photoInput{display:none}
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  padding:22px 0 0;
+}
+@media(max-width:480px){
+  .topbar{padding:0 15px}
+  main{margin:25px auto}
+  .heading h1{font-size:24px}
+  .profile-head{padding:0 17px;gap:12px}
+  .avatar-wrap,.avatar{width:88px;height:88px}
+  .profile-head{margin-top:-44px}
+  .profile-name h2{font-size:17px}
+  .form{padding:24px 17px}
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="brand">OER</div>
+  <button class="back" id="homeButton" type="button">← Kembali ke Home</button>
+</header>
+
+<main>
+  <div class="heading">
+    <h1>Profil Saya</h1>
+    <p>Kelola identitas dan foto profil akun OER kamu.</p>
+  </div>
+
+  <section class="card">
+    <div class="cover"></div>
+
+    <div class="profile-head">
+      <div class="avatar-wrap">
+        <img
+          class="avatar"
+          id="avatarPreview"
+          alt="Foto profil"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23172128'/%3E%3Ccircle cx='60' cy='43' r='23' fill='%235b7580'/%3E%3Cpath d='M18 120c2-30 18-44 42-44s40 14 42 44' fill='%235b7580'/%3E%3C/svg%3E"
+        >
+        <label class="avatar-edit" for="photoInput" title="Ganti foto">✎</label>
+        <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">
+      </div>
+
+      <div class="profile-name">
+        <h2 id="previewName">Profil OER</h2>
+        <p id="previewUsername">@username</p>
+      </div>
+    </div>
+
+    <div class="form">
+      <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+      <div class="field">
+        <label for="fullName">Nama lengkap</label>
+        <input
+          id="fullName"
+          type="text"
+          maxlength="80"
+          placeholder="Masukkan nama lengkap"
+          autocomplete="name"
+        >
+      </div>
+
+      <div class="field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          maxlength="24"
+          placeholder="contoh: oeruser123"
+          autocomplete="username"
+          autocapitalize="none"
+        >
+        <div class="hint">Gunakan 3–24 karakter: huruf kecil, angka, atau garis bawah. Username harus unik.</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email akun</label>
+        <input id="email" type="email" disabled>
+        <div class="hint">Email ditampilkan dari akun login dan tidak diubah melalui halaman ini.</div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="saveButton" type="button">Simpan Profil</button>
+        <button class="secondary" id="homeButton2" type="button">Batal</button>
+      </div>
+
+      <button class="logout" id="logoutButton" type="button">Keluar dari akun</button>
+    </div>
+  </section>
+
+  <div class="footer">OER — Connect Everything</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+const OER_CONFIG = {
+  SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
+  SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
+};
+
+const LOGIN_URL = "https://oer-p.github.io/Media-oer/login.html";
+const HOME_URL = "https://oer-p.github.io/Media-oer/";
+const AVATAR_BUCKET = "oer-avatars";
+
+const supabaseClient = window.supabase
+  ? window.supabase.createClient(
+      OER_CONFIG.SUPABASE_URL,
+      OER_CONFIG.SUPABASE_KEY
+    )
+  : null;
+
+let currentUser = null;
+let currentAvatarUrl = null;
+let selectedPhoto = null;
+
+const $ = id => document.getElementById(id);
+
+function showStatus(message, type = "info") {
+  const box = $("statusMessage");
+  box.textContent = message;
+  box.className = "status show " + type;
+}
+
+function setSaving(isSaving) {
+  $("saveButton").disabled = isSaving;
+  $("saveButton").textContent = isSaving ? "Menyimpan..." : "Simpan Profil";
+}
+
+function makeDefaultAvatar() {
+  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23172128'/%3E%3Ccircle cx='60' cy='43' r='23' fill='%235b7580'/%3E%3Cpath d='M18 120c2-30 18-44 42-44s40 14 42 44' fill='%235b7580'/%3E%3C/svg%3E";
+}
+
+function updatePreview() {
+  const name = $("fullName").value.trim() || "Profil OER";
+  const username = $("username").value.trim();
+
+  $("previewName").textContent = name;
+  $("previewUsername").textContent = username ? "@" + username : "@username";
+}
+
+function safeUsername(value) {
+  return /^[a-z0-9_]{3,24}$/.test(value);
+}
+
+async function initialiseProfile() {
+  if (!supabaseClient) {
+    document.body.innerHTML =
+      "<p style='padding:24px;color:white'>Supabase gagal dimuat. Periksa koneksi internet lalu buka kembali halaman ini.</p>";
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error || !data.session) {
+      window.location.replace(LOGIN_URL);
+      return;
+    }
+
+    currentUser = data.session.user;
+    $("email").value = currentUser.email || "";
+
+    const { data: profile, error: profileError } = await supabaseClient
+      .from("profiles")
+      .select("user_id, full_name, username, avatar_url")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error(profileError);
+      showStatus(
+        "Profil belum dapat dimuat. Pastikan SQL tabel profiles sudah dijalankan di Supabase.",
+        "error"
+      );
+      $("fullName").value =
+        currentUser.user_metadata?.full_name ||
+        currentUser.user_metadata?.name || "";
+      updatePreview();
+      return;
+    }
+
+    if (profile) {
+      $("fullName").value = profile.full_name || "";
+      $("username").value = profile.username || "";
+      currentAvatarUrl = profile.avatar_url || null;
+      if (currentAvatarUrl) $("avatarPreview").src = currentAvatarUrl;
+    } else {
+      $("fullName").value =
+        currentUser.user_metadata?.full_name ||
+        currentUser.user_metadata?.name || "";
+    }
+
+    updatePreview();
+  } catch (error) {
+    console.error(error);
+    showStatus("Terjadi kesalahan saat membuka profil. Coba muat ulang halaman.", "error");
+  }
+}
+
+$("photoInput").addEventListener("change", event => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!allowedTypes.includes(file.type)) {
+    showStatus("Gunakan foto JPG, PNG, atau WEBP.", "error");
+    event.target.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    showStatus("Ukuran foto maksimal 5 MB.", "error");
+    event.target.value = "";
+    return;
+  }
+
+  selectedPhoto = file;
+  $("avatarPreview").src = URL.createObjectURL(file);
+  showStatus("Foto dipilih. Tekan Simpan Profil untuk menyimpan perubahan.", "info");
+});
+
+$("fullName").addEventListener("input", updatePreview);
+
+$("username").addEventListener("input", () => {
+  const input = $("username");
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+
+  input.value = input.value
+    .toLowerCase()
+    .replace(/[^a-z0-9_]/g, "")
+    .slice(0, 24);
+
+  try {
+    input.setSelectionRange(start, end);
+  } catch (_) {}
+
+  updatePreview();
+});
+
+async function uploadAvatar() {
+  if (!selectedPhoto) return currentAvatarUrl;
+
+  const extensionByType = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp"
+  };
+
+  const extension = extensionByType[selectedPhoto.type];
+  const path = currentUser.id + "/" + Date.now() + "." + extension;
+
+  const { error: uploadError } = await supabaseClient.storage
+    .from(AVATAR_BUCKET)
+    .upload(path, selectedPhoto, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: selectedPhoto.type
+    });
+
+  if (uploadError) throw uploadError;
+
+  const { data } = supabaseClient.storage
+    .from(AVATAR_BUCKET)
+    .getPublicUrl(path);
+
+  return data.publicUrl;
+}
+
+async function saveProfile() {
+  if (!currentUser) {
+    window.location.replace(LOGIN_URL);
+    return;
+  }
+
+  const fullName = $("fullName").value.trim();
+  const username = $("username").value.trim();
+
+  if (!fullName) {
+    showStatus("Nama lengkap wajib diisi.", "error");
+    $("fullName").focus();
+    return;
+  }
+
+  if (!safeUsername(username)) {
+    showStatus(
+      "Username harus 3–24 karakter dan hanya boleh berisi huruf kecil, angka, atau garis bawah.",
+      "error"
+    );
+    $("username").focus();
+    return;
+  }
+
+  setSaving(true);
+
+  try {
+    showStatus("Menyimpan profil...", "info");
+
+    const avatarUrl = await uploadAvatar();
+
+    const profileData = {
+      user_id: currentUser.id,
+      full_name: fullName,
+      username: username,
+      avatar_url: avatarUrl || null,
+      updated_at: new Date().toISOString()
+    };
+
+    const { error } = await supabaseClient
+      .from("profiles")
+      .upsert(profileData, { onConflict: "user_id" });
+
+    if (error) {
+      if (error.code === "23505") {
+        throw new Error("Username tersebut sudah digunakan. Coba username lain.");
+      }
+      throw error;
+    }
+
+    currentAvatarUrl = avatarUrl || null;
+    selectedPhoto = null;
+    $("photoInput").value = "";
+
+    showStatus("Profil berhasil disimpan!", "success");
+    updatePreview();
+  } catch (error) {
+    console.error(error);
+    showStatus(
+      error.message || "Gagal menyimpan profil. Periksa koneksi dan konfigurasi Supabase.",
+      "error"
+    );
+  } finally {
+    setSaving(false);
+  }
+}
+
+$("saveButton").addEventListener("click", saveProfile);
+
+$("homeButton").addEventListener("click", () => {
+  window.location.href = HOME_URL;
+});
+
+$("homeButton2").addEventListener("click", () => {
+  window.location.href = HOME_URL;
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  const confirmed = window.confirm("Yakin ingin keluar dari akun OER?");
+  if (!confirmed) return;
+
+  $("logoutButton").disabled = true;
+
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    showStatus("Gagal keluar: " + error.message, "error");
+    $("logoutButton").disabled = false;
+    return;
+  }
+
+  window.location.replace(LOGIN_URL);
+});
+
+initialiseProfile();
+</script>
+</body>
+</html>
