@@ -749,6 +749,170 @@ input:focus-visible {
     min-height: 105px;
   }
 }
+ 
+/* HOME OER - FEED, STATUS DAN KREATOR */
+.home-section {
+  margin-top: 28px;
+  min-width: 0;
+}
+
+.home-action {
+  padding: 8px 11px;
+  color: var(--cyan);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.home-action:hover {
+  border-color: var(--cyan);
+}
+
+.home-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-post,
+.status-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+
+.home-post-header,
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+
+.home-avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--cyan-soft);
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.home-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-author {
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.home-time {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.home-post-content,
+.status-content {
+  color: #dce7e7;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.home-post-media {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  margin-top: 12px;
+  border-radius: 12px;
+  object-fit: contain;
+  background: #050707;
+}
+
+.home-message {
+  padding: 20px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.creator-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.creator-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.creator-card:hover {
+  border-color: var(--cyan);
+  background: var(--surface-hover);
+}
+
+.creator-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--cyan-soft);
+  color: var(--cyan);
+  font-size: 21px;
+}
+
+.creator-card strong {
+  font-size: 13px;
+}
+
+.creator-card > span:not(.creator-icon) {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.creator-card .coming-label {
+  padding: 6px 8px;
+  border: 1px solid rgba(0,229,208,.2);
+  border-radius: 8px;
+  color: var(--cyan) !important;
+  background: var(--cyan-soft);
+}
+
+@media (max-width: 380px) {
+  .creator-grid {
+    grid-template-columns: 1fr;
+  }
+  }
+  
 </style>
 </head>
 
@@ -971,20 +1135,68 @@ input:focus-visible {
       </div>
     </section>
 
-    <section class="empty-state" aria-label="Konten beranda">
-      <div class="empty-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-          <path d="M8 8h8M8 12h8M8 16h5"></path>
-        </svg>
-      </div>
-      <h3>Ruang Home OER</h3>
-      <p>
-        Belum ada konten yang ditampilkan.
-        Postingan pengguna akan ditambahkan setelah fitur postingan dan database selesai dibuat.
-      </p>
-    </section>
+   
+<!-- FEED POSTINGAN HOME -->
+<section class="home-section" id="homeFeed">
+  <div class="section-heading">
+    <div>
+      <h2>Postingan Terbaru</h2>
+      <p>Aktivitas terbaru dari komunitas OER.</p>
+    </div>
+    <button class="home-action" data-feature="postingan" type="button">
+      Lihat semua
+    </button>
+  </div>
 
+  <div id="postsFeed" class="home-list" aria-live="polite">
+    <div class="home-message">Memuat postingan...</div>
+  </div>
+</section>
+
+<!-- STATUS PENGGUNA: DAFTAR VERTIKAL -->
+<section class="home-section" id="homeStatuses">
+  <div class="section-heading">
+    <div>
+      <h2>Status Pengguna</h2>
+      <p>Status ditampilkan dalam bentuk daftar, bukan lingkaran.</p>
+    </div>
+  </div>
+
+  <div id="userStatuses" class="home-list">
+    <div class="home-message">
+      Data status akan ditampilkan setelah sumber data status OER disambungkan.
+    </div>
+  </div>
+</section>
+
+<!-- FITUR KREATOR -->
+<section class="home-section" id="creatorFeatures">
+  <div class="section-heading">
+    <div>
+      <h2>Kreator OER</h2>
+      <p>Fitur kreator sedang dipersiapkan.</p>
+    </div>
+  </div>
+
+  <div class="creator-grid">
+    <button class="creator-card" type="button"
+      data-coming-soon="video">
+      <span class="creator-icon">▶</span>
+      <strong>Upload Video Kreator</strong>
+      <span>Bagikan video melalui OER.</span>
+      <span class="coming-label">Dalam pengembangan</span>
+    </button>
+
+    <button class="creator-card" type="button"
+      data-coming-soon="monetisasi">
+      <span class="creator-icon">◇</span>
+      <strong>Monetisasi</strong>
+      <span>Fitur monetisasi kreator OER.</span>
+      <span class="coming-label">Dalam pengembangan</span>
+    </button>
+  </div>
+</section>
+    
   </main>
 
   <!-- PANEL SAMPING -->
@@ -1114,6 +1326,206 @@ document.querySelectorAll('[data-feature="postingan"]').forEach(button => {
     window.location.replace(OER_LOGIN_URL);
   }
 })();
+  
+/* HOME OER: FEED POSTINGAN DAN FITUR DALAM PENGEMBANGAN */
+(function initOERHomeFeatures() {
+  const feed = document.getElementById("postsFeed");
+  const toast = document.getElementById("toast");
+
+  function showHomeNotice(message) {
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(showHomeNotice.timer);
+    showHomeNotice.timer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+
+  // Tombol video dan monetisasi hanya menampilkan pemberitahuan.
+  document.querySelectorAll("[data-coming-soon]").forEach(button => {
+    button.addEventListener("click", () => {
+      const feature = button.dataset.comingSoon;
+
+      if (feature === "video") {
+        showHomeNotice(
+          "Pihak kami masih mengembangkan fitur upload video kreator. Mohon tunggu informasi selanjutnya."
+        );
+      } else if (feature === "monetisasi") {
+        showHomeNotice(
+          "Pihak kami masih mengembangkan fitur monetisasi OER. Mohon tunggu informasi selanjutnya."
+        );
+      }
+    });
+  });
+
+  function safeText(value) {
+    return String(value ?? "");
+  }
+
+  function makeElement(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  function formatPostTime(value) {
+    if (!value) return "Postingan terbaru";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Postingan terbaru";
+
+    return date.toLocaleString("id-ID", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+  }
+
+  function renderPost(post) {
+    const card = makeElement("article", "home-post");
+
+    const header = makeElement("div", "home-post-header");
+    const avatar = makeElement("div", "home-avatar");
+
+    const avatarUrl =
+      post.avatar_url ||
+      post.avatar ||
+      post.photo_url ||
+      post.profile_photo;
+
+    if (avatarUrl && /^https?:\/\//i.test(avatarUrl)) {
+      const image = document.createElement("img");
+      image.src = avatarUrl;
+      image.alt = "";
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+      avatar.appendChild(image);
+    } else {
+      avatar.textContent = "O";
+    }
+
+    const identity = document.createElement("div");
+    const author = makeElement(
+      "div",
+      "home-author",
+      post.username || post.author_name ||
+      post.full_name || post.name || "Pengguna OER"
+    );
+
+    const time = makeElement(
+      "div",
+      "home-time",
+      formatPostTime(post.created_at || post.inserted_at)
+    );
+
+    identity.append(author, time);
+    header.append(avatar, identity);
+    card.appendChild(header);
+
+    const content =
+      post.content || post.body || post.text ||
+      post.caption || post.description || "";
+
+    if (content) {
+      card.appendChild(
+        makeElement("div", "home-post-content", safeText(content))
+      );
+    }
+
+    const mediaUrl =
+      post.image_url || post.media_url ||
+      post.image || post.photo_url;
+
+    if (mediaUrl && /^https?:\/\//i.test(mediaUrl)) {
+      const image = document.createElement("img");
+      image.className = "home-post-media";
+      image.src = mediaUrl;
+      image.alt = "Media postingan";
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+      card.appendChild(image);
+    }
+
+    if (!content && !mediaUrl) {
+      card.appendChild(
+        makeElement(
+          "div",
+          "home-post-content",
+          "Postingan tersedia."
+        )
+      );
+    }
+
+    return card;
+  }
+
+  async function loadHomePosts() {
+    if (!feed) return;
+
+    if (!window.supabase ||
+        typeof window.supabase.createClient !== "function") {
+      feed.replaceChildren(
+        makeElement(
+          "div",
+          "home-message",
+          "Koneksi Supabase belum tersedia."
+        )
+      );
+      return;
+    }
+
+    try {
+      const client = window.supabase.createClient(
+        OER_CONFIG.SUPABASE_URL,
+        OER_CONFIG.SUPABASE_KEY
+      );
+
+      // Mengambil postingan terbaru dari tabel posts.
+      const { data, error } = await client
+        .from("posts")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+
+      if (!Array.isArray(data) || data.length === 0) {
+        feed.replaceChildren(
+          makeElement(
+            "div",
+            "home-message",
+            "Belum ada postingan untuk ditampilkan."
+          )
+        );
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      data.forEach(post => {
+        fragment.appendChild(renderPost(post));
+      });
+
+      feed.replaceChildren(fragment);
+    } catch (error) {
+      console.error("Gagal memuat postingan Home OER:", error);
+
+      feed.replaceChildren(
+        makeElement(
+          "div",
+          "home-message",
+          "Postingan belum dapat dimuat. Periksa koneksi dan izin akses database."
+        )
+      );
+    }
+  }
+
+  loadHomePosts();
+})();
+  
 </script>
 </body>
 </html>
