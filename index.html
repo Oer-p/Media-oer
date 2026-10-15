@@ -1054,3 +1054,17 @@ const OER_CONFIG = {
   SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
   SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
 };
+  
+// Sambungkan tombol Login dan Daftar ke login.html OER
+const OER_LOGIN_URL = "/Media-oer/login.html";
+
+document.querySelectorAll(
+  '[data-feature="login"], [data-feature="daftar"], #loginButton, #signupButton, #loginBtn, #signupBtn'
+).forEach(button => {
+  button.addEventListener("click", function () {
+    window.location.href = OER_LOGIN_URL;
+  });
+});
+</script>
+</body>
+</html>
