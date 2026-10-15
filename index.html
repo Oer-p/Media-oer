@@ -1038,33 +1038,49 @@ input:focus-visible {
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 <!-- SUPABASE CLIENT -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 "use strict";
 
-/*
-  KONFIGURASI SUPABASE OER
-  Pertahankan project dan publishable key yang sudah digunakan.
-  Jangan memasukkan service_role key ke frontend.
-*/
 const OER_CONFIG = {
   SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
   SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
 };
-  
-// Sambungkan tombol Login dan Daftar ke login.html OER
-const OER_LOGIN_URL = "/Media-oer/login.html";
 
-document.querySelectorAll(
-  '[data-feature="login"], [data-feature="daftar"], #loginButton, #signupButton, #loginBtn, #signupBtn'
-).forEach(button => {
-  button.addEventListener("click", function () {
-    window.location.href = https://oer-p.github.io/Media-oer/login.html;
-  });
-});
+const OER_LOGIN_URL = "/Media-oer/login.html";
+const OER_HOME_URL = "/Media-oer/";
+
+(async function checkOERLogin() {
+  // Jangan biarkan Home tampil sebelum status login diperiksa.
+  document.documentElement.style.visibility = "hidden";
+
+  try {
+    if (!window.supabase) {
+      window.location.replace(OER_LOGIN_URL);
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      OER_CONFIG.SUPABASE_URL,
+      OER_CONFIG.SUPABASE_KEY
+    );
+
+    const { data, error } = await client.auth.getSession();
+
+    if (error || !data.session) {
+      window.location.replace(OER_LOGIN_URL);
+      return;
+    }
+
+    // Sudah login: izinkan Home ditampilkan.
+    document.documentElement.style.visibility = "visible";
+  } catch (error) {
+    console.error("Pemeriksaan login OER gagal:", error);
+    window.location.replace(OER_LOGIN_URL);
+  }
+})();
 </script>
 </body>
 </html>
