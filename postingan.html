@@ -1,1064 +1,607 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#050707">
 <meta name="description" content="Postingan OER — Connect Everything">
 <title>Postingan — OER</title>
-
 <style>
 :root{
-  --bg:#050707;
-  --panel:#0b1011;
-  --panel2:#101718;
-  --border:#1c2b2c;
-  --text:#f2fafa;
-  --muted:#819394;
-  --cyan:#00e5d0;
-  --cyan-soft:rgba(0,229,208,.09);
-  --red:#ff6478;
-  --green:#20d890;
+--bg:#050707;--panel:#0b1011;--panel2:#101718;--panel3:#151f20;
+--border:#223031;--text:#f2fafa;--muted:#819394;
+--cyan:#00e5d0;--soft:rgba(0,229,208,.09);
+--red:#ff6478;--green:#20d890
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  min-height:100vh;
-  background:radial-gradient(ellipse at top,rgba(0,229,208,.045),transparent 42%),var(--bg);
-  color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-button,input,textarea,select{font:inherit}
-button{color:inherit;cursor:pointer}
-a{color:inherit;text-decoration:none}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
-  outline:2px solid var(--cyan);outline-offset:2px
-}
-.topbar{
-  height:65px;position:sticky;top:0;z-index:20;
-  background:rgba(5,7,7,.95);backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--border)
-}
-.topbar-inner{
-  width:min(1100px,100%);height:100%;padding:0 20px;margin:auto;
-  display:flex;align-items:center;justify-content:space-between;gap:15px
-}
-.brand{font-size:23px;font-weight:900;letter-spacing:2px}
-.brand span{color:var(--cyan)}
-.top-actions{display:flex;gap:9px}
-.top-btn,.back-btn{
-  border:1px solid var(--border);background:var(--panel);
-  border-radius:11px;padding:10px 13px;font-size:12px;font-weight:700
-}
-.top-btn:hover,.back-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-.layout{
-  width:min(1100px,100%);margin:auto;padding:25px 20px 50px;
-  display:grid;grid-template-columns:215px minmax(0,650px);
-  justify-content:center;gap:24px;align-items:start
-}
-.sidebar{position:sticky;top:88px}
-.sidebar-title{
-  color:var(--muted);font-size:10px;font-weight:800;
-  letter-spacing:1.6px;text-transform:uppercase;margin:8px 12px 13px
-}
-.nav{display:grid;gap:5px}
-.nav button{
-  width:100%;min-height:45px;display:flex;align-items:center;gap:12px;
-  padding:0 13px;text-align:left;background:transparent;
-  border:1px solid transparent;border-radius:12px;
-  color:#a9baba;font-size:13px;font-weight:650
-}
-.nav button:hover{background:var(--panel);color:var(--text)}
-.nav button.active{background:var(--cyan-soft);color:var(--cyan);border-color:#16403e}
-.nav-icon{width:20px;text-align:center;font-size:17px}
-.side-note{
-  margin-top:22px;padding:15px;border:1px solid var(--border);
-  border-radius:14px;background:var(--panel)
-}
-.side-note strong{font-size:12px}
-.side-note p{font-size:11px;line-height:1.7;color:var(--muted);margin-top:7px}
-.main{min-width:0}
-.page-heading{margin-bottom:20px}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:800}
-.page-heading h1{font-size:27px;margin-top:9px;letter-spacing:-.6px}
-.page-heading p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.7}
-.card{
-  border:1px solid var(--border);border-radius:17px;
-  background:var(--panel);margin-bottom:15px;min-width:0
-}
-.composer{padding:18px}
-.composer-top{display:flex;align-items:flex-start;gap:12px}
-.avatar{
-  width:43px;height:43px;flex-shrink:0;object-fit:cover;
-  border-radius:50%;background:#182526;border:1px solid var(--border)
-}
+body{min-height:100vh;background:radial-gradient(ellipse at top,rgba(0,229,208,.06),transparent 42%),var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}button{color:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.topbar{height:66px;position:sticky;top:0;z-index:20;background:rgba(5,7,7,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1100px;height:100%;padding:0 20px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:24px;font-weight:950;letter-spacing:2px}.brand span{color:var(--cyan)}
+.top-actions{display:flex;gap:8px}
+.top-btn,.back-btn,.small-btn{border:1px solid var(--border);background:var(--panel2);border-radius:11px;padding:10px 13px;font-size:12px;font-weight:750;transition:.2s}
+.top-btn:hover,.back-btn:hover,.small-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.layout{width:min(1100px,100%);margin:auto;padding:27px 20px 55px;display:grid;grid-template-columns:215px minmax(0,650px);justify-content:center;gap:24px;align-items:start}
+.sidebar{position:sticky;top:88px}.sidebar-title{color:var(--muted);font-size:10px;font-weight:850;letter-spacing:1.6px;text-transform:uppercase;margin:8px 12px 13px}
+.nav{display:grid;gap:6px}.nav button{width:100%;min-height:45px;display:flex;align-items:center;gap:12px;padding:0 13px;text-align:left;background:transparent;border:1px solid transparent;border-radius:12px;color:#a9baba;font-size:13px;font-weight:700}
+.nav button:hover{background:var(--panel);color:var(--text)}.nav button.active{background:var(--soft);color:var(--cyan);border-color:#16403e}
+.nav-icon{width:20px;text-align:center;font-size:18px}
+.side-note{margin-top:22px;padding:16px;border:1px solid var(--border);border-radius:15px;background:linear-gradient(145deg,#101819,#090d0e)}
+.side-note strong{font-size:12px}.side-note p{font-size:11px;line-height:1.8;color:var(--muted);margin-top:7px}
+.main{min-width:0}.page-heading{margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:850}
+.page-heading h1{font-size:28px;margin-top:9px;letter-spacing:-.7px}.page-heading p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8}
+.card{border:1px solid var(--border);border-radius:18px;background:linear-gradient(150deg,#0c1213,#090d0e);margin-bottom:15px;min-width:0;overflow:visible}
+.composer{padding:18px}.composer-top{display:flex;align-items:flex-start;gap:12px}
+.avatar{width:43px;height:43px;flex-shrink:0;object-fit:cover;border-radius:50%;background:#182526;border:1px solid var(--border)}
 .avatar-link{display:block;flex-shrink:0}
-.composer-input{
-  width:100%;min-height:88px;resize:vertical;
-  padding:13px 14px;background:#080c0d;border:1px solid var(--border);
-  border-radius:13px;color:var(--text);outline:none;font-size:13px;line-height:1.7
-}
-.composer-input:focus{border-color:#176963}
+.composer-input{width:100%;min-height:92px;resize:vertical;padding:14px;background:#080c0d;border:1px solid var(--border);border-radius:13px;color:var(--text);outline:none;font-size:13px;line-height:1.8}
+.composer-input:focus,.comment-input:focus,.dialog-field:focus{border-color:#167a70}
 .composer-input::placeholder{color:#6e8081}
-.composer-preview{display:none;margin:13px 0 0 55px;position:relative}
-.composer-preview.show{display:block}
-.composer-preview img{display:block;max-width:100%;max-height:300px;object-fit:contain;border-radius:12px;border:1px solid var(--border)}
-.remove-preview{
-  position:absolute;top:8px;right:8px;border:0;border-radius:8px;
-  background:#101718;padding:7px 10px;font-size:11px
-}
-.composer-tools{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-top:14px;flex-wrap:wrap
-}
+.composer-preview{display:none;margin:13px 0 0 55px;position:relative}.composer-preview.show{display:block}
+.composer-preview img{display:block;max-width:100%;max-height:300px;object-fit:contain;border-radius:13px;border:1px solid var(--border)}
+.remove-preview{position:absolute;top:8px;right:8px;border:1px solid var(--border);border-radius:9px;background:#101718;padding:8px 11px;font-size:11px}
+.composer-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
 .tool-left,.tool-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.small-btn{
-  border:1px solid var(--border);background:#0c1314;color:#b9caca;
-  border-radius:10px;padding:9px 11px;font-size:11px;font-weight:700
-}
-.small-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-.primary-btn{
-  border:0;border-radius:10px;background:var(--cyan);
-  color:#00110f;padding:10px 17px;font-size:12px;font-weight:850
-}
-.primary-btn:hover{background:#6af5e8}
-.primary-btn:disabled{opacity:.5;cursor:wait}
+.small-btn{color:#c2d0d0}.primary-btn{border:0;border-radius:11px;background:var(--cyan);color:#00110f;padding:11px 18px;font-size:12px;font-weight:900;transition:.2s}
+.primary-btn:hover{background:#73f7ea;transform:translateY(-1px)}.primary-btn:disabled{opacity:.5;cursor:wait;transform:none}
 #photoInput{display:none}
-.audience-select{
-  max-width:120px;background:#0c1314;color:#a9baba;
-  border:1px solid var(--border);border-radius:9px;padding:9px 7px;font-size:11px
-}
-.feed-heading{display:flex;justify-content:space-between;align-items:center;margin:26px 0 13px}
-.feed-heading h2{font-size:15px}
-.feed-heading span{font-size:11px;color:var(--muted)}
-.post{padding:17px;position:relative}
-.post-head{display:flex;align-items:flex-start;gap:11px}
-.post-identity{flex:1;min-width:0}
-.profile-link{display:inline-block;max-width:100%;font-size:13px;font-weight:800;overflow-wrap:anywhere}
-.profile-link:hover{color:var(--cyan)}
-.post-username{font-size:11px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
-.post-meta{font-size:10px;color:var(--muted);margin-top:6px}
-.post-menu-wrap{position:relative;flex-shrink:0}
-.more-btn{
-  width:35px;height:35px;display:grid;place-items:center;
-  background:transparent;border:1px solid transparent;
-  border-radius:10px;color:var(--muted);font-size:22px
-}
+.audience-trigger{display:flex;align-items:center;gap:9px;min-height:39px;background:#0c1314;border:1px solid var(--border);border-radius:11px;padding:8px 11px;font-size:11px;font-weight:800}
+.audience-trigger:hover{border-color:var(--cyan)}.audience-symbol{color:var(--cyan);font-size:16px}
+.feed-heading{display:flex;justify-content:space-between;align-items:center;margin:27px 0 13px}
+.feed-heading h2{font-size:15px}.feed-heading span{font-size:11px;color:var(--muted)}
+.post{padding:17px;position:relative;margin-bottom:15px}
+.post-head{display:flex;align-items:flex-start;gap:11px}.post-identity{flex:1;min-width:0}
+.profile-link{display:inline-block;max-width:100%;font-size:13px;font-weight:850;overflow-wrap:anywhere}
+.profile-link:hover{color:var(--cyan)}.post-username{font-size:11px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.post-meta{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.6}
+.post-menu-wrap{position:relative;flex-shrink:0}.more-btn{width:35px;height:35px;display:grid;place-items:center;background:transparent;border:1px solid transparent;border-radius:10px;color:var(--muted);font-size:23px}
 .more-btn:hover{background:var(--panel2);border-color:var(--border);color:var(--text)}
-.menu{
-  display:none;position:absolute;right:0;top:39px;z-index:10;
-  width:205px;padding:6px;border:1px solid var(--border);
-  border-radius:12px;background:#101718;box-shadow:0 14px 35px #0008
-}
-.menu.open{display:block}
-.menu button{
-  display:block;width:100%;padding:10px;border:0;border-radius:8px;
-  background:transparent;text-align:left;font-size:12px;color:#dce8e8
-}
-.menu button:hover{background:#1a2627}
-.menu button.danger{color:var(--red)}
-.post-content{
-  white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;
-  font-size:13px;margin:15px 0
-}
-.post-image{
-  display:block;width:100%;max-height:520px;object-fit:contain;
-  background:#070a0b;border-radius:12px;margin-top:12px;
-  border:1px solid var(--border)
-}
-.post-stats{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;color:var(--muted);font-size:11px;padding:12px 0;
-  border-bottom:1px solid var(--border)
-}
+.menu{display:none;position:absolute;right:0;top:39px;z-index:12;width:225px;padding:7px;border:1px solid #2b3c3d;border-radius:15px;background:#101718;box-shadow:0 18px 45px #000b}
+.menu.open{display:block;animation:pop .14s ease}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 10px;border:0;border-radius:9px;background:transparent;text-align:left;font-size:12px;color:#dce8e8}
+.menu button:hover{background:#1b292a}.menu button.danger{color:var(--red)}
+.menu-separator{height:1px;background:var(--border);margin:5px 7px}
+.post-content{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;font-size:13px;margin:15px 0}
+.post-image{display:block;width:100%;max-height:520px;object-fit:contain;background:#070a0b;border-radius:13px;margin-top:12px;border:1px solid var(--border)}
+.post-stats{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;padding:13px 0;border-bottom:1px solid var(--border)}
 .post-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding-top:10px}
-.post-action{
-  min-width:0;border:1px solid transparent;background:transparent;
-  border-radius:9px;padding:10px 4px;font-size:11px;font-weight:700;color:#a9baba
-}
-.post-action:hover{background:var(--panel2);color:var(--cyan)}
-.post-action.liked{color:var(--cyan)}
-.comments{border-top:1px solid var(--border);margin-top:12px;padding-top:13px}
-.comments[hidden]{display:none}
-.comment-list{display:grid;gap:12px;margin-bottom:13px}
-.comment{display:flex;align-items:flex-start;gap:9px;min-width:0}
-.comment .avatar{width:32px;height:32px}
-.comment-body{flex:1;min-width:0;background:#101617;border:1px solid #1b292a;border-radius:12px;padding:10px 12px}
-.comment-top{display:flex;align-items:flex-start;gap:8px}
-.comment-top .profile-link{font-size:11px}
+.post-action{min-width:0;border:1px solid transparent;background:transparent;border-radius:10px;padding:11px 4px;font-size:11px;font-weight:800;color:#a9baba}
+.post-action:hover{background:var(--panel2);color:var(--cyan)}.post-action.liked{color:var(--cyan);background:var(--soft)}
+.comments{border-top:1px solid var(--border);margin-top:12px;padding-top:13px}.comments[hidden]{display:none}
+.comment-list{display:grid;gap:12px;margin-bottom:13px}.comment{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.comment .avatar{width:32px;height:32px}.comment-body{flex:1;min-width:0;background:#101617;border:1px solid #1b292a;border-radius:13px;padding:10px 12px}
+.comment-top{display:flex;align-items:flex-start;gap:8px}.comment-top .profile-link{font-size:11px}
 .comment-content{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.7;margin-top:6px}
 .comment-time{font-size:10px;color:var(--muted);margin-top:5px}
-.comment-menu-wrap{position:relative;margin-left:auto}
-.comment-menu-wrap .more-btn{width:27px;height:27px;font-size:17px}
-.comment-menu-wrap .menu{width:155px;top:29px}
-.comment-form{display:flex;align-items:center;gap:8px}
-.comment-form .avatar{width:32px;height:32px}
-.comment-input{
-  flex:1;min-width:0;border:1px solid var(--border);border-radius:11px;
-  padding:11px 12px;background:#080c0d;color:var(--text);font-size:12px
-}
-.comment-submit{
-  border:0;background:var(--cyan);color:#00110f;font-weight:850;
-  border-radius:10px;padding:11px 13px;font-size:11px
-}
-.empty{
-  border:1px dashed #293839;border-radius:16px;padding:36px 18px;
-  text-align:center;color:var(--muted);font-size:12px;line-height:1.8
-}
-.empty strong{display:block;color:var(--text);font-size:14px;margin-bottom:7px}
-.loading{padding:30px;text-align:center;color:var(--muted);font-size:12px}
-.toast{
-  position:fixed;left:50%;bottom:22px;z-index:100;
-  transform:translate(-50%,15px);opacity:0;pointer-events:none;
-  background:#111a1b;border:1px solid #29403f;border-radius:12px;
-  padding:12px 16px;font-size:12px;max-width:calc(100vw - 30px);
-  transition:.2s;box-shadow:0 12px 35px #0007
-}
+.comment-menu-wrap{position:relative;margin-left:auto}.comment-menu-wrap .more-btn{width:28px;height:28px;font-size:17px}
+.comment-menu-wrap .menu{width:175px;top:29px}
+.comment-form{display:flex;align-items:center;gap:8px}.comment-form .avatar{width:32px;height:32px}
+.comment-input{flex:1;min-width:0;border:1px solid var(--border);border-radius:11px;padding:11px 12px;background:#080c0d;color:var(--text);font-size:12px}
+.comment-submit{border:0;background:var(--cyan);color:#00110f;font-weight:900;border-radius:10px;padding:11px 13px;font-size:11px}
+.empty{border:1px dashed #293839;border-radius:16px;padding:36px 18px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.empty strong{display:block;color:var(--text);font-size:14px;margin-bottom:7px}.loading{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+.toast{position:fixed;left:50%;bottom:24px;z-index:100;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#111a1b;border:1px solid #29403f;border-radius:14px;padding:13px 17px;font-size:12px;max-width:calc(100vw - 30px);transition:.25s;box-shadow:0 12px 35px #0009}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-dialog{
-  width:min(440px,calc(100% - 28px));margin:auto;
-  background:#0d1314;color:var(--text);border:1px solid var(--border);
-  border-radius:16px;padding:20px
-}
-dialog::backdrop{background:#000b;backdrop-filter:blur(3px)}
-dialog h3{font-size:17px;margin-bottom:14px}
-.dialog-field{width:100%;min-height:110px;resize:vertical;padding:12px;background:#080c0d;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px}
-.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+dialog{width:min(460px,calc(100% - 28px));max-height:85vh;overflow-y:auto;margin:auto;background:#0b1112;color:var(--text);border:1px solid #2a3b3c;border-radius:22px;padding:0;box-shadow:0 30px 100px #000c}
+dialog::backdrop{background:rgba(0,0,0,.78);backdrop-filter:blur(8px)}
+.dialog-inner{padding:22px}
+.dialog-top{display:flex;align-items:flex-start;gap:13px;margin-bottom:20px}
+.dialog-icon{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;border:1px solid #25504c;background:var(--soft);color:var(--cyan);border-radius:14px;font-size:20px}
+.dialog-title{font-size:17px;font-weight:900;letter-spacing:-.3px}
+.dialog-desc{font-size:12px;line-height:1.8;color:var(--muted);margin-top:6px}
+.dialog-close{margin-left:auto;width:31px;height:31px;flex-shrink:0;border:1px solid var(--border);border-radius:9px;background:var(--panel2);color:var(--muted);font-size:18px}
+.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:21px}
+.dialog-actions button{min-height:40px}
+.audience-options{display:grid;gap:9px}
+.audience-option{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);border-radius:14px;background:#0b1112;text-align:left;transition:.18s}
+.audience-option:hover{border-color:#36716b;background:#101a1a}
+.audience-option.selected{border-color:var(--cyan);background:var(--soft);box-shadow:inset 0 0 0 1px rgba(0,229,208,.12)}
+.option-icon{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0;background:#172223;border:1px solid #263838;border-radius:13px;font-size:18px;color:var(--cyan)}
+.option-copy{flex:1;min-width:0}.option-copy strong{display:block;font-size:13px}.option-copy small{display:block;font-size:11px;line-height:1.65;color:var(--muted);margin-top:4px}
+.option-check{width:22px;height:22px;display:grid;place-items:center;border:1px solid #3a4a4b;border-radius:50%;font-size:12px;color:transparent}
+.audience-option.selected .option-check{border-color:var(--cyan);background:var(--cyan);color:#00110f}
+.dialog-field{width:100%;min-height:110px;resize:vertical;padding:13px;background:#080c0d;border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:13px;line-height:1.7}
+.confirm-summary{padding:14px;border:1px solid var(--border);border-radius:13px;background:#080d0e;font-size:12px;color:#c4d1d1;line-height:1.8;overflow-wrap:anywhere}
+.danger-btn{border:1px solid #63303a;background:rgba(255,100,120,.12);color:#ff8291;border-radius:11px;padding:10px 16px;font-size:12px;font-weight:900}
+.danger-btn:hover{background:rgba(255,100,120,.22)}
+.cancel-btn{border:1px solid var(--border);background:#111819;color:#c5d2d2;border-radius:11px;padding:10px 15px;font-size:12px;font-weight:800}
+.cancel-btn:hover{border-color:#526364}
+.report-options{display:grid;gap:8px}
+.report-option{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:11px;background:#0a1011;font-size:12px;color:#dce7e7}
+.report-option:has(input:checked){border-color:var(--cyan);background:var(--soft)}
+.report-option input{accent-color:var(--cyan)}
+@keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){
-  .layout{display:block;padding:18px 14px 40px}
-  .sidebar{position:static;margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
-  .sidebar::-webkit-scrollbar{display:none}
-  .sidebar-title,.side-note{display:none}
-  .nav{display:flex;width:max-content;min-width:100%;gap:7px}
-  .nav button{width:auto;min-height:39px;padding:0 12px;border-color:var(--border);background:var(--panel);white-space:nowrap;font-size:11px}
-  .nav-icon{font-size:14px;width:auto}
-  .topbar-inner{padding:0 14px}
-  .layout{padding-top:18px}
-  .page-heading h1{font-size:24px}
-  .composer,.post{padding:14px}
+.layout{display:block;padding:18px 14px 40px}.sidebar{position:static;margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
+.sidebar::-webkit-scrollbar{display:none}.sidebar-title,.side-note{display:none}
+.nav{display:flex;width:max-content;min-width:100%;gap:7px}
+.nav button{width:auto;min-height:40px;padding:0 12px;border-color:var(--border);background:var(--panel);white-space:nowrap;font-size:11px}
+.nav-icon{font-size:14px;width:auto}.topbar-inner{padding:0 14px}.page-heading h1{font-size:24px}
+.composer,.post{padding:14px}.layout{padding-top:18px}
 }
-@media(max-width:390px){
-  .brand{font-size:19px}
-  .top-btn,.back-btn{padding:9px;font-size:11px}
-  .post-actions{gap:2px}
-  .post-action{font-size:10px}
-}
+@media(max-width:390px){.brand{font-size:20px}.top-btn,.back-btn{padding:9px;font-size:11px}.post-actions{gap:2px}.post-action{font-size:10px}.dialog-inner{padding:17px}}
 </style>
 </head>
-
 <body>
 <header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="index.html">OER<span>.</span></a>
-    <div class="top-actions">
-      <button class="back-btn" id="homeButton" type="button">← Home</button>
-      <button class="top-btn" id="myProfileButton" type="button">Profil saya</button>
-    </div>
+ <div class="topbar-inner">
+  <a class="brand" href="index.html">OER<span>.</span></a>
+  <div class="top-actions">
+   <button class="back-btn" id="homeButton" type="button">← Home</button>
+   <button class="top-btn" id="myProfileButton" type="button">Profil saya</button>
   </div>
+ </div>
 </header>
 
 <div class="layout">
-  <aside class="sidebar">
-    <div class="sidebar-title">Menu utama</div>
-    <nav class="nav">
-      <button type="button" data-go="home"><span class="nav-icon">⌂</span>Beranda</button>
-      <button type="button" class="active"><span class="nav-icon">▤</span>Postingan</button>
-      <button type="button" data-go="video"><span class="nav-icon">▷</span>Video</button>
-      <button type="button" data-go="chat"><span class="nav-icon">◌</span>Chat</button>
-      <button type="button" data-go="friends"><span class="nav-icon">♧</span>Teman</button>
-      <button type="button" data-go="profile"><span class="nav-icon">♙</span>Profil</button>
-    </nav>
-    <div class="side-note">
-      <strong>OER Connect</strong>
-      <p>Bagikan cerita, foto, dan momenmu. Terhubung dengan komunitas OER.</p>
+ <aside class="sidebar">
+  <div class="sidebar-title">Menu utama</div>
+  <nav class="nav">
+   <button type="button" data-go="home"><span class="nav-icon">⌂</span>Beranda</button>
+   <button type="button" class="active"><span class="nav-icon">▤</span>Postingan</button>
+   <button type="button" data-go="video"><span class="nav-icon">▷</span>Video</button>
+   <button type="button" data-go="chat"><span class="nav-icon">◌</span>Chat</button>
+   <button type="button" data-go="friends"><span class="nav-icon">♧</span>Teman</button>
+   <button type="button" data-go="profile"><span class="nav-icon">♙</span>Profil</button>
+  </nav>
+  <div class="side-note"><strong>OER Connect</strong><p>Bagikan cerita, foto, dan momenmu. Terhubung dengan komunitas OER.</p></div>
+ </aside>
+
+ <main class="main">
+  <div class="page-heading">
+   <div class="eyebrow">OER COMMUNITY</div>
+   <h1>Postingan</h1>
+   <p>Bagikan sesuatu yang menarik. Ceritamu bisa menjadi awal koneksi baru.</p>
+  </div>
+
+  <section class="card composer">
+   <div class="composer-top">
+    <a class="avatar-link" id="composerAvatarLink" href="profile.html"><img class="avatar" id="composerAvatar" alt="Foto profil"></a>
+    <textarea class="composer-input" id="postText" maxlength="10000" placeholder="Apa yang ingin kamu bagikan hari ini?"></textarea>
+   </div>
+   <div class="composer-preview" id="composerPreview">
+    <img id="previewImage" alt="Pratinjau foto postingan">
+    <button type="button" class="remove-preview" id="removePhotoButton">Hapus foto ×</button>
+   </div>
+   <div class="composer-tools">
+    <div class="tool-left">
+     <label class="small-btn" for="photoInput">＋ Foto</label>
+     <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">
+     <button type="button" class="audience-trigger" id="composerAudienceButton">
+      <span class="audience-symbol" id="composerAudienceIcon">◎</span>
+      <span id="composerAudienceLabel">Publik</span><span>⌄</span>
+     </button>
     </div>
-  </aside>
+    <button class="primary-btn" id="publishButton" type="button">Posting ↗</button>
+   </div>
+  </section>
 
-  <main class="main">
-    <div class="page-heading">
-      <div class="eyebrow">OER COMMUNITY</div>
-      <h1>Postingan</h1>
-      <p>Bagikan sesuatu yang menarik. Ceritamu bisa menjadi awal koneksi baru.</p>
-    </div>
-
-    <section class="card composer">
-      <div class="composer-top">
-        <a class="avatar-link" id="composerAvatarLink" href="profile.html">
-          <img class="avatar" id="composerAvatar" alt="Foto profil">
-        </a>
-        <textarea class="composer-input" id="postText" maxlength="10000"
-          placeholder="Apa yang ingin kamu bagikan hari ini?"></textarea>
-      </div>
-      <div class="composer-preview" id="composerPreview">
-        <img id="previewImage" alt="Pratinjau foto postingan">
-        <button type="button" class="remove-preview" id="removePhotoButton">Hapus foto ×</button>
-      </div>
-      <div class="composer-tools">
-        <div class="tool-left">
-          <label class="small-btn" for="photoInput">＋ Foto</label>
-          <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">
-          <select class="audience-select" id="postAudience" aria-label="Audiens postingan">
-            <option value="public">Publik</option>
-            <option value="friends">Teman</option>
-            <option value="private">Hanya saya</option>
-          </select>
-        </div>
-        <button class="primary-btn" id="publishButton" type="button">Posting</button>
-      </div>
-    </section>
-
-    <div class="feed-heading">
-      <h2>Feed terbaru</h2>
-      <span id="postCount">Memuat...</span>
-    </div>
-
-    <section id="feed" aria-live="polite">
-      <div class="loading">Memuat postingan OER...</div>
-    </section>
-  </main>
+  <div class="feed-heading"><h2>Feed terbaru</h2><span id="postCount">Memuat...</span></div>
+  <section id="feed" aria-live="polite"><div class="loading">Memuat postingan OER...</div></section>
+ </main>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<dialog id="editDialog">
-  <h3 id="dialogTitle">Edit postingan</h3>
-  <textarea class="dialog-field" id="editText" maxlength="10000"></textarea>
-  <div class="dialog-actions">
-    <button class="small-btn" type="button" id="cancelDialog">Batal</button>
-    <button class="primary-btn" type="button" id="saveDialog">Simpan</button>
+<!-- Dialog audiens -->
+<dialog id="audienceDialog">
+ <div class="dialog-inner">
+  <div class="dialog-top">
+   <div class="dialog-icon">◎</div>
+   <div><div class="dialog-title">Siapa yang bisa melihat?</div><div class="dialog-desc">Atur siapa yang dapat melihat postingan ini. Kamu bisa mengubahnya lagi nanti.</div></div>
+   <button class="dialog-close" type="button" data-close="audienceDialog">×</button>
   </div>
+  <div class="audience-options">
+   <button class="audience-option" type="button" data-audience="public">
+    <span class="option-icon">◎</span><span class="option-copy"><strong>Publik</strong><small>Semua pengguna OER dapat melihat postingan ini.</small></span><span class="option-check">✓</span>
+   </button>
+   <button class="audience-option" type="button" data-audience="friends">
+    <span class="option-icon">♧</span><span class="option-copy"><strong>Teman</strong><small>Untuk teman yang terhubung dengan akunmu.</small></span><span class="option-check">✓</span>
+   </button>
+   <button class="audience-option" type="button" data-audience="private">
+    <span class="option-icon">♙</span><span class="option-copy"><strong>Hanya saya</strong><small>Postingan hanya untuk akunmu sendiri.</small></span><span class="option-check">✓</span>
+   </button>
+  </div>
+  <div class="dialog-actions"><button class="cancel-btn" type="button" data-close="audienceDialog">Batal</button><button class="primary-btn" type="button" id="confirmAudience">Terapkan pilihan</button></div>
+ </div>
+</dialog>
+
+<!-- Dialog edit -->
+<dialog id="editDialog">
+ <div class="dialog-inner">
+  <div class="dialog-top"><div class="dialog-icon">✎</div><div><div class="dialog-title" id="editTitle">Edit postingan</div><div class="dialog-desc">Perbarui tulisanmu. Perubahan akan disimpan ke akun OER kamu.</div></div><button class="dialog-close" type="button" data-close="editDialog">×</button></div>
+  <textarea class="dialog-field" id="editText" maxlength="10000" placeholder="Tulis sesuatu..."></textarea>
+  <div class="dialog-actions"><button class="cancel-btn" type="button" data-close="editDialog">Batal</button><button class="primary-btn" type="button" id="saveDialog">Simpan perubahan</button></div>
+ </div>
+</dialog>
+
+<!-- Dialog konfirmasi -->
+<dialog id="confirmDialog">
+ <div class="dialog-inner">
+  <div class="dialog-top"><div class="dialog-icon" id="confirmIcon">!</div><div><div class="dialog-title" id="confirmTitle">Konfirmasi tindakan</div><div class="dialog-desc" id="confirmDescription">Periksa tindakan ini sebelum melanjutkan.</div></div><button class="dialog-close" type="button" data-close="confirmDialog">×</button></div>
+  <div class="confirm-summary" id="confirmSummary"></div>
+  <div class="dialog-actions"><button class="cancel-btn" type="button" data-close="confirmDialog">Batal</button><button class="danger-btn" type="button" id="confirmActionButton">Ya, lanjutkan</button></div>
+ </div>
+</dialog>
+
+<!-- Dialog laporan -->
+<dialog id="reportDialog">
+ <div class="dialog-inner">
+  <div class="dialog-top"><div class="dialog-icon">⚑</div><div><div class="dialog-title">Laporkan konten</div><div class="dialog-desc">Pilih alasan yang paling sesuai. Laporanmu akan dikirim untuk ditinjau.</div></div><button class="dialog-close" type="button" data-close="reportDialog">×</button></div>
+  <div class="report-options">
+   <label class="report-option"><input type="radio" name="reportReason" value="Spam atau konten menyesatkan"> Spam atau konten menyesatkan</label>
+   <label class="report-option"><input type="radio" name="reportReason" value="Pelecehan atau perundungan"> Pelecehan atau perundungan</label>
+   <label class="report-option"><input type="radio" name="reportReason" value="Kekerasan atau ancaman"> Kekerasan atau ancaman</label>
+   <label class="report-option"><input type="radio" name="reportReason" value="Konten tidak pantas"> Konten tidak pantas</label>
+   <label class="report-option"><input type="radio" name="reportReason" value="Pelanggaran privasi"> Pelanggaran privasi</label>
+   <label class="report-option"><input type="radio" name="reportReason" value="Lainnya"> Alasan lainnya</label>
+  </div>
+  <textarea class="dialog-field" id="reportDetails" maxlength="1000" style="min-height:75px;margin-top:12px" placeholder="Keterangan tambahan (opsional)"></textarea>
+  <div class="dialog-actions"><button class="cancel-btn" type="button" data-close="reportDialog">Batal</button><button class="primary-btn" type="button" id="submitReport">Kirim laporan</button></div>
+ </div>
 </dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
-
-const OER_CONFIG = {
-  SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
-  SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
+const OER_CONFIG={
+ SUPABASE_URL:"https://jhopfzmyxuafdbwwkjbf.supabase.co",
+ SUPABASE_KEY:"sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
 };
+const LOGIN_URL="https://oer-p.github.io/Media-oer/login.html";
+const HOME_URL="https://oer-p.github.io/Media-oer/";
+const PROFILE_URL="https://oer-p.github.io/Media-oer/profile.html";
+const CHAT_URL="https://oer-p.github.io/Media-oer/chat.html";
+const IMAGE_BUCKET="oer-post-images";
+const db=window.supabase?window.supabase.createClient(OER_CONFIG.SUPABASE_URL,OER_CONFIG.SUPABASE_KEY):null;
+let currentUser=null,myProfile=null,selectedPhoto=null,activeEdit=null;
+let posts=[],commentCache={},likedPosts=new Set(),savedPosts=new Set(),hiddenPosts=new Set();
+let pendingAudience="public",audienceTarget=null,confirmCallback=null,reportTarget=null,toastTimer=null;
+const $=id=>document.getElementById(id);
 
-const LOGIN_URL = "https://oer-p.github.io/Media-oer/login.html";
-const HOME_URL = "https://oer-p.github.io/Media-oer/";
-const PROFILE_URL = "https://oer-p.github.io/Media-oer/profile.html";
-const CHAT_URL = "https://oer-p.github.io/Media-oer/chat.html";
-const IMAGE_BUCKET = "oer-post-images";
-
-const db = window.supabase
-  ? window.supabase.createClient(OER_CONFIG.SUPABASE_URL, OER_CONFIG.SUPABASE_KEY)
-  : null;
-
-let currentUser = null;
-let myProfile = null;
-let selectedPhoto = null;
-let activeEditPost = null;
-let posts = [];
-let commentCache = {};
-let likedPosts = new Set();
-let savedPosts = new Set();
-let hiddenPosts = new Set();
-let toastTimer = null;
-
-const $ = id => document.getElementById(id);
-
-function toast(message) {
-  const box = $("toast");
-  box.textContent = message;
-  box.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => box.classList.remove("show"), 3000);
+function toast(message){
+ const box=$("toast");box.textContent=message;box.classList.add("show");
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>box.classList.remove("show"),3200);
 }
-
-function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[ch]);
+function esc(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function defaultAvatar(){return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23172128'/%3E%3Ccircle cx='50' cy='35' r='20' fill='%235b7580'/%3E%3Cpath d='M12 100c2-27 16-39 38-39s36 12 38 39' fill='%235b7580'/%3E%3C/svg%3E";}
+function avatarUrl(p){return p?.avatar_url||defaultAvatar();}
+function profileName(p){return p?.full_name||p?.username||"Pengguna OER";}
+function profileHref(id){return PROFILE_URL+"?id="+encodeURIComponent(id||"");}
+function formatDate(value){
+ if(!value)return "";const d=new Date(value);if(Number.isNaN(d.getTime()))return "";
+ return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(d);
 }
-
-function defaultAvatar() {
-  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23172128'/%3E%3Ccircle cx='50' cy='35' r='20' fill='%235b7580'/%3E%3Cpath d='M12 100c2-27 16-39 38-39s36 12 38 39' fill='%235b7580'/%3E%3C/svg%3E";
+function audienceInfo(value){
+ return value==="private"?{label:"Hanya saya",icon:"♙"}:value==="friends"?{label:"Teman",icon:"♧"}:{label:"Publik",icon:"◎"};
 }
-
-function avatarUrl(profile) {
-  return profile?.avatar_url || defaultAvatar();
+function updateComposerAudience(){
+ const a=audienceInfo(pendingAudience);
+ $("composerAudienceLabel").textContent=a.label;$("composerAudienceIcon").textContent=a.icon;
+ document.querySelectorAll("[data-audience]").forEach(b=>b.classList.toggle("selected",b.dataset.audience===pendingAudience));
 }
-
-function profileName(profile) {
-  return profile?.full_name || profile?.username || "Pengguna OER";
+function openAudience(value,targetId=null){
+ pendingAudience=value||"public";audienceTarget=targetId;updateComposerAudience();$("audienceDialog").showModal();
 }
-
-function profileHref(userId) {
-  return PROFILE_URL + "?id=" + encodeURIComponent(userId || "");
+function showConfirm({title,description,summary,button="Ya, lanjutkan",danger=true,callback}){
+ $("confirmTitle").textContent=title;$("confirmDescription").textContent=description;
+ $("confirmSummary").textContent=summary;$("confirmActionButton").textContent=button;
+ $("confirmActionButton").className=danger?"danger-btn":"primary-btn";
+ confirmCallback=callback;$("confirmDialog").showModal();
 }
-
-function formatDate(value) {
-  if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-  return new Intl.DateTimeFormat("id-ID", {
-    day:"numeric",month:"short",year:"numeric",
-    hour:"2-digit",minute:"2-digit"
-  }).format(date);
+function renderProfileLink(profile,userId,extraClass=""){
+ return `<a class="avatar-link ${extraClass}" href="${esc(profileHref(userId))}"><img class="avatar" src="${esc(avatarUrl(profile))}" alt="" onerror="this.onerror=null;this.src='${defaultAvatar()}'"></a>`;
 }
-
-function renderProfileLink(profile, userId, extraClass = "") {
-  const href = profileHref(userId);
-  return `
-    <a class="avatar-link ${extraClass}" href="${esc(href)}">
-      <img class="avatar" src="${esc(avatarUrl(profile))}" alt=""
-           onerror="this.onerror=null;this.src='${defaultAvatar()}'">
-    </a>`;
+async function loadMyProfile(){
+ const {data,error}=await db.from("profiles").select("user_id,full_name,username,avatar_url").eq("user_id",currentUser.id).maybeSingle();
+ if(error)throw error;
+ myProfile=data||{user_id:currentUser.id,full_name:currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||"Pengguna OER",username:"",avatar_url:null};
+ $("composerAvatar").src=avatarUrl(myProfile);$("composerAvatarLink").href=profileHref(currentUser.id);
 }
-
-async function loadMyProfile() {
-  const { data, error } = await db.from("profiles")
-    .select("user_id,full_name,username,avatar_url")
-    .eq("user_id", currentUser.id)
-    .maybeSingle();
-
-  if (error) throw error;
-  myProfile = data || {
-    user_id: currentUser.id,
-    full_name: currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || "Pengguna OER",
-    username: "",
-    avatar_url: null
-  };
-  $("composerAvatar").src = avatarUrl(myProfile);
-  $("composerAvatarLink").href = profileHref(currentUser.id);
+async function loadLikes(){
+ const {data,error}=await db.from("post_likes").select("post_id").eq("user_id",currentUser.id);
+ if(error)throw error;likedPosts=new Set((data||[]).map(r=>r.post_id));
 }
-
-async function loadLikes() {
-  const { data, error } = await db.from("post_likes")
-    .select("post_id").eq("user_id", currentUser.id);
-
-  if (error) throw error;
-  likedPosts = new Set((data || []).map(row => row.post_id));
+async function loadSaved(){
+ const {data,error}=await db.from("saved_posts").select("post_id").eq("user_id",currentUser.id);
+ if(error&&error.code!=="42P01")console.warn(error.message);savedPosts=new Set((data||[]).map(r=>r.post_id));
 }
-
-async function loadSaved() {
-  const { data, error } = await db.from("saved_posts")
-    .select("post_id").eq("user_id", currentUser.id);
-
-  if (error && error.code !== "42P01") {
-    console.warn("Saved posts:", error.message);
+async function loadHidden(){
+ const {data,error}=await db.from("hidden_posts").select("post_id").eq("user_id",currentUser.id);
+ if(error&&error.code!=="42P01")console.warn(error.message);hiddenPosts=new Set((data||[]).map(r=>r.post_id));
+}
+async function loadFeed(){
+ $("feed").innerHTML='<div class="loading">Memuat postingan...</div>';
+ const {data,error}=await db.from("posts").select(`
+ id,user_id,content,image_url,audience,is_pinned,is_archived,created_at,updated_at,
+ profiles:user_id(user_id,full_name,username,avatar_url),post_likes(count),comments(count)
+ `).eq("is_archived",false).order("is_pinned",{ascending:false}).order("created_at",{ascending:false}).limit(100);
+ if(error){
+  console.error(error);$("feed").innerHTML=`<div class="empty"><strong>Postingan belum bisa dimuat</strong>Periksa tabel, relasi, dan kebijakan akses Supabase.<br>${esc(error.message)}</div>`;
+  $("postCount").textContent="Belum tersedia";return;
+ }
+ posts=(data||[]).filter(p=>{
+  if(hiddenPosts.has(p.id))return false;
+  if(p.user_id===currentUser.id)return true;
+  if(p.audience==="private"||p.audience==="friends")return false;
+  return true;
+ });
+ $("postCount").textContent=posts.length+" postingan";renderFeed();
+}
+function renderPost(post){
+ const owner=post.user_id===currentUser.id,profile=post.profiles||{};
+ const likes=post.post_likes?.[0]?.count||0,comments=post.comments?.[0]?.count||0;
+ const liked=likedPosts.has(post.id),saved=savedPosts.has(post.id),aud=audienceInfo(post.audience);
+ const username=profile.username?"@"+profile.username:"@pengguna";
+ const menu=owner?`
+ <button data-action="edit-post" data-id="${esc(post.id)}">✎ <span>Edit postingan</span></button>
+ <button data-action="pin-post" data-id="${esc(post.id)}">⌖ <span>${post.is_pinned?"Lepas sematan":"Sematkan postingan"}</span></button>
+ <button data-action="audience-post" data-id="${esc(post.id)}">◎ <span>Ubah audiens · ${esc(aud.label)}</span></button>
+ <button data-action="copy-link" data-id="${esc(post.id)}">↗ <span>Salin tautan</span></button>
+ <div class="menu-separator"></div>
+ <button data-action="archive-post" data-id="${esc(post.id)}">▣ <span>Arsipkan postingan</span></button>
+ <button class="danger" data-action="delete-post" data-id="${esc(post.id)}">⌫ <span>Hapus postingan</span></button>
+ `:`
+ <button data-action="save-post" data-id="${esc(post.id)}">☆ <span>${saved?"Hapus dari tersimpan":"Simpan postingan"}</span></button>
+ <button data-action="copy-link" data-id="${esc(post.id)}">↗ <span>Salin tautan</span></button>
+ <button data-action="hide-post" data-id="${esc(post.id)}">⊘ <span>Sembunyikan dari feed</span></button>
+ <div class="menu-separator"></div>
+ <button class="danger" data-action="report-post" data-id="${esc(post.id)}">⚑ <span>Laporkan postingan</span></button>`;
+ return `<article class="card post" id="post-${esc(post.id)}" data-post-id="${esc(post.id)}">
+ <div class="post-head">${renderProfileLink(profile,post.user_id)}
+ <div class="post-identity"><a class="profile-link" href="${esc(profileHref(post.user_id))}">${esc(profileName(profile))}</a>
+ <div class="post-username">${esc(username)}</div><div class="post-meta">${esc(formatDate(post.created_at))} · ${esc(aud.label)}${post.is_pinned?" · 📌 Disematkan":""}</div></div>
+ <div class="post-menu-wrap"><button class="more-btn" type="button" aria-label="Menu postingan" data-action="toggle-menu" data-menu="post-menu-${esc(post.id)}">⋯</button><div class="menu" id="post-menu-${esc(post.id)}">${menu}</div></div></div>
+ ${post.content?`<div class="post-content">${esc(post.content)}</div>`:""}
+ ${post.image_url?`<img class="post-image" src="${esc(post.image_url)}" alt="Foto postingan" loading="lazy">`:""}
+ <div class="post-stats"><span>♥ ${likes} suka</span><button class="small-btn" data-action="toggle-comments" data-id="${esc(post.id)}">${comments} komentar</button></div>
+ <div class="post-actions"><button class="post-action ${liked?"liked":""}" data-action="like-post" data-id="${esc(post.id)}">${liked?"♥ Disukai":"♡ Suka"}</button><button class="post-action" data-action="toggle-comments" data-id="${esc(post.id)}">▢ Komentar</button><button class="post-action" data-action="share-post" data-id="${esc(post.id)}">↗ Bagikan</button></div>
+ <section class="comments" id="comments-${esc(post.id)}" hidden><div class="comment-list" id="comment-list-${esc(post.id)}"><div class="loading">Memuat komentar...</div></div>
+ <form class="comment-form" data-post-id="${esc(post.id)}">${renderProfileLink(myProfile,currentUser.id)}<input class="comment-input" name="content" maxlength="2000" required placeholder="Tulis komentar..."><button class="comment-submit" type="submit">Kirim</button></form></section>
+ </article>`;
+}
+function renderFeed(){
+ if(!posts.length){$("feed").innerHTML='<div class="empty"><strong>Belum ada postingan</strong>Jadilah yang pertama berbagi cerita atau foto di OER.</div>';return;}
+ $("feed").innerHTML=posts.map(renderPost).join("");
+}
+async function publishPost(){
+ const content=$("postText").value.trim();
+ if(!content&&!selectedPhoto){toast("Tulis sesuatu atau pilih foto terlebih dahulu.");$("postText").focus();return;}
+ const btn=$("publishButton");btn.disabled=true;btn.textContent="Mengirim...";
+ try{
+  let imageUrl=null;
+  if(selectedPhoto){
+   const ext=selectedPhoto.type==="image/png"?"png":selectedPhoto.type==="image/webp"?"webp":"jpg";
+   const path=currentUser.id+"/"+crypto.randomUUID()+"."+ext;
+   const {error}=await db.storage.from(IMAGE_BUCKET).upload(path,selectedPhoto,{contentType:selectedPhoto.type,cacheControl:"3600",upsert:false});
+   if(error)throw error;
+   imageUrl=db.storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
   }
-  savedPosts = new Set((data || []).map(row => row.post_id));
+  const {error}=await db.from("posts").insert({user_id:currentUser.id,content:content||null,image_url:imageUrl,audience:pendingAudience});
+  if(error)throw error;
+  $("postText").value="";selectedPhoto=null;$("photoInput").value="";
+  $("composerPreview").classList.remove("show");$("previewImage").removeAttribute("src");
+  pendingAudience="public";updateComposerAudience();toast("Postingan berhasil diterbitkan.");await loadFeed();
+ }catch(e){console.error(e);toast("Gagal memposting: "+(e.message||"Periksa SQL dan penyimpanan foto."));}
+ finally{btn.disabled=false;btn.textContent="Posting ↗";}
 }
-
-async function loadHidden() {
-  const { data, error } = await db.from("hidden_posts")
-    .select("post_id").eq("user_id", currentUser.id);
-
-  if (error && error.code !== "42P01") {
-    console.warn("Hidden posts:", error.message);
-  }
-  hiddenPosts = new Set((data || []).map(row => row.post_id));
+async function toggleLike(id){
+ const liked=likedPosts.has(id);
+ if(liked){
+  const {error}=await db.from("post_likes").delete().eq("post_id",id).eq("user_id",currentUser.id);
+  if(error)return toast("Gagal membatalkan suka: "+error.message);likedPosts.delete(id);
+ }else{
+  const {error}=await db.from("post_likes").insert({post_id:id,user_id:currentUser.id});
+  if(error&&error.code!=="23505")return toast("Gagal menyukai: "+error.message);likedPosts.add(id);
+ }
+ await loadFeed();
 }
-
-async function loadFeed() {
-  $("feed").innerHTML = '<div class="loading">Memuat postingan...</div>';
-
-  const { data, error } = await db.from("posts")
-    .select(`
-      id,user_id,content,image_url,audience,is_pinned,is_archived,created_at,updated_at,
-      profiles:user_id(user_id,full_name,username,avatar_url),
-      post_likes(count),
-      comments(count)
-    `)
-    .eq("is_archived", false)
-    .order("is_pinned", { ascending:false })
-    .order("created_at", { ascending:false })
-    .limit(100);
-
-  if (error) {
-    console.error("Gagal memuat feed:", error);
-    $("feed").innerHTML = `
-      <div class="empty">
-        <strong>Postingan belum bisa dimuat</strong>
-        Pastikan SQL tabel posts, profiles, post_likes, comments dan kebijakan aksesnya sudah dibuat. Detail: ${esc(error.message)}
-      </div>`;
-    $("postCount").textContent = "Belum tersedia";
-    return;
-  }
-
-  posts = (data || []).filter(post => {
-    if (hiddenPosts.has(post.id)) return false;
-    if (post.user_id === currentUser.id) return true;
-    if (post.audience === "private") return false;
-    // "friends" tidak dianggap publik. Sistem pertemanan harus tersedia dahulu.
-    if (post.audience === "friends") return false;
-    return true;
-  });
-
-  $("postCount").textContent = posts.length + " postingan";
-  await renderFeed();
+async function loadComments(postId){
+ const target=$("comment-list-"+postId);if(!target)return;
+ target.innerHTML='<div class="loading">Memuat komentar...</div>';
+ const {data,error}=await db.from("comments").select(`
+ id,post_id,user_id,content,created_at,updated_at,profiles:user_id(user_id,full_name,username,avatar_url)
+ `).eq("post_id",postId).order("created_at",{ascending:true}).limit(200);
+ if(error){target.innerHTML=`<div class="empty">Komentar gagal dimuat: ${esc(error.message)}</div>`;return;}
+ commentCache[postId]=data||[];
+ if(!data?.length){target.innerHTML='<div class="post-meta">Belum ada komentar. Mulai percakapan!</div>';return;}
+ const post=posts.find(p=>p.id===postId);
+ target.innerHTML=data.map(c=>{
+  const own=c.user_id===currentUser.id,ownsPost=post?.user_id===currentUser.id;
+  const menu=own?`<button data-action="edit-comment" data-id="${esc(c.id)}" data-post-id="${esc(postId)}">✎ Edit komentar</button><button class="danger" data-action="delete-comment" data-id="${esc(c.id)}" data-post-id="${esc(postId)}">⌫ Hapus komentar</button>`:`${ownsPost?`<button class="danger" data-action="delete-comment" data-id="${esc(c.id)}" data-post-id="${esc(postId)}">⌫ Hapus komentar</button>`:""}<button class="danger" data-action="report-comment" data-id="${esc(c.id)}">⚑ Laporkan komentar</button>`;
+  return `<div class="comment" id="comment-${esc(c.id)}">${renderProfileLink(c.profiles,c.user_id)}<div class="comment-body"><div class="comment-top"><div><a class="profile-link" href="${esc(profileHref(c.user_id))}">${esc(profileName(c.profiles))}</a><div class="comment-time">${esc(formatDate(c.created_at))}</div></div><div class="comment-menu-wrap"><button class="more-btn" type="button" aria-label="Menu komentar" data-action="toggle-menu" data-menu="comment-menu-${esc(c.id)}">⋯</button><div class="menu" id="comment-menu-${esc(c.id)}">${menu}</div></div></div><div class="comment-content">${esc(c.content)}</div></div></div>`;
+ }).join("");
 }
-
-async function renderFeed() {
-  if (!posts.length) {
-    $("feed").innerHTML = `
-      <div class="empty">
-        <strong>Belum ada postingan</strong>
-        Jadilah yang pertama berbagi cerita atau foto di OER.
-      </div>`;
-    return;
-  }
-
-  $("feed").innerHTML = posts.map(post => renderPost(post)).join("");
+async function submitComment(form){
+ const postId=form.dataset.postId,input=form.elements.content,content=input.value.trim();if(!content)return;
+ const btn=form.querySelector("button[type=submit]");btn.disabled=true;
+ try{
+  const {error}=await db.from("comments").insert({post_id:postId,user_id:currentUser.id,content});
+  if(error)throw error;input.value="";await loadComments(postId);await loadFeed();
+  const section=$("comments-"+postId);if(section)section.hidden=false;
+ }catch(e){toast("Gagal mengirim komentar: "+e.message);}finally{btn.disabled=false;}
 }
-
-function renderPost(post) {
-  const owner = post.user_id === currentUser.id;
-  const profile = post.profiles || {};
-  const likesCount = post.post_likes?.[0]?.count || 0;
-  const commentsCount = post.comments?.[0]?.count || 0;
-  const liked = likedPosts.has(post.id);
-  const saved = savedPosts.has(post.id);
-  const username = profile.username ? "@" + profile.username : "@pengguna";
-  const audienceText = post.audience === "private" ? "Hanya saya" :
-    post.audience === "friends" ? "Teman" : "Publik";
-
-  const ownerMenu = owner ? `
-    <button data-action="edit-post" data-id="${esc(post.id)}">✎ Edit postingan</button>
-    <button data-action="pin-post" data-id="${esc(post.id)}">${post.is_pinned ? "Lepas sematan" : "Sematkan postingan"}</button>
-    <button data-action="audience-post" data-id="${esc(post.id)}">Ubah audiens (${esc(audienceText)})</button>
-    <button data-action="copy-link" data-id="${esc(post.id)}">Salin tautan</button>
-    <button data-action="archive-post" data-id="${esc(post.id)}">Arsipkan postingan</button>
-    <button class="danger" data-action="delete-post" data-id="${esc(post.id)}">Hapus postingan</button>
-  ` : `
-    <button data-action="save-post" data-id="${esc(post.id)}">${saved ? "Hapus dari tersimpan" : "Simpan postingan"}</button>
-    <button data-action="copy-link" data-id="${esc(post.id)}">Salin tautan</button>
-    <button data-action="hide-post" data-id="${esc(post.id)}">Sembunyikan dari feed</button>
-    <button class="danger" data-action="report-post" data-id="${esc(post.id)}">Laporkan postingan</button>
-  `;
-
-  return `
-  <article class="card post" id="post-${esc(post.id)}" data-post-id="${esc(post.id)}">
-    <div class="post-head">
-      ${renderProfileLink(profile, post.user_id)}
-      <div class="post-identity">
-        <a class="profile-link" href="${esc(profileHref(post.user_id))}">${esc(profileName(profile))}</a>
-        <div class="post-username">${esc(username)}</div>
-        <div class="post-meta">${esc(formatDate(post.created_at))}${post.is_pinned ? " · 📌 Disematkan" : ""}</div>
-      </div>
-      <div class="post-menu-wrap">
-        <button class="more-btn" type="button" aria-label="Menu postingan" data-action="toggle-menu" data-menu="post-menu-${esc(post.id)}">⋯</button>
-        <div class="menu" id="post-menu-${esc(post.id)}">${ownerMenu}</div>
-      </div>
-    </div>
-    ${post.content ? `<div class="post-content">${esc(post.content)}</div>` : ""}
-    ${post.image_url ? `<img class="post-image" src="${esc(post.image_url)}" alt="Foto postingan" loading="lazy">` : ""}
-    <div class="post-stats">
-      <span>♥ ${likesCount} suka</span>
-      <button class="small-btn" data-action="toggle-comments" data-id="${esc(post.id)}">${commentsCount} komentar</button>
-    </div>
-    <div class="post-actions">
-      <button class="post-action ${liked ? "liked" : ""}" data-action="like-post" data-id="${esc(post.id)}">${liked ? "♥ Disukai" : "♡ Suka"}</button>
-      <button class="post-action" data-action="toggle-comments" data-id="${esc(post.id)}">▢ Komentar</button>
-      <button class="post-action" data-action="share-post" data-id="${esc(post.id)}">↗ Bagikan</button>
-    </div>
-    <section class="comments" id="comments-${esc(post.id)}" hidden>
-      <div class="comment-list" id="comment-list-${esc(post.id)}">
-        <div class="loading">Memuat komentar...</div>
-      </div>
-      <form class="comment-form" data-post-id="${esc(post.id)}">
-        ${renderProfileLink(myProfile, currentUser.id)}
-        <input class="comment-input" name="content" maxlength="2000" required placeholder="Tulis komentar...">
-        <button class="comment-submit" type="submit">Kirim</button>
-      </form>
-    </section>
-  </article>`;
+function closeMenus(){document.querySelectorAll(".menu.open").forEach(m=>m.classList.remove("open"));}
+function postUrl(id){return HOME_URL.replace(/\/$/,"")+"/postingan.html?post="+encodeURIComponent(id);}
+async function copyPostLink(id){
+ const url=postUrl(id);
+ try{await navigator.clipboard.writeText(url);toast("Tautan postingan disalin.");}
+ catch(_){showConfirm({title:"Salin tautan postingan",description:"Salin tautan berikut secara manual.",summary:url,button:"Mengerti",danger:false,callback:()=>{}});}
 }
-
-async function publishPost() {
-  const content = $("postText").value.trim();
-  if (!content && !selectedPhoto) {
-    toast("Tulis sesuatu atau pilih foto terlebih dahulu.");
-    $("postText").focus();
-    return;
-  }
-
-  const button = $("publishButton");
-  button.disabled = true;
-  button.textContent = "Mengirim...";
-
-  try {
-    let imageUrl = null;
-
-    if (selectedPhoto) {
-      const extension = selectedPhoto.type === "image/png" ? "png" :
-        selectedPhoto.type === "image/webp" ? "webp" : "jpg";
-      const path = currentUser.id + "/" + crypto.randomUUID() + "." + extension;
-
-      const { error: uploadError } = await db.storage.from(IMAGE_BUCKET)
-        .upload(path, selectedPhoto, {
-          contentType:selectedPhoto.type,
-          cacheControl:"3600",
-          upsert:false
-        });
-
-      if (uploadError) throw uploadError;
-
-      imageUrl = db.storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
-    }
-
-    const { error } = await db.from("posts").insert({
-      user_id:currentUser.id,
-      content:content || null,
-      image_url:imageUrl,
-      audience:$("postAudience").value
-    });
-
-    if (error) throw error;
-
-    $("postText").value = "";
-    selectedPhoto = null;
-    $("photoInput").value = "";
-    $("composerPreview").classList.remove("show");
-    $("previewImage").removeAttribute("src");
-    $("postAudience").value = "public";
-
-    toast("Postingan berhasil diterbitkan.");
-    await loadFeed();
-  } catch (error) {
-    console.error(error);
-    toast("Gagal memposting: " + (error.message || "Periksa SQL dan penyimpanan foto."));
-  } finally {
-    button.disabled = false;
-    button.textContent = "Posting";
-  }
+async function sharePost(id){
+ const url=postUrl(id),post=posts.find(p=>p.id===id),text=(post?.content||"Lihat postingan ini di OER").slice(0,180);
+ if(navigator.share){try{await navigator.share({title:"Postingan OER",text,url});}catch(e){if(e.name!=="AbortError")toast("Tidak dapat membagikan postingan.");}}
+ else await copyPostLink(id);
 }
-
-async function toggleLike(postId) {
-  const alreadyLiked = likedPosts.has(postId);
-
-  if (alreadyLiked) {
-    const { error } = await db.from("post_likes")
-      .delete().eq("post_id", postId).eq("user_id", currentUser.id);
-    if (error) return toast("Gagal membatalkan suka: " + error.message);
-    likedPosts.delete(postId);
-  } else {
-    const { error } = await db.from("post_likes").insert({
-      post_id:postId,user_id:currentUser.id
-    });
-    if (error && error.code !== "23505") {
-      return toast("Gagal menyukai postingan: " + error.message);
-    }
-    likedPosts.add(postId);
-  }
-
+function openReport(kind,id){
+ reportTarget={kind,id};$("reportDetails").value="";
+ document.querySelectorAll('input[name="reportReason"]').forEach(r=>r.checked=false);
+ $("reportDialog").showModal();
+}
+async function submitReport(){
+ if(!reportTarget)return;
+ const selected=document.querySelector('input[name="reportReason"]:checked');
+ if(!selected){toast("Pilih alasan laporan terlebih dahulu.");return;}
+ const details=$("reportDetails").value.trim();
+ const reason=selected.value+(details?" — "+details:"");
+ const btn=$("submitReport");btn.disabled=true;btn.textContent="Mengirim...";
+ try{
+  const {error}=await db.from("content_reports").insert({reporter_id:currentUser.id,target_type:reportTarget.kind,target_id:reportTarget.id,reason});
+  if(error)throw error;
+  $("reportDialog").close();toast("Laporan berhasil dikirim untuk ditinjau.");reportTarget=null;
+ }catch(e){toast("Laporan belum tersimpan: "+e.message);}
+ finally{btn.disabled=false;btn.textContent="Kirim laporan";}
+}
+async function handleAction(button){
+ const action=button.dataset.action,id=button.dataset.id,post=posts.find(p=>p.id===id);
+ if(action==="toggle-menu"){
+  const menu=$(button.dataset.menu),was=menu?.classList.contains("open");closeMenus();if(menu&&!was)menu.classList.add("open");return;
+ }
+ closeMenus();
+ if(action==="like-post")return toggleLike(id);
+ if(action==="toggle-comments"){
+  const section=$("comments-"+id);if(!section)return;section.hidden=!section.hidden;if(!section.hidden)await loadComments(id);return;
+ }
+ if(action==="share-post")return sharePost(id);
+ if(action==="copy-link")return copyPostLink(id);
+ if(action==="edit-post"&&post?.user_id===currentUser.id){
+  activeEdit={type:"post",id};$("editTitle").textContent="Edit postingan";$("editText").value=post.content||"";$("editDialog").showModal();return;
+ }
+ if(action==="pin-post"&&post?.user_id===currentUser.id){
+  const {error}=await db.from("posts").update({is_pinned:!post.is_pinned}).eq("id",id).eq("user_id",currentUser.id);
+  if(error)return toast("Gagal mengubah sematan: "+error.message);toast(post.is_pinned?"Sematan dilepas.":"Postingan disematkan.");return loadFeed();
+ }
+ if(action==="audience-post"&&post?.user_id===currentUser.id){openAudience(post.audience,id);return;}
+ if(action==="archive-post"&&post?.user_id===currentUser.id){
+  showConfirm({title:"Arsipkan postingan?",description:"Postingan ini akan dikeluarkan dari feed utama.",summary:(post.content||"Postingan foto").slice(0,180),button:"Ya, arsipkan",callback:async()=>{
+   const {error}=await db.from("posts").update({is_archived:true}).eq("id",id).eq("user_id",currentUser.id);
+   if(error)throw error;toast("Postingan berhasil diarsipkan.");await loadFeed();
+  }});return;
+ }
+ if(action==="delete-post"&&post?.user_id===currentUser.id){
+  showConfirm({title:"Hapus postingan?",description:"Tindakan ini permanen. Postingan yang dihapus tidak bisa dipulihkan melalui halaman ini.",summary:(post.content||"Postingan foto").slice(0,180),button:"Hapus permanen",callback:async()=>{
+   const {error}=await db.from("posts").delete().eq("id",id).eq("user_id",currentUser.id);
+   if(error)throw error;toast("Postingan berhasil dihapus.");await loadFeed();
+  }});return;
+ }
+ if(action==="save-post"){
+  if(savedPosts.has(id)){
+   const {error}=await db.from("saved_posts").delete().eq("post_id",id).eq("user_id",currentUser.id);
+   if(error)return toast("Gagal mengubah postingan tersimpan: "+error.message);
+   savedPosts.delete(id);toast("Postingan dihapus dari tersimpan.");
+  }else{
+   const {error}=await db.from("saved_posts").insert({post_id:id,user_id:currentUser.id});
+   if(error)return toast("Gagal menyimpan postingan: "+error.message);
+   savedPosts.add(id);toast("Postingan disimpan.");
+  }return loadFeed();
+ }
+ if(action==="hide-post"){
+  if(hiddenPosts.has(id))return;
+  const {error}=await db.from("hidden_posts").insert({post_id:id,user_id:currentUser.id});
+  if(error)return toast("Gagal menyembunyikan postingan: "+error.message);
+  hiddenPosts.add(id);toast("Postingan disembunyikan dari feed kamu.");return loadFeed();
+ }
+ if(action==="report-post")return openReport("post",id);
+ if(action==="report-comment")return openReport("comment",id);
+ if(action==="edit-comment"){
+  const postId=button.dataset.postId,c=(commentCache[postId]||[]).find(x=>x.id===id);
+  if(!c||c.user_id!==currentUser.id)return;
+  activeEdit={type:"comment",id,postId};$("editTitle").textContent="Edit komentar";$("editText").value=c.content;$("editDialog").showModal();return;
+ }
+ if(action==="delete-comment"){
+  const postId=button.dataset.postId,c=(commentCache[postId]||[]).find(x=>x.id===id),parent=posts.find(p=>p.id===postId);
+  if(!c)return;if(c.user_id!==currentUser.id&&parent?.user_id!==currentUser.id)return toast("Kamu tidak berhak menghapus komentar ini.");
+  showConfirm({title:"Hapus komentar?",description:"Komentar ini akan dihapus dari percakapan.",summary:(c.content||"Komentar").slice(0,180),button:"Hapus komentar",callback:async()=>{
+   const {error}=await db.from("comments").delete().eq("id",id);
+   if(error)throw error;await loadComments(postId);await loadFeed();
+   const section=$("comments-"+postId);if(section)section.hidden=false;toast("Komentar berhasil dihapus.");
+  }});return;
+ }
+}
+async function saveDialogChanges(){
+ if(!activeEdit)return;
+ const content=$("editText").value.trim();if(!content)return toast("Konten tidak boleh kosong.");
+ const btn=$("saveDialog");btn.disabled=true;btn.textContent="Menyimpan...";
+ try{
+  let result;
+  if(activeEdit.type==="post")result=await db.from("posts").update({content,updated_at:new Date().toISOString()}).eq("id",activeEdit.id).eq("user_id",currentUser.id);
+  else result=await db.from("comments").update({content,updated_at:new Date().toISOString()}).eq("id",activeEdit.id).eq("user_id",currentUser.id);
+  if(result.error)throw result.error;
+  const savedEdit=activeEdit;$("editDialog").close();toast("Perubahan berhasil disimpan.");
+  if(savedEdit.type==="comment"){await loadComments(savedEdit.postId);const s=$("comments-"+savedEdit.postId);if(s)s.hidden=false;}
   await loadFeed();
-}
-
-async function loadComments(postId) {
-  const target = $("comment-list-" + postId);
-  if (!target) return;
-
-  target.innerHTML = '<div class="loading">Memuat komentar...</div>';
-
-  const { data, error } = await db.from("comments")
-    .select(`
-      id,post_id,user_id,content,created_at,updated_at,
-      profiles:user_id(user_id,full_name,username,avatar_url)
-    `)
-    .eq("post_id", postId)
-    .order("created_at", {ascending:true})
-    .limit(200);
-
-  if (error) {
-    target.innerHTML = `<div class="empty">Komentar gagal dimuat: ${esc(error.message)}</div>`;
-    return;
-  }
-
-  commentCache[postId] = data || [];
-
-  if (!data?.length) {
-    target.innerHTML = '<div class="post-meta">Belum ada komentar. Mulai percakapan!</div>';
-    return;
-  }
-
-  const post = posts.find(item => item.id === postId);
-  target.innerHTML = data.map(comment => {
-    const ownComment = comment.user_id === currentUser.id;
-    const ownsPost = post?.user_id === currentUser.id;
-    const canDelete = ownComment || ownsPost;
-
-    const menu = ownComment ? `
-      <button data-action="edit-comment" data-id="${esc(comment.id)}" data-post-id="${esc(postId)}">Edit komentar</button>
-      <button class="danger" data-action="delete-comment" data-id="${esc(comment.id)}" data-post-id="${esc(postId)}">Hapus komentar</button>
-    ` : `
-      ${canDelete ? `<button class="danger" data-action="delete-comment" data-id="${esc(comment.id)}" data-post-id="${esc(postId)}">Hapus komentar</button>` : ""}
-      <button class="danger" data-action="report-comment" data-id="${esc(comment.id)}">Laporkan komentar</button>
-    `;
-
-    return `
-      <div class="comment" id="comment-${esc(comment.id)}">
-        ${renderProfileLink(comment.profiles, comment.user_id)}
-        <div class="comment-body">
-          <div class="comment-top">
-            <div>
-              <a class="profile-link" href="${esc(profileHref(comment.user_id))}">${esc(profileName(comment.profiles))}</a>
-              <div class="comment-time">${esc(formatDate(comment.created_at))}</div>
-            </div>
-            <div class="comment-menu-wrap">
-              <button class="more-btn" type="button" aria-label="Menu komentar" data-action="toggle-menu" data-menu="comment-menu-${esc(comment.id)}">⋯</button>
-              <div class="menu" id="comment-menu-${esc(comment.id)}">${menu}</div>
-            </div>
-          </div>
-          <div class="comment-content" id="comment-content-${esc(comment.id)}">${esc(comment.content)}</div>
-        </div>
-      </div>`;
-  }).join("");
-}
-
-async function submitComment(form) {
-  const postId = form.dataset.postId;
-  const input = form.elements.content;
-  const content = input.value.trim();
-  if (!content) return;
-
-  const button = form.querySelector("button[type=submit]");
-  button.disabled = true;
-
-  try {
-    const { error } = await db.from("comments").insert({
-      post_id:postId,user_id:currentUser.id,content
-    });
-    if (error) throw error;
-
-    input.value = "";
-    await loadComments(postId);
-    await loadFeed();
-    const section = $("comments-" + postId);
-    if (section) section.hidden = false;
-  } catch (error) {
-    toast("Gagal mengirim komentar: " + error.message);
-  } finally {
-    button.disabled = false;
-  }
-}
-
-function closeMenus() {
-  document.querySelectorAll(".menu.open").forEach(menu => menu.classList.remove("open"));
-}
-
-async function copyPostLink(postId) {
-  const url = HOME_URL.replace(/\/$/, "") + "/postingan.html?post=" + encodeURIComponent(postId);
-  try {
-    await navigator.clipboard.writeText(url);
-    toast("Tautan postingan disalin.");
-  } catch (_) {
-    window.prompt("Salin tautan ini:", url);
-  }
-}
-
-async function sharePost(postId) {
-  const url = HOME_URL.replace(/\/$/, "") + "/postingan.html?post=" + encodeURIComponent(postId);
-  const post = posts.find(item => item.id === postId);
-  const text = (post?.content || "Lihat postingan ini di OER").slice(0,180);
-
-  if (navigator.share) {
-    try {
-      await navigator.share({title:"Postingan OER",text,url});
-    } catch (error) {
-      if (error.name !== "AbortError") toast("Tidak dapat membagikan postingan.");
-    }
-  } else {
-    await copyPostLink(postId);
-  }
-}
-
-async function reportItem(kind, id) {
-  const reason = window.prompt("Jelaskan alasan laporan ini:");
-  if (reason === null) return;
-  if (!reason.trim()) return toast("Alasan laporan tidak boleh kosong.");
-
-  const row = {
-    reporter_id:currentUser.id,
-    target_type:kind,
-    target_id:id,
-    reason:reason.trim()
-  };
-
-  const { error } = await db.from("content_reports").insert(row);
-  if (error) {
-    console.error(error);
-    toast("Laporan belum tersimpan. Pastikan SQL content_reports sudah dijalankan.");
-    return;
-  }
-  toast("Laporan berhasil dikirim untuk ditinjau.");
-}
-
-async function handleAction(button) {
-  const action = button.dataset.action;
-  const id = button.dataset.id;
-  const post = posts.find(item => item.id === id);
-
-  if (action === "toggle-menu") {
-    const menu = $(button.dataset.menu);
-    const wasOpen = menu?.classList.contains("open");
-    closeMenus();
-    if (menu && !wasOpen) menu.classList.add("open");
-    return;
-  }
-
-  closeMenus();
-
-  if (action === "like-post") return toggleLike(id);
-
-  if (action === "toggle-comments") {
-    const section = $("comments-" + id);
-    if (!section) return;
-    section.hidden = !section.hidden;
-    if (!section.hidden) await loadComments(id);
-    return;
-  }
-
-  if (action === "share-post") return sharePost(id);
-  if (action === "copy-link") return copyPostLink(id);
-
-  if (action === "edit-post" && post?.user_id === currentUser.id) {
-    activeEditPost = {type:"post",id};
-    $("dialogTitle").textContent = "Edit postingan";
-    $("editText").value = post.content || "";
-    $("editDialog").showModal();
-    return;
-  }
-
-  if (action === "pin-post" && post?.user_id === currentUser.id) {
-    const {error} = await db.from("posts").update({is_pinned:!post.is_pinned})
-      .eq("id",id).eq("user_id",currentUser.id);
-    if (error) return toast("Gagal mengubah sematan: " + error.message);
-    toast(post.is_pinned ? "Sematan dilepas." : "Postingan disematkan.");
-    return loadFeed();
-  }
-
-  if (action === "audience-post" && post?.user_id === currentUser.id) {
-    const value = window.prompt("Ketik salah satu audiens: public, friends, private",post.audience || "public");
-    if (value === null) return;
-    if (!["public","friends","private"].includes(value.trim())) {
-      return toast("Pilih public, friends, atau private.");
-    }
-    const {error} = await db.from("posts").update({audience:value.trim()})
-      .eq("id",id).eq("user_id",currentUser.id);
-    if (error) return toast("Gagal mengubah audiens: " + error.message);
-    toast("Audiens postingan diperbarui.");
-    return loadFeed();
-  }
-
-  if (action === "archive-post" && post?.user_id === currentUser.id) {
-    if (!confirm("Arsipkan postingan ini?")) return;
-    const {error} = await db.from("posts").update({is_archived:true})
-      .eq("id",id).eq("user_id",currentUser.id);
-    if (error) return toast("Gagal mengarsipkan: " + error.message);
-    toast("Postingan diarsipkan.");
-    return loadFeed();
-  }
-
-  if (action === "delete-post" && post?.user_id === currentUser.id) {
-    if (!confirm("Hapus postingan ini secara permanen?")) return;
-    const {error} = await db.from("posts").delete().eq("id",id).eq("user_id",currentUser.id);
-    if (error) return toast("Gagal menghapus: " + error.message);
-    toast("Postingan dihapus.");
-    return loadFeed();
-  }
-
-  if (action === "save-post") {
-    if (savedPosts.has(id)) {
-      const {error} = await db.from("saved_posts").delete()
-        .eq("post_id",id).eq("user_id",currentUser.id);
-      if (error) return toast("Gagal mengubah postingan tersimpan.");
-      savedPosts.delete(id);
-      toast("Postingan dihapus dari tersimpan.");
-    } else {
-      const {error} = await db.from("saved_posts").insert({post_id:id,user_id:currentUser.id});
-      if (error) return toast("Gagal menyimpan postingan: " + error.message);
-      savedPosts.add(id);
-      toast("Postingan disimpan.");
-    }
-    return loadFeed();
-  }
-
-  if (action === "hide-post") {
-    const {error} = await db.from("hidden_posts").insert({post_id:id,user_id:currentUser.id});
-    if (error) return toast("Gagal menyembunyikan postingan: " + error.message);
-    hiddenPosts.add(id);
-    toast("Postingan disembunyikan dari feed kamu.");
-    return loadFeed();
-  }
-
-  if (action === "report-post") return reportItem("post",id);
-  if (action === "report-comment") return reportItem("comment",id);
-
-  if (action === "edit-comment") {
-    const postId = button.dataset.postId;
-    const comment = (commentCache[postId] || []).find(item => item.id === id);
-    if (!comment || comment.user_id !== currentUser.id) return;
-    activeEditPost = {type:"comment",id,postId};
-    $("dialogTitle").textContent = "Edit komentar";
-    $("editText").value = comment.content;
-    $("editDialog").showModal();
-    return;
-  }
-
-  if (action === "delete-comment") {
-    const postId = button.dataset.postId;
-    const comment = (commentCache[postId] || []).find(item => item.id === id);
-    const parentPost = posts.find(item => item.id === postId);
-    if (!comment) return;
-    if (comment.user_id !== currentUser.id && parentPost?.user_id !== currentUser.id) {
-      return toast("Kamu tidak berhak menghapus komentar ini.");
-    }
-    if (!confirm("Hapus komentar ini?")) return;
-
-    const {error} = await db.from("comments").delete().eq("id",id);
-    if (error) return toast("Gagal menghapus komentar: " + error.message);
-
-    await loadComments(postId);
-    await loadFeed();
-    const section = $("comments-" + postId);
-    if (section) section.hidden = false;
-    return;
-  }
-}
-
-async function saveDialogChanges() {
-  if (!activeEditPost) return;
-  const content = $("editText").value.trim();
-  if (!content) return toast("Konten tidak boleh kosong.");
-
-  $("saveDialog").disabled = true;
-  try {
-    let result;
-
-    if (activeEditPost.type === "post") {
-      result = await db.from("posts").update({
-        content,updated_at:new Date().toISOString()
-      }).eq("id",activeEditPost.id).eq("user_id",currentUser.id);
-    } else {
-      result = await db.from("comments").update({
-        content,updated_at:new Date().toISOString()
-      }).eq("id",activeEditPost.id).eq("user_id",currentUser.id);
-    }
-
-    if (result.error) throw result.error;
-    $("editDialog").close();
-    toast("Perubahan berhasil disimpan.");
-    if (activeEditPost.type === "comment") {
-      await loadComments(activeEditPost.postId);
-      const section = $("comments-" + activeEditPost.postId);
-      if (section) section.hidden = false;
-    }
-    await loadFeed();
-  } catch (error) {
-    toast("Gagal menyimpan: " + error.message);
-  } finally {
-    $("saveDialog").disabled = false;
-    activeEditPost = null;
-  }
+ }catch(e){toast("Gagal menyimpan: "+e.message);}
+ finally{btn.disabled=false;btn.textContent="Simpan perubahan";activeEdit=null;}
 }
 
 $("publishButton").addEventListener("click",publishPost);
 $("saveDialog").addEventListener("click",saveDialogChanges);
-$("cancelDialog").addEventListener("click",()=>$("editDialog").close());
-
-$("photoInput").addEventListener("change",event=>{
-  const file = event.target.files?.[0];
-  if (!file) return;
-  if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
-    toast("Pilih foto JPG, PNG, atau WEBP.");
-    event.target.value="";
-    return;
-  }
-  if (file.size > 5*1024*1024) {
-    toast("Ukuran foto maksimal 5 MB.");
-    event.target.value="";
-    return;
-  }
-  selectedPhoto = file;
-  $("previewImage").src = URL.createObjectURL(file);
-  $("composerPreview").classList.add("show");
+$("composerAudienceButton").addEventListener("click",()=>openAudience(pendingAudience));
+document.querySelectorAll("[data-audience]").forEach(btn=>btn.addEventListener("click",()=>{
+ pendingAudience=btn.dataset.audience;updateComposerAudience();
+}));
+$("confirmAudience").addEventListener("click",async()=>{
+ if(!audienceTarget){updateComposerAudience();$("audienceDialog").close();return;}
+ const id=audienceTarget,post=posts.find(p=>p.id===id);
+ if(!post||post.user_id!==currentUser.id){$("audienceDialog").close();return;}
+ const {error}=await db.from("posts").update({audience:pendingAudience}).eq("id",id).eq("user_id",currentUser.id);
+ if(error){toast("Gagal mengubah audiens: "+error.message);return;}
+ $("audienceDialog").close();audienceTarget=null;toast("Audiens postingan diperbarui.");await loadFeed();
 });
-
+$("confirmActionButton").addEventListener("click",async()=>{
+ if(!confirmCallback){$("confirmDialog").close();return;}
+ const callback=confirmCallback,btn=$("confirmActionButton");btn.disabled=true;btn.textContent="Memproses...";
+ try{await callback();$("confirmDialog").close();}
+ catch(e){toast("Tindakan gagal: "+(e.message||"Terjadi kesalahan."));}
+ finally{btn.disabled=false;confirmCallback=null;}
+});
+$("submitReport").addEventListener("click",submitReport);
+document.querySelectorAll("[data-close]").forEach(btn=>btn.addEventListener("click",()=>$(btn.dataset.close).close()));
+$("photoInput").addEventListener("change",e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){toast("Pilih foto JPG, PNG, atau WEBP.");e.target.value="";return;}
+ if(file.size>5*1024*1024){toast("Ukuran foto maksimal 5 MB.");e.target.value="";return;}
+ selectedPhoto=file;$("previewImage").src=URL.createObjectURL(file);$("composerPreview").classList.add("show");
+});
 $("removePhotoButton").addEventListener("click",()=>{
-  selectedPhoto = null;
-  $("photoInput").value="";
-  $("previewImage").removeAttribute("src");
-  $("composerPreview").classList.remove("show");
+ selectedPhoto=null;$("photoInput").value="";$("previewImage").removeAttribute("src");$("composerPreview").classList.remove("show");
 });
-
 $("homeButton").addEventListener("click",()=>location.href=HOME_URL);
 $("myProfileButton").addEventListener("click",()=>location.href=profileHref(currentUser?.id));
-
-document.querySelectorAll("[data-go]").forEach(button=>{
-  button.addEventListener("click",()=>{
-    const routes = {
-      home:HOME_URL,profile:PROFILE_URL,chat:CHAT_URL,
-      video:HOME_URL,friends:HOME_URL
-    };
-    location.href = routes[button.dataset.go] || HOME_URL;
-  });
+document.querySelectorAll("[data-go]").forEach(btn=>btn.addEventListener("click",()=>{
+ const routes={home:HOME_URL,profile:PROFILE_URL,chat:CHAT_URL,video:HOME_URL,friends:HOME_URL};
+ location.href=routes[btn.dataset.go]||HOME_URL;
+}));
+$("feed").addEventListener("click",async e=>{const btn=e.target.closest("[data-action]");if(btn)await handleAction(btn);});
+$("feed").addEventListener("submit",async e=>{const form=e.target.closest(".comment-form");if(!form)return;e.preventDefault();await submitComment(form);});
+document.addEventListener("click",e=>{
+ if(!e.target.closest(".post-menu-wrap")&&!e.target.closest(".comment-menu-wrap"))closeMenus();
 });
+$("confirmDialog").addEventListener("close",()=>{confirmCallback=null;});
+$("audienceDialog").addEventListener("close",()=>{audienceTarget=null;});
+$("reportDialog").addEventListener("close",()=>{reportTarget=null;});
 
-$("feed").addEventListener("click",async event=>{
-  const button = event.target.closest("[data-action]");
-  if (button) await handleAction(button);
-});
-
-$("feed").addEventListener("submit",async event=>{
-  const form = event.target.closest(".comment-form");
-  if (!form) return;
-  event.preventDefault();
-  await submitComment(form);
-});
-
-document.addEventListener("click",event=>{
-  if (!event.target.closest(".post-menu-wrap") &&
-      !event.target.closest(".comment-menu-wrap")) {
-    closeMenus();
+async function initialise(){
+ if(!db){$("feed").innerHTML='<div class="empty"><strong>Supabase tidak termuat</strong>Periksa koneksi internet lalu muat ulang halaman.</div>';return;}
+ try{
+  const {data,error}=await db.auth.getSession();
+  if(error||!data.session){location.replace(LOGIN_URL);return;}
+  currentUser=data.session.user;
+  await loadMyProfile();await Promise.all([loadLikes(),loadSaved(),loadHidden()]);
+  await loadFeed();
+  const requested=new URLSearchParams(location.search).get("post");
+  if(requested){
+   const el=$("post-"+requested);
+   if(el){el.scrollIntoView({behavior:"smooth",block:"center"});const section=$("comments-"+requested);if(section){section.hidden=false;await loadComments(requested);}}
+   else toast("Postingan mungkin sudah dihapus atau tidak tersedia untuk akunmu.");
   }
-});
-
-async function initialise() {
-  if (!db) {
-    $("feed").innerHTML = '<div class="empty"><strong>Supabase tidak termuat</strong>Periksa koneksi internet dan muat ulang halaman.</div>';
-    return;
-  }
-
-  try {
-    const {data,error} = await db.auth.getSession();
-    if (error || !data.session) {
-      location.replace(LOGIN_URL);
-      return;
-    }
-
-    currentUser = data.session.user;
-    await loadMyProfile();
-
-    // Jika tautan berisi ID postingan, tampilkan feed dan buka komentar terkait.
-    await Promise.all([loadLikes(),loadSaved(),loadHidden()]);
-    await loadFeed();
-
-    const requestedPost = new URLSearchParams(location.search).get("post");
-    if (requestedPost) {
-      const element = $("post-" + requestedPost);
-      if (element) {
-        element.scrollIntoView({behavior:"smooth",block:"center"});
-        const comments = $("comments-" + requestedPost);
-        if (comments) {
-          comments.hidden = false;
-          await loadComments(requestedPost);
-        }
-      } else {
-        toast("Postingan mungkin sudah dihapus atau tidak tersedia untuk akunmu.");
-      }
-    }
-  } catch (error) {
-    console.error(error);
-    $("feed").innerHTML = `<div class="empty"><strong>Gagal menyiapkan halaman</strong>${esc(error.message || "Periksa konfigurasi Supabase.")}</div>`;
-  }
+ }catch(e){
+  console.error(e);$("feed").innerHTML=`<div class="empty"><strong>Gagal menyiapkan halaman</strong>${esc(e.message||"Periksa konfigurasi Supabase.")}</div>`;
+ }
 }
-
+updateComposerAudience();
 initialise();
 </script>
 </body>
