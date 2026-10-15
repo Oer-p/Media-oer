@@ -426,10 +426,12 @@ button {
   }
 
   .brand-icon {
-    width: 36px;
-    height: 36px;
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
   }
-
   .brand-name {
     font-size: 23px;
   }
@@ -527,23 +529,14 @@ button {
 </head>
 
 <body>
-<div class="app">
-
-  <!-- HEADER: LOGO UTAMA OER -->
-  <header class="header">
-    <div class="brand">
-      <svg class="brand-icon" viewBox="0 0 64 64"
-           xmlns="http://www.w3.org/2000/svg" aria-label="Logo OER">
-        <rect x="2" y="2" width="60" height="48" rx="13" fill="#05b9df"/>
-        <path d="M15 44 L10 59 Q10 61 14 59 L29 49"
-              fill="#05b9df"/>
-        <path d="M20 17 Q20 12 25 12 H43 Q48 12 48 17 V30
-                 Q48 35 43 35 H30 L23 41 L25 35 Q20 34 20 29 Z"
-              fill="white"/>
-      </svg>
-      <span class="brand-name">OER</span>
-    </div>
-
+<div class="brand">
+  <img
+    class="brand-icon"
+    src="https://raw.githubusercontent.com/oer-p/Media-oer/main/logo.png"
+    alt="Logo utama OER"
+  >
+  <span class="brand-name">OER</span>
+</div>
     <input
       class="search"
       id="globalSearch"
