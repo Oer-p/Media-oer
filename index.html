@@ -423,8 +423,9 @@ async function testSystem() {
         Hasil kosong tetap berarti tabel dapat diakses.
       */
       const { error } = await client
-        .from("conversations")
-        .select("id")
+        .from("oer_system_health")
+        .select("status")
+        .eq("id", 1)
         .limit(1);
 
       if (error) {
