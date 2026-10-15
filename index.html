@@ -61,17 +61,17 @@ button {
   top: 0;
   z-index: 10;
 }
-
 .brand {
   display: flex;
   align-items: center;
-  gap: 9px;
   flex-shrink: 0;
 }
 
-.brand-icon {
-  width: 43px;
-  height: 43px;
+.brand-logo {
+  display: block;
+  width: 130px;
+  height: 49px;
+  flex-shrink: 0;
 }
 
 .brand-name {
@@ -424,6 +424,10 @@ button {
     padding: 11px 13px;
     gap: 10px;
   }
+  .brand-logo {
+  width: 105px;
+  height: 40px;
+}
 
   .brand-icon {
   width: 43px;
@@ -511,7 +515,6 @@ button {
   .brand-name {
     font-size: 20px;
   }
-
   .brand-icon {
     width: 31px;
     height: 31px;
@@ -530,14 +533,68 @@ button {
 
 <body>
 <div class="brand">
-  <img
-    class="brand-icon"
-    src="https://raw.githubusercontent.com/oer-p/Media-oer/main/logo.png"
-    alt="Logo utama OER"
-  >
-  <span class="brand-name">OER</span>
+  <svg class="brand-logo"
+       viewBox="0 0 320 120"
+       xmlns="http://www.w3.org/2000/svg"
+       role="img"
+       aria-label="Logo OER">
+
+    <defs>
+      <linearGradient id="oerBlue" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#08b8df"/>
+        <stop offset="100%" stop-color="#00a9d2"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Simbol kotak biru dengan tetesan -->
+    <path
+      d="M35 5 H91
+         Q111 5 111 25 V75
+         Q111 94 92 94
+         H80 V107
+         Q80 116 73 116
+         Q66 116 66 107 V94
+         H48 V108
+         Q48 115 42 115
+         Q36 115 36 108 V94
+         Q5 94 5 65 V35
+         Q5 5 35 5 Z"
+      fill="url(#oerBlue)"
+      transform="translate(0 0)"/>
+
+    <!-- Huruf O dengan tetesan putih -->
+    <path
+      d="M58 22
+         A24 24 0 1 0 58 70
+         A24 24 0 1 0 58 22 Z
+         M58 34
+         A12 12 0 1 1 58 58
+         A12 12 0 1 1 58 34 Z"
+      fill="#ffffff"
+      fill-rule="evenodd"/>
+
+    <path
+      d="M48 67 V77 Q48 81 52 81
+         Q56 81 56 77 V69
+         M68 67 V73 Q68 77 72 77
+         Q76 77 76 73 V65"
+      fill="none"
+      stroke="#ffffff"
+      stroke-width="5"
+      stroke-linecap="round"/>
+
+    <!-- Tulisan OER -->
+    <g fill="#ffffff"
+       font-family="Arial, Helvetica, sans-serif"
+       font-size="91"
+       font-weight="800"
+       letter-spacing="-5">
+      <text x="126" y="83">OER</text>
+    </g>
+
+  </svg>
 </div>
-    <input
+  <input
       class="search"
       id="globalSearch"
       type="search"
