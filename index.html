@@ -1,0 +1,869 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050707">
+<meta name="description" content="OER — Connect Everything">
+<title>OER — Connect Everything</title>
+
+<style>
+:root {
+  --bg: #050707;
+  --panel: #0b1113;
+  --panel2: #10191c;
+  --cyan: #05b9df;
+  --cyan-soft: #092e35;
+  --text: #f5f8f9;
+  --muted: #89979c;
+  --border: #273438;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: auto;
+  padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+  min-height: 76px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(5,7,7,.97);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 43px;
+  height: 43px;
+}
+
+.brand-name {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.search {
+  flex: 1;
+  min-width: 0;
+  height: 43px;
+  padding: 0 16px;
+  border: 1px solid #354246;
+  background: #090d0e;
+  color: white;
+  border-radius: 24px;
+  outline: none;
+}
+
+.search:focus {
+  border-color: var(--cyan);
+}
+
+.profile-btn {
+  background: #071315;
+  color: #b7f6ff;
+  border: 1px solid #456168;
+  padding: 11px 17px;
+  border-radius: 13px;
+}
+
+/* TOP NAVIGATION */
+
+.top-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--border);
+  background: #050707;
+}
+
+.nav-item {
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #aeb9bd;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: .2s;
+}
+
+.nav-item svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+}
+
+.nav-item span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.nav-item.active {
+  color: #eafcff;
+  border-bottom-color: var(--cyan);
+}
+
+.nav-item.active .nav-icon-bg {
+  background: var(--cyan-soft);
+}
+
+.nav-icon-bg {
+  width: 37px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PAGE */
+
+.page {
+  padding: 25px 22px;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 21px;
+}
+
+.page-heading h1 {
+  font-size: 27px;
+  letter-spacing: -.6px;
+}
+
+.page-heading p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.primary-btn {
+  background: var(--cyan);
+  color: #001317;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 700;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.filter {
+  border: 1px solid var(--border);
+  color: #aebbc0;
+  background: var(--panel);
+  padding: 9px 15px;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.filter.active {
+  color: #c5faff;
+  background: var(--cyan-soft);
+  border-color: #126879;
+}
+
+/* CHAT LIST */
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.chat-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px;
+  background: var(--panel);
+  border: 1px solid #1e2a2e;
+  border-radius: 17px;
+  color: var(--text);
+  text-align: left;
+  transition: background .2s, border-color .2s;
+}
+
+.chat-item:hover {
+  background: #10191c;
+  border-color: #31515a;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #103b43;
+  color: #c6faff;
+  font-weight: 700;
+  font-size: 17px;
+  position: relative;
+}
+
+.avatar.a2 { background: #30304d; color: #d7d8ff; }
+.avatar.a3 { background: #493021; color: #ffdbba; }
+.avatar.a4 { background: #1d4535; color: #c5ffe1; }
+.avatar.a5 { background: #453044; color: #f8d4ff; }
+
+.online {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--panel);
+  background: #36d98c;
+  border-radius: 50%;
+  right: 0;
+  bottom: 1px;
+}
+
+.chat-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.chat-name-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 6px;
+}
+
+.chat-name {
+  font-size: 15px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.verified {
+  color: var(--cyan);
+  font-size: 13px;
+}
+
+.chat-preview {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-meta {
+  flex-shrink: 0;
+  min-width: 36px;
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  flex-direction: column;
+}
+
+.chat-time {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.unread {
+  background: var(--cyan);
+  color: #001216;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 19px;
+  height: 19px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+}
+
+/* EMPTY / CONTENT */
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+  color: var(--muted);
+}
+
+.empty strong {
+  display: block;
+  color: white;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.empty p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.page[hidden] {
+  display: none;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 67px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 5px max(8px, calc((100vw - 700px) / 2));
+  background: rgba(5,7,7,.97);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(15px);
+}
+
+.bottom-item {
+  border: none;
+  background: transparent;
+  color: #8e9da1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.bottom-item svg {
+  width: 22px;
+  height: 22px;
+}
+
+.bottom-item.active {
+  color: var(--cyan);
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 760px) {
+  .page {
+    padding: 30px 34px;
+  }
+
+  .chat-list {
+    max-width: 850px;
+  }
+
+  .nav-item {
+    min-height: 80px;
+  }
+
+  .nav-item svg {
+    width: 29px;
+    height: 29px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    min-height: 65px;
+    padding: 11px 13px;
+    gap: 10px;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-name {
+    font-size: 23px;
+  }
+
+  .search {
+    height: 38px;
+    padding: 0 11px;
+    font-size: 12px;
+  }
+
+  .profile-btn {
+    padding: 10px 11px;
+    font-size: 12px;
+  }
+
+  .top-nav {
+    padding: 5px 8px 0;
+  }
+
+  .nav-item {
+    min-height: 67px;
+    gap: 3px;
+  }
+
+  .nav-icon-bg {
+    width: 32px;
+    height: 31px;
+  }
+
+  .nav-item svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-item span {
+    font-size: 11px;
+  }
+
+  .page {
+    padding: 22px 13px;
+  }
+
+  .page-heading h1 {
+    font-size: 24px;
+  }
+
+  .chat-item {
+    padding: 12px 10px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .chat-name {
+    font-size: 13px;
+  }
+
+  .chat-preview {
+    font-size: 12px;
+  }
+
+  .chat-time {
+    font-size: 10px;
+  }
+
+  .primary-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 350px) {
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-icon {
+    width: 31px;
+    height: 31px;
+  }
+
+  .profile-btn {
+    padding: 9px;
+  }
+
+  .chat-meta {
+    min-width: 27px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- HEADER: LOGO UTAMA OER -->
+  <header class="header">
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 64 64"
+           xmlns="http://www.w3.org/2000/svg" aria-label="Logo OER">
+        <rect x="2" y="2" width="60" height="48" rx="13" fill="#05b9df"/>
+        <path d="M15 44 L10 59 Q10 61 14 59 L29 49"
+              fill="#05b9df"/>
+        <path d="M20 17 Q20 12 25 12 H43 Q48 12 48 17 V30
+                 Q48 35 43 35 H30 L23 41 L25 35 Q20 34 20 29 Z"
+              fill="white"/>
+      </svg>
+      <span class="brand-name">OER</span>
+    </div>
+
+    <input
+      class="search"
+      id="globalSearch"
+      type="search"
+      placeholder="Cari teman, konten..."
+      aria-label="Cari teman dan konten"
+    >
+
+    <button class="profile-btn" onclick="showPage('profil')">
+      Profil
+    </button>
+  </header>
+
+  <!-- 4 NAVIGASI MENGGUNAKAN IKON DESAIN OER -->
+  <nav class="top-nav" aria-label="Navigasi utama">
+
+    <!-- BERANDA: ikon rumah -->
+    <button class="nav-item" data-page="beranda"
+            onclick="showPage('beranda')">
+      <span class="nav-icon-bg">
+        <svg viewBox="0 0 48 48" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="3" width="38" height="35" rx="10"
+                fill="#05b9df"/>
+          <path d="M13 19 L24 10 L35 19 V31 H27 V24 H21 V31 H13 Z"
+                fill="white"/>
+          <path d="M15 38 L10 45 L24 39"
+                fill="#05b9df"/>
+        </svg>
+      </span>
+      <span>Beranda</span>
+    </button>
+
+    <!-- POSTINGAN: ikon O dan tiga garis -->
+    <button class="nav-item" data-page="postingan"
+            onclick="showPage('postingan')">
+      <span class="nav-icon-bg">
+        <svg viewBox="0 0 48 48" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10"
+                fill="#05b9df"/>
+          <circle cx="17" cy="19" r="7" stroke="white"
+                  stroke-width="4"/>
+          <path d="M29 13 H37 M29 19 H37 M29 25 H37"
+                stroke="white" stroke-width="3.5"
+                stroke-linecap="round"/>
+          <path d="M15 37 L10 45 L24 38"
+                fill="#05b9df"/>
+        </svg>
+      </span>
+      <span>Postingan</span>
+    </button>
+
+    <!-- REELS: ikon play dalam lingkaran -->
+    <button class="nav-item" data-page="reels"
+            onclick="showPage('reels')">
+      <span class="nav-icon-bg">
+        <svg viewBox="0 0 48 48" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10"
+                fill="#05b9df"/>
+          <circle cx="24" cy="19" r="11"
+                  stroke="white" stroke-width="4"/>
+          <path d="M22 13.5 Q21 13 21 15 V23
+                   Q21 25 23 24 L30 20
+                   Q32 19 30 18 Z"
+                fill="white"/>
+          <path d="M15 37 L10 45 L24 38"
+                fill="#05b9df"/>
+        </svg>
+      </span>
+      <span>Reels</span>
+    </button>
+
+    <!-- PESAN: ikon gelembung percakapan -->
+    <button class="nav-item active" data-page="pesan"
+            onclick="showPage('pesan')">
+      <span class="nav-icon-bg">
+        <svg viewBox="0 0 48 48" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3" width="40" height="35" rx="10"
+                fill="#05b9df"/>
+          <path d="M12 17 Q12 10 21 10 H29
+                   Q37 10 37 18 Q37 26 28 26
+                   H22 L15 31 L17 25 Q12 23 12 17 Z"
+                fill="white"/>
+          <path d="M15 37 L10 45 L24 38"
+                fill="#05b9df"/>
+        </svg>
+      </span>
+      <span>Pesan</span>
+    </button>
+
+  </nav>
+
+  <!-- HALAMAN BERANDA -->
+  <main>
+    <section class="page" id="page-beranda" hidden>
+      <div class="page-heading">
+        <div>
+          <h1>Beranda</h1>
+          <p>Temukan kabar terbaru dari temanmu.</p>
+        </div>
+        <button class="primary-btn" onclick="showPage('postingan')">
+          + Buat postingan
+        </button>
+      </div>
+      <div class="empty">
+        <strong>Selamat datang di OER</strong>
+        <p>Ruang untuk terhubung, berbagi cerita, dan menemukan hal baru.</p>
+      </div>
+    </section>
+
+    <!-- HALAMAN POSTINGAN -->
+    <section class="page" id="page-postingan" hidden>
+      <div class="page-heading">
+        <div>
+          <h1>Postingan</h1>
+          <p>Bagikan momen dan ceritamu.</p>
+        </div>
+        <button class="primary-btn" onclick="alert('Form postingan dapat ditambahkan di sini.')">
+          + Buat
+        </button>
+      </div>
+      <div class="empty">
+        <strong>Postingan</strong>
+        <p>Konten yang dibagikan akan ditampilkan di halaman ini.</p>
+      </div>
+    </section>
+
+    <!-- HALAMAN REELS -->
+    <section class="page" id="page-reels" hidden>
+      <div class="page-heading">
+        <div>
+          <h1>Reels</h1>
+          <p>Video singkat pilihan komunitas OER.</p>
+        </div>
+      </div>
+      <div class="empty">
+        <strong>Jelajahi Reels</strong>
+        <p>Video akan ditampilkan di sini setelah fitur video dihubungkan.</p>
+      </div>
+    </section>
+
+    <!-- HALAMAN PESAN -->
+    <section class="page" id="page-pesan">
+      <div class="page-heading">
+        <div>
+          <h1>Chat</h1>
+          <p>Percakapan dan teman yang terhubung.</p>
+        </div>
+        <button class="primary-btn"
+                onclick="alert('Fitur percakapan baru dapat dihubungkan di sini.')">
+          + Pesan
+        </button>
+      </div>
+
+      <div class="filters">
+        <button class="filter active" data-filter="semua"
+                onclick="filterChats('semua',this)">Semua</button>
+        <button class="filter" data-filter="belum"
+                onclick="filterChats('belum',this)">Belum dibaca</button>
+        <button class="filter" data-filter="online"
+                onclick="filterChats('online',this)">Online</button>
+      </div>
+
+      <div class="chat-list" id="chatList">
+
+        <button class="chat-item" data-name="Nadia Putri"
+                data-online="true" data-unread="1"
+                onclick="openChat('Nadia Putri')">
+          <span class="avatar">N<span class="online"></span></span>
+          <span class="chat-info">
+            <span class="chat-name-row">
+              <span class="chat-name">Nadia Putri</span>
+            </span>
+            <span class="chat-preview">Halo! Selamat datang di ruang chat OER.</span>
+          </span>
+          <span class="chat-meta">
+            <span class="chat-time">11.45</span>
+            <span class="unread">1</span>
+          </span>
+        </button>
+
+        <button class="chat-item" data-name="Rizky Pratama"
+                data-online="true" data-unread="2"
+                onclick="openChat('Rizky Pratama')">
+          <span class="avatar a2">R<span class="online"></span></span>
+          <span class="chat-info">
+            <span class="chat-name-row">
+              <span class="chat-name">Rizky Pratama</span>
+            </span>
+            <span class="chat-preview">Sampai nanti, ya!</span>
+          </span>
+          <span class="chat-meta">
+            <span class="chat-time">10.32</span>
+            <span class="unread">2</span>
+          </span>
+        </button>
+
+        <button class="chat-item" data-name="Alya Safitri"
+                data-online="false" data-unread="0"
+                onclick="openChat('Alya Safitri')">
+          <span class="avatar a3">A</span>
+          <span class="chat-info">
+            <span class="chat-name-row">
+              <span class="chat-name">Alya Safitri</span>
+            </span>
+            <span class="chat-preview">Foto yang kemarin bagus banget.</span>
+          </span>
+          <span class="chat-meta">
+            <span class="chat-time">Kemarin</span>
+          </span>
+        </button>
+
+        <button class="chat-item" data-name="Dimas Saputra"
+                data-online="true" data-unread="0"
+                onclick="openChat('Dimas Saputra')">
+          <span class="avatar a4">D<span class="online"></span></span>
+          <span class="chat-info">
+            <span class="chat-name-row">
+              <span class="chat-name">Dimas Saputra</span>
+            </span>
+            <span class="chat-preview">Oke, terima kasih!</span>
+          </span>
+          <span class="chat-meta">
+            <span class="chat-time">Kemarin</span>
+          </span>
+        </button>
+
+        <button class="chat-item" data-name="Salsa Maharani"
+                data-online="false" data-unread="0"
+                onclick="openChat('Salsa Maharani')">
+          <span class="avatar a5">S</span>
+          <span class="chat-info">
+            <span class="chat-name-row">
+              <span class="chat-name">Salsa Maharani</span>
+            </span>
+            <span class="chat-preview">Ada kabar baru?</span>
+          </span>
+          <span class="chat-meta">
+            <span class="chat-time">Senin</span>
+          </span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- HALAMAN PROFIL -->
+    <section class="page" id="page-profil" hidden>
+      <div class="page-heading">
+        <div>
+          <h1>Profil</h1>
+          <p>Pengaturan dan informasi akunmu.</p>
+        </div>
+      </div>
+      <div class="empty">
+        <strong>Profil OER</strong>
+        <p>Informasi akun dapat ditambahkan di halaman ini.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+function showPage(page) {
+  const pages = document.querySelectorAll('main .page');
+
+  pages.forEach(section => {
+    section.hidden = section.id !== 'page-' + page;
+  });
+
+  document.querySelectorAll('.top-nav .nav-item').forEach(button => {
+    button.classList.toggle('active', button.dataset.page === page);
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+  function openChat(name) {
+  alert('Percakapan dengan ' + name +
+        '\n\nTampilan ini masih demo lokal. Hubungkan ke sistem chat untuk mengirim pesan sungguhan.');
+}
+
+function filterChats(type, button) {
+  document.querySelectorAll('.filters .filter').forEach(item => {
+    item.classList.toggle('active', item === button);
+  });
+
+  document.querySelectorAll('#chatList .chat-item').forEach(item => {
+    const online = item.dataset.online === 'true';
+    const unread = Number(item.dataset.unread) > 0;
+
+    item.style.display =
+      type === 'semua' ||
+      (type === 'online' && online) ||
+      (type === 'belum' && unread)
+        ? 'flex'
+        : 'none';
+  });
+}
+
+document.getElementById('globalSearch').addEventListener('input', function() {
+  const query = this.value.trim().toLowerCase();
+
+  const currentPage = document.querySelector('main .page:not([hidden])');
+  if (!currentPage || currentPage.id !== 'page-pesan') {
+    if (query) showPage('pesan');
+  }
+
+  document.querySelectorAll('#chatList .chat-item').forEach(item => {
+    const text = item.innerText.toLowerCase();
+    item.style.display = text.includes(query) ? 'flex' : 'none';
+  });
+});
+
+showPage('pesan');
+</script>
+</body>
+</html>
