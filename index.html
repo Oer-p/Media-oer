@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,6 +7,9 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="description" content="OeR — Temukan sesuatu yang baru.">
 <title>OeR — Temukan Sesuatu yang Baru</title>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
@@ -37,9 +41,7 @@ a{
   text-decoration:none;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
   height:64px;
@@ -79,15 +81,20 @@ header{
   font-weight:700;
   cursor:pointer;
   transition:.2s;
+  overflow:hidden;
 }
 
 .avatar:hover{
   transform:scale(1.06);
 }
 
-/* =========================
-   ANIMASI LOGO
-========================= */
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* LOGO ANIMATION */
 
 .logo-letter{
   display:inline-block;
@@ -95,7 +102,6 @@ header{
   animation:oerLogo 3.8s ease-in-out infinite;
 }
 
-/* dibuat rapat agar OeR tidak terlihat berjauhan */
 .hero-logo .logo-letter{
   margin-right:-3px;
 }
@@ -140,9 +146,7 @@ header{
   }
 }
 
-/* =========================
-   MAIN
-========================= */
+/* MAIN */
 
 main{
   width:100%;
@@ -169,9 +173,7 @@ main{
   text-align:center;
 }
 
-/* =========================
-   SEARCH
-========================= */
+/* SEARCH */
 
 .search-wrap{
   position:relative;
@@ -217,9 +219,7 @@ main{
   color:#80868b;
 }
 
-/* =========================
-   SUGGESTION
-========================= */
+/* SUGGESTIONS */
 
 .suggestions{
   display:none;
@@ -257,9 +257,7 @@ main{
   background:#f5f5f5;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+/* ENGINE */
 
 .engine-choice{
   display:flex;
@@ -297,9 +295,7 @@ main{
   border-color:var(--black)!important;
 }
 
-/* =========================
-   NOTICE
-========================= */
+/* NOTICE */
 
 #notice{
   min-height:20px;
@@ -309,9 +305,7 @@ main{
   text-align:center;
 }
 
-/* =========================
-   AI CHAT
-========================= */
+/* AI */
 
 .ai-panel{
   width:min(100%,584px);
@@ -400,9 +394,7 @@ main{
   cursor:pointer;
 }
 
-/* =========================
-   FITUR
-========================= */
+/* FEATURES */
 
 .features{
   width:min(100%,584px);
@@ -452,9 +444,7 @@ main{
   line-height:1.4;
 }
 
-/* =========================
-   REELS
-========================= */
+/* REELS */
 
 .reels-section{
   width:min(100%,900px);
@@ -489,9 +479,7 @@ main{
   background:#fafafa;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
   min-height:54px;
@@ -512,16 +500,12 @@ footer{
   flex-wrap:wrap;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:700px){
-
   .features{
     grid-template-columns:1fr;
   }
-
 }
 
 @media(max-width:600px){
@@ -560,15 +544,12 @@ footer{
   .footer-links{
     justify-content:center;
   }
-
 }
 
 @media(prefers-reduced-motion:reduce){
-
   .logo-letter{
     animation:none;
   }
-
 }
 </style>
 </head>
@@ -590,7 +571,8 @@ footer{
     <a href="#akun"
        class="avatar"
        id="loginButton"
-       aria-label="Profil OeR">
+       aria-label="Profil OeR"
+       title="Masuk dengan Google">
       O
     </a>
 
@@ -601,11 +583,9 @@ footer{
 <main>
 
   <div class="hero-logo" aria-label="OeR">
-
     <span class="logo-letter">O</span>
     <span class="logo-letter e">e</span>
     <span class="logo-letter">R</span>
-
   </div>
 
   <p class="tagline">
@@ -613,6 +593,7 @@ footer{
   </p>
 
   <!-- SEARCH -->
+
   <form class="search-wrap" id="searchForm">
 
     <div class="search-box">
@@ -643,6 +624,7 @@ footer{
   </form>
 
   <!-- GOOGLE BING AI -->
+
   <div class="engine-choice">
 
     <span>Cari menggunakan</span>
@@ -673,7 +655,8 @@ footer{
     OeR menggunakan mesin pencari pilihanmu untuk sementara.
   </p>
 
-  <!-- AI CHAT DI HOME -->
+  <!-- AI CHAT -->
+
   <section
     class="ai-panel"
     id="aiPanel"
@@ -724,6 +707,7 @@ footer{
   </section>
 
   <!-- FITUR -->
+
   <section class="features">
 
     <a
@@ -775,6 +759,7 @@ footer{
   </section>
 
   <!-- REELS -->
+
   <section
     class="reels-section"
     id="reels">
@@ -831,6 +816,27 @@ footer{
 
   "use strict";
 
+  /* =====================================================
+     SUPABASE
+  ===================================================== */
+
+  const SUPABASE_URL =
+    "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* =====================================================
+     ELEMENTS
+  ===================================================== */
+
   const form =
     document.getElementById("searchForm");
 
@@ -842,6 +848,12 @@ footer{
 
   const notice =
     document.getElementById("notice");
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const accountLink =
+    document.getElementById("accountLink");
 
   const aiButton =
     document.getElementById("aiButton");
@@ -866,13 +878,14 @@ footer{
 
   let engine = "google";
 
+
   document.getElementById("year").textContent =
     new Date().getFullYear();
 
 
-  /* =========================
+  /* =====================================================
      SEARCH HISTORY
-  ========================= */
+  ===================================================== */
 
   function getHistory(){
 
@@ -925,9 +938,9 @@ footer{
   }
 
 
-  /* =========================
+  /* =====================================================
      SUGGESTIONS
-  ========================= */
+  ===================================================== */
 
   function hideSuggestions(){
 
@@ -968,18 +981,18 @@ footer{
       const button =
         document.createElement("button");
 
-      button.type="button";
-      button.className="suggestion";
+      button.type = "button";
+      button.className = "suggestion";
 
       const icon =
         document.createElement("span");
 
-      icon.textContent="◷";
+      icon.textContent = "◷";
 
       const label =
         document.createElement("span");
 
-      label.textContent=item;
+      label.textContent = item;
 
       button.append(icon,label);
 
@@ -987,7 +1000,7 @@ footer{
         "click",
         () => {
 
-          input.value=item;
+          input.value = item;
 
           performSearch();
 
@@ -1003,9 +1016,9 @@ footer{
   }
 
 
-  /* =========================
+  /* =====================================================
      SEARCH GOOGLE / BING
-  ========================= */
+  ===================================================== */
 
   function performSearch(){
 
@@ -1065,9 +1078,9 @@ footer{
   );
 
 
-  /* =========================
+  /* =====================================================
      ENGINE
-  ========================= */
+  ===================================================== */
 
   engines.forEach(button => {
 
@@ -1104,9 +1117,9 @@ footer{
   });
 
 
-  /* =========================
+  /* =====================================================
      AI CHAT
-  ========================= */
+  ===================================================== */
 
   aiButton.addEventListener(
     "click",
@@ -1174,7 +1187,7 @@ footer{
         userMessage
       );
 
-      aiInput.value="";
+      aiInput.value = "";
 
       const botMessage =
         document.createElement("div");
@@ -1184,8 +1197,7 @@ footer{
 
       botMessage.textContent =
         "AI OeR sedang dikembangkan. " +
-        "Pertanyaanmu sudah diterima: " +
-        question;
+        "Pertanyaanmu sudah diterima.";
 
       setTimeout(() => {
 
@@ -1202,9 +1214,9 @@ footer{
   );
 
 
-  /* =========================
-     REELS TETAP DI HOME
-  ========================= */
+  /* =====================================================
+     REELS
+  ===================================================== */
 
   document
     .getElementById("reelsLink")
@@ -1227,39 +1239,201 @@ footer{
     );
 
 
-  /* =========================
-     PROFIL
-  ========================= */
+  /* =====================================================
+     GOOGLE LOGIN SUPABASE
+  ===================================================== */
 
-  function openProfile(event){
+  async function signInWithGoogle(event){
 
     event.preventDefault();
 
     notice.textContent =
-      "Login OeR menggunakan Supabase.";
+      "Menghubungkan ke Google...";
+
+    try{
+
+      const { error } =
+        await supabaseClient.auth.signInWithOAuth({
+          provider:"google",
+          options:{
+            redirectTo:window.location.origin +
+              window.location.pathname
+          }
+        });
+
+      if(error){
+
+        console.error(error);
+
+        notice.textContent =
+          "Login Google gagal: " +
+          error.message;
+
+      }
+
+    }catch(error){
+
+      console.error(error);
+
+      notice.textContent =
+        "Terjadi kesalahan saat login.";
+
+    }
 
   }
 
 
-  document
-    .getElementById("loginButton")
-    .addEventListener(
-      "click",
-      openProfile
-    );
+  loginButton.addEventListener(
+    "click",
+    signInWithGoogle
+  );
 
 
-  document
-    .getElementById("accountLink")
-    .addEventListener(
-      "click",
-      openProfile
-    );
+  accountLink.addEventListener(
+    "click",
+    signInWithGoogle
+  );
 
 
-  /* =========================
+  /* =====================================================
+     UPDATE PROFIL
+  ===================================================== */
+
+  function updateProfile(user){
+
+    if(!user){
+
+      loginButton.textContent = "O";
+      loginButton.title = "Masuk dengan Google";
+
+      accountLink.querySelector(".feature-title")
+        .textContent = "Akun OeR";
+
+      accountLink.querySelector(".feature-text")
+        .textContent = "Masuk menggunakan akun OeR.";
+
+      return;
+
+    }
+
+
+    const metadata =
+      user.user_metadata || {};
+
+    const name =
+      metadata.full_name ||
+      metadata.name ||
+      user.email ||
+      "Pengguna OeR";
+
+    const avatar =
+      metadata.avatar_url ||
+      metadata.picture;
+
+
+    if(avatar){
+
+      loginButton.innerHTML =
+        '<img src="' +
+        avatar.replace(/"/g,"&quot;") +
+        '" alt="Profil">';
+
+    }else{
+
+      loginButton.textContent =
+        name.charAt(0).toUpperCase();
+
+    }
+
+
+    loginButton.title =
+      name + " • OeR";
+
+
+    accountLink.querySelector(".feature-title")
+      .textContent = name;
+
+    accountLink.querySelector(".feature-text")
+      .textContent =
+        user.email ||
+        "Akun Google terhubung.";
+
+  }
+
+
+  /* =====================================================
+     CEK SESSION
+  ===================================================== */
+
+  async function loadSession(){
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
+
+      if(error){
+
+        console.error(error);
+
+        return;
+
+      }
+
+      updateProfile(
+        data.session
+          ? data.session.user
+          : null
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+    }
+
+  }
+
+
+  loadSession();
+
+
+  /* =====================================================
+     PERUBAHAN LOGIN
+  ===================================================== */
+
+  supabaseClient.auth.onAuthStateChange(
+    (_event, session) => {
+
+      updateProfile(
+        session
+          ? session.user
+          : null
+      );
+
+      if(session){
+
+        notice.textContent =
+          "Selamat datang di OeR, " +
+          (
+            session.user.user_metadata?.full_name ||
+            session.user.email ||
+            "Pengguna"
+          ) +
+          ".";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
      TENTANG
-  ========================= */
+  ===================================================== */
 
   function showAbout(event){
 
@@ -1295,9 +1469,9 @@ footer{
     );
 
 
-  /* =========================
+  /* =====================================================
      TUTUP SUGGESTION
-  ========================= */
+  ===================================================== */
 
   document.addEventListener(
     "click",
@@ -1317,3 +1491,4 @@ footer{
 
 </body>
 </html>
+```
