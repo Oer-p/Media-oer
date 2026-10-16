@@ -52,7 +52,7 @@ header{
 .brand{
   font-size:25px;
   font-weight:800;
-  letter-spacing:-1.8px;
+  letter-spacing:-2.5px;
   white-space:nowrap;
 }
 
@@ -86,13 +86,32 @@ header{
 }
 
 /* =========================
-   ANIMASI LOGO OeR
+   ANIMASI LOGO
 ========================= */
 
 .logo-letter{
   display:inline-block;
   transform-origin:center;
   animation:oerLogo 3.8s ease-in-out infinite;
+}
+
+/* dibuat rapat agar OeR tidak terlihat berjauhan */
+.hero-logo .logo-letter{
+  margin-right:-3px;
+}
+
+.hero-logo .logo-letter.e{
+  margin-left:-2px;
+  margin-right:-4px;
+}
+
+.brand .logo-letter{
+  margin-right:-1px;
+}
+
+.brand .logo-letter.e{
+  margin-left:-1px;
+  margin-right:-2px;
 }
 
 .logo-letter:nth-child(1){
@@ -137,7 +156,7 @@ main{
 .hero-logo{
   font-size:clamp(76px,12vw,108px);
   font-weight:800;
-  letter-spacing:-8px;
+  letter-spacing:-9px;
   line-height:1.1;
   margin-bottom:12px;
   user-select:none;
@@ -520,7 +539,16 @@ footer{
   }
 
   .hero-logo{
-    letter-spacing:-6px;
+    letter-spacing:-7px;
+  }
+
+  .hero-logo .logo-letter{
+    margin-right:-2px;
+  }
+
+  .hero-logo .logo-letter.e{
+    margin-left:-2px;
+    margin-right:-3px;
   }
 
   footer{
@@ -570,10 +598,8 @@ footer{
 
 </header>
 
-
 <main>
 
-  <!-- LOGO -->
   <div class="hero-logo" aria-label="OeR">
 
     <span class="logo-letter">O</span>
@@ -582,11 +608,9 @@ footer{
 
   </div>
 
-
   <p class="tagline">
     Temukan sesuatu yang baru.
   </p>
-
 
   <!-- SEARCH -->
   <form class="search-wrap" id="searchForm">
@@ -597,7 +621,8 @@ footer{
            viewBox="0 0 24 24"
            fill="none"
            stroke="currentColor"
-           stroke-width="2">
+           stroke-width="2"
+           aria-hidden="true">
 
         <circle cx="11" cy="11" r="7"></circle>
         <path d="m16 16 4 4"></path>
@@ -616,7 +641,6 @@ footer{
     <div class="suggestions" id="suggestions"></div>
 
   </form>
-
 
   <!-- GOOGLE BING AI -->
   <div class="engine-choice">
@@ -645,13 +669,11 @@ footer{
 
   </div>
 
-
   <p id="notice">
     OeR menggunakan mesin pencari pilihanmu untuk sementara.
   </p>
 
-
-  <!-- AI CHAT LANGSUNG DI HOME -->
+  <!-- AI CHAT DI HOME -->
   <section
     class="ai-panel"
     id="aiPanel"
@@ -701,7 +723,6 @@ footer{
 
   </section>
 
-
   <!-- FITUR -->
   <section class="features">
 
@@ -728,7 +749,6 @@ footer{
 
     </a>
 
-
     <a
       class="feature"
       href="#akun"
@@ -753,7 +773,6 @@ footer{
     </a>
 
   </section>
-
 
   <!-- REELS -->
   <section
@@ -787,7 +806,6 @@ footer{
 
 </main>
 
-
 <footer>
 
   <span>
@@ -808,12 +826,10 @@ footer{
 
 </footer>
 
-
 <script>
 (() => {
 
   "use strict";
-
 
   const form =
     document.getElementById("searchForm");
@@ -848,9 +864,7 @@ footer{
   const engines =
     document.querySelectorAll("[data-engine]");
 
-
   let engine = "google";
-
 
   document.getElementById("year").textContent =
     new Date().getFullYear();
@@ -949,7 +963,6 @@ footer{
 
     }
 
-
     items.forEach(item => {
 
       const button =
@@ -985,14 +998,13 @@ footer{
 
     });
 
-
     suggestions.classList.add("show");
 
   }
 
 
   /* =========================
-     SEARCH
+     SEARCH GOOGLE / BING
   ========================= */
 
   function performSearch(){
@@ -1011,21 +1023,16 @@ footer{
 
     }
 
-
     saveHistory(query);
-
     hideSuggestions();
-
 
     const target =
       engine === "bing"
         ? "https://www.bing.com/search?q="
         : "https://www.google.com/search?q=";
 
-
     notice.textContent =
       "Membuka hasil pencarian...";
-
 
     window.location.href =
       target +
@@ -1071,7 +1078,6 @@ footer{
         engine =
           button.dataset.engine;
 
-
         engines.forEach(item => {
 
           item.classList.toggle(
@@ -1080,7 +1086,6 @@ footer{
           );
 
         });
-
 
         notice.textContent =
           "Mesin pencari: " +
@@ -1139,14 +1144,6 @@ footer{
   );
 
 
-  /*
-    Mode sementara tanpa API.
-
-    Chat tetap berfungsi sebagai
-    antarmuka. Nanti mesin AI bisa
-    disambungkan tanpa mengubah desain.
-  */
-
   aiForm.addEventListener(
     "submit",
     event => {
@@ -1164,7 +1161,6 @@ footer{
 
       }
 
-
       const userMessage =
         document.createElement("div");
 
@@ -1178,9 +1174,7 @@ footer{
         userMessage
       );
 
-
       aiInput.value="";
-
 
       const botMessage =
         document.createElement("div");
@@ -1192,7 +1186,6 @@ footer{
         "AI OeR sedang dikembangkan. " +
         "Pertanyaanmu sudah diterima: " +
         question;
-
 
       setTimeout(() => {
 
@@ -1210,7 +1203,7 @@ footer{
 
 
   /* =========================
-     REELS
+     REELS TETAP DI HOME
   ========================= */
 
   document
@@ -1243,15 +1236,7 @@ footer{
     event.preventDefault();
 
     notice.textContent =
-      "Login OeR menggunakan Supabase sedang disiapkan.";
-
-    /*
-      Penting:
-      jangan masukkan Client Secret Google
-      ke file HTML GitHub Pages.
-
-      Supabase Auth akan menangani OAuth.
-    */
+      "Login OeR menggunakan Supabase.";
 
   }
 
@@ -1310,7 +1295,9 @@ footer{
     );
 
 
-  /* Klik luar search */
+  /* =========================
+     TUTUP SUGGESTION
+  ========================= */
 
   document.addEventListener(
     "click",
