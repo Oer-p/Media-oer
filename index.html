@@ -1,211 +1,292 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>OER — Video & Reels</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>OeR — Temukan Sesuatu yang Baru</title>
+  <meta name="description" content="OeR, tempat untuk mencari dan menjelajahi konten.">
+
+  <style>
+    :root {
+      --black: #111111;
+      --green: #a3e635;
+      --text: #202124;
+      --muted: #5f6368;
+      --border: #dfe1e5;
+      --bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 22px;
+      padding: 20px 26px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .logo {
+      display: inline-flex;
+      align-items: baseline;
+      font-size: 76px;
+      font-weight: 800;
+      letter-spacing: -6px;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .logo .e {
+      color: #65a30d;
+      font-size: .78em;
+      letter-spacing: -3px;
+    }
+
+    header .logo {
+      font-size: 25px;
+      letter-spacing: -2px;
+      margin-right: auto;
+    }
+
+    header .logo .e { letter-spacing: -1px; }
+
+    .profile {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: var(--green);
+      background: var(--black);
+      font-weight: bold;
+    }
+
+    main {
+      width: min(600px, calc(100% - 36px));
+      margin: auto;
+      padding: 50px 0 100px;
+      text-align: center;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 18px 0 28px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 0 17px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+
+    .search-box:hover,
+    .search-box:focus-within {
+      border-color: transparent;
+      box-shadow: 0 1px 6px #0002;
+    }
+
+    .search-box input {
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      font-size: 16px;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .search-icon { color: var(--muted); font-size: 19px; }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    button, .action-link {
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 11px 17px;
+      font-size: 14px;
+      cursor: pointer;
+      background: #f8f9fa;
+      color: var(--text);
+    }
+
+    button:hover, .action-link:hover {
+      border-color: #dadce0;
+      text-decoration: none;
+    }
+
+    .primary {
+      background: var(--black);
+      color: var(--green);
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 58px;
+    }
+
+    .service {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 8px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .service:hover {
+      background: #f7f8f8;
+      text-decoration: none;
+    }
+
+    .service-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--black);
+      color: var(--green);
+      font-size: 21px;
+    }
+
+    #notice {
+      min-height: 22px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 17px 25px;
+      border-top: 1px solid #eeeeee;
+      background: #f8f9fa;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    @media (max-width: 480px) {
+      header { padding: 16px; }
+      main { padding-top: 40px; }
+      .logo { font-size: 65px; }
+      .services { gap: 2px; margin-top: 42px; }
+      .service { font-size: 12px; padding: 14px 3px; }
+      footer { justify-content: center; }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- HOME FEED - Full Screen Long Videos -->
-  <div class="app">
-    <!-- Top Bar -->
-    <header class="top-bar">
-      <div class="logo-area">
-        <img src="logo.png" alt="OER" class="logo-img" />
+  <header>
+    <a class="logo" href="./" aria-label="OeR Beranda">
+      <span>O</span><span class="e">e</span><span>R</span>
+    </a>
+    <a href="#layanan">Layanan</a>
+    <a href="#profil" class="profile" aria-label="Profil">O</a>
+  </header>
+
+  <main>
+    <a class="logo" href="./" aria-label="OeR">
+      <span>O</span><span class="e">e</span><span>R</span>
+    </a>
+
+    <p class="tagline">Temukan sesuatu yang baru.</p>
+
+    <form id="searchForm">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Cari di OeR..."
+          aria-label="Cari di OeR"
+          autocomplete="off"
+        >
+        <button type="submit" aria-label="Cari">Cari</button>
       </div>
-      <div class="top-actions">
-        <button class="icon-btn" onclick="alert('Search coming soon')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-          </svg>
-        </button>
+
+      <div class="actions">
+        <button class="primary" type="submit">Cari di OeR</button>
+        <a class="action-link" href="#layanan">Jelajahi OeR</a>
       </div>
-    </header>
+    </form>
 
-    <!-- Video Feed -->
-    <main class="video-feed" id="videoFeed">
-      <!-- Video 1 -->
-      <section class="video-item active">
-        <video class="video-player" loop muted playsinline>
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay">
-          <div class="video-info">
-            <div class="creator-row">
-              <img src="https://i.pravatar.cc/100?img=12" class="avatar" alt="Creator" />
-              <div class="creator-meta">
-                <span class="username">@rizky.creative</span>
-                <button class="follow-btn">Ikuti</button>
-              </div>
-            </div>
-            <p class="caption">Cara bikin konten viral dalam 60 detik 🔥 #tips #contentcreator</p>
-            <div class="music-row">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-              <span>Original Sound - rizky.creative</span>
-            </div>
-          </div>
-          <div class="action-bar">
-            <button class="action-btn like-btn" onclick="toggleLike(this)">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-              <span class="count">24.5K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              <span class="count">1.2K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
-              </svg>
-              <span class="count">890</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-              <span class="count">Share</span>
-            </button>
-          </div>
-        </div>
-        <div class="progress-bar"><div class="progress"></div></div>
-      </section>
+    <p id="notice" role="status">
+      Pencarian OeR sedang dikembangkan.
+    </p>
 
-      <!-- Video 2 -->
-      <section class="video-item">
-        <video class="video-player" loop muted playsinline>
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay">
-          <div class="video-info">
-            <div class="creator-row">
-              <img src="https://i.pravatar.cc/100?img=33" class="avatar" alt="Creator" />
-              <div class="creator-meta">
-                <span class="username">@sari.visuals</span>
-                <button class="follow-btn">Ikuti</button>
-              </div>
-            </div>
-            <p class="caption">Behind the scenes shooting di Bali 🌅 #travel #cinematic</p>
-            <div class="music-row">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-              <span>Chill Vibes - sari.visuals</span>
-            </div>
-          </div>
-          <div class="action-bar">
-            <button class="action-btn like-btn" onclick="toggleLike(this)">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-              <span class="count">18.3K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              <span class="count">942</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
-              </svg>
-              <span class="count">1.1K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-              <span class="count">Share</span>
-            </button>
-          </div>
-        </div>
-        <div class="progress-bar"><div class="progress"></div></div>
-      </section>
-
-      <!-- Video 3 -->
-      <section class="video-item">
-        <video class="video-player" loop muted playsinline>
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay">
-          <div class="video-info">
-            <div class="creator-row">
-              <img src="https://i.pravatar.cc/100?img=68" class="avatar" alt="Creator" />
-              <div class="creator-meta">
-                <span class="username">@dimas.edit</span>
-                <button class="follow-btn">Ikuti</button>
-              </div>
-            </div>
-            <p class="caption">Transition effect yang lagi hits 2026 ✨ Tutorial di komentar!</p>
-            <div class="music-row">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-              <span>Trending Sound - dimas.edit</span>
-            </div>
-          </div>
-          <div class="action-bar">
-            <button class="action-btn like-btn" onclick="toggleLike(this)">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-              <span class="count">42.1K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              <span class="count">3.4K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
-              </svg>
-              <span class="count">2.8K</span>
-            </button>
-            <button class="action-btn">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
-              <span class="count">Share</span>
-            </button>
-          </div>
-        </div>
-        <div class="progress-bar"><div class="progress"></div></div>
-      </section>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <span>Home</span>
+    <section class="services" id="layanan" aria-label="Layanan OeR">
+      <a class="service" href="#pencarian">
+        <span class="service-icon" aria-hidden="true">⌕</span>
+        <span>Pencarian</span>
       </a>
-      <a href="upload.html" class="nav-item upload-btn">
-        <div class="upload-circle">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-        </div>
+      <a class="service" href="#jelajahi">
+        <span class="service-icon" aria-hidden="true">◎</span>
+        <span>Jelajahi</span>
       </a>
-      <a href="profile.html" class="nav-item">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
+      <a class="service" href="#profil" id="profileLink">
+        <span class="service-icon" aria-hidden="true">♙</span>
         <span>Profil</span>
       </a>
-    </nav>
-  </div>
+    </section>
+  </main>
 
-  <script src="app.js"></script>
+  <footer>
+    <span>OeR — Platform yang terus berkembang</span>
+    <nav class="footer-links" aria-label="Informasi">
+      <a href="#tentang">Tentang OeR</a>
+      <a href="#bantuan">Bantuan</a>
+    </nav>
+  </footer>
+
+  <script>
+    // Demo antarmuka saja; belum melakukan pencarian ke Supabase.
+    document.getElementById("searchForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const query = document.getElementById("searchInput").value.trim();
+      const notice = document.getElementById("notice");
+
+      notice.textContent = query
+        ? "Pencarian OeR untuk “" + query + "” sedang dikembangkan."
+        : "Masukkan kata yang ingin dicari.";
+    });
+  </script>
 </body>
 </html>
