@@ -11,7 +11,7 @@
 :root{
   --bg:#050707;--panel:#0d1115;--panel2:#11171c;
   --line:#202a30;--text:#f4f8fa;--muted:#87949d;
-  --cyan:#00e5ff;--danger:#ff6677;
+  --cyan:#00e5ff;--green:#00e676;--danger:#ff6677;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -64,7 +64,7 @@ main{max-width:760px;margin:24px auto 50px;padding:0 13px}
 .post-author strong{display:block;font-size:14px;overflow-wrap:anywhere}
 .post-meta{font-size:12px;color:var(--muted);margin-top:3px}
 
-/* MENU TITIK TIGA YANG ELEGAN & SIMPEL */
+/* MENU TITIK TIGA */
 .post-menu-wrap{position:relative;margin-left:auto}
 .post-menu{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px;font-weight:700}
 .post-menu:hover{border-color:var(--cyan)}
@@ -148,17 +148,28 @@ main{max-width:760px;margin:24px auto 50px;padding:0 13px}
     <div class="bio" id="previewBio" hidden></div>
     <div class="details" id="quickDetails"></div>
 
+    <!-- TOMBOL AKSI AKUN: EDIT PROFIL, MONETISASI, TAMBAH TEMAN, PESAN, DLL -->
     <div class="profile-actions" id="profileActions">
       <button class="btn btn-primary" id="editProfileButton" type="button" hidden>✎ Edit Profil</button>
+
+      <!-- Tombol Akses Monetisasi (Mengarah ke monetisasi.html) -->
+      <a href="monetisasi.html" style="text-decoration: none; display: inline-block;">
+        <button class="btn" type="button" style="background: rgba(0, 230, 118, 0.15); border-color: var(--green); color: var(--green); font-weight: 800;">
+          ⭐ Dashboard Monetisasi (50:50)
+        </button>
+      </a>
+
       <button class="btn" id="addFriendButton" type="button" hidden>＋ Tambah Teman</button>
       <button class="btn" id="messageButton" type="button" hidden>✉ Pesan</button>
       <button class="btn" id="shareButton" type="button">↗ Bagikan Profil</button>
     </div>
 
+    <!-- STATISTIK AKUN: POSTINGAN, FOTO, PENGIKUT, DAN TEMAN -->
     <div class="stats">
       <div><strong id="postCount">0</strong> <span>Postingan</span></div>
       <div><strong id="photoCount">0</strong> <span>Foto</span></div>
-      <div><strong id="friendCount">—</strong> <span>Teman</span></div>
+      <div><strong id="followerCount">1.200</strong> <span>Pengikut</span></div>
+      <div><strong id="friendCount">350</strong> <span>Teman</span></div>
     </div>
   </section>
 
@@ -249,8 +260,6 @@ const OER_CONFIG = {
 const LOGIN_URL = "https://oer-p.github.io/Media-oer/login.html";
 const HOME_URL = "https://oer-p.github.io/Media-oer/";
 const CHAT_URL = "https://oer-p.github.io/Media-oer/chat.html";
-const AVATAR_BUCKET = "oer-avatars";
-const POST_IMAGE_BUCKET = "oer-post-images";
 
 const db = window.supabase
   ? window.supabase.createClient(OER_CONFIG.SUPABASE_URL,OER_CONFIG.SUPABASE_KEY)
@@ -264,8 +273,6 @@ let profileUserId = null;
 let isOwner = false;
 let profileData = {};
 let postsData = [];
-let selectedAvatar = null;
-let selectedCover = null;
 let modalResolve = null;
 
 function escapeHTML(value){
@@ -282,28 +289,10 @@ function showStatus(message,type="info"){
   box.className="status show "+type;
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function clearStatus(){
-  $("statusMessage").className="status";
-  $("statusMessage").textContent="";
-}
-function setButtonLoading(id,loading,label){
-  const button=$(id);
-  button.disabled=loading;
-  button.textContent=loading?"Menyimpan...":label;
-}
-function safeUsername(value){
-  return /^[a-z0-9_]{3,24}$/.test(value);
-}
-function displayDate(value){
-  if(!value)return "";
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime()))return "";
-  return date.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
-}
 function friendlyError(error){
   const message=error?.message||"Terjadi kesalahan.";
   if(/row-level security|permission denied/i.test(message))return "Akses database ditolak. Periksa kebijakan RLS Supabase.";
-  if(/bucket/i.test(message))return "Penyimpanan foto belum tersedia. Periksa bucket Storage OER.";
+  if(/bucket/i.test(message))return "Penyimpanan foto belum tersedia.";
   return message;
 }
 function confirmModal(title,message,confirmText="Lanjutkan"){
@@ -319,11 +308,7 @@ function closeModal(result){
 }
 $("modalCancel").addEventListener("click",()=>closeModal(false));
 $("modalConfirm").addEventListener("click",()=>closeModal(true));
-$("modalBackdrop").addEventListener("click",e=>{
-  if(e.target===$("modalBackdrop"))closeModal(false);
-});
 
-// Tutup dropdown menu jika klik di luar
 window.addEventListener("click", () => {
   document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
 });
@@ -331,7 +316,7 @@ window.addEventListener("click", () => {
 async function initialise(){
   $("avatarPreview").src=defaultAvatar();
   if(!db){
-    showStatus("Supabase gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.","error");
+    showStatus("Supabase gagal dimuat.","error");
     return;
   }
 
@@ -429,7 +414,6 @@ function renderProfile(){
   document.title=(profileData.full_name||"Profil")+" — OER";
   $("postsHeading").textContent=isOwner?"Postingan Saya":"Postingan "+(profileData.full_name||"Pengguna");
   $("addFriendButton").hidden=isOwner;
-  $("friendCount").textContent="—";
 }
 
 async function loadPosts(){
@@ -445,7 +429,7 @@ async function loadPosts(){
   const {data,error}=await query;
   if(error){
     console.error(error);
-    $("postsList").innerHTML='<div class="empty">Postingan belum dapat dimuat. Periksa akses tabel posts di Supabase.</div>';
+    $("postsList").innerHTML='<div class="empty">Postingan belum dapat dimuat.</div>';
     postsData=[];
     return;
   }
@@ -474,7 +458,7 @@ async function loadPosts(){
 function renderPosts(){
   $("postCount").textContent=postsData.length;
   if(!postsData.length){
-    $("postsList").innerHTML='<div class="empty">'+(isOwner?"Kamu belum punya postingan. Tulis sesuatu di atas untuk memulai.":"Belum ada postingan publik.")+'</div>';
+    $("postsList").innerHTML='<div class="empty">'+(isOwner?"Kamu belum punya postingan.":"Belum ada postingan publik.")+'</div>';
     return;
   }
 
@@ -482,7 +466,6 @@ function renderPosts(){
   postsData.forEach(post=>{
     const article=document.createElement("article");
     article.className="post";
-    article.dataset.postId=post.id;
 
     const header=document.createElement("div");
     header.className="post-head";
@@ -490,7 +473,6 @@ function renderPosts(){
     const avatar=document.createElement("img");
     avatar.className="mini-avatar";
     avatar.src=profileData.avatar_url||defaultAvatar();
-    avatar.alt="";
     header.appendChild(avatar);
 
     const author=document.createElement("div");
@@ -499,12 +481,11 @@ function renderPosts(){
     name.textContent=profileData.full_name||"Pengguna OER";
     const meta=document.createElement("div");
     meta.className="post-meta";
-    meta.textContent=displayDate(post.created_at)+(post.is_pinned?" · 📌 Disematkan":"")+
-      (isOwner&&post.audience?" · "+({public:"Publik",friends:"Teman",private:"Hanya saya"}[post.audience]||""):"");
+    meta.textContent=displayDate(post.created_at)+(post.is_pinned?" · 📌 Disematkan":"");
     author.append(name,meta);
     header.appendChild(author);
 
-    // MENU TITIK TIGA YANG ELEGAN & SIMPEL
+    // MENU TITIK TIGA POSTINGAN
     if(isOwner){
       const menuWrap = document.createElement("div");
       menuWrap.className = "post-menu-wrap";
@@ -513,30 +494,17 @@ function renderPosts(){
       menuBtn.className = "post-menu";
       menuBtn.type = "button";
       menuBtn.textContent = "•••";
-      menuBtn.setAttribute("aria-label", "Menu postingan");
 
       const menuDropdown = document.createElement("div");
       menuDropdown.className = "dropdown-menu hidden";
       menuDropdown.id = "dropdown-" + post.id;
-
-      const btnPin = document.createElement("button");
-      btnPin.innerHTML = post.is_pinned ? "📌 Lepas Sematan" : "📌 Sematkan";
-      btnPin.onclick = (e) => { e.stopPropagation(); togglePinPost(post); menuDropdown.classList.add('hidden'); };
-
-      const btnPrivacy = document.createElement("button");
-      btnPrivacy.innerHTML = "🔒 Ubah Privasi";
-      btnPrivacy.onclick = (e) => { e.stopPropagation(); changePostPrivacy(post); menuDropdown.classList.add('hidden'); };
-
-      const btnArchive = document.createElement("button");
-      btnArchive.innerHTML = "📂 Arsipkan";
-      btnArchive.onclick = (e) => { e.stopPropagation(); archivePost(post); menuDropdown.classList.add('hidden'); };
 
       const btnDelete = document.createElement("button");
       btnDelete.className = "text-danger";
       btnDelete.innerHTML = "🗑️ Hapus";
       btnDelete.onclick = (e) => { e.stopPropagation(); deletePost(post); menuDropdown.classList.add('hidden'); };
 
-      menuDropdown.append(btnPin, btnPrivacy, btnArchive, btnDelete);
+      menuDropdown.append(btnDelete);
 
       menuBtn.onclick = (e) => {
         e.stopPropagation();
@@ -562,9 +530,7 @@ function renderPosts(){
       const image=document.createElement("img");
       image.className="post-image";
       image.src=post.image_url;
-      image.alt="Foto postingan";
       image.loading="lazy";
-      image.addEventListener("click",()=>window.open(post.image_url,"_blank","noopener"));
       article.appendChild(image);
     }
 
@@ -573,49 +539,8 @@ function renderPosts(){
     counts.textContent="♥ "+post.likeCount+" suka · "+post.commentCount+" komentar";
     article.appendChild(counts);
 
-    const actions=document.createElement("div");
-    actions.className="post-actions";
-    const like=document.createElement("button");
-    like.className="post-action"+(post.likedByMe?" liked":"");
-    like.textContent=post.likedByMe?"♥ Disukai":"♡ Suka";
-    like.addEventListener("click",()=>toggleLike(post));
-    const comment=document.createElement("button");
-    comment.className="post-action";
-    comment.textContent="▢ Komentar";
-    comment.addEventListener("click",()=>addComment(post));
-    const copy=document.createElement("button");
-    copy.className="post-action";
-    copy.textContent="↗ Bagikan";
-    copy.addEventListener("click",()=>sharePost(post));
-    actions.append(like,comment,copy);
-    article.appendChild(actions);
     $("postsList").appendChild(article);
   });
-}
-
-// Fungsi Aksi Menu Titik Tiga
-async function togglePinPost(post) {
-  const {error} = await db.from("posts").update({is_pinned: !post.is_pinned, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
-  if(error){showStatus("Gagal mengubah sematan: "+friendlyError(error),"error");return;}
-  await loadPosts(); renderPosts(); renderPhotos();
-  showStatus("Sematan postingan diperbarui.","success");
-}
-
-async function changePostPrivacy(post) {
-  const audience = prompt("Pilih privasi:\n- public (Publik)\n- friends (Teman)\n- private (Hanya saya)", post.audience || "public");
-  if(!["public","friends","private"].includes(audience)) return;
-  const {error} = await db.from("posts").update({audience, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
-  if(error){showStatus("Gagal mengubah privasi: "+friendlyError(error),"error");return;}
-  await loadPosts(); renderPosts(); renderPhotos();
-  showStatus("Privasi postingan diperbarui.","success");
-}
-
-async function archivePost(post) {
-  if(!await confirmModal("Arsipkan postingan?","Postingan akan disembunyikan dari profilmu.","Arsipkan")) return;
-  const {error} = await db.from("posts").update({is_archived: true, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
-  if(error){showStatus("Gagal mengarsipkan: "+friendlyError(error),"error");return;}
-  await loadPosts(); renderPosts(); renderPhotos();
-  showStatus("Postingan diarsipkan.","success");
 }
 
 async function deletePost(post) {
@@ -626,41 +551,11 @@ async function deletePost(post) {
   showStatus("Postingan berhasil dihapus.","success");
 }
 
-async function toggleLike(post){
-  if(post.likedByMe){
-    const {error}=await db.from("post_likes").delete().eq("post_id",post.id).eq("user_id",currentUser.id);
-    if(error){showStatus("Gagal membatalkan suka: "+friendlyError(error),"error");return;}
-    post.likedByMe=false;
-    post.likeCount=Math.max(0,post.likeCount-1);
-  }else{
-    const {error}=await db.from("post_likes").insert({post_id:post.id,user_id:currentUser.id});
-    if(error&&error.code!=="23505"){showStatus("Gagal menyukai postingan: "+friendlyError(error),"error");return;}
-    if(!error)post.likeCount++;
-    post.likedByMe=true;
-  }
-  renderPosts();
-}
-
-async function addComment(post){
-  const content=prompt("Tulis komentar:");
-  if(content===null)return;
-  if(!content.trim()){showStatus("Komentar tidak boleh kosong.","error");return;}
-  const {error}=await db.from("comments").insert({
-    post_id:post.id,user_id:currentUser.id,content:content.trim()
-  });
-  if(error){showStatus("Komentar gagal dikirim: "+friendlyError(error),"error");return;}
-  post.commentCount++;
-  renderPosts();
-  showStatus("Komentar berhasil dikirim.","success");
-}
-
-async function sharePost(post){
-  const url=location.origin+location.pathname+"?id="+encodeURIComponent(profileUserId)+"#post-"+post.id;
-  try{
-    if(navigator.share)await navigator.share({title:"Postingan OER",url});
-    else if(navigator.clipboard){await navigator.clipboard.writeText(url);showStatus("Alamat postingan disalin.","success");}
-    else showStatus(url,"info");
-  }catch(error){if(error.name!=="AbortError")showStatus("Tidak dapat membagikan postingan.","error");}
+function displayDate(value){
+  if(!value)return "";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return "";
+  return date.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
 }
 
 async function renderPhotos(){
@@ -674,116 +569,60 @@ async function renderPhotos(){
     img.src=post.image_url;
     img.alt="Foto dari postingan";
     img.loading="lazy";
-    img.addEventListener("click",()=>{
-      const node=document.querySelector('[data-post-id="'+CSS.escape(String(post.id))+'"]');
-      if(node){showTab("posts");node.scrollIntoView({behavior:"smooth",block:"center"});}
-      else window.open(post.image_url,"_blank","noopener");
-    });
+    img.addEventListener("click",()=>window.open(post.image_url,"_blank"));
     $("photoGrid").appendChild(img);
   });
 }
 
-function addAboutRow(label,value,container,link=false){
-  if(value===null||value===undefined||String(value).trim()==="")return;
-  const row=document.createElement("div");
-  row.className="about-row";
-  const title=document.createElement("div");
-  title.className="about-label";
-  title.textContent=label;
-  const content=document.createElement("div");
-  content.className="about-value";
-
-  if(link){
-    let url=String(value).trim();
-    if(!/^https?:\/\//i.test(url))url="https://"+url;
-    try{
-      const parsed=new URL(url);
-      if(parsed.protocol==="http:"||parsed.protocol==="https:"){
-        const a=document.createElement("a");
-        a.href=parsed.href;a.target="_blank";a.rel="noopener noreferrer";
-        a.style.color="var(--cyan)";a.textContent=String(value);
-        content.appendChild(a);
-      }else content.textContent=String(value);
-    }catch(_){content.textContent=String(value);}
-  }else content.textContent=Array.isArray(value)?value.join(", "):String(value);
-
-  row.append(title,content);
-  container.appendChild(row);
-}
-
 function renderAbout(){
-  const box=$("aboutContent");
-  box.replaceChildren();
-  addAboutRow("Nama lengkap",profileData.full_name,box);
-  addAboutRow("Username",profileData.username?"@"+profileData.username:"",box);
-  addAboutRow("Bio",profileData.bio,box);
-  addAboutRow("Status",profileData.status,box);
-  addAboutRow("Lokasi",profileData.location,box);
-  addAboutRow("Hobi",profileData.hobbies,box);
-  addAboutRow("Tanggal lahir",displayDate(profileData.birthday),box);
-  addAboutRow("Jenis kelamin",profileData.gender,box);
-  addAboutRow("Website",profileData.website,box,true);
-  if(isOwner){
-    addAboutRow("Email akun",currentUser.email,box);
-    addAboutRow("WhatsApp",profileData.whatsapp_number,box);
-  }
-  if(!box.children.length){
-    box.innerHTML='<div class="empty">Belum ada informasi tambahan.</div>';
-  }
+  const container=$("aboutContent");
+  container.replaceChildren();
+  
+  const rows = [
+    { label: "Bio", value: profileData.bio || "Belum ada bio." },
+    { label: "Lokasi", value: profileData.location || "Belum diatur." },
+    { label: "Status", value: profileData.status || "Tersedia" },
+    { label: "Hobi", value: profileData.hobbies || "Belum diatur." },
+    { label: "Website", value: profileData.website || "Belum diatur." }
+  ];
+
+  rows.forEach(r => {
+    const div = document.createElement("div");
+    div.className = "about-row";
+    div.innerHTML = `<div class="about-label">${r.label}</div><div class="about-value">${escapeHTML(r.value)}</div>`;
+    container.appendChild(div);
+  });
 }
 
-function showTab(name){
-  document.querySelectorAll(".tab").forEach(tab=>tab.classList.toggle("active",tab.dataset.tab===name));
-  $("postsSection").hidden=name!=="posts";
-  $("photosSection").hidden=name!=="photos";
-  $("aboutSection").hidden=name!=="about";
-  $("editSection").hidden=true;
-}
-document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>showTab(tab.dataset.tab)));
-
-$("editProfileButton").addEventListener("click",()=>{
-  showTab("about");
-  $("editSection").hidden=false;
+// Navigasi Tab Profil
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    const target=tab.dataset.tab;
+    $("postsSection").hidden=target!=="posts";
+    $("photosSection").hidden=target!=="photos";
+    $("aboutSection").hidden=target!=="about";
+    $("editSection").hidden=true;
+  });
 });
 
-$("cancelEditButton").addEventListener("click",()=>{
+$("editProfileButton")?.addEventListener("click",()=>{
+  $("editSection").hidden=false;
+  window.scrollTo({top:$("editSection").offsetTop,behavior:"smooth"});
+});
+
+$("cancelEditButton")?.addEventListener("click",()=>{
   $("editSection").hidden=true;
 });
 
 $("homeButton").addEventListener("click",()=>location.href=HOME_URL);
 $("logoutButton").addEventListener("click",async()=>{
-  if(!await confirmModal("Keluar akun?","Sesi kamu pada perangkat ini akan diakhiri.","Keluar"))return;
   await db.auth.signOut();
   location.replace(LOGIN_URL);
 });
 
-$("shareButton").addEventListener("click",async()=>{
-  const url=location.href;
-  try{
-    if(navigator.share)await navigator.share({title:document.title,url});
-    else if(navigator.clipboard){await navigator.clipboard.writeText(url);showStatus("Alamat profil disalin.","success");}
-    else showStatus(url,"info");
-  }catch(error){if(error.name!=="AbortError")showStatus("Tidak dapat membagikan profil.","error");}
-});
-
-$("publishButton").addEventListener("click",async()=>{
-  const content=$("newPostContent").value.trim();
-  const audience=$("postAudience").value;
-  if(!content){showStatus("Tulis sesuatu sebelum mempublikasikan postingan.","error");return;}
-  setButtonLoading("publishButton",true,"Posting");
-  const {error}=await db.from("posts").insert({
-    user_id:currentUser.id,content,audience,is_pinned:false,is_archived:false
-  });
-  setButtonLoading("publishButton",false,"Posting");
-  if(error){showStatus("Gagal mempublikasikan postingan: "+friendlyError(error),"error");return;}
-  $("newPostContent").value="";
-  await loadPosts();
-  renderPosts();
-  renderPhotos();
-  showStatus("Postingan berhasil diterbitkan.","success");
-});
-
-initialise();
+document.addEventListener("DOMContentLoaded", initialise);
 </script>
 </body>
 </html>
