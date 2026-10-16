@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -58,13 +57,23 @@ main{max-width:760px;margin:24px auto 50px;padding:0 13px}
 .post-create textarea{width:100%;min-height:80px;resize:vertical;border:1px solid var(--line);background:#080c0f;color:var(--text);padding:12px;border-radius:10px;outline:none}
 .post-create textarea:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--cyan)}
 .create-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.post{border:1px solid var(--line);border-radius:13px;padding:15px;margin-bottom:13px;background:#0a0e11;min-width:0}
-.post-head{display:flex;align-items:center;gap:10px}
+.post{border:1px solid var(--line);border-radius:13px;padding:15px;margin-bottom:13px;background:#0a0e11;min-width:0;position:relative}
+.post-head{display:flex;align-items:center;gap:10px;position:relative}
 .mini-avatar{width:39px;height:39px;border-radius:50%;object-fit:cover;background:#172128}
 .post-author{min-width:0;flex:1}
 .post-author strong{display:block;font-size:14px;overflow-wrap:anywhere}
 .post-meta{font-size:12px;color:var(--muted);margin-top:3px}
-.post-menu{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px}
+
+/* MENU TITIK TIGA YANG ELEGAN & SIMPEL */
+.post-menu-wrap{position:relative;margin-left:auto}
+.post-menu{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px;font-weight:700}
+.post-menu:hover{border-color:var(--cyan)}
+.dropdown-menu{position:absolute;top:38px;right:0;width:170px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 10px 25px rgba(0,0,0,0.6);z-index:50;display:flex;flex-direction:column;gap:4px}
+.dropdown-menu.hidden{display:none!important}
+.dropdown-menu button{width:100%;padding:8px 12px;background:transparent;border:none;border-radius:8px;color:var(--text);font-size:12px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s}
+.dropdown-menu button:hover{background:var(--panel2);color:var(--cyan)}
+.dropdown-menu button.text-danger:hover{color:var(--danger);background:rgba(255,102,119,0.1)}
+
 .post-content{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;font-size:14px;margin:13px 0}
 .post-image{display:block;width:100%;max-height:520px;object-fit:contain;border-radius:10px;background:#050707}
 .post-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
@@ -314,6 +323,11 @@ $("modalBackdrop").addEventListener("click",e=>{
   if(e.target===$("modalBackdrop"))closeModal(false);
 });
 
+// Tutup dropdown menu jika klik di luar
+window.addEventListener("click", () => {
+  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+});
+
 async function initialise(){
   $("avatarPreview").src=defaultAvatar();
   if(!db){
@@ -354,7 +368,6 @@ async function initialise(){
 }
 
 async function loadProfile(){
-  // Kolom inti tetap sama dengan profile.html lama.
   const {data,error}=await db.from("profiles")
     .select("user_id,full_name,username,avatar_url")
     .eq("user_id",profileUserId).maybeSingle();
@@ -367,7 +380,6 @@ async function loadProfile(){
     avatar_url:null
   };
 
-  // Kolom tambahan dibaca jika SQL pengembangan profil sudah dijalankan.
   const extra=await db.from("profiles")
     .select("bio,location,status,hobbies,birthday,gender,website,whatsapp_number,cover_url")
     .eq("user_id",profileUserId).maybeSingle();
@@ -443,7 +455,6 @@ async function loadPosts(){
     return post.audience==="public"||!post.audience;
   });
 
-  // Ambil hitungan suka dan komentar dari tabel yang sudah dipakai di halaman Postingan.
   await Promise.all(postsData.map(async post=>{
     post.likeCount=0;
     post.commentCount=0;
@@ -493,14 +504,50 @@ function renderPosts(){
     author.append(name,meta);
     header.appendChild(author);
 
+    // MENU TITIK TIGA YANG ELEGAN & SIMPEL
     if(isOwner){
-      const menu=document.createElement("button");
-      menu.className="post-menu";
-      menu.type="button";
-      menu.textContent="•••";
-      menu.setAttribute("aria-label","Menu postingan");
-      menu.addEventListener("click",()=>postMenu(post));
-      header.appendChild(menu);
+      const menuWrap = document.createElement("div");
+      menuWrap.className = "post-menu-wrap";
+
+      const menuBtn = document.createElement("button");
+      menuBtn.className = "post-menu";
+      menuBtn.type = "button";
+      menuBtn.textContent = "•••";
+      menuBtn.setAttribute("aria-label", "Menu postingan");
+
+      const menuDropdown = document.createElement("div");
+      menuDropdown.className = "dropdown-menu hidden";
+      menuDropdown.id = "dropdown-" + post.id;
+
+      const btnPin = document.createElement("button");
+      btnPin.innerHTML = post.is_pinned ? "📌 Lepas Sematan" : "📌 Sematkan";
+      btnPin.onclick = (e) => { e.stopPropagation(); togglePinPost(post); menuDropdown.classList.add('hidden'); };
+
+      const btnPrivacy = document.createElement("button");
+      btnPrivacy.innerHTML = "🔒 Ubah Privasi";
+      btnPrivacy.onclick = (e) => { e.stopPropagation(); changePostPrivacy(post); menuDropdown.classList.add('hidden'); };
+
+      const btnArchive = document.createElement("button");
+      btnArchive.innerHTML = "📂 Arsipkan";
+      btnArchive.onclick = (e) => { e.stopPropagation(); archivePost(post); menuDropdown.classList.add('hidden'); };
+
+      const btnDelete = document.createElement("button");
+      btnDelete.className = "text-danger";
+      btnDelete.innerHTML = "🗑️ Hapus";
+      btnDelete.onclick = (e) => { e.stopPropagation(); deletePost(post); menuDropdown.classList.add('hidden'); };
+
+      menuDropdown.append(btnPin, btnPrivacy, btnArchive, btnDelete);
+
+      menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+          if (m.id !== menuDropdown.id) m.classList.add('hidden');
+        });
+        menuDropdown.classList.toggle('hidden');
+      };
+
+      menuWrap.append(menuBtn, menuDropdown);
+      header.appendChild(menuWrap);
     }
 
     article.appendChild(header);
@@ -546,6 +593,39 @@ function renderPosts(){
   });
 }
 
+// Fungsi Aksi Menu Titik Tiga
+async function togglePinPost(post) {
+  const {error} = await db.from("posts").update({is_pinned: !post.is_pinned, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
+  if(error){showStatus("Gagal mengubah sematan: "+friendlyError(error),"error");return;}
+  await loadPosts(); renderPosts(); renderPhotos();
+  showStatus("Sematan postingan diperbarui.","success");
+}
+
+async function changePostPrivacy(post) {
+  const audience = prompt("Pilih privasi:\n- public (Publik)\n- friends (Teman)\n- private (Hanya saya)", post.audience || "public");
+  if(!["public","friends","private"].includes(audience)) return;
+  const {error} = await db.from("posts").update({audience, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
+  if(error){showStatus("Gagal mengubah privasi: "+friendlyError(error),"error");return;}
+  await loadPosts(); renderPosts(); renderPhotos();
+  showStatus("Privasi postingan diperbarui.","success");
+}
+
+async function archivePost(post) {
+  if(!await confirmModal("Arsipkan postingan?","Postingan akan disembunyikan dari profilmu.","Arsipkan")) return;
+  const {error} = await db.from("posts").update({is_archived: true, updated_at: new Date().toISOString()}).eq("id", post.id).eq("user_id", currentUser.id);
+  if(error){showStatus("Gagal mengarsipkan: "+friendlyError(error),"error");return;}
+  await loadPosts(); renderPosts(); renderPhotos();
+  showStatus("Postingan diarsipkan.","success");
+}
+
+async function deletePost(post) {
+  if(!await confirmModal("Hapus postingan?","Tindakan ini tidak dapat dibatalkan.","Hapus")) return;
+  const {error} = await db.from("posts").delete().eq("id", post.id).eq("user_id", currentUser.id);
+  if(error){showStatus("Gagal menghapus postingan: "+friendlyError(error),"error");return;}
+  await loadPosts(); renderPosts(); renderPhotos();
+  showStatus("Postingan berhasil dihapus.","success");
+}
+
 async function toggleLike(post){
   if(post.likedByMe){
     const {error}=await db.from("post_likes").delete().eq("post_id",post.id).eq("user_id",currentUser.id);
@@ -581,34 +661,6 @@ async function sharePost(post){
     else if(navigator.clipboard){await navigator.clipboard.writeText(url);showStatus("Alamat postingan disalin.","success");}
     else showStatus(url,"info");
   }catch(error){if(error.name!=="AbortError")showStatus("Tidak dapat membagikan postingan.","error");}
-}
-
-async function postMenu(post){
-  const action=prompt("Menu postingan:\n1. Sematkan / lepas sematan\n2. Ubah privasi\n3. Arsipkan\n4. Hapus\n\nMasukkan nomor pilihan:");
-  if(!action)return;
-
-  if(action==="1"){
-    const {error}=await db.from("posts").update({is_pinned:!post.is_pinned,updated_at:new Date().toISOString()}).eq("id",post.id).eq("user_id",currentUser.id);
-    if(error){showStatus("Gagal mengubah sematan: "+friendlyError(error),"error");return;}
-  }else if(action==="2"){
-    const audience=prompt("Privasi: public, friends, atau private",post.audience||"public");
-    if(!["public","friends","private"].includes(audience))return;
-    const {error}=await db.from("posts").update({audience,updated_at:new Date().toISOString()}).eq("id",post.id).eq("user_id",currentUser.id);
-    if(error){showStatus("Gagal mengubah privasi: "+friendlyError(error),"error");return;}
-  }else if(action==="3"){
-    if(!await confirmModal("Arsipkan postingan?","Postingan akan disembunyikan dari profilmu.","Arsipkan"))return;
-    const {error}=await db.from("posts").update({is_archived:true,updated_at:new Date().toISOString()}).eq("id",post.id).eq("user_id",currentUser.id);
-    if(error){showStatus("Gagal mengarsipkan: "+friendlyError(error),"error");return;}
-  }else if(action==="4"){
-    if(!await confirmModal("Hapus postingan?","Tindakan ini tidak dapat dibatalkan.","Hapus"))return;
-    const {error}=await db.from("posts").delete().eq("id",post.id).eq("user_id",currentUser.id);
-    if(error){showStatus("Gagal menghapus postingan: "+friendlyError(error),"error");return;}
-  }else return;
-
-  await loadPosts();
-  renderPosts();
-  renderPhotos();
-  showStatus("Postingan berhasil diperbarui.","success");
 }
 
 async function renderPhotos(){
@@ -692,170 +744,43 @@ document.querySelectorAll(".tab").forEach(tab=>tab.addEventListener("click",()=>
 $("editProfileButton").addEventListener("click",()=>{
   showTab("about");
   $("editSection").hidden=false;
-  $("editSection").scrollIntoView({behavior:"smooth",block:"start"});
 });
+
 $("cancelEditButton").addEventListener("click",()=>{
   $("editSection").hidden=true;
-  clearStatus();
-});
-$("editUsername").addEventListener("input",event=>{
-  const input=event.target;
-  input.value=input.value.toLowerCase().replace(/[^a-z0-9_]/g,"").slice(0,24);
 });
 
-async function uploadImage(file,folder){
-  const allowed=["image/jpeg","image/png","image/webp"];
-  if(!allowed.includes(file.type))throw new Error("Gunakan foto JPG, PNG, atau WEBP.");
-  if(file.size>5*1024*1024)throw new Error("Ukuran foto maksimal 5 MB.");
-  const ext={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"}[file.type];
-  const path=currentUser.id+"/"+folder+"-"+Date.now()+"."+ext;
-  const {error}=await db.storage.from(AVATAR_BUCKET).upload(path,file,{
-    cacheControl:"3600",upsert:false,contentType:file.type
-  });
-  if(error)throw error;
-  return db.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
-}
-
-$("changeAvatarButton").addEventListener("click",()=>$("avatarInput").click());
-$("changeCoverButton").addEventListener("click",()=>$("coverInput").click());
-
-$("avatarInput").addEventListener("change",event=>{
-  const file=event.target.files?.[0];if(!file)return;
-  if(!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>5*1024*1024){
-    showStatus("Pilih foto JPG, PNG, atau WEBP dengan ukuran maksimal 5 MB.","error");event.target.value="";return;
-  }
-  selectedAvatar=file;
-  $("avatarPreview").src=URL.createObjectURL(file);
-  showStatus("Foto profil dipilih. Tekan Simpan Perubahan untuk menyimpan.","info");
-  $("editSection").hidden=false;
-  $("editSection").scrollIntoView({behavior:"smooth"});
-});
-$("coverInput").addEventListener("change",event=>{
-  const file=event.target.files?.[0];if(!file)return;
-  if(!["image/jpeg","image/png","image/webp"].includes(file.type)||file.size>5*1024*1024){
-    showStatus("Pilih foto JPG, PNG, atau WEBP dengan ukuran maksimal 5 MB.","error");event.target.value="";return;
-  }
-  selectedCover=file;
-  $("coverPreview").style.backgroundImage="url('"+URL.createObjectURL(file)+"')";
-  showStatus("Foto sampul dipilih. Tekan Simpan Perubahan untuk menyimpan.","info");
-  $("editSection").hidden=false;
-  $("editSection").scrollIntoView({behavior:"smooth"});
+$("homeButton").addEventListener("click",()=>location.href=HOME_URL);
+$("logoutButton").addEventListener("click",async()=>{
+  if(!await confirmModal("Keluar akun?","Sesi kamu pada perangkat ini akan diakhiri.","Keluar"))return;
+  await db.auth.signOut();
+  location.replace(LOGIN_URL);
 });
 
-async function saveProfile(){
-  const fullName=$("editFullName").value.trim();
-  const username=$("editUsername").value.trim();
-  if(!fullName){showStatus("Nama lengkap wajib diisi.","error");$("editFullName").focus();return;}
-  if(!safeUsername(username)){showStatus("Username harus 3–24 karakter, hanya huruf kecil, angka, atau garis bawah.","error");$("editUsername").focus();return;}
-
-  setButtonLoading("saveProfileButton",true,"Simpan Perubahan");
-  try{
-    showStatus("Menyimpan profil...","info");
-    let avatarUrl=profileData.avatar_url||null;
-    let coverUrl=profileData.cover_url||null;
-    if(selectedAvatar)avatarUrl=await uploadImage(selectedAvatar,"avatar");
-    if(selectedCover)coverUrl=await uploadImage(selectedCover,"cover");
-
-    const extended={
-      bio:$("editBio").value.trim()||null,
-      location:$("editLocation").value.trim()||null,
-      status:$("editStatus").value.trim()||"Tersedia",
-      hobbies:$("editHobbies").value.trim()||null,
-      birthday:$("editBirthday").value||null,
-      gender:$("editGender").value||null,
-      website:$("editWebsite").value.trim()||null,
-      whatsapp_number:$("editWhatsapp").value.trim()||null,
-      cover_url:coverUrl
-    };
-
-    const base={
-      user_id:currentUser.id,
-      full_name:fullName,
-      username,
-      avatar_url:avatarUrl,
-      updated_at:new Date().toISOString()
-    };
-
-    const {error:extendedError}=await db.from("profiles").upsert({...base,...extended},{onConflict:"user_id"});
-
-    if(extendedError){
-      console.warn("Simpan kolom profil tambahan gagal:",extendedError);
-      const {error:baseError}=await db.from("profiles").upsert(base,{onConflict:"user_id"});
-      if(baseError){
-        if(baseError.code==="23505")throw new Error("Username tersebut sudah digunakan. Pilih username lain.");
-        throw baseError;
-      }
-      profileData={...profileData,...base};
-      showStatus("Nama, username, dan foto berhasil disimpan. Untuk menyimpan bio, sampul, dan informasi tambahan, jalankan SQL pengembangan profil di bawah kode ini.","info");
-    }else{
-      profileData={...profileData,...base,...extended};
-      showStatus("Profil berhasil disimpan!","success");
-    }
-
-    selectedAvatar=null;selectedCover=null;
-    $("avatarInput").value="";$("coverInput").value="";
-    renderProfile();renderAbout();
-    $("editSection").hidden=true;
-  }catch(error){
-    console.error(error);
-    showStatus(friendlyError(error),"error");
-  }finally{
-    setButtonLoading("saveProfileButton",false,"Simpan Perubahan");
-  }
-}
-$("saveProfileButton").addEventListener("click",saveProfile);
-
-$("publishButton").addEventListener("click",async()=>{
-  const content=$("newPostContent").value.trim();
-  if(!content){showStatus("Tulis sesuatu sebelum membuat postingan.","error");return;}
-  $("publishButton").disabled=true;
-  $("publishButton").textContent="Memposting...";
-  try{
-    const {error}=await db.from("posts").insert({
-      user_id:currentUser.id,
-      content,
-      image_url:null,
-      audience:$("postAudience").value
-    });
-    if(error)throw error;
-    $("newPostContent").value="";
-    await loadPosts();renderPosts();renderPhotos();
-    showTab("posts");
-    showStatus("Postingan berhasil diterbitkan.","success");
-  }catch(error){
-    console.error(error);
-    showStatus("Postingan gagal diterbitkan: "+friendlyError(error),"error");
-  }finally{
-    $("publishButton").disabled=false;
-    $("publishButton").textContent="Posting";
-  }
-});
-
-$("addFriendButton").addEventListener("click",()=>{
-  showStatus("Sistem pertemanan belum diaktifkan. Kita sambungkan setelah tabel pertemanan Supabase dibuat.","info");
-});
-$("messageButton").addEventListener("click",()=>{
-  location.href=CHAT_URL+"?id="+encodeURIComponent(profileUserId);
-});
 $("shareButton").addEventListener("click",async()=>{
   const url=location.href;
   try{
-    if(navigator.share)await navigator.share({title:"Profil OER",text:"Lihat profil saya di OER",url});
-    else if(navigator.clipboard){await navigator.clipboard.writeText(url);showStatus("Tautan profil berhasil disalin.","success");}
-    else showStatus("Salin tautan ini: "+url,"info");
+    if(navigator.share)await navigator.share({title:document.title,url});
+    else if(navigator.clipboard){await navigator.clipboard.writeText(url);showStatus("Alamat profil disalin.","success");}
+    else showStatus(url,"info");
   }catch(error){if(error.name!=="AbortError")showStatus("Tidak dapat membagikan profil.","error");}
 });
-$("homeButton").addEventListener("click",()=>location.href=HOME_URL);
-$("logoutButton").addEventListener("click",async()=>{
-  if(!await confirmModal("Keluar dari akun?","Kamu akan keluar dari akun OER.","Keluar"))return;
-  $("logoutButton").disabled=true;
-  const {error}=await db.auth.signOut();
-  if(error){
-    showStatus("Gagal keluar: "+friendlyError(error),"error");
-    $("logoutButton").disabled=false;
-    return;
-  }
-  location.replace(LOGIN_URL);
+
+$("publishButton").addEventListener("click",async()=>{
+  const content=$("newPostContent").value.trim();
+  const audience=$("postAudience").value;
+  if(!content){showStatus("Tulis sesuatu sebelum mempublikasikan postingan.","error");return;}
+  setButtonLoading("publishButton",true,"Posting");
+  const {error}=await db.from("posts").insert({
+    user_id:currentUser.id,content,audience,is_pinned:false,is_archived:false
+  });
+  setButtonLoading("publishButton",false,"Posting");
+  if(error){showStatus("Gagal mempublikasikan postingan: "+friendlyError(error),"error");return;}
+  $("newPostContent").value="";
+  await loadPosts();
+  renderPosts();
+  renderPhotos();
+  showStatus("Postingan berhasil diterbitkan.","success");
 });
 
 initialise();
