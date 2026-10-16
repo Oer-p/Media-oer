@@ -324,12 +324,17 @@ document.getElementById('notifBellBtn').addEventListener('click', (e) => {
   document.getElementById('notifDropdown').classList.toggle('hidden');
 });
 
+// Mencegah dropdown tertutup saat diklik di dalam area dropdown
+document.getElementById('notifDropdown').addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
 window.addEventListener('click', () => {
   document.getElementById('notifDropdown').classList.add('hidden');
 });
 
-// Jalankan inisialisasi saat halaman dibuka
-initNotificationStatus?: initNotificationSystem();
+// Jalankan inisialisasi sistem notifikasi
+initNotificationSystem();
 </script>
 </body>
 </html>
