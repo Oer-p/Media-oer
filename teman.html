@@ -1,340 +1,308 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halaman Teman - Rekomendasi Pintar</title>
-  <!-- Tailwind CSS untuk styling modern -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome untuk Icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            darkbg: '#090d16',
-            cardbg: '#1e293b',
-            cardhover: '#273548',
-            inputbg: '#111827',
-            accent: '#3b82f6'
-          }
-        }
-      }
-    }
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050707">
+<meta name="description" content="OER — Temukan Teman">
+<title>OER — Teman</title>
+
+<!-- SUPABASE CLIENT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --bg: #050707;
+  --surface: #0b1011;
+  --surface-hover: #111a1b;
+  --border: #1c2b2c;
+  --text: #f2fafa;
+  --muted: #819394;
+  --cyan: #00e5d0;
+  --cyan-soft: rgba(0,229,208,.09);
+  --green: #20d890;
+  --red: #ff5d72;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, rgba(0,229,208,.055), transparent 42%), var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button, input { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* TOPBAR */
+.topbar {
+  height: 72px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5,7,7,.94);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: 1240px;
+  height: 100%;
+  padding: 0 24px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-word {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+.brand-word span { color: var(--cyan); }
+
+.search-box {
+  max-width: 410px;
+  flex: 1;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface);
+}
+.search-box input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+}
+
+/* LAYOUT */
+.layout {
+  max-width: 900px;
+  margin: auto;
+  padding: 25px 24px 40px;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 750;
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.user-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--cyan-soft);
+  flex-shrink: 0;
+}
+.user-name {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-meta {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 3px;
+}
+.btn-action {
+  padding: 8px 14px;
+  background: var(--cyan-soft);
+  border: 1px solid rgba(0,229,208,.3);
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+  white-space: nowrap;
+}
+.btn-action:hover {
+  background: var(--cyan);
+  color: var(--bg);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.back-link:hover { color: var(--cyan); }
+</style>
 </head>
-<body class="bg-darkbg text-gray-100 min-h-screen font-sans antialiased pb-12">
+<body>
 
-  <!-- Container Utama -->
-  <div class="max-w-4xl mx-auto px-4 py-6">
-    
-    <!-- Header & Pencarian -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h1 class="text-2xl font-bold tracking-wide flex items-center gap-2">
-          <i class="fa-solid fa-users text-blue-500"></i> Temukan Teman
-        </h1>
-        <span id="connectionStatus" class="text-xs px-3 py-1 rounded-full bg-gray-800 text-gray-400 border border-gray-700">
-          Memeriksa Koneksi...
-        </span>
-      </div>
-      
-      <!-- Search Bar & Filter -->
-      <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </span>
-        <input type="text" id="searchInput" oninput="filterSuggestions()" placeholder="Cari nama atau kota teman..." 
-          class="w-full pl-11 pr-4 py-3 bg-inputbg border border-gray-700 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all text-sm shadow-inner">
-      </div>
-    </div>
-
-    <!-- SEKSI 1: 🔥 AKTIF SEKARANG (Online) -->
-    <section class="mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold flex items-center gap-2 text-green-400">
-          <span class="relative flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-          </span>
-          Aktif Sekarang
-        </h2>
-      </div>
-      <!-- Horizontal Scroll List untuk yang Aktif -->
-      <div id="activeUsersContainer" class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-700">
-        <!-- Data dimuat dinamis lewat JS -->
-        <div class="text-gray-500 text-sm py-4 italic">Memuat pengguna aktif...</div>
-      </div>
-    </section>
-
-    <!-- SEKSI 2: 📍 TEMAN DI SEKITAR ANDA (Lokasi Sama) -->
-    <section class="mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold flex items-center gap-2 text-blue-400">
-          <i class="fa-solid fa-location-dot"></i> Teman di Sekitar Anda
-        </h2>
-      </div>
-      <div id="nearbyContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- Data dimuat dinamis lewat JS -->
-        <div class="text-gray-500 text-sm py-4 italic col-span-2">Memuat rekomendasi lokasi...</div>
-      </div>
-    </section>
-
-    <!-- SEKSI 3: 👥 MUNGKIN ANDA KENAL (Rekomendasi Lainnya) -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold flex items-center gap-2 text-purple-400">
-          <i class="fa-solid fa-user-plus"></i> Mungkin Anda Kenal
-        </h2>
-      </div>
-      <div id="generalContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- Data dimuat dinamis lewat JS -->
-        <div class="text-gray-500 text-sm py-4 italic col-span-2">Memuat rekomendasi lainnya...</div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- MODAL PROFIL DETAIL -->
-  <div id="profileModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-cardbg border border-gray-700 rounded-2xl w-full max-w-md p-6 relative shadow-2xl">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-800 p-2 rounded-full w-9 h-9 flex items-center justify-center transition-colors">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <div class="flex flex-col items-center text-center mt-2">
-        <img id="modalAvatar" src="" alt="Avatar" class="w-24 h-24 rounded-full object-cover border-2 border-blue-500 mb-3 shadow-lg">
-        <h3 id="modalName" class="text-xl font-bold text-white">Nama Pengguna</h3>
-        <p id="modalCity" class="text-sm text-gray-400 mb-3"><i class="fa-solid fa-location-dot text-blue-400"></i> Kota</p>
-        <p id="modalBio" class="text-sm text-gray-300 bg-inputbg p-3 rounded-xl w-full text-left mb-6 border border-gray-800">Bio pengguna...</p>
-        <button id="modalActionBtn" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-600/20">
-          Tambah Teman
-        </button>
-      </div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="https://oer-p.github.io/Media-oer/" class="brand">
+      <div class="brand-word">OER<span>.</span></div>
+    </a>
+    <div class="search-box">
+      <input type="text" id="searchInput" oninput="filterUsers()" placeholder="Cari teman atau kota...">
     </div>
   </div>
+</header>
 
-  <!-- LOGIKA JAVASCRIPT & SUPABASE INTEGRATION -->
-  <script>
-    // ==========================================================
-    // ⚙️ KONFIGURASI SUPABASE (Ganti dengan kunci proyek Anda)
-    // ==========================================================
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
-    
-    // Inisialisasi Klien Supabase
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<main class="layout">
+  <a href="https://oer-p.github.io/Media-oer/" class="back-link">← Kembali ke Beranda Home</a>
+  
+  <h2 class="section-title" style="color: var(--green);">🟢 Aktif Sekarang</h2>
+  <div id="activeList" style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;">
+    <div style="color: var(--muted); font-size: 12px;">Memuat data...</div>
+  </div>
 
-    let allProfiles = [];
-    let currentUser = null;
-    let myCity = 'Jakarta'; // Default fallback jika belum diatur
+  <h2 class="section-title" style="color: var(--cyan);">📍 Teman di Sekitar Anda</h2>
+  <div id="nearbyGrid" class="grid-cards">
+    <div style="color: var(--muted); font-size: 12px;">Memuat data...</div>
+  </div>
 
-    // Jalankan saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', async () => {
-      await checkAuthAndLoadData();
-    });
+  <h2 class="section-title" style="color: #a855f7;">👥 Mungkin Anda Kenal</h2>
+  <div id="generalGrid" class="grid-cards">
+    <div style="color: var(--muted); font-size: 12px;">Memuat data...</div>
+  </div>
+</main>
 
-    // 1. Cek Sesi Login & Ambil Data Profil
-    async function checkAuthAndLoadData() {
-      const statusEl = document.getElementById('connectionStatus');
-      try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        
-        if (authError || !user) {
-          statusEl.innerText = 'Mode Tamu / Belum Login';
-          statusEl.className = 'text-xs px-3 py-1 rounded-full bg-amber-900/50 text-amber-300 border border-amber-700';
-        } else {
-          currentUser = user;
-          statusEl.innerText = 'Terhubung ke Supabase';
-          statusEl.className = 'text-xs px-3 py-1 rounded-full bg-green-900/50 text-green-300 border border-green-700';
-          
-          // Ambil kota user yang sedang login
-          const { data: myProfile } = await supabase
-            .from('profiles')
-            .select('city')
-            .eq('id', user.id)
-            .single();
-            
-          if (myProfile && myProfile.city) {
-            myCity = myProfile.city;
-          }
-        }
-        
-        // Ambil semua profil pengguna dari database
-        await fetchAllProfiles();
+<script>
+const OER_CONFIG = {
+  SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
+  SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
+};
 
-      } catch (err) {
-        console.error('Koneksi Error:', err);
-        statusEl.innerText = 'Gagal Terhubung';
-        statusEl.className = 'text-xs px-3 py-1 rounded-full bg-red-900/50 text-red-300 border border-red-700';
-      }
+const supabase = window.supabase.createClient(OER_CONFIG.SUPABASE_URL, OER_CONFIG.SUPABASE_KEY);
+let allProfiles = [];
+let myCity = "Jakarta";
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: myProfile } = await supabase.from('profiles').select('city').eq('id', user.id).single();
+      if (myProfile && myProfile.city) myCity = myProfile.city;
     }
 
-    // 2. Ambil Data Pengguna dari Supabase
-    async function fetchAllProfiles() {
-      const currentUserId = currentUser ? currentUser.id : null;
+    const { data, error } = await supabase.from('profiles').select('*');
+    if (error) throw error;
 
-      let query = supabase.from('profiles').select('*');
-      if (currentUserId) {
-        query = query.neq('id', currentUserId); // Jangan tampilkan akun sendiri
-      }
+    allProfiles = data || [];
+    renderUI(allProfiles);
+  } catch (err) {
+    console.error("Error:", err.message);
+  }
+});
 
-      const { data, error } = await query;
+function renderUI(profiles) {
+  const activeEl = document.getElementById("activeList");
+  const nearbyEl = document.getElementById("nearbyGrid");
+  const generalEl = document.getElementById("generalGrid");
 
-      if (error) {
-        console.error('Gagal mengambil data:', error.message);
-        return;
-      }
+  const activeUsers = profiles.filter(p => p.is_online);
+  const nearbyUsers = profiles.filter(p => p.city?.toLowerCase() === myCity.toLowerCase());
+  const generalUsers = profiles.filter(p => p.city?.toLowerCase() !== myCity.toLowerCase());
 
-      allProfiles = data || [];
-      renderAllSections(allProfiles);
-    }
+  activeEl.innerHTML = activeUsers.length ? activeUsers.map(u => `
+    <div style="text-align: center; flex-shrink: 0; width: 70px;">
+      <img src="${u.avatar_url || 'https://via.placeholder.com/50'}" class="user-avatar" style="margin: 0 auto 4px;">
+      <div style="font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${u.full_name || u.username}</div>
+    </div>
+  `).join('') : '<div style="color: var(--muted); font-size: 12px;">Tidak ada yang online.</div>';
 
-    // 3. Render Tampilan Berdasarkan Kategori
-    function renderAllSections(profiles) {
-      const activeContainer = document.getElementById('activeUsersContainer');
-      const nearbyContainer = document.getElementById('nearbyContainer');
-      const generalContainer = document.getElementById('generalContainer');
+  nearbyEl.innerHTML = nearbyUsers.length ? nearbyUsers.map(u => createUserCard(u)).join('') : '<div style="color: var(--muted); font-size: 12px;">Belum ada pengguna di kota ini.</div>';
+  generalEl.innerHTML = generalUsers.length ? generalUsers.map(u => createUserCard(u)).join('') : '<div style="color: var(--muted); font-size: 12px;">Tidak ada rekomendasi lain.</div>';
+}
 
-      // Filter Berdasarkan Kategori
-      const activeUsers = profiles.filter(p => p.is_online === true);
-      const nearbyUsers = profiles.filter(p => p.city?.toLowerCase() === myCity.toLowerCase());
-      const generalUsers = profiles.filter(p => p.city?.toLowerCase() !== myCity.toLowerCase());
-
-      // Render: Aktif Sekarang (Horizontal Card)
-      if (activeUsers.length === 0) {
-        activeContainer.innerHTML = `<div class="text-gray-500 text-sm py-2 italic">Tidak ada teman yang sedang aktif saat ini.</div>`;
-      } else {
-        activeContainer.innerHTML = activeUsers.map(user => `
-          <div class="flex-shrink-0 w-28 bg-cardbg border border-gray-800 rounded-xl p-3 flex flex-col items-center text-center cursor-pointer hover:border-gray-600 transition-all" onclick="openModal('${user.id}')">
-            <div class="relative mb-2">
-              <img src="${user.avatar_url || 'https://via.placeholder.com/80'}" class="w-14 h-14 rounded-full object-cover border border-gray-700">
-              <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-cardbg rounded-full"></span>
-            </div>
-            <h4 class="text-xs font-semibold text-white truncate w-full">${user.full_name || user.username || 'Pengguna'}</h4>
-            <span class="text-[10px] text-gray-400 truncate w-full">${user.city || 'Indonesia'}</span>
-          </div>
-        `).join('');
-      }
-
-      // Render: Teman di Sekitar Anda (Grid Card)
-      if (nearbyUsers.length === 0) {
-        nearbyContainer.innerHTML = `<div class="text-gray-500 text-sm py-4 italic col-span-2">Belum ada pengguna lain di kota ${myCity}.</div>`;
-      } else {
-        nearbyContainer.innerHTML = nearbyUsers.map(user => createUserCardHTML(user)).join('');
-      }
-
-      // Render: Mungkin Anda Kenal (Grid Card)
-      if (generalUsers.length === 0) {
-        generalContainer.innerHTML = `<div class="text-gray-500 text-sm py-4 italic col-span-2">Tidak ada rekomendasi lain saat ini.</div>`;
-      } else {
-        generalContainer.innerHTML = generalUsers.map(user => createUserCardHTML(user)).join('');
-      }
-    }
-
-    // Template Card Grid Pengguna
-    function createUserCardHTML(user) {
-      return `
-        <div class="bg-cardbg border border-gray-800 rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-gray-700 transition-all shadow-md">
-          <div class="flex items-center gap-3.5 cursor-pointer flex-1 min-w-0" onclick="openModal('${user.id}')">
-            <div class="relative flex-shrink-0">
-              <img src="${user.avatar_url || 'https://via.placeholder.com/80'}" class="w-12 h-12 rounded-full object-cover border border-gray-700">
-              ${user.is_online ? '<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-cardbg rounded-full"></span>' : ''}
-            </div>
-            <div class="min-w-0 flex-1">
-              <h4 class="text-sm font-bold text-white truncate">${user.full_name || user.username || 'Pengguna'}</h4>
-              <p class="text-xs text-gray-400 truncate"><i class="fa-solid fa-location-dot text-blue-400 mr-1"></i>${user.city || 'Indonesia'}</p>
-              <p class="text-[11px] text-gray-500 truncate mt-0.5">${user.bio || 'Tidak ada bio.'}</p>
-            </div>
-          </div>
-          <button onclick="sendFriendRequest('${user.id}', this)" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-all shadow-sm flex-shrink-0">
-            Tambah
-          </button>
+function createUserCard(user) {
+  return `
+    <div class="user-card">
+      <div class="user-info">
+        <img src="${user.avatar_url || 'https://via.placeholder.com/50'}" class="user-avatar">
+        <div style="min-width: 0;">
+          <div class="user-name">${user.full_name || user.username || 'Pengguna'}</div>
+          <div class="user-meta">📍 ${user.city || 'Indonesia'}</div>
         </div>
-      `;
+      </div>
+      <button onclick="sendRequest('${user.id}', this)" class="btn-action">Tambah</button>
+    </div>
+  `;
+}
+
+async function sendRequest(receiverId, btn) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) { alert('Silakan login terlebih dahulu.'); return; }
+
+  btn.disabled = true;
+  btn.innerText = "...";
+
+  const { error } = await supabase.from('friendships').insert([
+    { sender_id: user.id, receiver_id: receiverId, status: 'pending' }
+  ]);
+
+  if (error) {
+    if (error.code === '23505') {
+      btn.innerText = "Terkirim";
+      btn.style.color = "var(--muted)";
+    } else {
+      alert("Gagal: " + error.message);
+      btn.disabled = false;
+      btn.innerText = "Tambah";
     }
+  } else {
+    btn.innerText = "Terkirim";
+    btn.style.color = "var(--green)";
+  }
+}
 
-    // 4. Fungsi Mengirim Permintaan Pertemanan ke Supabase
-    async function sendFriendRequest(receiverId, btnElement) {
-      if (!currentUser) {
-        alert('Silakan login ke akun Anda terlebih dahulu untuk menambah teman.');
-        return;
-      }
+function filterUsers() {
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = allProfiles.filter(p => 
+    (p.full_name && p.full_name.toLowerCase().includes(q)) ||
+    (p.city && p.city.toLowerCase().includes(q))
+  );
+  renderUI(filtered);
+}
+</script>
 
-      if (currentUser.id === receiverId) {
-        alert('Anda tidak bisa menambah diri sendiri.');
-        return;
-      }
-
-      btnElement.disabled = true;
-      btnElement.innerText = 'Mengirim...';
-      btnElement.className = 'px-3.5 py-2 bg-gray-700 text-gray-400 text-xs font-semibold rounded-xl cursor-not-allowed';
-
-      try {
-        const { error } = await supabase
-          .from('friendships')
-          .insert([
-            { sender_id: currentUser.id, receiver_id: receiverId, status: 'pending' }
-          ]);
-
-        if (error) {
-          if (error.code === '23505') {
-            btnElement.innerText = 'Terkirim';
-            alert('Permintaan pertemanan sudah pernah dikirim sebelumnya.');
-          } else {
-            throw error;
-          }
-        } else {
-          btnElement.innerText = 'Permintaan Terkirim';
-          btnElement.className = 'px-3.5 py-2 bg-green-600/30 border border-green-500 text-green-300 text-xs font-semibold rounded-xl';
-        }
-      } catch (err) {
-        console.error('Error:', err.message);
-        btnElement.disabled = false;
-        btnElement.innerText = 'Tambah';
-        btnElement.className = 'px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl';
-        alert('Gagal mengirim permintaan: ' + err.message);
-      }
-    }
-
-    // 5. Fitur Real-time Search / Filter
-    function filterSuggestions() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      if (!keyword) {
-        renderAllSections(allProfiles);
-        return;
-      }
-
-      const filtered = allProfiles.filter(p => 
-        (p.full_name && p.full_name.toLowerCase().includes(keyword)) ||
-        (p.username && p.username.toLowerCase().includes(keyword)) ||
-        (p.city && p.city.toLowerCase().includes(keyword))
-      );
-
-      renderAllSections(filtered);
-    }
-
-    // 6. Modal Detail Profil
-    function openModal(userId) {
-      const user = allProfiles.find(p => p.id === userId);
-      if (!user) return;
-
-      document.getElementById('modalAvatar').src = user.avatar_url || 'https://via.placeholder.com/80';
-      document.getElementById('modalName').innerText = user.full_name || user.username || 'Pengguna';
-      document.getElementById('modalCity').innerHTML = `<i class="fa-solid fa-location-dot text-blue-400 mr-1"></i> ${user.city || 'Indonesia'}`;
-      document.getElementById('modalBio').innerText = user.bio || 'Tidak ada bio yang ditulis.';
-      
-      const actionBtn = document.getElementById('modalActionBtn');
-      actionBtn.setAttribute('onclick', `sendFriendRequest('${user.id}', this); closeModal();`);
-
-      document.getElementById('profileModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('profileModal').classList.add('hidden');
-    }
-  </script>
 </body>
 </html>
