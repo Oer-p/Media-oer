@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,7 +18,13 @@
       --bg: #ffffff;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -44,14 +49,52 @@
       justify-content: space-between;
     }
 
+    /* =========================
+       LOGO OeR
+       ========================= */
+
     .brand {
       font-size: 25px;
       font-weight: 800;
       letter-spacing: -1.8px;
+      white-space: nowrap;
     }
 
-    .brand .e {
+    .brand .e,
+    .hero-logo .e {
       color: var(--green-dark);
+    }
+
+    /*
+      Animasi ringan seperti logo mesin pencari:
+      huruf hanya bergerak sedikit, posisi keseluruhan tetap.
+    */
+    .logo-letter {
+      display: inline-block;
+      animation: oerFloat 4s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .logo-letter:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .logo-letter:nth-child(2) {
+      animation-delay: .12s;
+    }
+
+    .logo-letter:nth-child(3) {
+      animation-delay: .24s;
+    }
+
+    @keyframes oerFloat {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-4px) scale(1.025);
+      }
     }
 
     .header-right {
@@ -75,17 +118,18 @@
       background: var(--black);
       color: white;
       font-weight: 700;
-      overflow: hidden;
-      cursor: pointer;
-      border: 0;
-      padding: 0;
+      transition: transform .2s, box-shadow .2s;
     }
 
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .avatar:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px #0002;
     }
+
+    /* =========================
+       MAIN
+       ========================= */
 
     main {
       width: 100%;
@@ -102,10 +146,7 @@
       letter-spacing: -8px;
       line-height: 1.1;
       margin-bottom: 12px;
-    }
-
-    .hero-logo .e {
-      color: var(--green-dark);
+      user-select: none;
     }
 
     .tagline {
@@ -114,6 +155,10 @@
       font-size: 16px;
       text-align: center;
     }
+
+    /* =========================
+       SEARCH
+       ========================= */
 
     .search-wrap {
       position: relative;
@@ -159,6 +204,10 @@
       color: #80868b;
     }
 
+    /* =========================
+       SUGGESTIONS
+       ========================= */
+
     .suggestions {
       display: none;
       position: absolute;
@@ -169,7 +218,7 @@
       border-radius: 18px;
       background: white;
       box-shadow: 0 4px 16px #00000020;
-      z-index: 10;
+      z-index: 20;
       overflow: hidden;
     }
 
@@ -191,18 +240,13 @@
       color: var(--text);
     }
 
-    .suggestion:hover,
-    .suggestion:focus {
+    .suggestion:hover {
       background: #f5f5f5;
-      outline: none;
     }
 
-    .suggestion svg {
-      width: 17px;
-      height: 17px;
-      color: var(--muted);
-      flex-shrink: 0;
-    }
+    /* =========================
+       SEARCH ENGINE + AI
+       ========================= */
 
     .engine-choice {
       display: flex;
@@ -222,16 +266,28 @@
       border-radius: 18px;
       cursor: pointer;
       color: var(--text);
+      transition: .18s;
     }
 
     .engine-choice button:hover {
       background: #f8f9fa;
+      transform: translateY(-1px);
     }
 
     .engine-choice button.active {
       border-color: var(--green-dark);
       background: #f7fee7;
     }
+
+    .ai-button {
+      border-color: #202124 !important;
+      background: #171717 !important;
+      color: var(--green) !important;
+    }
+
+    /* =========================
+       NOTICE
+       ========================= */
 
     #notice {
       min-height: 20px;
@@ -240,6 +296,122 @@
       color: var(--muted);
       text-align: center;
     }
+
+    /* =========================
+       OeR FEATURES
+       ========================= */
+
+    .features {
+      width: min(100%, 584px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 17px;
+      border: 1px solid #eeeeee;
+      border-radius: 16px;
+      background: white;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+    }
+
+    .feature:hover {
+      transform: translateY(-2px);
+      border-color: #dddddd;
+      box-shadow: 0 3px 12px #0000000d;
+      text-decoration: none;
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--black);
+      color: var(--green);
+      font-size: 20px;
+    }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .feature-text {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       REELS
+       ========================= */
+
+    .reels-section {
+      width: min(100%, 900px);
+      margin-top: 55px;
+      text-align: left;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .reels-empty {
+      border: 1px dashed #d9d9d9;
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fafafa;
+    }
+
+    .reels-grid {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .reel-card {
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 15px;
+      background: #171717;
+      position: relative;
+    }
+
+    .reel-card iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
 
     footer {
       min-height: 54px;
@@ -260,81 +432,27 @@
       flex-wrap: wrap;
     }
 
-    /* Popup profil */
-    .profile-menu {
-      display: none;
-      position: fixed;
-      top: 70px;
-      right: 25px;
-      width: 280px;
-      padding: 18px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: 0 5px 22px #00000020;
-      z-index: 100;
-    }
+    /* =========================
+       RESPONSIVE
+       ========================= */
 
-    .profile-menu.show {
-      display: block;
-    }
+    @media (max-width: 700px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
 
-    .profile-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .profile-photo {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--black);
-    }
-
-    .profile-name {
-      font-weight: 700;
-      font-size: 14px;
-      word-break: break-word;
-    }
-
-    .profile-email {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      word-break: break-word;
-    }
-
-    .logout-button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: white;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    .logout-button:hover {
-      background: #f8f9fa;
-    }
-
-    .login-button {
-      width: 100%;
-      padding: 10px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--black);
-      color: var(--green);
-      cursor: pointer;
-      font-weight: 700;
+      .reels-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 600px) {
       header {
         padding: 0 18px;
+      }
+
+      .header-right {
+        gap: 15px;
       }
 
       main {
@@ -343,6 +461,10 @@
 
       .hero-logo {
         letter-spacing: -6px;
+      }
+
+      .reels-section {
+        margin-top: 42px;
       }
 
       footer {
@@ -354,11 +476,15 @@
       .footer-links {
         justify-content: center;
       }
+    }
 
-      .profile-menu {
-        right: 16px;
-        left: 16px;
-        width: auto;
+    @media (prefers-reduced-motion: reduce) {
+      .logo-letter {
+        animation: none;
+      }
+
+      html {
+        scroll-behavior: auto;
       }
     }
   </style>
@@ -366,46 +492,53 @@
 
 <body>
 
+  <!-- =========================
+       HEADER
+       ========================= -->
+
   <header>
     <a class="brand" href="./" aria-label="Beranda OeR">
-      O<span class="e">e</span>R
+      <span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span>
     </a>
 
     <nav class="header-right" aria-label="Navigasi">
       <a href="#tentang" id="aboutLink">Tentang</a>
 
-      <button
-        id="profileButton"
-        class="avatar"
-        type="button"
-        aria-label="Profil OeR"
-        aria-expanded="false">
+      <a href="#akun"
+         class="avatar"
+         id="loginButton"
+         aria-label="Masuk atau profil">
         O
-      </button>
+      </a>
     </nav>
   </header>
 
+  <!-- =========================
+       MAIN
+       ========================= -->
+
   <main>
 
+    <!-- Logo utama -->
     <div class="hero-logo" aria-label="OeR">
-      O<span class="e">e</span>R
+      <span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span>
     </div>
 
     <p class="tagline">
       Temukan sesuatu yang baru.
     </p>
 
+    <!-- SEARCH -->
     <form class="search-wrap" id="searchForm" role="search">
 
       <div class="search-box">
 
-        <svg
-          class="search-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true">
+        <svg class="search-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             aria-hidden="true">
 
           <circle cx="11" cy="11" r="7"></circle>
           <path d="m16 16 4 4"></path>
@@ -424,14 +557,12 @@
 
       </div>
 
-      <div
-        class="suggestions"
-        id="suggestions">
-      </div>
+      <div class="suggestions" id="suggestions"></div>
 
     </form>
 
-    <div class="engine-choice" aria-label="Pilih mesin pencari">
+    <!-- GOOGLE / BING / AI -->
+    <div class="engine-choice" aria-label="Pilih layanan pencarian">
 
       <span>Cari menggunakan</span>
 
@@ -450,13 +581,98 @@
         Bing
       </button>
 
+      <button
+        type="button"
+        class="ai-button"
+        id="aiButton">
+        AI Chat
+      </button>
+
     </div>
 
     <p id="notice" aria-live="polite">
       OeR menggunakan mesin pencari pilihanmu untuk sementara.
     </p>
 
+    <!-- FITUR OeR -->
+    <section class="features" aria-label="Fitur OeR">
+
+      <a class="feature" href="#reels" id="reelsLink">
+
+        <div class="feature-icon">
+          ▶
+        </div>
+
+        <div>
+          <div class="feature-title">
+            Reels OeR
+          </div>
+
+          <div class="feature-text">
+            Jelajahi video pendek dari YouTube Shorts.
+          </div>
+        </div>
+
+      </a>
+
+      <a class="feature" href="#akun" id="accountLink">
+
+        <div class="feature-icon">
+          O
+        </div>
+
+        <div>
+          <div class="feature-title">
+            Akun OeR
+          </div>
+
+          <div class="feature-text">
+            Masuk untuk menggunakan fitur akun OeR.
+          </div>
+        </div>
+
+      </a>
+
+    </section>
+
+    <!-- REELS -->
+    <section
+      class="reels-section"
+      id="reels"
+      aria-label="Reels OeR">
+
+      <div class="section-heading">
+
+        <h2>
+          Reels OeR
+        </h2>
+
+        <span>
+          YouTube Shorts
+        </span>
+
+      </div>
+
+      <div class="reels-empty" id="reelsEmpty">
+
+        🎬 Reels OeR sedang dikembangkan.
+
+        <br><br>
+
+        Setelah pencarian Reels terhubung,
+        video Shorts yang relevan akan muncul di sini.
+
+      </div>
+
+      <div class="reels-grid" id="reelsGrid"></div>
+
+    </section>
+
   </main>
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
 
   <footer>
 
@@ -470,7 +686,7 @@
         Tentang OeR
       </a>
 
-      <a href="mailto:">
+      <a href="#bantuan">
         Bantuan
       </a>
 
@@ -479,422 +695,55 @@
   </footer>
 
 
-  <!-- MENU PROFIL -->
-
-  <div
-    id="profileMenu"
-    class="profile-menu"
-    aria-hidden="true">
-
-    <div
-      id="loggedOut"
-      style="display:none;">
-
-      <p style="margin-top:0;">
-        Masuk ke OeR menggunakan akun Google.
-      </p>
-
-      <button
-        id="loginButton"
-        class="login-button"
-        type="button">
-        Masuk dengan Google
-      </button>
-
-    </div>
-
-
-    <div
-      id="loggedIn"
-      style="display:none;">
-
-      <div class="profile-info">
-
-        <img
-          id="profilePhoto"
-          class="profile-photo"
-          alt="Foto profil">
-
-        <div>
-
-          <div
-            id="profileName"
-            class="profile-name">
-          </div>
-
-          <div
-            id="profileEmail"
-            class="profile-email">
-          </div>
-
-        </div>
-
-      </div>
-
-      <button
-        id="logoutButton"
-        class="logout-button"
-        type="button">
-        Keluar
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- SUPABASE -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- =========================
+       JAVASCRIPT
+       ========================= -->
 
   <script>
     (() => {
       "use strict";
 
-      /* =====================================================
-         KONFIGURASI SUPABASE
-         ===================================================== */
-
-      const SUPABASE_URL =
-        "https://jhopfzmyxuafdbwwkjbf.supabase.co";
-
-      /*
-       * GANTI bagian ini dengan Publishable Key / Anon Key
-       * dari:
-       *
-       * Supabase
-       * → Project Settings
-       * → API
-       */
-
-      const SUPABASE_KEY =
-        "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
-
-
-      const supabaseClient =
-        window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
-
-
-      /* =====================================================
-         ELEMENT
-         ===================================================== */
-
-      const form =
-        document.getElementById("searchForm");
-
-      const input =
-        document.getElementById("searchInput");
-
-      const suggestions =
-        document.getElementById("suggestions");
-
-      const notice =
-        document.getElementById("notice");
+      const form = document.getElementById("searchForm");
+      const input = document.getElementById("searchInput");
+      const suggestions = document.getElementById("suggestions");
+      const notice = document.getElementById("notice");
 
       const engineButtons =
         document.querySelectorAll("[data-engine]");
 
-      const profileButton =
-        document.getElementById("profileButton");
+      const aiButton =
+        document.getElementById("aiButton");
 
-      const profileMenu =
-        document.getElementById("profileMenu");
+      const reelsLink =
+        document.getElementById("reelsLink");
 
       const loginButton =
         document.getElementById("loginButton");
 
-      const logoutButton =
-        document.getElementById("logoutButton");
-
-      const loggedOut =
-        document.getElementById("loggedOut");
-
-      const loggedIn =
-        document.getElementById("loggedIn");
-
-      const profilePhoto =
-        document.getElementById("profilePhoto");
-
-      const profileName =
-        document.getElementById("profileName");
-
-      const profileEmail =
-        document.getElementById("profileEmail");
-
+      const accountLink =
+        document.getElementById("accountLink");
 
       let engine = "google";
-      let activeIndex = -1;
 
-
+      /* Tahun footer */
       document.getElementById("year").textContent =
         new Date().getFullYear();
 
 
-      /* =====================================================
-         LOGIN GOOGLE
-         ===================================================== */
-
-      async function loginWithGoogle() {
-
-        notice.textContent =
-          "Membuka login Google...";
-
-        const { error } =
-          await supabaseClient.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-              redirectTo: window.location.origin + window.location.pathname
-            }
-          });
-
-        if (error) {
-
-          console.error(error);
-
-          notice.textContent =
-            "Login Google gagal. Silakan coba lagi.";
-
-        }
-
-      }
-
-
-      loginButton.addEventListener(
-        "click",
-        loginWithGoogle
-      );
-
-
-      /* =====================================================
-         TAMPILKAN USER
-         ===================================================== */
-
-      function updateProfile(user) {
-
-        if (user) {
-
-          const metadata =
-            user.user_metadata || {};
-
-          const name =
-            metadata.full_name ||
-            metadata.name ||
-            "Pengguna OeR";
-
-          const email =
-            user.email || "";
-
-          const photo =
-            metadata.avatar_url ||
-            metadata.picture ||
-            "";
-
-
-          profileName.textContent =
-            name;
-
-          profileEmail.textContent =
-            email;
-
-
-          if (photo) {
-
-            profilePhoto.src =
-              photo;
-
-            profilePhoto.style.display =
-              "block";
-
-            profileButton.innerHTML =
-              `<img src="${photo}" alt="Profil">`;
-
-          } else {
-
-            profilePhoto.style.display =
-              "none";
-
-            profileButton.textContent =
-              name.charAt(0).toUpperCase();
-
-          }
-
-
-          loggedIn.style.display =
-            "block";
-
-          loggedOut.style.display =
-            "none";
-
-
-        } else {
-
-          loggedIn.style.display =
-            "none";
-
-          loggedOut.style.display =
-            "block";
-
-          profileButton.textContent =
-            "O";
-
-        }
-
-      }
-
-
-      /* =====================================================
-         CEK LOGIN SAAT HALAMAN DIBUKA
-         ===================================================== */
-
-      async function loadUser() {
-
-        const {
-          data: { user }
-        } =
-          await supabaseClient.auth.getUser();
-
-        updateProfile(user);
-
-      }
-
-
-      loadUser();
-
-
-      /* =====================================================
-         PERUBAHAN STATUS LOGIN
-         ===================================================== */
-
-      supabaseClient.auth.onAuthStateChange(
-        (event, session) => {
-
-          updateProfile(
-            session ? session.user : null
-          );
-
-        }
-      );
-
-
-      /* =====================================================
-         LOGOUT
-         ===================================================== */
-
-      logoutButton.addEventListener(
-        "click",
-        async () => {
-
-          const { error } =
-            await supabaseClient.auth.signOut();
-
-          if (error) {
-
-            console.error(error);
-
-            notice.textContent =
-              "Gagal keluar.";
-
-            return;
-
-          }
-
-          profileMenu.classList.remove("show");
-
-          profileButton.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          notice.textContent =
-            "Kamu sudah keluar dari OeR.";
-
-        }
-      );
-
-
-      /* =====================================================
-         MENU PROFIL
-         ===================================================== */
-
-      profileButton.addEventListener(
-        "click",
-        () => {
-
-          const isOpen =
-            profileMenu.classList.toggle("show");
-
-          profileButton.setAttribute(
-            "aria-expanded",
-            String(isOpen)
-          );
-
-          profileMenu.setAttribute(
-            "aria-hidden",
-            String(!isOpen)
-          );
-
-        }
-      );
-
-
-      document.addEventListener(
-        "click",
-        event => {
-
-          if (
-            !profileMenu.contains(event.target) &&
-            !profileButton.contains(event.target)
-          ) {
-
-            profileMenu.classList.remove("show");
-
-            profileButton.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-
-          }
-
-        }
-      );
-
-
-      /* =====================================================
-         PENCARIAN
-         ===================================================== */
-
-      function hideSuggestions() {
-
-        suggestions.classList.remove("show");
-
-        input.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-        activeIndex = -1;
-
-      }
-
+      /* =========================
+         HISTORY
+         ========================= */
 
       function getHistory() {
 
         try {
 
-          const data =
-            JSON.parse(
-              localStorage.getItem(
-                "oer_search_history"
-              ) || "[]"
-            );
+          const data = JSON.parse(
+            localStorage.getItem("oer_search_history") || "[]"
+          );
 
           return Array.isArray(data)
-            ? data.filter(
-                item => typeof item === "string"
-              )
+            ? data.filter(item => typeof item === "string")
             : [];
 
         } catch {
@@ -913,20 +762,37 @@
           const history =
             getHistory().filter(
               item =>
-                item.toLowerCase() !==
-                query.toLowerCase()
+                item.toLowerCase() !== query.toLowerCase()
             );
 
           history.unshift(query);
 
           localStorage.setItem(
             "oer_search_history",
-            JSON.stringify(
-              history.slice(0, 8)
-            )
+            JSON.stringify(history.slice(0, 8))
           );
 
-        } catch {}
+        } catch {
+
+          // Tidak mengganggu pencarian jika localStorage gagal.
+
+        }
+
+      }
+
+
+      /* =========================
+         SUGGESTIONS
+         ========================= */
+
+      function hideSuggestions() {
+
+        suggestions.classList.remove("show");
+
+        input.setAttribute(
+          "aria-expanded",
+          "false"
+        );
 
       }
 
@@ -936,8 +802,7 @@
         const query =
           input.value.trim().toLowerCase();
 
-        const history =
-          getHistory();
+        const history = getHistory();
 
         const items = query
           ? history.filter(
@@ -946,9 +811,7 @@
             )
           : history.slice(0, 5);
 
-
         suggestions.replaceChildren();
-
 
         if (!items.length) {
 
@@ -958,121 +821,42 @@
 
         }
 
-
         items.forEach(item => {
 
           const button =
             document.createElement("button");
 
           button.type = "button";
-
-          button.className =
-            "suggestion";
-
+          button.className = "suggestion";
 
           const icon =
-            document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "svg"
-            );
+            document.createElement("span");
 
-          icon.setAttribute(
-            "viewBox",
-            "0 0 24 24"
-          );
-
-          icon.setAttribute(
-            "fill",
-            "none"
-          );
-
-          icon.setAttribute(
-            "stroke",
-            "currentColor"
-          );
-
-          icon.setAttribute(
-            "stroke-width",
-            "2"
-          );
-
-
-          const circle =
-            document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "circle"
-            );
-
-          circle.setAttribute(
-            "cx",
-            "12"
-          );
-
-          circle.setAttribute(
-            "cy",
-            "12"
-          );
-
-          circle.setAttribute(
-            "r",
-            "9"
-          );
-
-
-          const hand =
-            document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "path"
-            );
-
-          hand.setAttribute(
-            "d",
-            "M12 7v5l3 2"
-          );
-
-
-          icon.append(
-            circle,
-            hand
-          );
-
+          icon.textContent = "◷";
 
           const label =
             document.createElement("span");
 
-          label.textContent =
-            item;
+          label.textContent = item;
 
-
-          button.append(
-            icon,
-            label
-          );
-
+          button.append(icon, label);
 
           button.addEventListener(
             "click",
             () => {
 
-              input.value =
-                item;
+              input.value = item;
 
               performSearch();
 
             }
           );
 
-
-          suggestions.appendChild(
-            button
-          );
+          suggestions.appendChild(button);
 
         });
 
-
-        suggestions.classList.add(
-          "show"
-        );
+        suggestions.classList.add("show");
 
         input.setAttribute(
           "aria-expanded",
@@ -1082,11 +866,14 @@
       }
 
 
+      /* =========================
+         SEARCH
+         ========================= */
+
       function performSearch() {
 
         const query =
           input.value.trim();
-
 
         if (!query) {
 
@@ -1099,25 +886,20 @@
 
         }
 
-
         saveHistory(query);
 
         hideSuggestions();
-
 
         const target =
           engine === "bing"
             ? "https://www.bing.com/search?q="
             : "https://www.google.com/search?q=";
 
-
         notice.textContent =
           "Membuka hasil pencarian...";
 
-
         window.location.assign(
-          target +
-          encodeURIComponent(query)
+          target + encodeURIComponent(query)
         );
 
       }
@@ -1151,159 +933,183 @@
         "keydown",
         event => {
 
-          const items =
-            suggestions.querySelectorAll(
-              ".suggestion"
-            );
-
-
           if (event.key === "Escape") {
 
             hideSuggestions();
 
-            return;
-
           }
-
-
-          if (
-            !items.length ||
-            !suggestions.classList.contains("show")
-          ) {
-
-            return;
-
-          }
-
-
-          if (event.key === "ArrowDown") {
-
-            event.preventDefault();
-
-            activeIndex =
-              (activeIndex + 1) %
-              items.length;
-
-          }
-
-          else if (
-            event.key === "ArrowUp"
-          ) {
-
-            event.preventDefault();
-
-            activeIndex =
-              (activeIndex - 1 +
-                items.length) %
-              items.length;
-
-          }
-
-          else if (
-            event.key === "Enter" &&
-            activeIndex >= 0
-          ) {
-
-            event.preventDefault();
-
-            input.value =
-              items[activeIndex]
-                .textContent;
-
-            performSearch();
-
-            return;
-
-          }
-
-          else {
-
-            return;
-
-          }
-
-
-          items.forEach(
-            (item, index) => {
-
-              item.style.background =
-                index === activeIndex
-                  ? "#f1f3f4"
-                  : "white";
-
-            }
-          );
 
         }
       );
 
 
-      /* =====================================================
-         GOOGLE / BING
-         ===================================================== */
+      /* =========================
+         ENGINE
+         ========================= */
 
-      engineButtons.forEach(
-        button => {
+      engineButtons.forEach(button => {
 
-          button.addEventListener(
-            "click",
-            () => {
+        button.addEventListener(
+          "click",
+          () => {
 
-              engine =
-                button.dataset.engine;
+            engine =
+              button.dataset.engine;
 
+            engineButtons.forEach(item => {
 
-              engineButtons.forEach(
-                item => {
+              const selected =
+                item === button;
 
-                  const selected =
-                    item === button;
-
-                  item.classList.toggle(
-                    "active",
-                    selected
-                  );
-
-                  item.setAttribute(
-                    "aria-pressed",
-                    String(selected)
-                  );
-
-                }
+              item.classList.toggle(
+                "active",
+                selected
               );
 
+              item.setAttribute(
+                "aria-pressed",
+                String(selected)
+              );
 
-              notice.textContent =
-                "Mesin pencari: " +
-                (
-                  engine === "google"
-                    ? "Google"
-                    : "Bing"
-                ) +
-                ".";
+            });
+
+            notice.textContent =
+              "Mesin pencari: " +
+              (
+                engine === "google"
+                  ? "Google"
+                  : "Bing"
+              ) +
+              ".";
+
+            input.focus();
+
+          }
+        );
+
+      });
 
 
-              input.focus();
+      /* =========================
+         AI CHAT
+         =========================
 
-            }
-          );
+         Belum memakai API.
+
+         Tombol diarahkan ke halaman
+         AI Chat yang bisa kita buat
+         kemudian.
+      */
+
+      aiButton.addEventListener(
+        "click",
+        () => {
+
+          notice.textContent =
+            "AI Chat OeR sedang disiapkan.";
+
+          /*
+            Sementara kita gunakan halaman
+            ai.html jika nanti sudah dibuat.
+          */
+
+          setTimeout(() => {
+
+            window.location.href =
+              "./ai.html";
+
+          }, 300);
 
         }
       );
 
 
-      /* =====================================================
+      /* =========================
+         REELS
+         ========================= */
+
+      reelsLink.addEventListener(
+        "click",
+        () => {
+
+          setTimeout(() => {
+
+            document
+              .getElementById("reels")
+              .scrollIntoView({
+                behavior: "smooth"
+              });
+
+          }, 50);
+
+        }
+      );
+
+
+      /* =========================
+         LOGIN
+         =========================
+
+         Bagian Supabase tidak di-hardcode
+         di sini agar integrasi Supabase
+         yang sudah ada tidak rusak.
+
+         Nanti tombol ini kita sambungkan
+         ke supabase.auth.signInWithOAuth().
+      */
+
+      function openLogin() {
+
+        notice.textContent =
+          "Halaman login OeR sedang disiapkan.";
+
+        /*
+          Jangan masukkan Client Secret
+          Google ke HTML GitHub Pages.
+        */
+
+      }
+
+
+      loginButton.addEventListener(
+        "click",
+        event => {
+
+          event.preventDefault();
+
+          openLogin();
+
+        }
+      );
+
+
+      accountLink.addEventListener(
+        "click",
+        event => {
+
+          event.preventDefault();
+
+          openLogin();
+
+        }
+      );
+
+
+      /* =========================
          TENTANG
-         ===================================================== */
+         ========================= */
 
       function showInfo(event) {
 
         event.preventDefault();
 
         notice.textContent =
-          "OeR adalah platform yang sedang " +
-          "dikembangkan untuk mencari dan " +
-          "menjelajahi berbagai konten.";
+          "OeR adalah platform yang sedang dikembangkan untuk mencari, menjelajahi, dan menemukan konten baru.";
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
 
       }
 
@@ -1322,6 +1128,22 @@
           "click",
           showInfo
         );
+
+
+      /* Klik di luar suggestions */
+
+      document.addEventListener(
+        "click",
+        event => {
+
+          if (!form.contains(event.target)) {
+
+            hideSuggestions();
+
+          }
+
+        }
+      );
 
     })();
   </script>
