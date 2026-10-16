@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Kenali OeR, platform digital yang sedang dikembangkan.">
+  <title>Tentang OeR</title>
+
+  <style>
+    :root {
+      --black: #171717;
+      --green: #a3e635;
+      --green-dark: #65a30d;
+      --text: #202124;
+      --muted: #5f6368;
+      --border: #dfe1e5;
+      --bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      height: 64px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f3f4;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1.8px;
+    }
+
+    .brand .e { color: var(--green-dark); }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    main {
+      width: min(100% - 32px, 820px);
+      margin: 0 auto;
+      padding: 54px 0 64px;
+      flex: 1;
+    }
+
+    .hero {
+      padding: 34px 24px;
+      border-radius: 20px;
+      background: var(--black);
+      color: white;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .hero-logo {
+      font-size: 64px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -5px;
+      margin-bottom: 12px;
+    }
+
+    .hero-logo .e { color: var(--green); }
+
+    .hero p {
+      margin: 0;
+      color: #e5e7eb;
+      font-size: 15px;
+    }
+
+    section {
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      letter-spacing: -.7px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .feature {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #f7fee7;
+      font-size: 21px;
+      margin-bottom: 14px;
+    }
+
+    .feature h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .status {
+      padding: 20px;
+      background: #f7fee7;
+      border: 1px solid #d9f99d;
+      border-radius: 14px;
+    }
+
+    .status h2 { color: #365314; }
+
+    .status p { color: #3f6212; }
+
+    .home-button {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 11px 20px;
+      background: var(--black);
+      color: white;
+      border-radius: 24px;
+      font-size: 14px;
+      transition: opacity .2s;
+    }
+
+    .home-button:hover { opacity: .82; }
+
+    footer {
+      padding: 20px 28px;
+      text-align: center;
+      background: #f8f9fa;
+      border-top: 1px solid #f1f3f4;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 0 18px; }
+      main { padding-top: 28px; }
+      .feature-list { grid-template-columns: 1fr; }
+      .hero-logo { font-size: 56px; }
+      h1 { font-size: 25px; }
+      footer { padding: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="./" aria-label="Beranda OeR">
+      O<span class="e">e</span>R
+    </a>
+
+    <a class="back-link" href="./">← Kembali ke beranda</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="hero-logo" aria-label="OeR">
+        O<span class="e">e</span>R
+      </div>
+      <p>Temukan sesuatu yang baru.</p>
+    </div>
+
+    <section>
+      <h1>Tentang OeR</h1>
+      <p>
+        OeR adalah platform digital yang sedang dikembangkan
+        untuk membantu pengguna menemukan informasi, menjelajahi
+        konten, dan menikmati berbagai pengalaman digital dalam
+        satu tempat.
+      </p>
+    </section>
+
+    <section>
+      <h2>Visi Kami</h2>
+      <p>
+        Menjadikan OeR sebagai platform yang mudah digunakan,
+        bermanfaat, dan terus berkembang mengikuti kebutuhan
+        penggunanya.
+      </p>
+    </section>
+
+    <section>
+      <h2>Fitur OeR</h2>
+
+      <div class="feature-list">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⌕</div>
+          <h3>Pencarian</h3>
+          <p>
+            Membantu pengguna menemukan informasi melalui pencarian
+            web. Untuk sementara, pencarian menggunakan Google
+            atau Bing.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▤</div>
+          <h3>Postingan</h3>
+          <p>
+            Area konten dan postingan yang sedang direncanakan
+            untuk dikembangkan di OeR.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▶</div>
+          <h3>Reels OeR</h3>
+          <p>
+            Fitur video pendek yang direncanakan menggunakan
+            YouTube Shorts melalui pemutar embed resmi.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">◎</div>
+          <h3>Profil Pengguna</h3>
+          <p>
+            Fitur profil yang akan dikembangkan secara bertahap
+            untuk mendukung pengalaman pengguna di OeR.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="status">
+      <h2>Status Pengembangan</h2>
+      <p>
+        OeR masih dalam tahap pengembangan. Fitur baru akan
+        diperkenalkan secara bertahap setelah siap digunakan.
+        Kami mengutamakan kemudahan penggunaan, kenyamanan,
+        dan pengembangan yang berkelanjutan.
+      </p>
+    </section>
+
+    <a class="home-button" href="./">Kembali ke beranda OeR</a>
+  </main>
+
+  <footer>
+    © <span id="year"></span> OeR. Terus berkembang.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+</body>
+</html>
