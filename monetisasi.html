@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monetisasi & Dompet Kreator — OER</title>
+  <title>Dompet & Monetisasi — OER</title>
   <style>
     :root {
       --bg: #050707;
@@ -14,7 +14,6 @@
       --muted: #87949d;
       --cyan: #00e5ff;
       --green: #00e676;
-      --gold: #ffd700;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -74,17 +73,6 @@
     .progress-bar-bg { width: 100%; height: 8px; background: var(--panel2); border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
     .progress-fill { height: 100%; background: var(--cyan); width: 0%; transition: width 0.5s ease; }
 
-    /* REVENUE INFO 50:50 */
-    .info-box {
-      background: rgba(0, 229, 255, 0.05);
-      border: 1px dashed var(--cyan);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
     /* RIWAYAT PENDAPATAN */
     .history-card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 20px; }
     .history-list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
@@ -123,11 +111,6 @@
       <button id="withdrawBtn" class="btn-withdraw" onclick="openWithdrawModal()" disabled>
         Tarik Saldo (Withdraw)
       </button>
-    </div>
-
-    <!-- INFO BAGI HASIL 50:50 -->
-    <div class="info-box">
-      💡 <b>Sistem Bagi Hasil Iklan OER (50:50):</b> Pendapatan dari tayangan iklan (AdSense / Sponsor UMKM) pada postingan dan Reels Anda akan dibagi 50% untuk Anda dan 50% untuk platform.
     </div>
 
     <!-- SYARAT MONETISASI (2000 FOLLOWERS & 1000 JAM TAYANG) -->
@@ -199,18 +182,15 @@
   </div>
 
   <script>
-    // SIMULASI DATA KREATOR (Nanti dihubungkan ke Supabase)
+    // DATA KREATOR DIMULAI DARI NOL (0)
     const creatorData = {
       isMonetized: false,
-      followers: 1200,      // Target: 2000
-      watchHours: 450,      // Target: 1000
-      balance: 150000,
-      monthIncome: 75000,
-      totalWithdrawn: 0,
-      history: [
-        { desc: 'Bagi Hasil Iklan Feed (50%)', date: '16 Okt 2026', amount: 25000 },
-        { desc: 'Komisi Penjualan File APK', date: '14 Okt 2026', amount: 50000 }
-      ]
+      followers: 0,      // Mulai dari 0 followers
+      watchHours: 0,     // Mulai dari 0 jam tayang
+      balance: 0,        // Saldo awal Rp 0
+      monthIncome: 0,    // Pendapatan bulan ini Rp 0
+      totalWithdrawn: 0, // Total cair Rp 0
+      history: []        // Riwayat kosong
     };
 
     // FUNGSI INIT TAMPILAN
@@ -236,10 +216,10 @@
       } else {
         badge.className = 'status-badge badge-locked';
         badge.innerText = 'Belum Memenuhi';
-        document.getElementById('withdrawBtn').disabled = creatorData.balance < 50000; // tetap bisa tarik jika ada saldo file
+        document.getElementById('withdrawBtn').disabled = true;
       }
 
-      // 4. Render Saldo & Pendapatan
+      // 4. Render Saldo & Pendapatan (Mulai dari Nol)
       document.getElementById('balanceDisplay').innerText = 'Rp ' + creatorData.balance.toLocaleString('id-ID');
       document.getElementById('monthIncome').innerText = 'Rp ' + creatorData.monthIncome.toLocaleString('id-ID');
       document.getElementById('totalWithdrawn').innerText = 'Rp ' + creatorData.totalWithdrawn.toLocaleString('id-ID');
@@ -287,7 +267,7 @@
         return;
       }
 
-      alert(`Pengajuan penarikan sebesar Rp ${amount.toLocaleString('id-ID')} ke ${bank} (${account}) berhasil dikirim. Proses transfer dilakukan 1x24 jam.`);
+      alert(`Pengajuan penarikan sebesar Rp ${amount.toLocaleString('id-ID')} ke ${bank} (${account}) berhasil dikirim.`);
       closeWithdrawModal();
     }
 
