@@ -1279,6 +1279,8 @@ const OER_POSTING_URL =
   const OER_TEMAN_URL =
   "https://oer-p.github.io/Media-oer/teman.html";
 
+  const OER_NOTIF_URL = 
+  "https://oer-p.github.io/Media-oer/notifikasi.html";
 /* NAVIGASI PROFIL */
 document.querySelectorAll('[data-feature="profil"]').forEach(button => {
   button.addEventListener("click", function () {
@@ -1304,6 +1306,12 @@ document.querySelectorAll('[data-feature="postingan"]').forEach(button => {
 document.querySelectorAll('[data-feature="teman"]').forEach(button => {
   button.addEventListener("click", function () {
     window.location.href = OER_TEMAN_URL;
+  });
+});
+/* NAVIGASI NOTIFIKASI */
+document.querySelectorAll('[data-feature="notifications"]').forEach(button => {
+  button.addEventListener("click", function () {
+    window.location.href = OER_NOTIF_URL;
   });
 });
 /* CEK LOGIN DAN SUPABASE */
