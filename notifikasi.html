@@ -136,38 +136,13 @@ p { color: var(--muted); font-size: 14px; line-height: 1.6; }
 <header class="topbar">
   <div class="brand">OER</div>
   <div class="top-actions">
-    
-    <!-- WADAH NOTIFIKASI -->
-    <div style="position: relative; display: inline-block;">
-      <button id="notifBellBtn" type="button" class="btn" style="position: relative;">
-        🔔 <span id="notifBadge" style="display: none; position: absolute; top: -5px; right: -5px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 800; border-radius: 10px; padding: 2px 6px;">0</span>
-      </button>
-
-      <!-- DROPDOWN BOX -->
-      <div id="notifDropdown" class="dropdown-menu hidden">
-        
-        <!-- Header Dropdown -->
-        <div style="padding: 12px 16px; background: var(--panel2); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-weight: 800; font-size: 13px; color: #fff;">🔔 Notifikasi</span>
-          <button onclick="markAllNotifsAsRead()" style="background: transparent; border: none; color: var(--cyan); font-size: 11px; font-weight: 700; cursor: pointer;">Tandai Dibaca</button>
-        </div>
-
-        <!-- TAB FILTER -->
-        <div class="notif-tabs">
-          <button class="notif-tab active" onclick="switchNotifTab('all')" data-tab="all">Semua</button>
-          <button class="notif-tab" onclick="switchNotifTab('chat')" data-tab="chat">💬 Chat</button>
-          <button class="notif-tab" onclick="switchNotifTab('friend_request')" data-tab="friend_request">👥 Teman</button>
-          <button class="notif-tab" onclick="switchNotifTab('interaction')" data-tab="interaction">❤️ Post</button>
-        </div>
-
-        <!-- LIST DAFTAR NOTIFIKASI -->
-        <div id="notifList" style="flex: 1; overflow-y: auto; max-height: 340px; background: var(--panel); text-align: left;">
-          <div style="padding: 24px; text-align: center; color: var(--muted); font-size: 12px;">Memuat notifikasi...</div>
-        </div>
-
-      </div>
-    </div>
-
+   <!-- TOMBOL MENU NOTIFIKASI MENUJU HALAMAN TERPISAH -->
+<div style="position: relative; display: inline-block;">
+  <button id="notifBellBtn" type="button" class="btn" data-feature="notifications" style="position: relative; padding: 9px 12px;">
+    🔔 <span id="notifBadge" style="display: none; position: absolute; top: -5px; right: -5px; background: var(--danger, #ff5263); color: #fff; font-size: 10px; font-weight: 800; border-radius: 10px; padding: 2px 6px;">0</span>
+  </button>
+</div> 
+   
   </div>
 </header>
 
