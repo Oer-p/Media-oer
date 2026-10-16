@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Upload Video — OER</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <div class="upload-page">
+      <header class="upload-header">
+        <button class="back-btn" onclick="history.back()">Batal</button>
+        <h1>Upload Video</h1>
+        <button class="publish-btn" onclick="publishVideo()">Posting</button>
+      </header>
+
+      <div class="upload-content">
+        <!-- Preview Area -->
+        <div class="upload-preview" id="uploadPreview">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p>Tap untuk pilih video<br>atau drag & drop di sini</p>
+          <input type="file" id="videoFile" accept="video/*" hidden />
+        </div>
+
+        <!-- Form -->
+        <div class="form-group">
+          <label>Judul</label>
+          <input type="text" id="videoTitle" placeholder="Tulis judul yang menarik..." maxlength="100" />
+        </div>
+
+        <div class="form-group">
+          <label>Deskripsi / Caption</label>
+          <textarea id="videoCaption" placeholder="Ceritakan tentang videomu... #hashtag"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Kategori</label>
+          <div class="chip-group">
+            <div class="chip active">Reels</div>
+            <div class="chip">Video Panjang</div>
+            <div class="chip">Tutorial</div>
+            <div class="chip">Vlog</div>
+            <div class="chip">Entertainment</div>
+            <div class="chip">Edukasi</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Privasi</label>
+          <select>
+            <option value="public">Publik — Semua orang bisa lihat</option>
+            <option value="friends">Teman saja</option>
+            <option value="private">Hanya saya</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="upload.html" class="nav-item upload-btn">
+        <div class="upload-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Profil</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
