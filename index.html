@@ -89,6 +89,48 @@
 
     .hero-logo .e { color: var(--green-dark); }
 
+    /* Animasi logo OeR: posisi dan warna tetap */
+    .hero-logo .letter {
+      display: inline-block;
+      transform-origin: center bottom;
+      animation: oerLetterIn 700ms cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .hero-logo .letter:nth-child(1) {
+      animation-delay: 0ms;
+    }
+
+    .hero-logo .letter:nth-child(2) {
+      animation-delay: 120ms;
+    }
+
+    .hero-logo .letter:nth-child(3) {
+      animation-delay: 240ms;
+    }
+
+    @keyframes oerLetterIn {
+      0% {
+        opacity: 0;
+        transform: translateY(16px) scale(.92);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(-3px) scale(1.02);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-logo .letter {
+        animation: none;
+      }
+    }
+
     .tagline {
       margin: 0 0 30px;
       color: var(--muted);
@@ -239,11 +281,13 @@
       header { padding: 0 18px; }
       main { padding-top: 90px; }
       .hero-logo { letter-spacing: -6px; }
+
       footer {
         justify-content: center;
         text-align: center;
         padding: 18px;
       }
+
       .footer-links { justify-content: center; }
     }
   </style>
@@ -263,7 +307,7 @@
 
   <main>
     <div class="hero-logo" aria-label="OeR">
-      O<span class="e">e</span>R
+      <span class="letter">O</span><span class="e letter">e</span><span class="letter">R</span>
     </div>
 
     <p class="tagline">Temukan sesuatu yang baru.</p>
@@ -293,10 +337,19 @@
 
     <div class="engine-choice" aria-label="Pilih mesin pencari">
       <span>Cari menggunakan</span>
-      <button type="button" data-engine="google" class="active"
-              aria-pressed="true">Google</button>
-      <button type="button" data-engine="bing"
-              aria-pressed="false">Bing</button>
+
+      <button
+        type="button"
+        data-engine="google"
+        class="active"
+        aria-pressed="true"
+      >Google</button>
+
+      <button
+        type="button"
+        data-engine="bing"
+        aria-pressed="false"
+      >Bing</button>
     </div>
 
     <p id="notice" aria-live="polite">
@@ -306,6 +359,7 @@
 
   <footer>
     <span>© <span id="year"></span> OeR</span>
+
     <div class="footer-links">
       <a href="#tentang" id="footerAbout">Tentang OeR</a>
       <a href="mailto:">Bantuan</a>
@@ -339,9 +393,10 @@
           const data = JSON.parse(
             localStorage.getItem("oer_search_history") || "[]"
           );
-          return Array.isArray(data) ? data.filter(
-            item => typeof item === "string"
-          ) : [];
+
+          return Array.isArray(data)
+            ? data.filter(item => typeof item === "string")
+            : [];
         } catch {
           return [];
         }
@@ -352,7 +407,9 @@
           const history = getHistory().filter(
             item => item.toLowerCase() !== query.toLowerCase()
           );
+
           history.unshift(query);
+
           localStorage.setItem(
             "oer_search_history",
             JSON.stringify(history.slice(0, 8))
@@ -367,7 +424,9 @@
         const history = getHistory();
 
         const items = query
-          ? history.filter(item => item.toLowerCase().includes(query))
+          ? history.filter(item =>
+              item.toLowerCase().includes(query)
+            )
           : history.slice(0, 5);
 
         suggestions.replaceChildren();
@@ -385,6 +444,7 @@
           const icon = document.createElementNS(
             "http://www.w3.org/2000/svg", "svg"
           );
+
           icon.setAttribute("viewBox", "0 0 24 24");
           icon.setAttribute("fill", "none");
           icon.setAttribute("stroke", "currentColor");
@@ -393,6 +453,7 @@
           const circle = document.createElementNS(
             "http://www.w3.org/2000/svg", "circle"
           );
+
           circle.setAttribute("cx", "12");
           circle.setAttribute("cy", "12");
           circle.setAttribute("r", "9");
@@ -400,6 +461,7 @@
           const hand = document.createElementNS(
             "http://www.w3.org/2000/svg", "path"
           );
+
           hand.setAttribute("d", "M12 7v5l3 2");
 
           icon.append(circle, hand);
@@ -408,6 +470,7 @@
           label.textContent = item;
 
           button.append(icon, label);
+
           button.addEventListener("click", () => {
             input.value = item;
             performSearch();
@@ -437,7 +500,10 @@
           : "https://www.google.com/search?q=";
 
         notice.textContent = "Membuka hasil pencarian...";
-        window.location.assign(target + encodeURIComponent(query));
+
+        window.location.assign(
+          target + encodeURIComponent(query)
+        );
       }
 
       form.addEventListener("submit", event => {
@@ -456,7 +522,10 @@
           return;
         }
 
-        if (!items.length || !suggestions.classList.contains("show")) {
+        if (
+          !items.length ||
+          !suggestions.classList.contains("show")
+        ) {
           return;
         }
 
@@ -465,7 +534,8 @@
           activeIndex = (activeIndex + 1) % items.length;
         } else if (event.key === "ArrowUp") {
           event.preventDefault();
-          activeIndex = (activeIndex - 1 + items.length) % items.length;
+          activeIndex =
+            (activeIndex - 1 + items.length) % items.length;
         } else {
           return;
         }
@@ -482,29 +552,42 @@
 
           engineButtons.forEach(item => {
             const selected = item === button;
+
             item.classList.toggle("active", selected);
-            item.setAttribute("aria-pressed", String(selected));
+            item.setAttribute(
+              "aria-pressed",
+              String(selected)
+            );
           });
 
           notice.textContent = "Mesin pencari: " +
             (engine === "google" ? "Google" : "Bing") + ".";
+
           input.focus();
         });
       });
 
       document.addEventListener("click", event => {
-        if (!form.contains(event.target)) hideSuggestions();
+        if (!form.contains(event.target)) {
+          hideSuggestions();
+        }
       });
 
       function showInfo(event) {
         event.preventDefault();
+
         notice.textContent =
           "OeR adalah platform yang sedang dikembangkan. " +
           "Pencarian web sementara menggunakan Google atau Bing.";
       }
 
-      document.getElementById("aboutLink").addEventListener("click", showInfo);
-      document.getElementById("footerAbout").addEventListener("click", showInfo);
+      document
+        .getElementById("aboutLink")
+        .addEventListener("click", showInfo);
+
+      document
+        .getElementById("footerAbout")
+        .addEventListener("click", showInfo);
     })();
   </script>
 </body>
