@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="OeR — Temukan sesuatu yang baru.">
   <title>OeR — Temukan Sesuatu yang Baru</title>
-  <meta name="description" content="OeR, tempat untuk mencari dan menjelajahi konten.">
 
   <style>
     :root {
@@ -19,273 +19,493 @@
       --bg: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
       background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
+    a { color: inherit; text-decoration: none; }
 
     header {
+      height: 64px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1.8px;
+    }
+
+    .brand .e { color: var(--green-dark); }
+
+    .header-right {
       display: flex;
       align-items: center;
       gap: 22px;
-      padding: 20px 26px;
+      font-size: 13px;
     }
 
-    /* Logo OeR */
-    .logo {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 1px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 76px;
+    .header-right a:hover,
+    footer a:hover { text-decoration: underline; }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--black);
+      color: white;
+      font-weight: 700;
+    }
+
+    main {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 20px 60px;
+    }
+
+    .hero-logo {
+      font-size: clamp(76px, 12vw, 108px);
       font-weight: 800;
-      letter-spacing: -3px;
-      line-height: 1;
-      color: var(--black);
-      text-decoration: none;
-      white-space: nowrap;
+      letter-spacing: -8px;
+      line-height: 1.1;
+      margin-bottom: 12px;
     }
 
-    .logo .e {
-      color: var(--green-dark);
-      font-size: 0.78em;
-      font-weight: 900;
-      letter-spacing: -1px;
+    .hero-logo .e { color: var(--green-dark); }
+
+    .tagline {
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 16px;
+      text-align: center;
     }
 
-    .logo:hover {
-      text-decoration: none;
+    .search-wrap {
+      position: relative;
+      width: min(100%, 584px);
     }
 
-    header .logo {
-      margin-right: auto;
-      font-size: 25px;
-      letter-spacing: -1px;
+    .search-box {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 12px;
+      transition: box-shadow .18s, border-color .18s;
+      background: white;
     }
 
-    header .logo .e {
-      letter-spacing: 0;
+    .search-box:focus-within,
+    .search-box:hover {
+      box-shadow: 0 1px 6px #20212430;
+      border-color: transparent;
     }
 
-    .header-link {
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    #searchInput {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      font-size: 16px;
+      background: transparent;
+      color: var(--text);
+    }
+
+    #searchInput::placeholder { color: #80868b; }
+
+    .suggestions {
+      display: none;
+      position: absolute;
+      top: 58px;
+      left: 0;
+      right: 0;
+      padding: 8px 0;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 16px #00000020;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .suggestions.show { display: block; }
+
+    .suggestion {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 11px 20px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-align: left;
+      cursor: pointer;
       font-size: 14px;
       color: var(--text);
     }
 
-    .profile {
-      display: grid;
-      place-items: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      color: var(--green);
-      background: var(--black);
-      font-weight: bold;
+    .suggestion:hover,
+    .suggestion:focus {
+      background: #f5f5f5;
+      outline: none;
     }
 
-    main {
-      width: min(600px, calc(100% - 36px));
-      margin: auto;
-      padding: 50px 0 100px;
-      text-align: center;
-    }
-
-    .tagline {
-      margin: 18px 0 28px;
+    .suggestion svg {
+      width: 17px;
+      height: 17px;
       color: var(--muted);
-      font-size: 15px;
+      flex-shrink: 0;
     }
 
-    /* Kolom pencarian */
-    .search-box {
+    .engine-choice {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-height: 48px;
-      padding: 0 18px;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-
-    .search-box:hover,
-    .search-box:focus-within {
-      border-color: transparent;
-      box-shadow: 0 1px 6px #0002;
-    }
-
-    .search-icon {
-      flex-shrink: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+      font-size: 13px;
       color: var(--muted);
-      font-size: 20px;
     }
 
-    .search-box input {
-      flex: 1;
-      width: 100%;
-      min-width: 0;
-      padding: 13px 0;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--text);
-      font-size: 16px;
-    }
-
-    .search-box input::-webkit-search-cancel-button {
+    .engine-choice button {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 18px;
       cursor: pointer;
+      color: var(--text);
+    }
+
+    .engine-choice button:hover { background: #f8f9fa; }
+
+    .engine-choice button.active {
+      border-color: var(--green-dark);
+      background: #f7fee7;
     }
 
     #notice {
-      min-height: 22px;
-      margin-top: 22px;
-      color: var(--muted);
+      min-height: 20px;
+      margin-top: 24px;
       font-size: 13px;
+      color: var(--muted);
+      text-align: center;
     }
 
     footer {
+      min-height: 54px;
+      padding: 16px 28px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      padding: 17px 25px;
-      border-top: 1px solid #eeeeee;
+      gap: 16px;
+      flex-wrap: wrap;
       background: #f8f9fa;
+      border-top: 1px solid #f1f3f4;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .footer-links {
       display: flex;
+      gap: 22px;
       flex-wrap: wrap;
-      gap: 20px;
     }
 
-    @media (max-width: 480px) {
-      header {
-        gap: 16px;
-        padding: 16px;
-      }
-
-      header .logo {
-        font-size: 24px;
-      }
-
-      main {
-        padding-top: 40px;
-        padding-bottom: 70px;
-      }
-
-      main > .logo {
-        font-size: 65px;
-      }
-
-      .tagline {
-        margin-top: 16px;
-      }
-
-      .search-box {
-        min-height: 46px;
-        padding: 0 15px;
-      }
-
-      .search-box input {
-        font-size: 15px;
-      }
-
+    @media (max-width: 600px) {
+      header { padding: 0 18px; }
+      main { padding-top: 90px; }
+      .hero-logo { letter-spacing: -6px; }
       footer {
         justify-content: center;
         text-align: center;
-        padding: 18px 16px;
+        padding: 18px;
       }
-
-      .footer-links {
-        justify-content: center;
-      }
+      .footer-links { justify-content: center; }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <a class="logo" href="./" aria-label="OeR Beranda">
-      <span>O</span><span class="e">e</span><span>R</span>
+    <a class="brand" href="./" aria-label="Beranda OeR">
+      O<span class="e">e</span>R
     </a>
 
-    <a class="header-link" href="#tentang">Tentang</a>
-
-    <a href="#profil" class="profile" aria-label="Profil OeR">O</a>
+    <nav class="header-right" aria-label="Navigasi">
+      <a href="#tentang" id="aboutLink">Tentang</a>
+      <a href="#akun" class="avatar" aria-label="Profil">O</a>
+    </nav>
   </header>
 
   <main>
-    <a class="logo" href="./" aria-label="OeR">
-      <span>O</span><span class="e">e</span><span>R</span>
-    </a>
+    <div class="hero-logo" aria-label="OeR">
+      O<span class="e">e</span>R
+    </div>
 
     <p class="tagline">Temukan sesuatu yang baru.</p>
 
-    <form id="searchForm" role="search">
+    <form class="search-wrap" id="searchForm" role="search">
       <div class="search-box">
-        <span class="search-icon" aria-hidden="true">⌕</span>
+        <svg class="search-icon" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor"
+             stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m16 16 4 4"></path>
+        </svg>
 
         <input
           id="searchInput"
           type="search"
           placeholder="Cari di OeR..."
-          aria-label="Cari di OeR"
           autocomplete="off"
+          aria-label="Ketik kata yang ingin dicari"
+          aria-controls="suggestions"
+          aria-expanded="false"
         >
       </div>
+
+      <div class="suggestions" id="suggestions"></div>
     </form>
 
-    <p id="notice" role="status" aria-live="polite">
-      Pencarian OeR sedang dikembangkan.
+    <div class="engine-choice" aria-label="Pilih mesin pencari">
+      <span>Cari menggunakan</span>
+      <button type="button" data-engine="google" class="active"
+              aria-pressed="true">Google</button>
+      <button type="button" data-engine="bing"
+              aria-pressed="false">Bing</button>
+    </div>
+
+    <p id="notice" aria-live="polite">
+      OeR menggunakan mesin pencari pilihanmu untuk sementara.
     </p>
   </main>
 
   <footer>
-    <span>OeR — Platform yang terus berkembang</span>
-
-    <nav class="footer-links" aria-label="Informasi">
-      <a href="#tentang">Tentang OeR</a>
-      <a href="#bantuan">Bantuan</a>
-    </nav>
+    <span>© <span id="year"></span> OeR</span>
+    <div class="footer-links">
+      <a href="#tentang" id="footerAbout">Tentang OeR</a>
+      <a href="mailto:">Bantuan</a>
+    </div>
   </footer>
 
   <script>
-    // Antarmuka demo: belum terhubung ke Supabase.
-    const searchForm = document.getElementById("searchForm");
-    const searchInput = document.getElementById("searchInput");
-    const notice = document.getElementById("notice");
+    (() => {
+      "use strict";
 
-    searchForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+      const form = document.getElementById("searchForm");
+      const input = document.getElementById("searchInput");
+      const suggestions = document.getElementById("suggestions");
+      const notice = document.getElementById("notice");
+      const engineButtons = document.querySelectorAll("[data-engine]");
 
-      const query = searchInput.value.trim();
+      let engine = "google";
+      let activeIndex = -1;
 
-      notice.textContent = query
-        ? 'Pencarian OeR untuk "' + query + '" sedang dikembangkan.'
-        : "Masukkan kata yang ingin dicari.";
-    });
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+      function hideSuggestions() {
+        suggestions.classList.remove("show");
+        input.setAttribute("aria-expanded", "false");
+        activeIndex = -1;
+      }
+
+      function getHistory() {
+        try {
+          const data = JSON.parse(
+            localStorage.getItem("oer_search_history") || "[]"
+          );
+          return Array.isArray(data) ? data.filter(
+            item => typeof item === "string"
+          ) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveHistory(query) {
+        try {
+          const history = getHistory().filter(
+            item => item.toLowerCase() !== query.toLowerCase()
+          );
+          history.unshift(query);
+          localStorage.setItem(
+            "oer_search_history",
+            JSON.stringify(history.slice(0, 8))
+          );
+        } catch {
+          // Pencarian tetap berfungsi jika penyimpanan tidak tersedia.
+        }
+      }
+
+      function renderSuggestions() {
+        const query = input.value.trim().toLowerCase();
+        const history = getHistory();
+
+        const items = query
+          ? history.filter(item => item.toLowerCase().includes(query))
+          : history.slice(0, 5);
+
+        suggestions.replaceChildren();
+
+        if (!items.length) {
+          hideSuggestions();
+          return;
+        }
+
+        items.forEach(item => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "suggestion";
+
+          const icon = document.createElementNS(
+            "http://www.w3.org/2000/svg", "svg"
+          );
+          icon.setAttribute("viewBox", "0 0 24 24");
+          icon.setAttribute("fill", "none");
+          icon.setAttribute("stroke", "currentColor");
+          icon.setAttribute("stroke-width", "2");
+
+          const circle = document.createElementNS(
+            "http://www.w3.org/2000/svg", "circle"
+          );
+          circle.setAttribute("cx", "12");
+          circle.setAttribute("cy", "12");
+          circle.setAttribute("r", "9");
+
+          const hand = document.createElementNS(
+            "http://www.w3.org/2000/svg", "path"
+          );
+          hand.setAttribute("d", "M12 7v5l3 2");
+
+          icon.append(circle, hand);
+
+          const label = document.createElement("span");
+          label.textContent = item;
+
+          button.append(icon, label);
+          button.addEventListener("click", () => {
+            input.value = item;
+            performSearch();
+          });
+
+          suggestions.appendChild(button);
+        });
+
+        suggestions.classList.add("show");
+        input.setAttribute("aria-expanded", "true");
+      }
+
+      function performSearch() {
+        const query = input.value.trim();
+
+        if (!query) {
+          notice.textContent = "Masukkan kata yang ingin dicari.";
+          input.focus();
+          return;
+        }
+
+        saveHistory(query);
+        hideSuggestions();
+
+        const target = engine === "bing"
+          ? "https://www.bing.com/search?q="
+          : "https://www.google.com/search?q=";
+
+        notice.textContent = "Membuka hasil pencarian...";
+        window.location.assign(target + encodeURIComponent(query));
+      }
+
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        performSearch();
+      });
+
+      input.addEventListener("input", renderSuggestions);
+      input.addEventListener("focus", renderSuggestions);
+
+      input.addEventListener("keydown", event => {
+        const items = suggestions.querySelectorAll(".suggestion");
+
+        if (event.key === "Escape") {
+          hideSuggestions();
+          return;
+        }
+
+        if (!items.length || !suggestions.classList.contains("show")) {
+          return;
+        }
+
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          activeIndex = (activeIndex + 1) % items.length;
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          activeIndex = (activeIndex - 1 + items.length) % items.length;
+        } else {
+          return;
+        }
+
+        items.forEach((item, index) => {
+          item.style.background =
+            index === activeIndex ? "#f1f3f4" : "white";
+        });
+      });
+
+      engineButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          engine = button.dataset.engine;
+
+          engineButtons.forEach(item => {
+            const selected = item === button;
+            item.classList.toggle("active", selected);
+            item.setAttribute("aria-pressed", String(selected));
+          });
+
+          notice.textContent = "Mesin pencari: " +
+            (engine === "google" ? "Google" : "Bing") + ".";
+          input.focus();
+        });
+      });
+
+      document.addEventListener("click", event => {
+        if (!form.contains(event.target)) hideSuggestions();
+      });
+
+      function showInfo(event) {
+        event.preventDefault();
+        notice.textContent =
+          "OeR adalah platform yang sedang dikembangkan. " +
+          "Pencarian web sementara menggunakan Google atau Bing.";
+      }
+
+      document.getElementById("aboutLink").addEventListener("click", showInfo);
+      document.getElementById("footerAbout").addEventListener("click", showInfo);
+    })();
   </script>
 </body>
 </html>
