@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Reels OeR — Jelajahi video pendek YouTube Shorts.">
+  <title>Reels OeR</title>
+
+  <style>
+    :root {
+      --black: #171717;
+      --green: #a3e635;
+      --green-dark: #65a30d;
+      --text: #202124;
+      --muted: #5f6368;
+      --border: #dfe1e5;
+      --bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      min-height: 64px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f3f4;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1.8px;
+    }
+
+    .brand .e { color: var(--green-dark); }
+
+    .back {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    main {
+      width: min(100% - 32px, 960px);
+      margin: 0 auto;
+      padding: 36px 0 60px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 38px);
+      letter-spacing: -1px;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+      width: min(100%, 620px);
+      margin: 24px auto 12px;
+    }
+
+    .search-form input {
+      min-width: 0;
+      flex: 1;
+      height: 48px;
+      padding: 0 17px;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .search-form input:focus {
+      border-color: var(--green-dark);
+      box-shadow: 0 0 0 3px #a3e63530;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .search-button {
+      border: 0;
+      border-radius: 26px;
+      padding: 0 20px;
+      background: var(--black);
+      color: white;
+      font-weight: 600;
+    }
+
+    .search-button:hover { opacity: .85; }
+
+    .helper {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 0 0 28px;
+    }
+
+    .player-section {
+      width: min(100%, 380px);
+      margin: 0 auto;
+    }
+
+    .player-title {
+      font-size: 16px;
+      margin: 0 0 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .player {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      background: #111;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .player iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .empty {
+      color: white;
+      padding: 24px;
+      text-align: center;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .empty a {
+      color: var(--green);
+      text-decoration: underline;
+    }
+
+    .player-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .secondary-button {
+      flex: 1;
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .secondary-button:hover { background: #f8f9fa; }
+
+    .notice {
+      margin-top: 26px;
+      padding: 16px;
+      background: #f7fee7;
+      border: 1px solid #d9f99d;
+      border-radius: 14px;
+      color: #3f6212;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 20px;
+      background: #f8f9fa;
+      border-top: 1px solid #f1f3f4;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 12px 16px; }
+      main { padding-top: 28px; }
+
+      .search-form { gap: 7px; }
+
+      .search-button { padding: 0 15px; }
+
+      .player-section { width: min(100%, 340px); }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="./" aria-label="Beranda OeR">
+      O<span class="e">e</span>R
+    </a>
+    <a class="back" href="./">← Beranda</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h1>Reels OeR</h1>
+      <p>Temukan video pendek yang kamu suka.</p>
+
+      <form class="search-form" id="searchForm" role="search">
+        <input
+          id="query"
+          type="search"
+          placeholder="Cari YouTube Shorts..."
+          aria-label="Cari video YouTube Shorts"
+          required
+        >
+        <button class="search-button" type="submit">
+          Cari
+        </button>
+      </form>
+
+      <p class="helper">
+        Pencarian dilakukan melalui YouTube. Pilih video Shorts,
+        lalu salin tautannya untuk diputar di sini.
+      </p>
+    </section>
+
+    <section class="player-section" aria-label="Pemutar video">
+      <h2 class="player-title" id="playerTitle">
+        Putar YouTube Shorts
+      </h2>
+
+      <div class="player" id="player">
+        <div class="empty">
+          <p>Video Shorts akan tampil di sini.</p>
+          <p>1. Cari video menggunakan kolom di atas.</p>
+          <p>2. Buka video di YouTube.</p>
+          <p>3. Salin tautan video dan tempelkan di bawah.</p>
+        </div>
+      </div>
+
+      <form class="search-form" id="urlForm">
+        <input
+          id="videoUrl"
+          type="url"
+          placeholder="Tempel tautan YouTube Shorts..."
+          aria-label="Tautan video YouTube"
+          required
+        >
+        <button class="search-button" type="submit">
+          Putar
+        </button>
+      </form>
+
+      <div class="player-actions">
+        <a
+          class="secondary-button"
+          id="youtubeLink"
+          href="https://www.youtube.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Buka YouTube</a>
+
+        <button
+          class="secondary-button"
+          id="clearButton"
+          type="button"
+        >Hapus video</button>
+      </div>
+
+      <p id="status" role="status" class="helper"></p>
+    </section>
+
+    <section class="notice">
+      <strong>Reels OeR sedang dikembangkan.</strong><br>
+      Versi awal ini tidak menggunakan API. Hasil pencarian
+      ditampilkan di YouTube, sedangkan video yang dipilih
+      diputar melalui pemutar embed resmi YouTube.
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> OeR
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const searchForm = document.getElementById("searchForm");
+      const queryInput = document.getElementById("query");
+      const urlForm = document.getElementById("urlForm");
+      const videoUrl = document.getElementById("videoUrl");
+      const player = document.getElementById("player");
+      const playerTitle = document.getElementById("playerTitle");
+      const status = document.getElementById("status");
+      const youtubeLink = document.getElementById("youtubeLink");
+      const clearButton = document.getElementById("clearButton");
+
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+      function searchYouTube(query) {
+        const cleaned = query.trim();
+
+        if (!cleaned) {
+          queryInput.focus();
+          return;
+        }
+
+        const url = new URL("https://www.youtube.com/results");
+        url.searchParams.set("search_query", cleaned + " #shorts");
+
+        window.open(url.toString(), "_blank", "noopener,noreferrer");
+      }
+
+      searchForm.addEventListener("submit", event => {
+        event.preventDefault();
+        searchYouTube(queryInput.value);
+      });
+
+      function getVideoId(rawUrl) {
+        let url;
+
+        try {
+          url = new URL(rawUrl);
+        } catch {
+          return null;
+        }
+
+        const host = url.hostname.toLowerCase();
+        let id = "";
+
+        if (
+          host === "youtu.be" ||
+          host === "www.youtu.be"
+        ) {
+          id = url.pathname.split("/").filter(Boolean)[0] || "";
+        } else if (
+          host === "youtube.com" ||
+          host.endsWith(".youtube.com") ||
+          host === "youtube-nocookie.com" ||
+          host.endsWith(".youtube-nocookie.com")
+        ) {
+          const parts = url.pathname.split("/").filter(Boolean);
+
+          if (url.pathname === "/watch") {
+            id = url.searchParams.get("v") || "";
+          } else if (
+            ["shorts", "embed", "live"].includes(parts[0])
+          ) {
+            id = parts[1] || "";
+          }
+        } else {
+          return null;
+        }
+
+        return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
+      }
+
+      function playVideo(rawUrl) {
+        const id = getVideoId(rawUrl);
+
+        if (!id) {
+          status.textContent =
+            "Tautan tidak dikenali. Masukkan tautan video YouTube yang valid.";
+          return;
+        }
+
+        const frame = document.createElement("iframe");
+        frame.src =
+          "https://www.youtube-nocookie.com/embed/" +
+          encodeURIComponent(id);
+        frame.title = "Pemutar YouTube Shorts";
+        frame.allow =
+          "accelerometer; autoplay; clipboard-write; " +
+          "encrypted-media; gyroscope; picture-in-picture; web-share";
+        frame.allowFullscreen = true;
+        frame.referrerPolicy = "strict-origin-when-cross-origin";
+
+        player.replaceChildren(frame);
+        playerTitle.textContent = "Video YouTube Shorts";
+        videoUrl.value = rawUrl;
+        youtubeLink.href = "https://www.youtube.com/watch?v=" + id;
+        status.textContent =
+          "Jika video mengizinkan embed, video akan diputar di sini.";
+      }
+
+      urlForm.addEventListener("submit", event => {
+        event.preventDefault();
+        playVideo(videoUrl.value.trim());
+      });
+
+      clearButton.addEventListener("click", () => {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Video dihapus. Cari dan pilih video Shorts untuk memutarnya.";
+        player.replaceChildren(empty);
+
+        videoUrl.value = "";
+        playerTitle.textContent = "Putar YouTube Shorts";
+        youtubeLink.href = "https://www.youtube.com/";
+        status.textContent = "";
+      });
+    })();
+  </script>
+</body>
+</html>
