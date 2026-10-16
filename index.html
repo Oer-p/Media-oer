@@ -3,10 +3,10 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="OeR - pencarian internet sederhana dengan Google, Bing, dan AI Chat.">
-  <title>OeR — Search</title>
+  <meta name="description" content="OeR — Temukan sesuatu yang baru.">
+  <title>OeR — Temukan Sesuatu yang Baru</title>
 
   <style>
     :root {
@@ -19,22 +19,16 @@
       --bg: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       background: var(--bg);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      flex-direction: column;
     }
 
     a {
@@ -42,14 +36,8 @@
       text-decoration: none;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* HEADER */
-    .header {
-      height: 66px;
+    header {
+      height: 64px;
       padding: 0 28px;
       display: flex;
       align-items: center;
@@ -57,10 +45,9 @@
     }
 
     .brand {
-      font-size: 27px;
+      font-size: 25px;
       font-weight: 800;
-      letter-spacing: -2px;
-      color: var(--black);
+      letter-spacing: -1.8px;
     }
 
     .brand .e {
@@ -75,7 +62,7 @@
     }
 
     .header-right a:hover,
-    .footer a:hover {
+    footer a:hover {
       text-decoration: underline;
     }
 
@@ -85,575 +72,1259 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: var(--green);
-      color: var(--black);
-      font-size: 14px;
+      background: var(--black);
+      color: white;
       font-weight: 700;
+      overflow: hidden;
+      cursor: pointer;
+      border: 0;
+      padding: 0;
     }
 
-    /* MAIN */
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     main {
+      width: 100%;
       flex: 1;
-      width: 100%;
-    }
-
-    .hero {
-      width: 100%;
-      padding: 100px 20px 50px;
       display: flex;
-      align-items: center;
       flex-direction: column;
-      text-align: center;
+      align-items: center;
+      padding: 100px 20px 60px;
     }
 
     .hero-logo {
-      margin: 0 0 30px;
-      font-size: clamp(76px, 12vw, 100px);
-      line-height: 1;
-      letter-spacing: -8px;
+      font-size: clamp(76px, 12vw, 108px);
       font-weight: 800;
-      color: var(--black);
+      letter-spacing: -8px;
+      line-height: 1.1;
+      margin-bottom: 12px;
     }
 
     .hero-logo .e {
       color: var(--green-dark);
     }
 
-    /* ANIMASI LOGO */
-    .hero-logo .letter {
-      display: inline-block;
-      transform-origin: center bottom;
-      animation: oerLetterIn 700ms cubic-bezier(.2,.8,.2,1) both;
-    }
-
-    .hero-logo .letter:nth-child(1) {
-      animation-delay: 0ms;
-    }
-
-    .hero-logo .letter:nth-child(2) {
-      animation-delay: 120ms;
-    }
-
-    .hero-logo .letter:nth-child(3) {
-      animation-delay: 240ms;
-    }
-
-    @keyframes oerLetterIn {
-      0% {
-        opacity: 0;
-        transform: translateY(16px) scale(.92);
-      }
-      65% {
-        opacity: 1;
-        transform: translateY(-3px) scale(1.02);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .subtitle {
+    .tagline {
+      margin: 0 0 30px;
       color: var(--muted);
-      font-size: 14px;
-      margin: 0 0 25px;
+      font-size: 16px;
+      text-align: center;
     }
 
-    /* SEARCH */
+    .search-wrap {
+      position: relative;
+      width: min(100%, 584px);
+    }
+
     .search-box {
-      width: min(584px, 100%);
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 16px;
+      width: 100%;
+      min-height: 52px;
       border: 1px solid var(--border);
       border-radius: 28px;
-      background: #fff;
-      transition: box-shadow .2s, border-color .2s;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      gap: 12px;
+      transition: box-shadow .18s, border-color .18s;
+      background: white;
     }
 
-    .search-box:hover,
-    .search-box:focus-within {
+    .search-box:focus-within,
+    .search-box:hover {
+      box-shadow: 0 1px 6px #20212430;
       border-color: transparent;
-      box-shadow: 0 1px 6px rgba(32,33,36,.25);
     }
 
     .search-icon {
-      width: 19px;
-      height: 19px;
-      color: #777;
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
       flex-shrink: 0;
     }
 
-    .search-box input {
+    #searchInput {
       width: 100%;
-      min-width: 0;
       border: 0;
-      outline: none;
+      outline: 0;
+      font-size: 16px;
       background: transparent;
       color: var(--text);
-      font-size: 16px;
     }
 
-    .clear-search {
+    #searchInput::placeholder {
+      color: #80868b;
+    }
+
+    .suggestions {
       display: none;
+      position: absolute;
+      top: 58px;
+      left: 0;
+      right: 0;
+      padding: 8px 0;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 4px 16px #00000020;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .suggestions.show {
+      display: block;
+    }
+
+    .suggestion {
+      width: 100%;
       border: 0;
-      background: transparent;
-      color: var(--muted);
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .search-buttons {
+      background: white;
+      padding: 11px 20px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    .search-button {
-      min-height: 40px;
-      padding: 0 18px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      background: #f8f9fa;
-      color: #303134;
-      font-size: 14px;
+      gap: 13px;
+      text-align: left;
       cursor: pointer;
-      transition: background .2s, border-color .2s, transform .2s;
+      font-size: 14px;
+      color: var(--text);
     }
 
-    .search-button:hover {
-      border-color: #dadce0;
-      background: #f1f3f4;
+    .suggestion:hover,
+    .suggestion:focus {
+      background: #f5f5f5;
+      outline: none;
     }
 
-    .search-button:active {
-      transform: scale(.98);
-    }
-
-    .search-button.ai {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      background: var(--green);
-      color: var(--black);
-      font-weight: 700;
-    }
-
-    .search-button.ai:hover {
-      background: #bef264;
-      border-color: #a3e635;
-    }
-
-    .ai-icon {
+    .suggestion svg {
       width: 17px;
       height: 17px;
-    }
-
-    .hint {
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    /* RIWAYAT */
-    .history {
-      width: min(584px, 100%);
-      margin-top: 28px;
-      text-align: left;
-    }
-
-    .history-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .history-heading button {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .history-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 5px;
-      border: 0;
-      border-radius: 8px;
-      background: transparent;
-      text-align: left;
-      cursor: pointer;
-      color: var(--text);
-      font-size: 14px;
-    }
-
-    .history-item:hover {
-      background: #f5f5f5;
-    }
-
-    .history-item svg {
-      width: 16px;
-      height: 16px;
       color: var(--muted);
       flex-shrink: 0;
     }
 
-    /* NOTICE */
-    .notice {
-      width: min(584px, 100%);
-      margin-top: 30px;
-      padding: 12px 15px;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      background: #fafafa;
+    .engine-choice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+      font-size: 13px;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      text-align: left;
     }
 
-    .notice strong {
+    .engine-choice button {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 18px;
+      cursor: pointer;
       color: var(--text);
     }
 
-    /* FOOTER */
-    .footer {
-      min-height: 58px;
+    .engine-choice button:hover {
+      background: #f8f9fa;
+    }
+
+    .engine-choice button.active {
+      border-color: var(--green-dark);
+      background: #f7fee7;
+    }
+
+    #notice {
+      min-height: 20px;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer {
+      min-height: 54px;
       padding: 16px 28px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
       flex-wrap: wrap;
-      border-top: 1px solid #f0f0f0;
       background: #f8f9fa;
+      border-top: 1px solid #f1f3f4;
       color: var(--muted);
       font-size: 12px;
     }
 
     .footer-links {
       display: flex;
-      gap: 20px;
+      gap: 22px;
       flex-wrap: wrap;
     }
 
+    /* Popup profil */
+    .profile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      right: 25px;
+      width: 280px;
+      padding: 18px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 5px 22px #00000020;
+      z-index: 100;
+    }
+
+    .profile-menu.show {
+      display: block;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .profile-photo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--black);
+    }
+
+    .profile-name {
+      font-weight: 700;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .profile-email {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      word-break: break-word;
+    }
+
+    .logout-button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .logout-button:hover {
+      background: #f8f9fa;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--black);
+      color: var(--green);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
     @media (max-width: 600px) {
-      .header {
-        height: 60px;
-        padding: 0 16px;
+      header {
+        padding: 0 18px;
       }
 
-      .header-right {
-        gap: 13px;
-      }
-
-      .hero {
-        padding-top: 82px;
+      main {
+        padding-top: 90px;
       }
 
       .hero-logo {
         letter-spacing: -6px;
       }
 
-      .search-box {
-        min-height: 46px;
+      footer {
+        justify-content: center;
+        text-align: center;
+        padding: 18px;
       }
 
-      .search-buttons {
-        gap: 8px;
+      .footer-links {
+        justify-content: center;
       }
 
-      .search-button {
-        padding: 0 14px;
-      }
-
-      .footer {
-        padding: 16px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
+      .profile-menu {
+        right: 16px;
+        left: 16px;
+        width: auto;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="header">
-    <a class="brand" href="./" aria-label="OeR Beranda">
+
+  <header>
+    <a class="brand" href="./" aria-label="Beranda OeR">
       O<span class="e">e</span>R
     </a>
 
     <nav class="header-right" aria-label="Navigasi">
-      <a href="reels.html">Reels</a>
-      <a href="tentang.html">Tentang</a>
-      <a class="avatar" href="tentang.html" aria-label="Tentang OeR">O</a>
+      <a href="#tentang" id="aboutLink">Tentang</a>
+
+      <button
+        id="profileButton"
+        class="avatar"
+        type="button"
+        aria-label="Profil OeR"
+        aria-expanded="false">
+        O
+      </button>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-logo" aria-label="OeR">
-        <span class="letter">O</span><span class="e letter">e</span><span class="letter">R</span>
-      </div>
 
-      <p class="subtitle">Temukan apa yang kamu cari.</p>
+    <div class="hero-logo" aria-label="OeR">
+      O<span class="e">e</span>R
+    </div>
 
-      <form id="searchForm" class="search-box" role="search">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <p class="tagline">
+      Temukan sesuatu yang baru.
+    </p>
+
+    <form class="search-wrap" id="searchForm" role="search">
+
+      <div class="search-box">
+
+        <svg
+          class="search-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true">
+
           <circle cx="11" cy="11" r="7"></circle>
-          <path d="m20 20-4-4"></path>
+          <path d="m16 16 4 4"></path>
+
         </svg>
 
         <input
           id="searchInput"
           type="search"
-          placeholder="Cari di internet..."
-          aria-label="Kata pencarian"
+          placeholder="Cari di OeR..."
           autocomplete="off"
+          aria-label="Ketik kata yang ingin dicari"
+          aria-controls="suggestions"
+          aria-expanded="false"
         >
 
-        <button id="clearSearch" class="clear-search" type="button"
-                aria-label="Hapus pencarian">×</button>
-      </form>
-
-      <div class="search-buttons">
-        <button class="search-button" type="button" data-engine="google">
-          Google
-        </button>
-
-        <button class="search-button" type="button" data-engine="bing">
-          Bing
-        </button>
-
-        <button class="search-button ai" type="button" id="aiChatButton">
-          <svg class="ai-icon" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path d="M12 3 14.5 9.5 21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"></path>
-          </svg>
-          AI Chat
-        </button>
       </div>
 
-      <div class="hint">
-        Pilih Google atau Bing untuk mencari di web.<br>
-        Gunakan AI Chat untuk bertanya kepada AI.
+      <div
+        class="suggestions"
+        id="suggestions">
       </div>
 
-      <section class="history" id="historySection" hidden>
-        <div class="history-heading">
-          <span>Pencarian terakhir</span>
-          <button id="clearHistory" type="button">Hapus riwayat</button>
-        </div>
-        <div class="history-list" id="historyList"></div>
-      </section>
+    </form>
 
-      <div class="notice">
-        <strong>OeR sedang dikembangkan.</strong><br>
-        Pencarian web menggunakan layanan Google dan Bing. AI Chat membuka
-        Microsoft Copilot. Layanan tersebut mengikuti ketentuan dan kebijakan
-        masing-masing penyedia.
-      </div>
-    </section>
+    <div class="engine-choice" aria-label="Pilih mesin pencari">
+
+      <span>Cari menggunakan</span>
+
+      <button
+        type="button"
+        data-engine="google"
+        class="active"
+        aria-pressed="true">
+        Google
+      </button>
+
+      <button
+        type="button"
+        data-engine="bing"
+        aria-pressed="false">
+        Bing
+      </button>
+
+    </div>
+
+    <p id="notice" aria-live="polite">
+      OeR menggunakan mesin pencari pilihanmu untuk sementara.
+    </p>
+
   </main>
 
-  <footer class="footer">
-    <span>© <span id="year"></span> OeR</span>
+  <footer>
+
+    <span>
+      © <span id="year"></span> OeR
+    </span>
 
     <div class="footer-links">
-      <a href="tentang.html">Tentang OeR</a>
-      <a href="reels.html">Reels</a>
+
+      <a href="#tentang" id="footerAbout">
+        Tentang OeR
+      </a>
+
+      <a href="mailto:">
+        Bantuan
+      </a>
+
     </div>
+
   </footer>
+
+
+  <!-- MENU PROFIL -->
+
+  <div
+    id="profileMenu"
+    class="profile-menu"
+    aria-hidden="true">
+
+    <div
+      id="loggedOut"
+      style="display:none;">
+
+      <p style="margin-top:0;">
+        Masuk ke OeR menggunakan akun Google.
+      </p>
+
+      <button
+        id="loginButton"
+        class="login-button"
+        type="button">
+        Masuk dengan Google
+      </button>
+
+    </div>
+
+
+    <div
+      id="loggedIn"
+      style="display:none;">
+
+      <div class="profile-info">
+
+        <img
+          id="profilePhoto"
+          class="profile-photo"
+          alt="Foto profil">
+
+        <div>
+
+          <div
+            id="profileName"
+            class="profile-name">
+          </div>
+
+          <div
+            id="profileEmail"
+            class="profile-email">
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        id="logoutButton"
+        class="logout-button"
+        type="button">
+        Keluar
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     (() => {
       "use strict";
 
-      const input = document.getElementById("searchInput");
-      const form = document.getElementById("searchForm");
-      const clearSearch = document.getElementById("clearSearch");
-      const historySection = document.getElementById("historySection");
-      const historyList = document.getElementById("historyList");
-      const clearHistory = document.getElementById("clearHistory");
-      const aiChatButton = document.getElementById("aiChatButton");
+      /* =====================================================
+         KONFIGURASI SUPABASE
+         ===================================================== */
 
-      const HISTORY_KEY = "oer_search_history";
-      let selectedEngine = "google";
+      const SUPABASE_URL =
+        "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+
+      /*
+       * GANTI bagian ini dengan Publishable Key / Anon Key
+       * dari:
+       *
+       * Supabase
+       * → Project Settings
+       * → API
+       */
+
+      const SUPABASE_KEY =
+        "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+
+
+      const supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+
+
+      /* =====================================================
+         ELEMENT
+         ===================================================== */
+
+      const form =
+        document.getElementById("searchForm");
+
+      const input =
+        document.getElementById("searchInput");
+
+      const suggestions =
+        document.getElementById("suggestions");
+
+      const notice =
+        document.getElementById("notice");
+
+      const engineButtons =
+        document.querySelectorAll("[data-engine]");
+
+      const profileButton =
+        document.getElementById("profileButton");
+
+      const profileMenu =
+        document.getElementById("profileMenu");
+
+      const loginButton =
+        document.getElementById("loginButton");
+
+      const logoutButton =
+        document.getElementById("logoutButton");
+
+      const loggedOut =
+        document.getElementById("loggedOut");
+
+      const loggedIn =
+        document.getElementById("loggedIn");
+
+      const profilePhoto =
+        document.getElementById("profilePhoto");
+
+      const profileName =
+        document.getElementById("profileName");
+
+      const profileEmail =
+        document.getElementById("profileEmail");
+
+
+      let engine = "google";
+      let activeIndex = -1;
+
 
       document.getElementById("year").textContent =
         new Date().getFullYear();
 
-      function getHistory() {
-        try {
-          const value = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-          return Array.isArray(value) ? value.filter(item =>
-            typeof item === "string"
-          ).slice(0, 8) : [];
-        } catch (error) {
-          return [];
-        }
-      }
 
-      function saveHistory(query) {
-        if (!query) return;
+      /* =====================================================
+         LOGIN GOOGLE
+         ===================================================== */
 
-        const history = getHistory().filter(item =>
-          item.toLowerCase() !== query.toLowerCase()
-        );
+      async function loginWithGoogle() {
 
-        history.unshift(query);
+        notice.textContent =
+          "Membuka login Google...";
 
-        try {
-          localStorage.setItem(
-            HISTORY_KEY,
-            JSON.stringify(history.slice(0, 8))
-          );
-        } catch (error) {
-          // Pencarian tetap berfungsi jika penyimpanan lokal tidak tersedia.
-        }
-
-        renderHistory();
-      }
-
-      function renderHistory() {
-        const history = getHistory();
-        historyList.replaceChildren();
-        historySection.hidden = history.length === 0;
-
-        history.forEach(query => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "history-item";
-
-          const icon = document.createElementNS(
-            "http://www.w3.org/2000/svg", "svg"
-          );
-          icon.setAttribute("viewBox", "0 0 24 24");
-          icon.setAttribute("fill", "none");
-          icon.setAttribute("stroke", "currentColor");
-          icon.setAttribute("stroke-width", "2");
-
-          const circle = document.createElementNS(
-            "http://www.w3.org/2000/svg", "circle"
-          );
-          circle.setAttribute("cx", "12");
-          circle.setAttribute("cy", "12");
-          circle.setAttribute("r", "9");
-
-          const path = document.createElementNS(
-            "http://www.w3.org/2000/svg", "path"
-          );
-          path.setAttribute("d", "M12 7v5l3 2");
-
-          icon.append(circle, path);
-
-          const label = document.createElement("span");
-          label.textContent = query;
-
-          button.append(icon, label);
-          button.addEventListener("click", () => {
-            input.value = query;
-            runSearch(selectedEngine);
+        const { error } =
+          await supabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: window.location.origin + window.location.pathname
+            }
           });
 
-          historyList.appendChild(button);
-        });
-      }
+        if (error) {
 
-      function runSearch(engine) {
-        const query = input.value.trim();
-        if (!query) {
-          input.focus();
-          return;
+          console.error(error);
+
+          notice.textContent =
+            "Login Google gagal. Silakan coba lagi.";
+
         }
 
-        selectedEngine = engine;
+      }
+
+
+      loginButton.addEventListener(
+        "click",
+        loginWithGoogle
+      );
+
+
+      /* =====================================================
+         TAMPILKAN USER
+         ===================================================== */
+
+      function updateProfile(user) {
+
+        if (user) {
+
+          const metadata =
+            user.user_metadata || {};
+
+          const name =
+            metadata.full_name ||
+            metadata.name ||
+            "Pengguna OeR";
+
+          const email =
+            user.email || "";
+
+          const photo =
+            metadata.avatar_url ||
+            metadata.picture ||
+            "";
+
+
+          profileName.textContent =
+            name;
+
+          profileEmail.textContent =
+            email;
+
+
+          if (photo) {
+
+            profilePhoto.src =
+              photo;
+
+            profilePhoto.style.display =
+              "block";
+
+            profileButton.innerHTML =
+              `<img src="${photo}" alt="Profil">`;
+
+          } else {
+
+            profilePhoto.style.display =
+              "none";
+
+            profileButton.textContent =
+              name.charAt(0).toUpperCase();
+
+          }
+
+
+          loggedIn.style.display =
+            "block";
+
+          loggedOut.style.display =
+            "none";
+
+
+        } else {
+
+          loggedIn.style.display =
+            "none";
+
+          loggedOut.style.display =
+            "block";
+
+          profileButton.textContent =
+            "O";
+
+        }
+
+      }
+
+
+      /* =====================================================
+         CEK LOGIN SAAT HALAMAN DIBUKA
+         ===================================================== */
+
+      async function loadUser() {
+
+        const {
+          data: { user }
+        } =
+          await supabaseClient.auth.getUser();
+
+        updateProfile(user);
+
+      }
+
+
+      loadUser();
+
+
+      /* =====================================================
+         PERUBAHAN STATUS LOGIN
+         ===================================================== */
+
+      supabaseClient.auth.onAuthStateChange(
+        (event, session) => {
+
+          updateProfile(
+            session ? session.user : null
+          );
+
+        }
+      );
+
+
+      /* =====================================================
+         LOGOUT
+         ===================================================== */
+
+      logoutButton.addEventListener(
+        "click",
+        async () => {
+
+          const { error } =
+            await supabaseClient.auth.signOut();
+
+          if (error) {
+
+            console.error(error);
+
+            notice.textContent =
+              "Gagal keluar.";
+
+            return;
+
+          }
+
+          profileMenu.classList.remove("show");
+
+          profileButton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+          notice.textContent =
+            "Kamu sudah keluar dari OeR.";
+
+        }
+      );
+
+
+      /* =====================================================
+         MENU PROFIL
+         ===================================================== */
+
+      profileButton.addEventListener(
+        "click",
+        () => {
+
+          const isOpen =
+            profileMenu.classList.toggle("show");
+
+          profileButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+          );
+
+          profileMenu.setAttribute(
+            "aria-hidden",
+            String(!isOpen)
+          );
+
+        }
+      );
+
+
+      document.addEventListener(
+        "click",
+        event => {
+
+          if (
+            !profileMenu.contains(event.target) &&
+            !profileButton.contains(event.target)
+          ) {
+
+            profileMenu.classList.remove("show");
+
+            profileButton.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+          }
+
+        }
+      );
+
+
+      /* =====================================================
+         PENCARIAN
+         ===================================================== */
+
+      function hideSuggestions() {
+
+        suggestions.classList.remove("show");
+
+        input.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        activeIndex = -1;
+
+      }
+
+
+      function getHistory() {
+
+        try {
+
+          const data =
+            JSON.parse(
+              localStorage.getItem(
+                "oer_search_history"
+              ) || "[]"
+            );
+
+          return Array.isArray(data)
+            ? data.filter(
+                item => typeof item === "string"
+              )
+            : [];
+
+        } catch {
+
+          return [];
+
+        }
+
+      }
+
+
+      function saveHistory(query) {
+
+        try {
+
+          const history =
+            getHistory().filter(
+              item =>
+                item.toLowerCase() !==
+                query.toLowerCase()
+            );
+
+          history.unshift(query);
+
+          localStorage.setItem(
+            "oer_search_history",
+            JSON.stringify(
+              history.slice(0, 8)
+            )
+          );
+
+        } catch {}
+
+      }
+
+
+      function renderSuggestions() {
+
+        const query =
+          input.value.trim().toLowerCase();
+
+        const history =
+          getHistory();
+
+        const items = query
+          ? history.filter(
+              item =>
+                item.toLowerCase().includes(query)
+            )
+          : history.slice(0, 5);
+
+
+        suggestions.replaceChildren();
+
+
+        if (!items.length) {
+
+          hideSuggestions();
+
+          return;
+
+        }
+
+
+        items.forEach(item => {
+
+          const button =
+            document.createElement("button");
+
+          button.type = "button";
+
+          button.className =
+            "suggestion";
+
+
+          const icon =
+            document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "svg"
+            );
+
+          icon.setAttribute(
+            "viewBox",
+            "0 0 24 24"
+          );
+
+          icon.setAttribute(
+            "fill",
+            "none"
+          );
+
+          icon.setAttribute(
+            "stroke",
+            "currentColor"
+          );
+
+          icon.setAttribute(
+            "stroke-width",
+            "2"
+          );
+
+
+          const circle =
+            document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "circle"
+            );
+
+          circle.setAttribute(
+            "cx",
+            "12"
+          );
+
+          circle.setAttribute(
+            "cy",
+            "12"
+          );
+
+          circle.setAttribute(
+            "r",
+            "9"
+          );
+
+
+          const hand =
+            document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "path"
+            );
+
+          hand.setAttribute(
+            "d",
+            "M12 7v5l3 2"
+          );
+
+
+          icon.append(
+            circle,
+            hand
+          );
+
+
+          const label =
+            document.createElement("span");
+
+          label.textContent =
+            item;
+
+
+          button.append(
+            icon,
+            label
+          );
+
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              input.value =
+                item;
+
+              performSearch();
+
+            }
+          );
+
+
+          suggestions.appendChild(
+            button
+          );
+
+        });
+
+
+        suggestions.classList.add(
+          "show"
+        );
+
+        input.setAttribute(
+          "aria-expanded",
+          "true"
+        );
+
+      }
+
+
+      function performSearch() {
+
+        const query =
+          input.value.trim();
+
+
+        if (!query) {
+
+          notice.textContent =
+            "Masukkan kata yang ingin dicari.";
+
+          input.focus();
+
+          return;
+
+        }
+
+
         saveHistory(query);
 
-        const encodedQuery = encodeURIComponent(query);
-        const destinations = {
-          google: "https://www.google.com/search?q=" + encodedQuery,
-          bing: "https://www.bing.com/search?q=" + encodedQuery
-        };
+        hideSuggestions();
 
-        const destination = destinations[engine] || destinations.google;
-        window.open(destination, "_blank", "noopener,noreferrer");
+
+        const target =
+          engine === "bing"
+            ? "https://www.bing.com/search?q="
+            : "https://www.google.com/search?q=";
+
+
+        notice.textContent =
+          "Membuka hasil pencarian...";
+
+
+        window.location.assign(
+          target +
+          encodeURIComponent(query)
+        );
+
       }
 
-      document.querySelectorAll("[data-engine]").forEach(button => {
-        button.addEventListener("click", () => {
-          runSearch(button.dataset.engine);
-        });
-      });
 
-      form.addEventListener("submit", event => {
-        event.preventDefault();
-        runSearch(selectedEngine);
-      });
+      form.addEventListener(
+        "submit",
+        event => {
 
-      input.addEventListener("input", () => {
-        clearSearch.style.display = input.value ? "block" : "none";
-      });
+          event.preventDefault();
 
-      clearSearch.addEventListener("click", () => {
-        input.value = "";
-        clearSearch.style.display = "none";
-        input.focus();
-      });
+          performSearch();
 
-      clearHistory.addEventListener("click", () => {
-        try {
-          localStorage.removeItem(HISTORY_KEY);
-        } catch (error) {
-          // Abaikan jika penyimpanan lokal tidak tersedia.
         }
-        renderHistory();
-      });
+      );
 
-      aiChatButton.addEventListener("click", () => {
-        const query = input.value.trim();
 
-        // Copilot dibuka langsung tanpa API atau kunci API.
-        // Jika ada kata pencarian, arahkan ke Copilot dengan pertanyaan tersebut.
-        const copilotUrl = query
-          ? "https://copilot.microsoft.com/?q=" + encodeURIComponent(query)
-          : "https://copilot.microsoft.com/";
+      input.addEventListener(
+        "input",
+        renderSuggestions
+      );
 
-        if (query) saveHistory(query);
-        window.open(copilotUrl, "_blank", "noopener,noreferrer");
-      });
 
-      renderHistory();
+      input.addEventListener(
+        "focus",
+        renderSuggestions
+      );
+
+
+      input.addEventListener(
+        "keydown",
+        event => {
+
+          const items =
+            suggestions.querySelectorAll(
+              ".suggestion"
+            );
+
+
+          if (event.key === "Escape") {
+
+            hideSuggestions();
+
+            return;
+
+          }
+
+
+          if (
+            !items.length ||
+            !suggestions.classList.contains("show")
+          ) {
+
+            return;
+
+          }
+
+
+          if (event.key === "ArrowDown") {
+
+            event.preventDefault();
+
+            activeIndex =
+              (activeIndex + 1) %
+              items.length;
+
+          }
+
+          else if (
+            event.key === "ArrowUp"
+          ) {
+
+            event.preventDefault();
+
+            activeIndex =
+              (activeIndex - 1 +
+                items.length) %
+              items.length;
+
+          }
+
+          else if (
+            event.key === "Enter" &&
+            activeIndex >= 0
+          ) {
+
+            event.preventDefault();
+
+            input.value =
+              items[activeIndex]
+                .textContent;
+
+            performSearch();
+
+            return;
+
+          }
+
+          else {
+
+            return;
+
+          }
+
+
+          items.forEach(
+            (item, index) => {
+
+              item.style.background =
+                index === activeIndex
+                  ? "#f1f3f4"
+                  : "white";
+
+            }
+          );
+
+        }
+      );
+
+
+      /* =====================================================
+         GOOGLE / BING
+         ===================================================== */
+
+      engineButtons.forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              engine =
+                button.dataset.engine;
+
+
+              engineButtons.forEach(
+                item => {
+
+                  const selected =
+                    item === button;
+
+                  item.classList.toggle(
+                    "active",
+                    selected
+                  );
+
+                  item.setAttribute(
+                    "aria-pressed",
+                    String(selected)
+                  );
+
+                }
+              );
+
+
+              notice.textContent =
+                "Mesin pencari: " +
+                (
+                  engine === "google"
+                    ? "Google"
+                    : "Bing"
+                ) +
+                ".";
+
+
+              input.focus();
+
+            }
+          );
+
+        }
+      );
+
+
+      /* =====================================================
+         TENTANG
+         ===================================================== */
+
+      function showInfo(event) {
+
+        event.preventDefault();
+
+        notice.textContent =
+          "OeR adalah platform yang sedang " +
+          "dikembangkan untuk mencari dan " +
+          "menjelajahi berbagai konten.";
+
+      }
+
+
+      document
+        .getElementById("aboutLink")
+        .addEventListener(
+          "click",
+          showInfo
+        );
+
+
+      document
+        .getElementById("footerAbout")
+        .addEventListener(
+          "click",
+          showInfo
+        );
+
     })();
   </script>
+
 </body>
 </html>
