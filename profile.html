@@ -1,628 +1,146 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050707">
-<meta name="description" content="Profil pengguna OER — Connect Everything">
-<title>Profil — OER</title>
-
-<style>
-:root{
-  --bg:#050707;--panel:#0d1115;--panel2:#11171c;
-  --line:#202a30;--text:#f4f8fa;--muted:#87949d;
-  --cyan:#00e5ff;--green:#00e676;--danger:#ff6677;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.55;cursor:not-allowed}
-.topbar{height:62px;padding:0 18px;background:#080b0d;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.brand{font-size:23px;font-weight:900;letter-spacing:2px;color:var(--cyan)}
-.top-actions{display:flex;gap:8px}
-.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:700}
-.btn:hover{border-color:var(--cyan)}
-.btn-primary{background:var(--cyan);color:#001014;border:0}
-.btn-danger{color:#ff9aa5;border-color:#4a252b;background:#1b0e11}
-main{max-width:760px;margin:24px auto 50px;padding:0 13px}
-.status{display:none;padding:12px 14px;border-radius:10px;margin:0 0 15px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-.status.show{display:block}
-.status.info{background:#10252a;color:#9cefff}
-.status.success{background:#10251a;color:#a6f4bd}
-.status.error{background:#2a1317;color:#ffadb6}
-.profile-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.cover{height:190px;position:relative;background:radial-gradient(ellipse at 75% 5%,#006a78,transparent 55%),linear-gradient(135deg,#102b31,#0a1014 70%);background-position:center;background-size:cover}
-.cover-edit{position:absolute;right:12px;top:12px}
-.profile-head{padding:0 22px 18px;display:flex;align-items:flex-end;gap:16px;margin-top:-54px;position:relative}
-.avatar-wrap{width:112px;height:112px;flex-shrink:0;position:relative}
-.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;background:#172128;border:4px solid var(--panel);display:block}
-.avatar-edit{position:absolute;bottom:1px;right:0;border:3px solid var(--panel);border-radius:50%;width:34px;height:34px;background:var(--cyan);color:#001014;display:grid;place-items:center;font-size:17px}
-.identity{min-width:0;flex:1;padding-bottom:8px}
-.identity h1{font-size:23px;margin:0 0 5px;overflow-wrap:anywhere}
-.username{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
-.bio{font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;margin:14px 22px 0}
-.details{display:flex;flex-wrap:wrap;gap:9px 16px;padding:14px 22px 18px;color:var(--muted);font-size:13px}
-.detail{overflow-wrap:anywhere}
-.profile-actions{padding:0 22px 18px;display:flex;flex-wrap:wrap;gap:8px}
-.stats{display:flex;gap:22px;padding:15px 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14px}
-.stats strong{color:var(--text)}
-.stats span{color:var(--muted)}
-.tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:#090d10;margin-top:16px;border-radius:13px 13px 0 0}
-.tab{flex:1;min-width:90px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:15px 10px;font-weight:750}
-.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
-.section{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:17px}
-.section-title{font-size:16px;font-weight:800;margin:0 0 15px}
-.post-create{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:15px}
-.post-create textarea{width:100%;min-height:80px;resize:vertical;border:1px solid var(--line);background:#080c0f;color:var(--text);padding:12px;border-radius:10px;outline:none}
-.post-create textarea:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--cyan)}
-.create-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.post{border:1px solid var(--line);border-radius:13px;padding:15px;margin-bottom:13px;background:#0a0e11;min-width:0;position:relative}
-.post-head{display:flex;align-items:center;gap:10px;position:relative}
-.mini-avatar{width:39px;height:39px;border-radius:50%;object-fit:cover;background:#172128}
-.post-author{min-width:0;flex:1}
-.post-author strong{display:block;font-size:14px;overflow-wrap:anywhere}
-.post-meta{font-size:12px;color:var(--muted);margin-top:3px}
-
-/* MENU TITIK TIGA */
-.post-menu-wrap{position:relative;margin-left:auto}
-.post-menu{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px;font-weight:700}
-.post-menu:hover{border-color:var(--cyan)}
-.dropdown-menu{position:absolute;top:38px;right:0;width:170px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 10px 25px rgba(0,0,0,0.6);z-index:50;display:flex;flex-direction:column;gap:4px}
-.dropdown-menu.hidden{display:none!important}
-.dropdown-menu button{width:100%;padding:8px 12px;background:transparent;border:none;border-radius:8px;color:var(--text);font-size:12px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.2s}
-.dropdown-menu button:hover{background:var(--panel2);color:var(--cyan)}
-.dropdown-menu button.text-danger:hover{color:var(--danger);background:rgba(255,102,119,0.1)}
-
-.post-content{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;font-size:14px;margin:13px 0}
-.post-image{display:block;width:100%;max-height:520px;object-fit:contain;border-radius:10px;background:#050707}
-.post-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
-.post-action{flex:1;min-width:75px;border:1px solid transparent;border-radius:9px;background:var(--panel2);color:var(--muted);padding:9px 7px;font-size:13px}
-.post-action:hover,.post-action.liked{color:var(--cyan);border-color:#16424a}
-.post-counts{color:var(--muted);font-size:12px;margin-top:10px}
-.empty{padding:32px 12px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
-.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-.photo-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;background:#11171c;cursor:pointer}
-.about-row{padding:14px 0;border-bottom:1px solid var(--line)}
-.about-row:last-child{border-bottom:0}
-.about-label{font-size:12px;color:var(--muted);margin-bottom:6px}
-.about-value{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
-.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{min-width:0}
-.field.full{grid-column:1/-1}
-.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
-.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:#080c0f;color:var(--text);border-radius:10px;padding:12px;outline:none}
-.field textarea{min-height:90px;resize:vertical}
-.field select option{background:#0d1115}
-.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-#avatarInput,#coverInput{display:none}
-.modal-backdrop{display:none;position:fixed;inset:0;background:#000b;z-index:30;align-items:center;justify-content:center;padding:18px}
-.modal-backdrop.show{display:flex}
-.modal{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
-.modal h2{font-size:18px;margin:0 0 10px}
-.modal p{font-size:14px;color:var(--muted);line-height:1.6}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
-.footer{text-align:center;color:var(--muted);font-size:12px;padding:25px 0}
-[hidden]{display:none!important}
-@media(max-width:520px){
- .topbar{padding:0 12px}.brand{font-size:21px}.btn{padding:9px 10px;font-size:12px}
- main{margin:15px auto 35px;padding:0 9px}
- .cover{height:150px}.profile-head{padding:0 14px 14px;gap:11px;margin-top:-42px}
- .avatar-wrap,.avatar{width:86px;height:86px}.identity h1{font-size:18px}
- .identity{padding-bottom:5px}.bio{margin:12px 15px 0}
- .details{padding:12px 15px 15px}.profile-actions{padding:0 15px 15px}
- .stats{padding:13px 15px;gap:16px;flex-wrap:wrap}
- .section{padding:12px}.edit-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Profil — OER</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
-<header class="topbar">
-  <div class="brand">OER</div>
-  <div class="top-actions">
-    <button class="btn" id="homeButton" type="button">← Home</button>
-    <button class="btn" id="logoutButton" type="button" hidden>Keluar</button>
-  </div>
-</header>
+  <div class="app">
+    <div class="profile-page">
+      <div class="profile-header">
+        <div class="profile-cover"></div>
+        
+        <div class="profile-info">
+          <img src="https://i.pravatar.cc/200?img=12" alt="Avatar" class="profile-avatar" />
+          <h1 class="profile-name">Rizky Creative</h1>
+          <p class="profile-username">@rizky.creative</p>
+          <p class="profile-bio">Content Creator | Video Editor<br>Bali based 🌴 | Daily tips & cinematic vibes</p>
+          
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-value">128</div>
+              <div class="stat-label">Video</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">84.2K</div>
+              <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">312</div>
+              <div class="stat-label">Following</div>
+            </div>
+          </div>
+          
+          <div class="profile-actions">
+            <button class="btn-primary">Edit Profil</button>
+            <button class="btn-secondary">Bagikan</button>
+          </div>
+        </div>
+      </div>
 
-<main>
-  <div id="statusMessage" class="status" role="status" aria-live="polite"></div>
+      <!-- Tabs -->
+      <div class="video-grid-header">
+        <div class="grid-tab active">Video</div>
+        <div class="grid-tab">Reels</div>
+        <div class="grid-tab">Disukai</div>
+      </div>
 
-  <section class="profile-card">
-    <div class="cover" id="coverPreview">
-      <button class="btn cover-edit" id="changeCoverButton" type="button" hidden>▧ Ganti Sampul</button>
+      <!-- Video Grid -->
+      <div class="video-grid">
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=1" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            24.5K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=2" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            18.3K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=3" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            42.1K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=4" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            9.7K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=5" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            31.2K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=6" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            15.8K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=7" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            27.4K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=8" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            6.1K
+          </div>
+        </div>
+        <div class="grid-item">
+          <img src="https://picsum.photos/300/530?random=9" alt="Video" />
+          <div class="views">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            11.9K
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="profile-head">
-      <div class="avatar-wrap">
-        <img id="avatarPreview" class="avatar" alt="Foto profil">
-        <button class="avatar-edit" id="changeAvatarButton" type="button" title="Ganti foto" hidden>✎</button>
-      </div>
-      <div class="identity">
-        <h1 id="previewName">Memuat profil...</h1>
-        <div class="username" id="previewUsername">@username</div>
-      </div>
-    </div>
-
-    <div class="bio" id="previewBio" hidden></div>
-    <div class="details" id="quickDetails"></div>
-
-    <!-- TOMBOL AKSI AKUN: EDIT PROFIL, MONETISASI, TAMBAH TEMAN, PESAN, DLL -->
-    <div class="profile-actions" id="profileActions">
-      <button class="btn btn-primary" id="editProfileButton" type="button" hidden>✎ Edit Profil</button>
-
-      <!-- Tombol Akses Monetisasi (Mengarah ke monetisasi.html) -->
-      <a href="monetisasi.html" style="text-decoration: none; display: inline-block;">
-        <button class="btn" type="button" style="background: rgba(0, 230, 118, 0.15); border-color: var(--green); color: var(--green); font-weight: 800;">
-          ⭐ Dashboard Monetisasi (50:50)
-        </button>
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
       </a>
-
-      <button class="btn" id="addFriendButton" type="button" hidden>＋ Tambah Teman</button>
-      <button class="btn" id="messageButton" type="button" hidden>✉ Pesan</button>
-      <button class="btn" id="shareButton" type="button">↗ Bagikan Profil</button>
-    </div>
-
-    <!-- STATISTIK AKUN: POSTINGAN, FOTO, PENGIKUT, DAN TEMAN -->
-    <div class="stats">
-      <div><strong id="postCount">0</strong> <span>Postingan</span></div>
-      <div><strong id="photoCount">0</strong> <span>Foto</span></div>
-      <div><strong id="followerCount">1.200</strong> <span>Pengikut</span></div>
-      <div><strong id="friendCount">350</strong> <span>Teman</span></div>
-    </div>
-  </section>
-
-  <nav class="tabs" aria-label="Bagian profil">
-    <button class="tab active" data-tab="posts" type="button">Postingan</button>
-    <button class="tab" data-tab="photos" type="button">Foto</button>
-    <button class="tab" data-tab="about" type="button">Tentang</button>
-  </nav>
-
-  <section class="section" id="postsSection">
-    <h2 class="section-title" id="postsHeading">Postingan</h2>
-    <div id="createPostBox" class="post-create" hidden>
-      <textarea id="newPostContent" maxlength="5000" placeholder="Apa yang ingin kamu bagikan?"></textarea>
-      <div class="create-row">
-        <label class="field" style="font-size:12px;color:var(--muted)">
-          Privasi
-          <select id="postAudience" style="margin-top:5px;padding:8px">
-            <option value="public">Publik</option>
-            <option value="friends">Teman</option>
-            <option value="private">Hanya saya</option>
-          </select>
-        </label>
-        <button class="btn btn-primary" id="publishButton" type="button">Posting</button>
-      </div>
-    </div>
-    <div id="postsList"><div class="empty">Memuat postingan...</div></div>
-  </section>
-
-  <section class="section" id="photosSection" hidden>
-    <h2 class="section-title">Foto</h2>
-    <div class="photo-grid" id="photoGrid"></div>
-    <div class="empty" id="photosEmpty" hidden>Belum ada foto publik di profil ini.</div>
-  </section>
-
-  <section class="section" id="aboutSection" hidden>
-    <h2 class="section-title">Tentang</h2>
-    <div id="aboutContent"></div>
-  </section>
-
-  <section class="section" id="editSection" hidden>
-    <h2 class="section-title">Edit Profil</h2>
-    <p style="color:var(--muted);font-size:13px;line-height:1.6">Lengkapi identitasmu. Username harus unik. Foto sampul dan foto profil dapat diganti melalui tombol pada gambar.</p>
-    <div class="edit-grid">
-      <div class="field full"><label for="editFullName">Nama lengkap *</label><input id="editFullName" maxlength="80" autocomplete="name" placeholder="Nama lengkap"></div>
-      <div class="field"><label for="editUsername">Username *</label><input id="editUsername" maxlength="24" autocapitalize="none" placeholder="username"></div>
-      <div class="field"><label for="editStatus">Status</label><input id="editStatus" maxlength="80" placeholder="Tersedia"></div>
-      <div class="field full"><label for="editBio">Bio</label><textarea id="editBio" maxlength="500" placeholder="Ceritakan sedikit tentang dirimu"></textarea></div>
-      <div class="field"><label for="editLocation">Lokasi</label><input id="editLocation" maxlength="100" placeholder="Kota atau daerah"></div>
-      <div class="field"><label for="editHobbies">Hobi</label><input id="editHobbies" maxlength="250" placeholder="Musik, fotografi, olahraga"></div>
-      <div class="field"><label for="editBirthday">Tanggal lahir</label><input id="editBirthday" type="date"></div>
-      <div class="field"><label for="editGender">Jenis kelamin</label><select id="editGender"><option value="">Tidak ditampilkan</option><option value="Laki-laki">Laki-laki</option><option value="Perempuan">Perempuan</option><option value="Lainnya">Lainnya</option></select></div>
-      <div class="field full"><label for="editWebsite">Website</label><input id="editWebsite" maxlength="200" type="url" placeholder="https://contoh.com"></div>
-      <div class="field full"><label for="editWhatsapp">Nomor WhatsApp</label><input id="editWhatsapp" maxlength="30" type="tel" placeholder="Nomor WhatsApp"></div>
-      <div class="field full"><label for="editEmail">Email akun</label><input id="editEmail" type="email" disabled><div style="font-size:12px;color:var(--muted);margin-top:6px">Email akun diambil dari sesi login.</div></div>
-    </div>
-    <div class="form-actions">
-      <button class="btn btn-primary" id="saveProfileButton" type="button">Simpan Perubahan</button>
-      <button class="btn" id="cancelEditButton" type="button">Batal</button>
-    </div>
-  </section>
-
-  <div class="footer">OER — Connect Everything</div>
-</main>
-
-<input id="avatarInput" type="file" accept="image/jpeg,image/png,image/webp">
-<input id="coverInput" type="file" accept="image/jpeg,image/png,image/webp">
-
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <h2 id="modalTitle">Konfirmasi</h2>
-    <p id="modalText"></p>
-    <div class="modal-actions">
-      <button class="btn" id="modalCancel" type="button">Batal</button>
-      <button class="btn btn-primary" id="modalConfirm" type="button">Lanjutkan</button>
-    </div>
+      <a href="upload.html" class="nav-item upload-btn">
+        <div class="upload-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
+      </a>
+      <a href="profile.html" class="nav-item active">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Profil</span>
+      </a>
+    </nav>
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-"use strict";
-
-const OER_CONFIG = {
-  SUPABASE_URL: "https://jhopfzmyxuafdbwwkjbf.supabase.co",
-  SUPABASE_KEY: "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk"
-};
-
-const LOGIN_URL = "https://oer-p.github.io/Media-oer/login.html";
-const HOME_URL = "https://oer-p.github.io/Media-oer/";
-const CHAT_URL = "https://oer-p.github.io/Media-oer/chat.html";
-
-const db = window.supabase
-  ? window.supabase.createClient(OER_CONFIG.SUPABASE_URL,OER_CONFIG.SUPABASE_KEY)
-  : null;
-
-const $ = id => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-const requestedId = params.get("id");
-let currentUser = null;
-let profileUserId = null;
-let isOwner = false;
-let profileData = {};
-let postsData = [];
-let modalResolve = null;
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
-function defaultAvatar(){
-  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23172128'/%3E%3Ccircle cx='60' cy='43' r='23' fill='%235b7580'/%3E%3Cpath d='M18 120c2-30 18-44 42-44s40 14 42 44' fill='%235b7580'/%3E%3C/svg%3E";
-}
-function showStatus(message,type="info"){
-  const box=$("statusMessage");
-  box.textContent=message;
-  box.className="status show "+type;
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function friendlyError(error){
-  const message=error?.message||"Terjadi kesalahan.";
-  if(/row-level security|permission denied/i.test(message))return "Akses database ditolak. Periksa kebijakan RLS Supabase.";
-  if(/bucket/i.test(message))return "Penyimpanan foto belum tersedia.";
-  return message;
-}
-function confirmModal(title,message,confirmText="Lanjutkan"){
-  $("modalTitle").textContent=title;
-  $("modalText").textContent=message;
-  $("modalConfirm").textContent=confirmText;
-  $("modalBackdrop").classList.add("show");
-  return new Promise(resolve=>{modalResolve=resolve;});
-}
-function closeModal(result){
-  $("modalBackdrop").classList.remove("show");
-  if(modalResolve){modalResolve(result);modalResolve=null;}
-}
-$("modalCancel").addEventListener("click",()=>closeModal(false));
-$("modalConfirm").addEventListener("click",()=>closeModal(true));
-
-window.addEventListener("click", () => {
-  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
-});
-
-async function initialise(){
-  $("avatarPreview").src=defaultAvatar();
-  if(!db){
-    showStatus("Supabase gagal dimuat.","error");
-    return;
-  }
-
-  try{
-    const {data,error}=await db.auth.getSession();
-    if(error)throw error;
-    currentUser=data.session?.user||null;
-
-    if(!currentUser){
-      location.replace(LOGIN_URL);
-      return;
-    }
-
-    profileUserId=requestedId||currentUser.id;
-    isOwner=profileUserId===currentUser.id;
-    $("logoutButton").hidden=!isOwner;
-    $("editProfileButton").hidden=!isOwner;
-    $("changeAvatarButton").hidden=!isOwner;
-    $("changeCoverButton").hidden=!isOwner;
-    $("createPostBox").hidden=!isOwner;
-    $("editEmail").value=currentUser.email||"";
-    $("messageButton").hidden=isOwner;
-
-    await loadProfile();
-    await loadPosts();
-    renderProfile();
-    renderPosts();
-    renderPhotos();
-    renderAbout();
-  }catch(error){
-    console.error(error);
-    showStatus("Gagal membuka profil: "+friendlyError(error),"error");
-  }
-}
-
-async function loadProfile(){
-  const {data,error}=await db.from("profiles")
-    .select("user_id,full_name,username,avatar_url")
-    .eq("user_id",profileUserId).maybeSingle();
-  if(error)throw error;
-
-  profileData=data||{
-    user_id:profileUserId,
-    full_name:isOwner?(currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||""):"",
-    username:"",
-    avatar_url:null
-  };
-
-  const extra=await db.from("profiles")
-    .select("bio,location,status,hobbies,birthday,gender,website,whatsapp_number,cover_url")
-    .eq("user_id",profileUserId).maybeSingle();
-
-  if(!extra.error&&extra.data)profileData={...profileData,...extra.data};
-
-  $("editFullName").value=profileData.full_name||"";
-  $("editUsername").value=profileData.username||"";
-  $("editBio").value=profileData.bio||"";
-  $("editLocation").value=profileData.location||"";
-  $("editStatus").value=profileData.status||"Tersedia";
-  $("editHobbies").value=Array.isArray(profileData.hobbies)?profileData.hobbies.join(", "):(profileData.hobbies||"");
-  $("editBirthday").value=profileData.birthday?String(profileData.birthday).slice(0,10):"";
-  $("editGender").value=profileData.gender||"";
-  $("editWebsite").value=profileData.website||"";
-  $("editWhatsapp").value=profileData.whatsapp_number||"";
-}
-
-function renderProfile(){
-  $("previewName").textContent=profileData.full_name||"Pengguna OER";
-  $("previewUsername").textContent=profileData.username?"@"+profileData.username:"Username belum diatur";
-  $("avatarPreview").src=profileData.avatar_url||defaultAvatar();
-
-  if(profileData.cover_url){
-    $("coverPreview").style.backgroundImage="linear-gradient(#0002,#0002),url('"+String(profileData.cover_url).replace(/['()\\]/g,"")+"')";
-  }
-
-  const bio=profileData.bio||"";
-  $("previewBio").textContent=bio;
-  $("previewBio").hidden=!bio;
-
-  const details=[];
-  if(profileData.location)details.push("⌖ "+profileData.location);
-  if(profileData.status)details.push("● "+profileData.status);
-  if(profileData.hobbies){
-    const hobbies=Array.isArray(profileData.hobbies)?profileData.hobbies.join(", "):profileData.hobbies;
-    if(hobbies)details.push("♡ "+hobbies);
-  }
-  $("quickDetails").replaceChildren();
-  details.forEach(text=>{
-    const span=document.createElement("div");
-    span.className="detail";
-    span.textContent=text;
-    $("quickDetails").appendChild(span);
-  });
-
-  document.title=(profileData.full_name||"Profil")+" — OER";
-  $("postsHeading").textContent=isOwner?"Postingan Saya":"Postingan "+(profileData.full_name||"Pengguna");
-  $("addFriendButton").hidden=isOwner;
-}
-
-async function loadPosts(){
-  $("postsList").innerHTML='<div class="empty">Memuat postingan...</div>';
-  let query=db.from("posts")
-    .select("id,user_id,content,image_url,audience,is_pinned,is_archived,created_at,updated_at")
-    .eq("user_id",profileUserId)
-    .eq("is_archived",false)
-    .order("is_pinned",{ascending:false})
-    .order("created_at",{ascending:false})
-    .limit(100);
-
-  const {data,error}=await query;
-  if(error){
-    console.error(error);
-    $("postsList").innerHTML='<div class="empty">Postingan belum dapat dimuat.</div>';
-    postsData=[];
-    return;
-  }
-
-  postsData=(data||[]).filter(post=>{
-    if(isOwner)return true;
-    return post.audience==="public"||!post.audience;
-  });
-
-  await Promise.all(postsData.map(async post=>{
-    post.likeCount=0;
-    post.commentCount=0;
-    post.likedByMe=false;
-
-    const likes=await db.from("post_likes").select("user_id",{count:"exact",head:false}).eq("post_id",post.id);
-    if(!likes.error){
-      post.likeCount=likes.count??likes.data?.length??0;
-      post.likedByMe=(likes.data||[]).some(item=>item.user_id===currentUser.id);
-    }
-
-    const comments=await db.from("comments").select("id",{count:"exact",head:true}).eq("post_id",post.id);
-    if(!comments.error)post.commentCount=comments.count??0;
-  }));
-}
-
-function renderPosts(){
-  $("postCount").textContent=postsData.length;
-  if(!postsData.length){
-    $("postsList").innerHTML='<div class="empty">'+(isOwner?"Kamu belum punya postingan.":"Belum ada postingan publik.")+'</div>';
-    return;
-  }
-
-  $("postsList").replaceChildren();
-  postsData.forEach(post=>{
-    const article=document.createElement("article");
-    article.className="post";
-
-    const header=document.createElement("div");
-    header.className="post-head";
-
-    const avatar=document.createElement("img");
-    avatar.className="mini-avatar";
-    avatar.src=profileData.avatar_url||defaultAvatar();
-    header.appendChild(avatar);
-
-    const author=document.createElement("div");
-    author.className="post-author";
-    const name=document.createElement("strong");
-    name.textContent=profileData.full_name||"Pengguna OER";
-    const meta=document.createElement("div");
-    meta.className="post-meta";
-    meta.textContent=displayDate(post.created_at)+(post.is_pinned?" · 📌 Disematkan":"");
-    author.append(name,meta);
-    header.appendChild(author);
-
-    // MENU TITIK TIGA POSTINGAN
-    if(isOwner){
-      const menuWrap = document.createElement("div");
-      menuWrap.className = "post-menu-wrap";
-
-      const menuBtn = document.createElement("button");
-      menuBtn.className = "post-menu";
-      menuBtn.type = "button";
-      menuBtn.textContent = "•••";
-
-      const menuDropdown = document.createElement("div");
-      menuDropdown.className = "dropdown-menu hidden";
-      menuDropdown.id = "dropdown-" + post.id;
-
-      const btnDelete = document.createElement("button");
-      btnDelete.className = "text-danger";
-      btnDelete.innerHTML = "🗑️ Hapus";
-      btnDelete.onclick = (e) => { e.stopPropagation(); deletePost(post); menuDropdown.classList.add('hidden'); };
-
-      menuDropdown.append(btnDelete);
-
-      menuBtn.onclick = (e) => {
-        e.stopPropagation();
-        document.querySelectorAll('.dropdown-menu').forEach(m => {
-          if (m.id !== menuDropdown.id) m.classList.add('hidden');
-        });
-        menuDropdown.classList.toggle('hidden');
-      };
-
-      menuWrap.append(menuBtn, menuDropdown);
-      header.appendChild(menuWrap);
-    }
-
-    article.appendChild(header);
-
-    if(post.content){
-      const content=document.createElement("div");
-      content.className="post-content";
-      content.textContent=post.content;
-      article.appendChild(content);
-    }
-    if(post.image_url){
-      const image=document.createElement("img");
-      image.className="post-image";
-      image.src=post.image_url;
-      image.loading="lazy";
-      article.appendChild(image);
-    }
-
-    const counts=document.createElement("div");
-    counts.className="post-counts";
-    counts.textContent="♥ "+post.likeCount+" suka · "+post.commentCount+" komentar";
-    article.appendChild(counts);
-
-    $("postsList").appendChild(article);
-  });
-}
-
-async function deletePost(post) {
-  if(!await confirmModal("Hapus postingan?","Tindakan ini tidak dapat dibatalkan.","Hapus")) return;
-  const {error} = await db.from("posts").delete().eq("id", post.id).eq("user_id", currentUser.id);
-  if(error){showStatus("Gagal menghapus postingan: "+friendlyError(error),"error");return;}
-  await loadPosts(); renderPosts(); renderPhotos();
-  showStatus("Postingan berhasil dihapus.","success");
-}
-
-function displayDate(value){
-  if(!value)return "";
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime()))return "";
-  return date.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
-}
-
-async function renderPhotos(){
-  const photos=postsData.filter(post=>post.image_url);
-  $("photoCount").textContent=photos.length;
-  $("photoGrid").replaceChildren();
-  $("photosEmpty").hidden=photos.length>0;
-
-  photos.forEach(post=>{
-    const img=document.createElement("img");
-    img.src=post.image_url;
-    img.alt="Foto dari postingan";
-    img.loading="lazy";
-    img.addEventListener("click",()=>window.open(post.image_url,"_blank"));
-    $("photoGrid").appendChild(img);
-  });
-}
-
-function renderAbout(){
-  const container=$("aboutContent");
-  container.replaceChildren();
-  
-  const rows = [
-    { label: "Bio", value: profileData.bio || "Belum ada bio." },
-    { label: "Lokasi", value: profileData.location || "Belum diatur." },
-    { label: "Status", value: profileData.status || "Tersedia" },
-    { label: "Hobi", value: profileData.hobbies || "Belum diatur." },
-    { label: "Website", value: profileData.website || "Belum diatur." }
-  ];
-
-  rows.forEach(r => {
-    const div = document.createElement("div");
-    div.className = "about-row";
-    div.innerHTML = `<div class="about-label">${r.label}</div><div class="about-value">${escapeHTML(r.value)}</div>`;
-    container.appendChild(div);
-  });
-}
-
-// Navigasi Tab Profil
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    tab.classList.add("active");
-    const target=tab.dataset.tab;
-    $("postsSection").hidden=target!=="posts";
-    $("photosSection").hidden=target!=="photos";
-    $("aboutSection").hidden=target!=="about";
-    $("editSection").hidden=true;
-  });
-});
-
-$("editProfileButton")?.addEventListener("click",()=>{
-  $("editSection").hidden=false;
-  window.scrollTo({top:$("editSection").offsetTop,behavior:"smooth"});
-});
-
-$("cancelEditButton")?.addEventListener("click",()=>{
-  $("editSection").hidden=true;
-});
-
-$("homeButton").addEventListener("click",()=>location.href=HOME_URL);
-$("logoutButton").addEventListener("click",async()=>{
-  await db.auth.signOut();
-  location.replace(LOGIN_URL);
-});
-
-document.addEventListener("DOMContentLoaded", initialise);
-</script>
+  <script src="app.js"></script>
 </body>
 </html>
