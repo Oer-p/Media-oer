@@ -1486,7 +1486,275 @@ footer{
   );
 
 })();
-</script>
 
+<script>
+(() => {
+  // Mencegah integrasi dibuat dua kali.
+  if (window.oerSupabaseAuthInitialized) return;
+  window.oerSupabaseAuthInitialized = true;
+
+  const SUPABASE_URL =
+    'https://jhopfzmyxuafdbwwkjbf.supabase.co';
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
+
+  if (!window.supabase?.createClient) {
+    console.error('Library Supabase belum berhasil dimuat.');
+    return;
+  }
+
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  // Kembali ke halaman OeR yang sedang dibuka setelah login.
+  const redirectTo =
+    window.location.origin + window.location.pathname;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #oerAuthOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.38);
+    }
+    #oerAuthOverlay .oer-auth-card {
+      width: min(100%, 360px);
+      padding: 26px;
+      border: 1px solid #dfe1e5;
+      border-radius: 22px;
+      background: #fff;
+      color: #202124;
+      font: 14px Arial, sans-serif;
+      box-shadow: 0 12px 40px rgba(0,0,0,.16);
+    }
+    #oerAuthOverlay .oer-auth-title {
+      margin: 0 0 8px;
+      font-size: 23px;
+      font-weight: 600;
+    }
+    #oerAuthOverlay .oer-auth-muted {
+      color: #5f6368;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    #oerAuthOverlay .oer-auth-button {
+      display: block;
+      width: 100%;
+      margin-top: 14px;
+      padding: 12px 15px;
+      border: 1px solid #dadce0;
+      border-radius: 999px;
+      background: #fff;
+      color: #202124;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #oerAuthOverlay .oer-auth-button:hover {
+      background: #f8f9fa;
+    }
+    #oerAuthOverlay .oer-auth-primary {
+      border-color: #a3e635;
+      background: #a3e635;
+    }
+    #oerAuthOverlay .oer-auth-primary:hover {
+      background: #bef264;
+    }
+    #oerAuthOverlay .oer-auth-close {
+      margin-top: 10px;
+      border: 0;
+    }
+    #oerAuthOverlay .oer-auth-status {
+      margin-top: 14px;
+      color: #5f6368;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'oerAuthOverlay';
+  overlay.innerHTML = `
+    <section class="oer-auth-card"
+      role="dialog" aria-modal="true"
+      aria-labelledby="oerAuthTitle">
+      <h2 id="oerAuthTitle" class="oer-auth-title">
+        Akun OeR
+      </h2>
+      <p id="oerAuthDescription" class="oer-auth-muted">
+        Masuk untuk menggunakan akun OeR.
+      </p>
+      <button id="oerGoogleLogin" class="oer-auth-button oer-auth-primary">
+        Masuk dengan Google
+      </button>
+      <button id="oerGoogleLogout" class="oer-auth-button"
+        style="display:none">
+        Keluar dari akun
+      </button>
+      <p id="oerAuthStatus" class="oer-auth-status"
+        role="status" aria-live="polite"></p>
+      <button id="oerAuthClose"
+        class="oer-auth-button oer-auth-close">
+        Tutup
+      </button>
+    </section>
+  `;
+  document.body.appendChild(overlay);
+
+  const description =
+    overlay.querySelector('#oerAuthDescription');
+  const loginButton =
+    overlay.querySelector('#oerGoogleLogin');
+  const logoutButton =
+    overlay.querySelector('#oerGoogleLogout');
+  const status =
+    overlay.querySelector('#oerAuthStatus');
+
+  let currentUser = null;
+
+  function openAccount() {
+    overlay.style.display = 'flex';
+    status.textContent = '';
+    renderAccount();
+  }
+
+  function closeAccount() {
+    overlay.style.display = 'none';
+  }
+
+  function renderAccount() {
+    if (!currentUser) {
+      description.textContent =
+        'Masuk dengan akun Google untuk mulai menggunakan akun OeR.';
+      loginButton.style.display = 'block';
+      logoutButton.style.display = 'none';
+      return;
+    }
+
+    description.textContent =
+      'Login sebagai ' +
+      (currentUser.email || 'Pengguna OeR');
+
+    loginButton.style.display = 'none';
+    logoutButton.style.display = 'block';
+  }
+
+  loginButton.addEventListener('click', async () => {
+    loginButton.disabled = true;
+    status.textContent = 'Menghubungkan ke Google...';
+
+    try {
+      const { error } = await client.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo
+        }
+      });
+
+      if (error) throw error;
+    } catch (error) {
+      status.textContent =
+        'Login gagal: ' + (error.message || 'Terjadi kesalahan.');
+      loginButton.disabled = false;
+    }
+  });
+
+  logoutButton.addEventListener('click', async () => {
+    logoutButton.disabled = true;
+    status.textContent = 'Sedang keluar...';
+
+    try {
+      const { error } = await client.auth.signOut();
+      if (error) throw error;
+
+      currentUser = null;
+      renderAccount();
+      status.textContent = 'Anda sudah keluar dari akun OeR.';
+    } catch (error) {
+      status.textContent =
+        'Gagal keluar: ' + (error.message || 'Terjadi kesalahan.');
+    } finally {
+      logoutButton.disabled = false;
+    }
+  });
+
+  overlay.querySelector('#oerAuthClose')
+    .addEventListener('click', closeAccount);
+
+  overlay.addEventListener('click', event => {
+    if (event.target === overlay) closeAccount();
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeAccount();
+  });
+
+  // Hubungkan tombol profil dan avatar yang sudah ada.
+  ['loginButton', 'accountLink'].forEach(id => {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    // Hapus tautan default agar profil tidak membuka halaman lain.
+    element.addEventListener('click', event => {
+      event.preventDefault();
+      openAccount();
+    });
+  });
+
+  // Muat status login saat halaman dibuka.
+  async function refreshSession() {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) {
+      console.error('Gagal memeriksa sesi Supabase:', error.message);
+      return;
+    }
+
+    currentUser = data.session?.user || null;
+    renderAccount();
+
+    // Tampilkan hasil jika pengguna baru saja kembali dari Google.
+    if (new URLSearchParams(window.location.search).has('code')) {
+      status.textContent = currentUser
+        ? 'Login Google berhasil.'
+        : 'Memeriksa hasil login Google...';
+      openAccount();
+
+      // Bersihkan parameter callback dari URL setelah diproses.
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname + window.location.hash
+      );
+    }
+  }
+
+  client.auth.onAuthStateChange((event, session) => {
+    currentUser = session?.user || null;
+    renderAccount();
+
+    if (event === 'SIGNED_IN') {
+      status.textContent = 'Login berhasil.';
+    }
+  });
+
+  refreshSession();
+
+  // Memudahkan pemeriksaan status saat pengembangan.
+  window.oerSupabaseClient = client;
+})();
+</script>
+  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</script>
 </body>
 </html>
