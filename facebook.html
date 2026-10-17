@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f5">
+  <meta name="description" content="Akses Facebook melalui OeR Platform.">
+  <title>Facebook di OeR</title>
+
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #15803d;
+      --text: #171717;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --background: #f5f7f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--background);
+    }
+
+    /* HEADER OeR */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 15px clamp(16px, 4vw, 40px);
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      text-decoration: none;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .logo-letter {
+      color: #111;
+      display: inline-block;
+      animation: oerFloat 2.4s ease-in-out infinite;
+    }
+
+    .logo-letter.e {
+      color: #16a34a;
+      animation-delay: 0.18s;
+    }
+
+    .logo-letter:last-child {
+      animation-delay: 0.36s;
+    }
+
+    @keyframes oerFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-green {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .button-green:hover {
+      background: var(--green-dark);
+    }
+
+    .button-light {
+      background: #fff;
+      border-color: var(--border);
+      color: #222;
+    }
+
+    /* KONTEN */
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 16px 40px;
+    }
+
+    .intro {
+      margin-bottom: 22px;
+    }
+
+    .intro h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 4vw, 36px);
+      letter-spacing: -0.7px;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* INFORMASI */
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .notice-icon {
+      flex-shrink: 0;
+      font-size: 21px;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #222;
+    }
+
+    .notice p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* KARTU FACEBOOK */
+    .facebook-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .facebook-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #1877f2;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    /* AREA PRATINJAU */
+    .preview-area {
+      position: relative;
+      min-height: 480px;
+      background: #f0f2f5;
+    }
+
+    .preview-area iframe {
+      display: block;
+      width: 100%;
+      height: 650px;
+      border: 0;
+      background: #f0f2f5;
+    }
+
+    .preview-fallback {
+      padding: 28px 18px;
+      text-align: center;
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+
+    .preview-fallback h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .preview-fallback p {
+      max-width: 550px;
+      margin: 0 auto 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      padding: 22px 16px;
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer a {
+      color: var(--green-dark);
+      text-decoration: none;
+    }
+
+    @media (max-width: 560px) {
+      .header {
+        padding: 14px;
+      }
+
+      .brand {
+        font-size: 29px;
+      }
+
+      .header-actions {
+        gap: 6px;
+      }
+
+      .button {
+        min-height: 38px;
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+
+      main {
+        padding: 22px 12px 30px;
+      }
+
+      .preview-area {
+        min-height: 420px;
+      }
+
+      .preview-area iframe {
+        height: 500px;
+      }
+
+      .card-header {
+        padding: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER OeR -->
+  <header class="header">
+    <a class="brand" href="./" aria-label="Beranda OeR">
+      <span class="logo-letter">O</span>
+      <span class="logo-letter e">e</span>
+      <span class="logo-letter">R</span>
+    </a>
+
+    <nav class="header-actions" aria-label="Navigasi">
+      <a class="button button-light" href="./">
+        ← Beranda
+      </a>
+
+      <a
+        class="button button-green"
+        href="https://www.facebook.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Buka Facebook ↗
+      </a>
+    </nav>
+  </header>
+
+  <!-- KONTEN UTAMA -->
+  <main>
+    <section class="intro">
+      <h1>Facebook di OeR</h1>
+      <p>
+        Coba akses Facebook melalui halaman OeR Platform.
+      </p>
+    </section>
+
+    <section class="notice">
+      <div class="notice-icon" aria-hidden="true">ℹ️</div>
+
+      <div>
+        <strong>Informasi akses Facebook</strong>
+
+        <p>
+          Facebook dapat membatasi tampilan di dalam situs lain.
+          Jika pratinjau tidak muncul, gunakan tombol Buka Facebook
+          untuk mengakses situs resminya. Login dan fitur Facebook
+          tidak dapat dijamin berjalan di dalam pratinjau.
+        </p>
+      </div>
+    </section>
+
+    <section class="facebook-card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="facebook-icon" aria-hidden="true">f</span>
+          <span>Pratinjau Facebook</span>
+        </div>
+
+        <a
+          class="button button-light"
+          href="https://www.facebook.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Buka tab baru ↗
+        </a>
+      </div>
+
+      <div class="preview-area">
+        <iframe
+          src="https://www.facebook.com/"
+          title="Pratinjau situs Facebook"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="clipboard-read; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="preview-fallback">
+        <h2>Facebook tidak muncul?</h2>
+
+        <p>
+          Itu bisa terjadi karena kebijakan keamanan Facebook.
+          OeR tidak dapat memaksa situs pihak ketiga tampil di dalam
+          iframe. Buka Facebook langsung melalui tombol berikut.
+        </p>
+
+        <a
+          class="button button-green"
+          href="https://www.facebook.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Buka Facebook ↗
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>OeR Platform · Halaman percobaan</div>
+    <div>
+      Facebook adalah layanan pihak ketiga.
+      <a
+        href="https://www.facebook.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Kunjungi situs resmi Facebook</a>.
+    </div>
+  </footer>
+
+</body>
+</html>
