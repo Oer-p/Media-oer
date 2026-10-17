@@ -7,193 +7,336 @@
 <meta name="theme-color" content="#ffffff">
 <title>OeR Games — Cari Game Favoritmu</title>
 <meta name="description" content="Temukan game favoritmu di OeR Games.">
+
 <style>
-:root{
-  --bg:#fff;
+:root {
   --text:#202124;
   --muted:#5f6368;
-  --green:#65a30d;
-  --green-soft:#f1f8e9;
   --line:#dadce0;
   --soft:#f8f9fa;
-  --shadow:0 1px 6px rgba(32,33,36,.15);
+  --blue:#4285f4;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
+* { box-sizing:border-box }
+body {
+  margin:0;
+  background:#fff;
+  color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
-button,input,select{font:inherit}
-button,a{-webkit-tap-highlight-color:transparent}
-a{color:inherit;text-decoration:none}
-.topbar{
-  height:66px;display:flex;align-items:center;
-  justify-content:space-between;gap:15px;
-  padding:0 30px;border-bottom:1px solid #f1f3f4;
+button,input { font:inherit }
+a { color:inherit;text-decoration:none }
+button,a { -webkit-tap-highlight-color:transparent }
+
+.topbar {
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  border-bottom:1px solid #f1f3f4;
 }
-.brand{
-  display:inline-flex;align-items:center;
-  font-size:24px;font-weight:800;letter-spacing:-1.8px;
+.brand {
+  font-size:23px;
+  font-weight:700;
+  letter-spacing:-1px;
 }
-.brand .o,.brand .r{color:#202124}
-.brand .e{color:var(--green)}
-.brand .games{
-  color:#202124;font-weight:700;
-  letter-spacing:-.5px;margin-left:7px;
+.brand .o { color:#4285f4 }
+.brand .e { color:#ea4335 }
+.brand .r { color:#fbbc05 }
+.brand .games { color:#202124;font-weight:500;letter-spacing:0 }
+.top-links {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  color:var(--muted);
+  font-size:13px;
 }
-.top-links{
-  display:flex;align-items:center;gap:18px;
-  color:var(--muted);font-size:13px;
+.top-links a:hover { text-decoration:underline }
+.back {
+  padding:9px 14px;
+  background:var(--soft);
+  border-radius:20px;
 }
-.top-links a:hover{text-decoration:underline}
-.back{padding:9px 14px;border-radius:22px;background:var(--soft)}
-.hero{text-align:center;padding:54px 18px 28px}
-.hero h1{
-  margin:0 0 15px;font-size:clamp(38px,6vw,55px);
-  font-weight:600;letter-spacing:-2.5px;
+.hero { text-align:center;padding:55px 18px 28px }
+.hero h1 {
+  margin:0 0 25px;
+  font-size:clamp(35px,6vw,54px);
+  font-weight:500;
+  letter-spacing:-2px;
 }
-.hero h1 .oe{color:#202124}
-.hero h1 .r{color:var(--green)}
-.hero h1 .games-word{color:#202124;font-weight:400}
-.subtitle{color:var(--muted);font-size:14px;margin:0 0 24px}
-.searchbox{
-  width:min(640px,100%);height:52px;margin:auto;
-  display:flex;align-items:center;gap:12px;
-  padding:0 17px;border:1px solid var(--line);
-  border-radius:28px;background:#fff;transition:box-shadow .2s;
+.hero h1 span:nth-child(1) { color:#4285f4 }
+.hero h1 span:nth-child(2) { color:#ea4335 }
+.hero h1 span:nth-child(3) { color:#fbbc05 }
+.hero h1 span:nth-child(4) { color:#4285f4 }
+.hero h1 span:nth-child(5) { color:#34a853 }
+.hero h1 span:nth-child(6) { color:#ea4335 }
+.subtitle { color:var(--muted);font-size:14px;margin:-10px 0 23px }
+
+.searchbox {
+  width:min(640px,100%);
+  height:52px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 17px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:white;
+  transition:box-shadow .2s;
 }
-.searchbox:hover,.searchbox:focus-within{
-  box-shadow:var(--shadow);border-color:transparent;
+.searchbox:hover,.searchbox:focus-within {
+  box-shadow:0 1px 6px rgba(32,33,36,.18);
+  border-color:transparent;
 }
-.search-icon{color:var(--muted);font-size:21px}
-#query{
-  border:0;outline:0;flex:1;min-width:0;
-  font-size:16px;color:var(--text);background:transparent;
+.search-icon { color:var(--muted);font-size:20px }
+#query {
+  border:0;
+  outline:0;
+  flex:1;
+  min-width:0;
+  font-size:16px;
+  color:var(--text);
+  background:transparent;
 }
-.clear{
-  border:0;background:transparent;color:var(--muted);
-  font-size:22px;cursor:pointer;display:none;
+.clear {
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:21px;
+  cursor:pointer;
+  display:none;
 }
-.search-buttons{
-  display:flex;justify-content:center;gap:12px;margin-top:20px;
+.search-buttons {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:20px;
 }
-.search-buttons button{
-  background:var(--soft);border:1px solid var(--soft);
-  padding:10px 16px;border-radius:6px;color:#3c4043;
-  font-size:13px;cursor:pointer;
+.search-buttons button {
+  background:var(--soft);
+  border:1px solid var(--soft);
+  padding:10px 16px;
+  border-radius:5px;
+  color:#3c4043;
+  font-size:13px;
+  cursor:pointer;
 }
-.search-buttons button:hover{
-  border-color:var(--line);box-shadow:0 1px 1px #ddd;
+.search-buttons button:hover {
+  border-color:var(--line);
+  box-shadow:0 1px 1px #ddd;
 }
-.content{max-width:1250px;margin:28px auto 60px;padding:0 24px}
-.content-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;flex-wrap:wrap;margin-bottom:16px;
+
+.content {
+  max-width:1250px;
+  margin:30px auto 65px;
+  padding:0 24px;
 }
-.content-head h2{font-size:21px;font-weight:600;margin:0}
-.result-count{font-size:13px;color:var(--muted)}
-.categories{
-  display:flex;gap:9px;overflow-x:auto;padding:4px 0 16px;
+.content-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
 }
-.chip{
-  white-space:nowrap;border:1px solid var(--line);
-  border-radius:20px;background:#fff;color:#3c4043;
-  padding:8px 15px;font-size:13px;cursor:pointer;
+.content-head h2 { font-size:21px;font-weight:500;margin:0 }
+.result-count { font-size:13px;color:var(--muted) }
+.categories {
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:4px 0 16px;
 }
-.chip:hover{background:var(--soft)}
-.chip.active{
-  background:var(--green-soft);border-color:#c5e1a5;color:#33691e;
+.chip {
+  white-space:nowrap;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:white;
+  color:#3c4043;
+  padding:8px 15px;
+  font-size:13px;
+  cursor:pointer;
 }
-.filters{display:flex;gap:8px;align-items:center}
-select{
-  background:#fff;border:1px solid var(--line);
-  border-radius:8px;padding:9px 10px;color:#3c4043;
-  max-width:180px;
+.chip:hover { background:var(--soft) }
+.chip.active {
+  background:#e8f0fe;
+  border-color:#d2e3fc;
+  color:#1967d2;
 }
-.grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:24px 18px;
+.filters { display:flex;gap:8px;align-items:center }
+select {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  color:#3c4043;
+  max-width:150px;
 }
-.card{min-width:0;overflow:hidden;border-radius:12px}
-.cover-wrap{
-  position:relative;aspect-ratio:4/3;overflow:hidden;
-  background:#f1f3f4;border-radius:12px;
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:22px 18px;
 }
-.cover{
-  width:100%;height:100%;display:block;object-fit:cover;
-  transition:transform .25s;
+.card { min-width:0;overflow:hidden;border-radius:12px }
+.cover-wrap {
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  border-radius:12px;
+  background:#171b2b;
+  isolation:isolate;
 }
-.card:hover .cover{transform:scale(1.035)}
-.cover-fallback{
-  position:absolute;inset:0;display:none;align-items:center;
-  justify-content:center;flex-direction:column;gap:9px;
-  background:linear-gradient(135deg,#f1f8e9,#f8f9fa);
-  color:#33691e;font-size:42px;
+
+/* Sampul cadangan selalu tersedia */
+.cover-fallback {
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:8px;
+  overflow:hidden;
+  padding:16px;
+  text-align:center;
+  color:white;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(255,255,255,.24),transparent 38%),
+    radial-gradient(ellipse at 90% 90%,rgba(0,0,0,.5),transparent 60%),
+    linear-gradient(135deg,var(--c1,#164e63),var(--c2,#172554));
 }
-.cover-fallback small{
-  max-width:90%;text-align:center;font-size:12px;font-weight:600;
+.cover-fallback::before {
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:50%;
+  transform:rotate(-25deg);
+  box-shadow:0 0 0 20px rgba(255,255,255,.04),
+             0 0 0 42px rgba(255,255,255,.03);
 }
-.platform{
-  position:absolute;left:9px;top:9px;z-index:2;
-  background:rgba(255,255,255,.94);padding:5px 8px;
-  border-radius:5px;color:#3c4043;font-size:10px;font-weight:700;
+.cover-fallback::after {
+  content:"";
+  position:absolute;
+  width:150%;
+  height:2px;
+  background:rgba(255,255,255,.17);
+  transform:rotate(-25deg);
 }
-.card-info{padding:11px 2px 0}
-.card-title{font-size:15px;font-weight:600;line-height:1.4;margin:0 0 5px}
-.card-desc{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 10px}
-.card-bottom{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
+.cover-symbol {
+  position:relative;
+  z-index:1;
+  font-size:clamp(35px,5vw,62px);
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.3));
 }
-.category-label{font-size:11px;color:var(--muted)}
-.official{color:#477d0b;font-size:12px;white-space:nowrap}
-.official:hover{text-decoration:underline}
-.empty{
-  grid-column:1/-1;padding:50px 20px;text-align:center;
-  border:1px solid var(--line);border-radius:12px;color:var(--muted);
+.cover-title {
+  position:relative;
+  z-index:1;
+  font-size:clamp(12px,1.4vw,19px);
+  font-weight:900;
+  line-height:1.15;
+  letter-spacing:.4px;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
+  overflow-wrap:anywhere;
 }
-.note{
-  margin-top:30px;color:var(--muted);font-size:12px;
-  line-height:1.8;border-top:1px solid #eee;padding-top:18px;
+.cover-subtitle {
+  position:relative;
+  z-index:1;
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:2px;
+  opacity:.85;
 }
-footer{
-  border-top:1px solid #eee;background:#f8f9fa;
-  color:var(--muted);font-size:12px;padding:20px 25px;text-align:center;
+.cover {
+  position:absolute;
+  inset:0;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity .25s,transform .25s;
 }
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cover.loaded { opacity:1 }
+.card:hover .cover { transform:scale(1.035) }
+.platform {
+  position:absolute;
+  left:9px;
+  top:9px;
+  z-index:2;
+  background:rgba(255,255,255,.94);
+  padding:5px 8px;
+  border-radius:5px;
+  color:#3c4043;
+  font-size:10px;
+  font-weight:700;
 }
-@media(max-width:620px){
-  .topbar{height:58px;padding:0 15px}
-  .brand{font-size:21px}
-  .top-links{gap:10px}
-  .top-links .hide-mobile{display:none}
-  .hero{padding:45px 16px 20px}
-  .hero h1{font-size:40px}
-  .content{padding:0 14px;margin-top:24px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
-  .cover-wrap{border-radius:9px}
-  .card-title{font-size:14px}
-  .card-desc{font-size:11px}
-  .filters{width:100%}
-  select{flex:1;max-width:none}
-  .content-head h2{font-size:19px}
+.card-info { padding:11px 2px 0 }
+.card-title { font-size:15px;font-weight:600;line-height:1.4;margin:0 0 5px }
+.card-desc { font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 10px }
+.card-bottom { display:flex;align-items:center;justify-content:space-between;gap:8px }
+.category-label { font-size:11px;color:var(--muted) }
+.official { color:#1967d2;font-size:12px;white-space:nowrap }
+.official:hover { text-decoration:underline }
+.empty {
+  grid-column:1/-1;
+  padding:50px 20px;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--muted);
 }
-@media(max-width:360px){
-  .hero h1{font-size:34px}
-  .grid{gap:17px 9px}
-  .card-title{font-size:13px}
+.note {
+  margin-top:30px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  border-top:1px solid #eee;
+  padding-top:18px;
 }
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+footer {
+  border-top:1px solid #eee;
+  background:#f8f9fa;
+  color:var(--muted);
+  font-size:12px;
+  padding:20px 25px;
+  text-align:center;
+}
+@media(max-width:900px) {
+  .grid { grid-template-columns:repeat(3,minmax(0,1fr)) }
+}
+@media(max-width:620px) {
+  .topbar { height:58px;padding:0 15px }
+  .brand { font-size:20px }
+  .top-links { gap:10px }
+  .top-links .hide-mobile { display:none }
+  .hero { padding:48px 16px 20px }
+  .hero h1 { font-size:39px }
+  .content { padding:0 14px;margin-top:24px }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px }
+  .cover-wrap { border-radius:9px }
+  .card-title { font-size:14px }
+  .card-desc { font-size:11px }
+  .filters { width:100% }
+  select { flex:1;max-width:none }
+  .content-head h2 { font-size:19px }
+}
+@media(max-width:360px) {
+  .hero h1 { font-size:34px }
+  .grid { gap:17px 9px }
+  .card-title { font-size:13px }
 }
 </style>
 </head>
-<body>
 
+<body>
 <header class="topbar">
   <a class="brand" href="index.html" aria-label="Kembali ke OeR">
     <span class="o">O</span><span class="e">e</span><span class="r">R</span>
-    <span class="games">Games</span>
+    <span class="games"> Games</span>
   </a>
   <nav class="top-links">
     <a class="hide-mobile" href="#koleksi">Game populer</a>
@@ -202,8 +345,8 @@ footer{
 </header>
 
 <section class="hero">
-  <h1><span class="oe">Oe</span><span class="r">R</span> <span class="games-word">Games</span></h1>
-  <p class="subtitle">Cari dan temukan game favoritmu</p>
+  <h1><span>O</span><span>e</span><span>R</span> <span>G</span><span>a</span><span>mes</span></h1>
+  <p class="subtitle">Temukan game favoritmu</p>
   <form id="searchForm">
     <div class="searchbox">
       <span class="search-icon" aria-hidden="true">⌕</span>
@@ -245,7 +388,7 @@ footer{
       <option value="Multi">Multi-platform</option>
     </select>
     <select id="sort" aria-label="Urutkan game">
-      <option value="popular">Pilihan OeR</option>
+      <option value="popular">Paling populer</option>
       <option value="az">Nama A–Z</option>
     </select>
   </div>
@@ -254,9 +397,9 @@ footer{
   <div class="grid" id="grid" aria-live="polite"></div>
 
   <p class="note">
-    OeR Games adalah katalog penemuan game. Tautan mengarah ke situs penerbit
-    atau sumber informasi game. Gambar sampul eksternal bergantung pada
-    ketersediaan sumbernya. Gunakan gambar yang memiliki izin penggunaan.
+    OeR Games adalah katalog penemuan game. Sampul bergaya OeR akan tetap tampil
+    jika gambar eksternal gagal dimuat. Sampul cadangan merupakan ilustrasi desain,
+    bukan artwork resmi dari penerbit game.
   </p>
 </main>
 
@@ -266,36 +409,29 @@ footer{
 (function(){
 "use strict";
 
-/*
- * GAMBAR:
- * Setiap game menggunakan URL gambar khusus.
- * Jika URL tidak valid, kartu menampilkan ikon cadangan.
- * Untuk hasil paling stabil, simpan sampul berizin di:
- * images/games/nama-file.jpg
- */
-const games=[
- {name:"Mobile Legends: Bang Bang",desc:"MOBA 5 lawan 5.",platform:"Mobile",cat:"Strategi",tags:"mlbb moba",emoji:"⚔️",image:"images/games/mobile-legends.jpg",url:"https://m.mobilelegends.com/"},
- {name:"PUBG Mobile",desc:"Battle royale dan pertarungan bertahan hidup.",platform:"Mobile",cat:"Battle Royale",tags:"pubg shooter",emoji:"🎯",image:"images/games/pubg-mobile.jpg",url:"https://www.pubgmobile.com/"},
- {name:"Free Fire",desc:"Battle royale dengan pertandingan cepat.",platform:"Mobile",cat:"Battle Royale",tags:"garena shooter",emoji:"🔥",image:"images/games/free-fire.jpg",url:"https://ff.garena.com/"},
- {name:"Genshin Impact",desc:"RPG fantasi dunia terbuka.",platform:"Multi",cat:"RPG",tags:"anime fantasy",emoji:"✨",image:"images/games/genshin-impact.jpg",url:"https://genshin.hoyoverse.com/"},
- {name:"Minecraft",desc:"Bangun dan jelajahi dunia blok.",platform:"Multi",cat:"Petualangan",tags:"sandbox building",emoji:"🧱",image:"images/games/minecraft.jpg",url:"https://www.minecraft.net/"},
- {name:"Roblox",desc:"Temukan berbagai pengalaman buatan komunitas.",platform:"Multi",cat:"Petualangan",tags:"sandbox online",emoji:"🧩",image:"images/games/roblox.jpg",url:"https://www.roblox.com/"},
- {name:"Asphalt Legends",desc:"Balapan mobil berkecepatan tinggi.",platform:"Multi",cat:"Balapan",tags:"mobil racing",emoji:"🏎️",image:"images/games/asphalt-legends.jpg",url:"https://asphaltlegends.com/"},
- {name:"EA SPORTS FC",desc:"Game sepak bola dari EA SPORTS.",platform:"Multi",cat:"Olahraga",tags:"football soccer",emoji:"⚽",image:"images/games/ea-sports-fc.jpg",url:"https://www.ea.com/games/ea-sports-fc"},
- {name:"Call of Duty",desc:"Seri game aksi dan shooter.",platform:"Multi",cat:"Aksi",tags:"cod shooter",emoji:"🎖️",image:"images/games/call-of-duty.jpg",url:"https://www.callofduty.com/"},
- {name:"Clash of Clans",desc:"Bangun desa dan pimpin pasukan.",platform:"Mobile",cat:"Strategi",tags:"supercell strategy",emoji:"🏰",image:"images/games/clash-of-clans.jpg",url:"https://supercell.com/en/games/clashofclans/"},
- {name:"Stardew Valley",desc:"Bertani dan membangun kehidupan di desa.",platform:"Multi",cat:"Petualangan",tags:"farming simulation",emoji:"🌱",image:"images/games/stardew-valley.jpg",url:"https://www.stardewvalley.net/"},
- {name:"Valorant",desc:"Tactical shooter kompetitif di PC.",platform:"PC",cat:"Aksi",tags:"riot shooter",emoji:"🎯",image:"images/games/valorant.jpg",url:"https://playvalorant.com/"},
- {name:"League of Legends",desc:"MOBA kompetitif dengan beragam champion.",platform:"PC",cat:"Strategi",tags:"lol moba riot",emoji:"🛡️",image:"images/games/league-of-legends.jpg",url:"https://www.leagueoflegends.com/"},
- {name:"God of War: Chains of Olympus",desc:"Petualangan aksi klasik PSP.",platform:"PSP",cat:"Aksi",tags:"sony kratos",emoji:"⚔️",image:"images/games/god-of-war-chains-of-olympus.jpg",url:"https://www.playstation.com/"},
- {name:"Tekken: Dark Resurrection",desc:"Game pertarungan klasik untuk PSP.",platform:"PSP",cat:"Aksi",tags:"fighting",emoji:"🥊",image:"images/games/tekken-dark-resurrection.jpg",url:"https://www.bandainamcoent.com/"},
- {name:"Gran Turismo",desc:"Seri simulasi balap mobil.",platform:"PSP",cat:"Balapan",tags:"racing car",emoji:"🏁",image:"images/games/gran-turismo-psp.jpg",url:"https://www.playstation.com/"},
- {name:"Need for Speed: Most Wanted",desc:"Balapan dan kejar-kejaran.",platform:"PSP",cat:"Balapan",tags:"nfs racing",emoji:"🚘",image:"images/games/need-for-speed-most-wanted-psp.jpg",url:"https://www.ea.com/games/need-for-speed"},
- {name:"Persona 3 Portable",desc:"RPG klasik yang dirilis untuk PSP.",platform:"PSP",cat:"RPG",tags:"jrpg persona",emoji:"🌙",image:"images/games/persona-3-portable.jpg",url:"https://atlus.com/"},
- {name:"Daxter",desc:"Petualangan platform klasik untuk PSP.",platform:"PSP",cat:"Petualangan",tags:"platformer",emoji:"🦊",image:"images/games/daxter-psp.jpg",url:"https://www.playstation.com/"},
- {name:"Wipeout Pure",desc:"Balapan futuristik klasik PSP.",platform:"PSP",cat:"Balapan",tags:"futuristic racing",emoji:"🚀",image:"images/games/wipeout-pure.jpg",url:"https://www.playstation.com/"},
- {name:"The Sims 4",desc:"Bangun rumah dan kelola kehidupan karakter.",platform:"PC",cat:"Simulasi",tags:"life simulation",emoji:"🏡",image:"images/games/the-sims-4.jpg",url:"https://www.ea.com/games/the-sims/the-sims-4"},
- {name:"Among Us",desc:"Cari impostor di antara para pemain.",platform:"Multi",cat:"Aksi",tags:"social deduction multiplayer",emoji:"👨‍🚀",image:"images/games/among-us.jpg",url:"https://www.innersloth.com/games/among-us/"}
+const games = [
+ {name:"Mobile Legends: Bang Bang",desc:"MOBA 5 lawan 5.",platform:"Mobile",cat:"Strategi",tags:"mlbb moba",emoji:"⚔️",c1:"#075985",c2:"#312e81",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Mobile_Legends_Bang_Bang_logo.png",url:"https://www.mobilelegends.com/"},
+ {name:"PUBG Mobile",desc:"Battle royale dan bertahan hidup.",platform:"Mobile",cat:"Battle Royale",tags:"pubg shooter",emoji:"🎯",c1:"#a16207",c2:"#451a03",image:"https://commons.wikimedia.org/wiki/Special:FilePath/PUBG_Mobile_logo.png",url:"https://www.pubgmobile.com/"},
+ {name:"Free Fire",desc:"Battle royale dengan pertandingan cepat.",platform:"Mobile",cat:"Battle Royale",tags:"garena shooter",emoji:"🔥",c1:"#c2410c",c2:"#7f1d1d",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Garena_Free_Fire_logo.png",url:"https://ff.garena.com/"},
+ {name:"Genshin Impact",desc:"RPG fantasi dunia terbuka.",platform:"Multi",cat:"RPG",tags:"anime fantasy",emoji:"✨",c1:"#0f766e",c2:"#312e81",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Genshin_Impact_logo.svg",url:"https://genshin.hoyoverse.com/"},
+ {name:"Minecraft",desc:"Bangun dan jelajahi dunia blok.",platform:"Multi",cat:"Petualangan",tags:"sandbox building",emoji:"🧱",c1:"#166534",c2:"#422006",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Minecraft_cover.png",url:"https://www.minecraft.net/"},
+ {name:"Roblox",desc:"Temukan pengalaman buatan komunitas.",platform:"Multi",cat:"Petualangan",tags:"sandbox online",emoji:"🧩",c1:"#334155",c2:"#111827",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Roblox_Logo_2022.svg",url:"https://www.roblox.com/"},
+ {name:"Asphalt Legends",desc:"Balapan mobil berkecepatan tinggi.",platform:"Multi",cat:"Balapan",tags:"mobil racing",emoji:"🏎️",c1:"#1d4ed8",c2:"#111827",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Asphalt_9_Legends_logo.png",url:"https://asphaltlegends.com/"},
+ {name:"EA SPORTS FC",desc:"Game sepak bola dari EA SPORTS.",platform:"Multi",cat:"Olahraga",tags:"football soccer",emoji:"⚽",c1:"#15803d",c2:"#052e16",image:"https://commons.wikimedia.org/wiki/Special:FilePath/EA_Sports_FC_24_logo.svg",url:"https://www.ea.com/games/ea-sports-fc"},
+ {name:"Call of Duty",desc:"Seri game aksi dan shooter.",platform:"Multi",cat:"Aksi",tags:"cod shooter",emoji:"🎖️",c1:"#57534e",c2:"#171717",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Call_of_Duty_logo.svg",url:"https://www.callofduty.com/"},
+ {name:"Clash of Clans",desc:"Bangun desa dan pimpin pasukan.",platform:"Mobile",cat:"Strategi",tags:"supercell strategy",emoji:"🏰",c1:"#b45309",c2:"#7f1d1d",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Clash_of_Clans_logo.png",url:"https://supercell.com/en/games/clashofclans/"},
+ {name:"Stardew Valley",desc:"Bertani dan hidup di desa.",platform:"Multi",cat:"Petualangan",tags:"farming simulation",emoji:"🌱",c1:"#15803d",c2:"#713f12",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Stardew_Valley_logo.png",url:"https://www.stardewvalley.net/"},
+ {name:"Valorant",desc:"Tactical shooter kompetitif di PC.",platform:"PC",cat:"Aksi",tags:"riot shooter",emoji:"🎯",c1:"#be123c",c2:"#450a0a",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Valorant_logo_-_pink_color_version.svg",url:"https://playvalorant.com/"},
+ {name:"League of Legends",desc:"MOBA kompetitif dengan beragam champion.",platform:"PC",cat:"Strategi",tags:"lol moba riot",emoji:"🛡️",c1:"#0369a1",c2:"#172554",image:"https://commons.wikimedia.org/wiki/Special:FilePath/League_of_Legends_2019_vector.svg",url:"https://www.leagueoflegends.com/"},
+ {name:"God of War: Chains of Olympus",desc:"Petualangan aksi klasik PSP.",platform:"PSP",cat:"Aksi",tags:"sony kratos",emoji:"⚔️",c1:"#991b1b",c2:"#292524",image:"https://commons.wikimedia.org/wiki/Special:FilePath/God_of_War_logo.svg",url:"https://www.playstation.com/"},
+ {name:"Tekken: Dark Resurrection",desc:"Game pertarungan klasik PSP.",platform:"PSP",cat:"Aksi",tags:"fighting",emoji:"🥊",c1:"#9f1239",c2:"#1e1b4b",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Tekken_logo.svg",url:"https://www.bandainamcoent.com/"},
+ {name:"Gran Turismo",desc:"Seri simulasi balap mobil.",platform:"PSP",cat:"Balapan",tags:"racing car",emoji:"🏁",c1:"#1d4ed8",c2:"#172554",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Gran_Turismo_logo.svg",url:"https://www.playstation.com/"},
+ {name:"Need for Speed",desc:"Seri balapan dan kejar-kejaran.",platform:"Multi",cat:"Balapan",tags:"nfs racing",emoji:"🚘",c1:"#c2410c",c2:"#171717",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Need_for_Speed_logo.svg",url:"https://www.ea.com/games/need-for-speed"},
+ {name:"Persona 3 Portable",desc:"RPG klasik yang dirilis untuk PSP.",platform:"PSP",cat:"RPG",tags:"jrpg persona",emoji:"🌙",c1:"#1d4ed8",c2:"#312e81",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Persona_3_logo.svg",url:"https://atlus.com/"},
+ {name:"Daxter",desc:"Petualangan platform klasik untuk PSP.",platform:"PSP",cat:"Petualangan",tags:"platformer",emoji:"🦊",c1:"#c2410c",c2:"#713f12",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Jak_and_Daxter_logo.svg",url:"https://www.playstation.com/"},
+ {name:"Wipeout Pure",desc:"Balapan futuristik klasik PSP.",platform:"PSP",cat:"Balapan",tags:"futuristic racing",emoji:"🚀",c1:"#0369a1",c2:"#172554",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Wipeout_logo.svg",url:"https://www.playstation.com/"},
+ {name:"The Sims 4",desc:"Bangun rumah dan kelola kehidupan karakter.",platform:"PC",cat:"Simulasi",tags:"life simulation",emoji:"🏡",c1:"#15803d",c2:"#14532d",image:"https://commons.wikimedia.org/wiki/Special:FilePath/The_Sims_4_logo.svg",url:"https://www.ea.com/games/the-sims/the-sims-4"},
+ {name:"Among Us",desc:"Cari impostor di antara para pemain.",platform:"Multi",cat:"Aksi",tags:"social deduction multiplayer",emoji:"👨‍🚀",c1:"#be123c",c2:"#312e81",image:"https://commons.wikimedia.org/wiki/Special:FilePath/Among_Us_logo.png",url:"https://www.innersloth.com/games/among-us/"}
 ];
 
 const grid=document.getElementById("grid");
@@ -315,7 +451,7 @@ function esc(s){
 function matchesPlatform(g,p){
  if(p==="Semua")return true;
  if(p==="Multi")return g.platform==="Multi";
- return g.platform===p||
+ return g.platform===p ||
   (g.platform==="Multi"&&(p==="Mobile"||p==="PC"));
 }
 
@@ -324,22 +460,16 @@ function render(){
  clear.style.display=term?"block":"none";
 
  let list=games.filter(g=>{
-  const hay=[g.name,g.desc,g.platform,g.cat,g.tags]
-   .join(" ").toLocaleLowerCase("id");
-
-  const categoryMatch=
-   category==="Semua"||
-   g.platform===category||
-   g.cat===category||
-   (category==="Mobile"&&g.platform==="Multi");
-
-  return hay.includes(term)&&
-   matchesPlatform(g,platform.value)&&categoryMatch;
+  const hay=[g.name,g.desc,g.platform,g.cat,g.tags].join(" ").toLocaleLowerCase("id");
+  return hay.includes(term) &&
+   matchesPlatform(g,platform.value) &&
+   (category==="Semua" ||
+    g.platform===category ||
+    g.cat===category ||
+    (category==="Mobile"&&g.platform==="Multi"));
  });
 
- if(sort.value==="az"){
-  list.sort((a,b)=>a.name.localeCompare(b.name,"id"));
- }
+ if(sort.value==="az")list.sort((a,b)=>a.name.localeCompare(b.name,"id"));
 
  count.textContent=list.length+" game";
 
@@ -351,18 +481,19 @@ function render(){
  grid.innerHTML=list.map(g=>`
   <article class="card">
    <a href="${esc(g.url)}" target="_blank" rel="noopener noreferrer"
-      aria-label="Informasi ${esc(g.name)}">
+      aria-label="Informasi resmi ${esc(g.name)}">
     <div class="cover-wrap">
-     <span class="platform">${esc(g.platform.toUpperCase())}</span>
+     <div class="cover-fallback" style="--c1:${g.c1};--c2:${g.c2}">
+      <span class="cover-symbol">${esc(g.emoji)}</span>
+      <span class="cover-title">${esc(g.name)}</span>
+      <span class="cover-subtitle">OeR GAMES</span>
+     </div>
      <img class="cover"
        src="${esc(g.image)}"
-       alt="Sampul ${esc(g.name)}"
+       alt="Gambar ${esc(g.name)}"
        loading="lazy"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-     <div class="cover-fallback">
-       <span>${esc(g.emoji)}</span>
-       <small>${esc(g.name)}</small>
-     </div>
+       referrerpolicy="no-referrer">
+     <span class="platform">${esc(g.platform.toUpperCase())}</span>
     </div>
    </a>
    <div class="card-info">
@@ -371,11 +502,23 @@ function render(){
     <div class="card-bottom">
      <span class="category-label">${esc(g.cat)}</span>
      <a class="official" href="${esc(g.url)}"
-       target="_blank" rel="noopener noreferrer">Situs resmi ↗</a>
+        target="_blank" rel="noopener noreferrer">Situs resmi ↗</a>
     </div>
    </div>
   </article>
  `).join("");
+
+ /* Sampul desain tetap tampil jika gambar eksternal gagal. */
+ grid.querySelectorAll(".cover").forEach(img=>{
+  img.addEventListener("load",()=>{
+   if(img.naturalWidth>0)img.classList.add("loaded");
+  });
+  img.addEventListener("error",()=>{
+   img.classList.remove("loaded");
+   img.removeAttribute("src");
+  });
+  if(img.complete&&img.naturalWidth>0)img.classList.add("loaded");
+ });
 }
 
 document.getElementById("searchForm").addEventListener("submit",e=>{
@@ -410,7 +553,6 @@ document.getElementById("popular").addEventListener("click",()=>{
 document.getElementById("categories").addEventListener("click",e=>{
  const b=e.target.closest("[data-cat]");
  if(!b)return;
-
  category=b.dataset.cat;
  document.querySelectorAll(".chip").forEach(x=>{
   x.classList.toggle("active",x===b);
