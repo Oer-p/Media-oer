@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#128447">
+<meta name="description" content="Temukan panduan manfaat buah, sayuran, kacang-kacangan, rempah, dan makanan bergizi. Pelajari kandungan gizi, cara konsumsi, serta tips hidup sehat bersama OeR.">
+<meta name="robots" content="index,follow">
+<title>Manfaat Buah, Sayur & Makanan Sehat — OeR</title>
+<link rel="canonical" href="https://oer-p.github.io/Media-oer/manfaat.html">
+
+<style>
+:root {
+  --green:#138448;
+  --green-dark:#096638;
+  --green-soft:#eaf7ef;
+  --text:#19251e;
+  --muted:#657269;
+  --line:#e3eae5;
+  --surface:#ffffff;
+  --bg:#f5f8f5;
+  --shadow:0 8px 30px rgba(20,55,32,.07);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:100px; }
+body {
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.7;
+}
+a { color:var(--green-dark); }
+button,input { font:inherit; }
+button { cursor:pointer; }
+.topbar {
+  position:sticky; top:0; z-index:20;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav {
+  max-width:1180px; margin:auto; padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between; gap:15px;
+}
+.brand {
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none; color:var(--text); font-weight:850; font-size:23px;
+}
+.brand-icon {
+  width:42px;height:42px;display:grid;place-items:center;
+  color:white;background:var(--green);border-radius:14px;font-weight:900;
+}
+.brand small { display:block;font-size:11px;letter-spacing:1px;color:var(--muted);font-weight:600; }
+.nav-link {
+  text-decoration:none;background:var(--green);color:white;
+  border-radius:12px;padding:9px 15px;font-weight:750;font-size:14px;
+}
+.hero {
+  color:white;
+  background:linear-gradient(135deg,#075c35,#138448 58%,#42a765);
+  padding:55px 20px 45px;
+}
+.hero-inner { max-width:1100px;margin:auto; }
+.eyebrow {
+  display:inline-block;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);border-radius:30px;
+  padding:5px 12px;font-size:12px;font-weight:750;letter-spacing:.5px;
+}
+.hero h1 { max-width:760px;font-size:clamp(32px,5vw,55px);line-height:1.12;margin:20px 0 15px;letter-spacing:-1.5px; }
+.hero p { max-width:720px;color:#e2f5e8;font-size:16px;margin:0 0 25px; }
+.search-box {
+  display:flex;gap:8px;max-width:690px;padding:7px;
+  background:white;border-radius:15px;box-shadow:0 10px 35px #063d2433;
+}
+.search-box input {
+  flex:1;min-width:0;border:0;outline:none;padding:10px 12px;
+  background:transparent;color:#19251e;
+}
+.search-box button {
+  border:0;border-radius:11px;background:var(--green);color:white;
+  font-weight:750;padding:10px 18px;
+}
+.hero-note { margin-top:12px!important;font-size:12px!important;color:#d6f0df!important; }
+.container { max-width:1180px;margin:auto;padding:30px 20px 60px; }
+.category-row { display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px; }
+.chip {
+  border:1px solid #dbe5de;border-radius:30px;padding:9px 14px;
+  background:white;color:#34443a;font-size:13px;font-weight:700;
+}
+.chip.active,.chip:hover { background:var(--green);border-color:var(--green);color:white; }
+.intro-card {
+  background:white;border:1px solid var(--line);border-radius:20px;
+  padding:24px;margin-bottom:30px;box-shadow:var(--shadow);
+}
+.intro-card h2 { margin:0 0 8px;font-size:22px; }
+.intro-card p { margin:0;color:var(--muted); }
+.section-heading {
+  display:flex;align-items:end;justify-content:space-between;
+  gap:12px;margin:35px 0 17px;
+}
+.section-heading h2 { margin:0;font-size:clamp(22px,3vw,30px);letter-spacing:-.5px; }
+.section-heading p { margin:5px 0 0;color:var(--muted);font-size:13px; }
+.result-count { color:var(--muted);font-size:13px;white-space:nowrap; }
+.grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px; }
+.article-card {
+  min-width:0;background:white;border:1px solid var(--line);
+  border-radius:18px;padding:20px;box-shadow:0 3px 15px rgba(20,55,32,.035);
+  display:flex;flex-direction:column;align-items:flex-start;
+  transition:transform .18s,box-shadow .18s;
+}
+.article-card:hover { transform:translateY(-3px);box-shadow:var(--shadow); }
+.food-icon {
+  width:54px;height:54px;display:grid;place-items:center;
+  background:var(--green-soft);border-radius:16px;font-size:29px;
+}
+.card-category {
+  margin-top:15px;color:var(--green-dark);font-size:11px;
+  font-weight:850;text-transform:uppercase;letter-spacing:.7px;
+}
+.article-card h3 { font-size:19px;line-height:1.35;margin:5px 0 9px; }
+.article-card p { color:#536158;font-size:14px;margin:0 0 13px; }
+.card-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px; }
+.tag { background:#f0f5f1;border-radius:7px;padding:4px 8px;font-size:11px;color:#536158; }
+.read-btn {
+  margin-top:auto;border:0;background:var(--green-soft);color:var(--green-dark);
+  padding:10px 12px;border-radius:10px;font-size:13px;font-weight:800;width:100%;
+}
+.read-btn:hover { background:#d8f0e0; }
+.empty { text-align:center;background:white;border-radius:16px;padding:35px;color:var(--muted); }
+.article-detail {
+  display:none;background:white;border:1px solid var(--line);
+  border-radius:20px;padding:clamp(20px,4vw,38px);margin:25px 0;
+  box-shadow:var(--shadow);
+}
+.article-detail.open { display:block; }
+.detail-top { display:flex;gap:14px;align-items:center;margin-bottom:18px; }
+.detail-icon { font-size:40px;background:var(--green-soft);border-radius:15px;padding:8px; }
+.detail-top h2 { margin:0;font-size:clamp(24px,4vw,34px);line-height:1.2; }
+.detail-top p { margin:5px 0 0;color:var(--muted);font-size:13px; }
+.detail-content h3 { margin:25px 0 8px;font-size:18px; }
+.detail-content p,.detail-content li { color:#46544a;font-size:15px; }
+.detail-content ul { padding-left:23px; }
+.close-detail {
+  border:1px solid var(--line);background:white;padding:8px 12px;
+  border-radius:9px;font-weight:700;margin-bottom:15px;
+}
+.notice {
+  background:#fff8e8;border:1px solid #f2dfb2;border-radius:14px;
+  padding:16px 18px;margin-top:24px;color:#6b552b;font-size:13px;
+}
+.promo-inline {
+  background:linear-gradient(120deg,#e8f8ed,#f7fff9);
+  border:1px solid #cfead7;border-radius:18px;padding:22px;
+  margin:32px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;
+}
+.promo-inline h3 { margin:0 0 5px;font-size:19px; }
+.promo-inline p { margin:0;color:#536158;font-size:14px; }
+.promo-btn {
+  display:inline-block;background:var(--green);color:white;text-decoration:none;
+  border-radius:11px;padding:11px 16px;font-size:13px;font-weight:800;white-space:nowrap;
+}
+footer { background:#102b1b;color:#e4f0e7;padding:32px 20px; }
+.footer-inner { max-width:1180px;margin:auto; }
+footer p { color:#b9cdbf;font-size:13px; }
+footer a { color:#bde9cb; }
+.footer-links { display:flex;gap:16px;flex-wrap:wrap;font-size:13px; }
+.backtop {
+  position:fixed;right:17px;bottom:18px;z-index:10;
+  border:0;background:var(--green);color:white;width:45px;height:45px;
+  border-radius:14px;font-size:20px;box-shadow:var(--shadow);
+}
+/* Promosi OeR dengan tombol tutup */
+.ad-overlay {
+  position:fixed;inset:0;z-index:100;background:rgba(8,24,14,.56);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.ad-overlay[hidden] { display:none; }
+.ad-box {
+  width:min(100%,420px);background:white;border-radius:23px;
+  padding:27px;position:relative;text-align:center;box-shadow:0 20px 80px #0003;
+  animation:adEnter .25s ease-out;
+}
+@keyframes adEnter { from {opacity:0;transform:translateY(12px) scale(.98)} to {opacity:1;transform:none} }
+.ad-label {
+  display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:1px;
+  font-weight:850;color:var(--muted);background:#f0f3f1;border-radius:6px;padding:4px 8px;
+}
+.ad-close {
+  position:absolute;right:12px;top:12px;width:36px;height:36px;
+  border:0;border-radius:50%;background:#f0f3f1;color:#25362a;
+  font-size:23px;line-height:1;
+}
+.ad-logo {
+  width:64px;height:64px;margin:18px auto 12px;border-radius:20px;
+  background:var(--green);color:white;display:grid;place-items:center;font-size:34px;font-weight:900;
+}
+.ad-box h2 { font-size:26px;line-height:1.2;margin:10px 0; }
+.ad-box p { color:var(--muted);font-size:14px;margin:0 0 20px; }
+.ad-action {
+  display:block;background:var(--green);color:white;text-decoration:none;
+  padding:13px;border-radius:12px;font-weight:850;
+}
+.ad-skip { display:block;margin-top:13px;color:var(--muted);font-size:12px; }
+@media(max-width:900px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:580px) {
+  .nav { padding:10px 14px; }
+  .brand { font-size:20px; }
+  .brand-icon { width:38px;height:38px; }
+  .nav-link { padding:8px 10px;font-size:12px; }
+  .hero { padding:39px 17px 32px; }
+  .container { padding:23px 14px 45px; }
+  .grid { grid-template-columns:1fr;gap:12px; }
+  .article-card { padding:17px; }
+  .promo-inline { flex-direction:column;align-items:flex-start; }
+  .section-heading { align-items:flex-start;flex-direction:column; }
+  .search-box button { padding:9px 12px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto!important;animation:none!important;transition:none!important; }
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <nav class="nav" aria-label="Navigasi utama">
+    <a class="brand" href="index.html" aria-label="OeR beranda">
+      <span class="brand-icon">O</span>
+      <span>OeR<small>MANFAAT & PENGETAHUAN</small></span>
+    </a>
+    <a class="nav-link" href="search.html">🔎 Coba OeR Search</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">🌱 PUSAT INFORMASI SEHARI-HARI</span>
+      <h1>Kenali manfaat makanan untuk hidup lebih sehat.</h1>
+      <p>
+        Panduan buah-buahan, sayuran, kacang-kacangan, rempah, dan kebiasaan sehat.
+        Pelajari kandungannya, manfaatnya, dan cara menikmatinya setiap hari.
+      </p>
+      <form class="search-box" id="searchForm" role="search">
+        <input id="searchInput" type="search"
+          placeholder="Cari pisang, bayam, jahe, pola makan..."
+          aria-label="Cari artikel manfaat" autocomplete="off">
+        <button type="submit">Cari</button>
+      </form>
+      <p class="hero-note">Informasi untuk edukasi. Kebutuhan gizi setiap orang bisa berbeda.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="intro-card">
+      <h2>Selamat datang di OeR Manfaat</h2>
+      <p>
+        Makanan bergizi membantu tubuh memperoleh energi dan zat gizi yang diperlukan.
+        Tidak ada satu makanan yang dapat memenuhi seluruh kebutuhan tubuh.
+        Pilih makanan beragam, cukup, dan seimbang sesuai kondisi serta kebutuhanmu.
+      </p>
+    </section>
+
+    <div class="category-row" id="categoryFilters" aria-label="Filter kategori">
+      <button class="chip active" data-category="Semua">🌿 Semua</button>
+      <button class="chip" data-category="Buah">🍎 Buah</button>
+      <button class="chip" data-category="Sayur">🥦 Sayur</button>
+      <button class="chip" data-category="Kacang dan biji">🥜 Kacang & biji</button>
+      <button class="chip" data-category="Rempah">🫚 Rempah</button>
+      <button class="chip" data-category="Pola hidup">💚 Pola hidup</button>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2 id="listHeading">Jelajahi informasi bermanfaat</h2>
+        <p>Pilih topik untuk membaca penjelasan lengkap.</p>
+      </div>
+      <span class="result-count" id="resultCount" aria-live="polite"></span>
+    </div>
+
+    <section class="grid" id="articleGrid" aria-label="Daftar artikel"></section>
+    <div class="empty" id="emptyState" hidden>
+      <h3>Artikel belum ditemukan</h3>
+      <p>Coba kata kunci lain, misalnya “vitamin”, “serat”, atau “buah”.</p>
+      <button class="chip" id="resetSearch">Tampilkan semua artikel</button>
+    </div>
+
+    <article class="article-detail" id="articleDetail" tabindex="-1" aria-live="polite">
+      <button class="close-detail" id="closeDetail">← Kembali ke daftar artikel</button>
+      <div id="detailBody"></div>
+    </article>
+
+    <aside class="promo-inline">
+      <div>
+        <h3>🔎 Sudah mencoba OeR Search?</h3>
+        <p>Jelajahi informasi dan sumber pengetahuan lainnya melalui mesin pencarian OeR.</p>
+      </div>
+      <a class="promo-btn" href="search.html">Coba Pencarian OeR →</a>
+    </aside>
+
+    <div class="notice">
+      <strong>Catatan kesehatan:</strong> Artikel ini merupakan edukasi umum, bukan diagnosis
+      atau pengganti konsultasi dokter maupun ahli gizi. Manfaat makanan bergantung pada
+      pola makan keseluruhan, porsi, cara pengolahan, serta kondisi masing-masing orang.
+      Jika memiliki alergi, penyakit tertentu, atau pembatasan diet, sesuaikan pilihan makanan
+      bersama tenaga kesehatan.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="brand" style="color:white">
+      <span class="brand-icon">O</span><span>OeR<small style="color:#b9cdbf">PENGETAHUAN UNTUK SEMUA</small></span>
+    </div>
+    <p>OeR Manfaat — bacaan edukatif mengenai makanan, gizi, dan kebiasaan sehari-hari.</p>
+    <div class="footer-links">
+      <a href="index.html">Beranda OeR</a>
+      <a href="search.html">OeR Search</a>
+      <a href="#categoryFilters">Jelajahi kategori</a>
+    </div>
+    <p>© <span id="year"></span> OeR Platform.</p>
+  </div>
+</footer>
+
+<button class="backtop" id="backTop" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+
+<!-- Promosi internal OeR. Tombol X menutup promosi. -->
+<div class="ad-overlay" id="adOverlay" hidden role="dialog"
+     aria-modal="true" aria-labelledby="adTitle">
+  <div class="ad-box">
+    <button class="ad-close" id="closeAd" aria-label="Tutup promosi">×</button>
+    <span class="ad-label">Promosi OeR</span>
+    <div class="ad-logo" aria-hidden="true">O</div>
+    <h2 id="adTitle">Kenali OeR Search</h2>
+    <p>
+      Ingin menemukan informasi dan menjelajahi berbagai sumber pengetahuan?
+      Coba mesin pencarian OeR dan temukan apa yang kamu cari.
+    </p>
+    <a class="ad-action" id="adVisit" href="search.html">Coba OeR Search →</a>
+    <span class="ad-skip">Promosi dari platform OeR</span>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const articles = [
+/* ==================== BUAH-BUAHAN ==================== */
+{
+id:"pisang",title:"Manfaat Buah Pisang",category:"Buah",icon:"🍌",
+tags:["kalium","serat","energi"],
+intro:"Pisang adalah buah yang mudah ditemukan dan dapat menjadi sumber karbohidrat, serat, serta kalium. Buah ini praktis dijadikan camilan atau pelengkap sarapan.",
+nutrients:"Karbohidrat, serat, kalium, vitamin B6, dan sejumlah vitamin C.",
+benefits:[
+"Pisang menyediakan karbohidrat yang digunakan tubuh sebagai sumber energi untuk beraktivitas.",
+"Seratnya membantu mendukung fungsi pencernaan dan dapat membantu menjaga keteraturan buang air besar sebagai bagian dari pola makan berserat.",
+"Kalium berperan dalam fungsi otot, saraf, dan keseimbangan cairan tubuh.",
+"Vitamin B6 berperan dalam metabolisme zat gizi dan fungsi normal sistem saraf."
+],
+how:"Nikmati pisang matang secara langsung, potong ke dalam oatmeal, atau campurkan ke yoghurt tanpa banyak gula tambahan. Buah utuh umumnya lebih mengenyangkan daripada minuman manis rasa pisang.",
+caution:"Orang dengan penyakit ginjal atau yang perlu membatasi kalium mungkin perlu mengatur porsinya sesuai saran tenaga kesehatan."
+},
+{
+id:"apel",title:"Manfaat Buah Apel",category:"Buah",icon:"🍎",
+tags:["serat","pektin","antioksidan"],
+intro:"Apel merupakan buah yang mengandung air, serat, dan senyawa tumbuhan. Kulit apel yang dicuci dengan baik juga mengandung serat dan polifenol.",
+nutrients:"Serat, vitamin C dalam jumlah bervariasi, air, dan polifenol.",
+benefits:[
+"Serat apel, termasuk pektin, membantu mendukung kesehatan pencernaan.",
+"Serat dapat membantu memberi rasa kenyang ketika apel dimakan sebagai buah utuh.",
+"Polifenol merupakan senyawa tumbuhan yang diteliti karena aktivitas antioksidannya.",
+"Apel bisa menjadi pengganti camilan yang tinggi gula tambahan atau garam."
+],
+how:"Cuci apel di bawah air mengalir dan makan bersama kulitnya jika cocok. Potong sebagai camilan, tambahkan ke salad, atau sajikan dengan sedikit yoghurt.",
+caution:"Jus apel biasanya lebih rendah serat dan lebih mudah dikonsumsi dalam jumlah besar dibanding buah utuh. Perhatikan alergi jika pernah mengalami reaksi terhadap apel."
+},
+{
+id:"jeruk",title:"Manfaat Buah Jeruk",category:"Buah",icon:"🍊",
+tags:["vitamin C","folat","hidrasi"],
+intro:"Jeruk adalah buah berair dengan rasa segar. Jeruk dapat membantu memenuhi kebutuhan vitamin C dan menambah variasi buah dalam menu sehari-hari.",
+nutrients:"Vitamin C, air, folat, serat, dan senyawa flavonoid.",
+benefits:[
+"Vitamin C membantu pembentukan kolagen yang diperlukan untuk kulit, gusi, pembuluh darah, dan penyembuhan luka.",
+"Vitamin C mendukung fungsi normal sistem kekebalan tubuh, tetapi tidak menjamin seseorang terhindar dari infeksi.",
+"Vitamin C membantu penyerapan zat besi dari sumber nabati seperti kacang-kacangan dan sayuran.",
+"Kandungan air membantu menambah asupan cairan, sedangkan buah utuh menyediakan serat."
+],
+how:"Makan jeruk utuh sebagai camilan atau padukan dengan makanan yang mengandung zat besi. Cuci bagian kulit sebelum dikupas.",
+caution:"Jeruk yang asam dapat memperburuk keluhan refluks pada sebagian orang. Jika sensitif terhadap asam, sesuaikan jumlahnya."
+},
+{
+id:"pepaya",title:"Manfaat Buah Pepaya",category:"Buah",icon:"🧡",
+tags:["serat","vitamin A","vitamin C"],
+intro:"Pepaya matang memiliki tekstur lembut dan rasa manis. Buah ini menyediakan serat, vitamin C, serta karotenoid yang dapat diubah tubuh menjadi vitamin A.",
+nutrients:"Vitamin C, karotenoid, serat, folat, dan air.",
+benefits:[
+"Serat dan air dalam pepaya membantu mendukung pencernaan dan keteraturan buang air besar.",
+"Vitamin C berperan dalam pembentukan kolagen serta membantu penyerapan zat besi.",
+"Karotenoid tertentu berperan sebagai prekursor vitamin A yang dibutuhkan untuk penglihatan normal dan fungsi kekebalan.",
+"Pepaya dapat menambah variasi buah dan membantu memenuhi kebutuhan buah harian."
+],
+how:"Pilih pepaya matang, cuci bagian luar sebelum dipotong, lalu nikmati sebagai buah utuh. Simpan potongan dalam wadah bersih di lemari pendingin.",
+caution:"Hindari pepaya jika menyebabkan alergi. Orang dengan alergi lateks dapat mengalami reaksi silang terhadap beberapa buah, termasuk pepaya."
+},
+{
+id:"mangga",title:"Manfaat Buah Mangga",category:"Buah",icon:"🥭",
+tags:["vitamin C","karotenoid","serat"],
+intro:"Mangga adalah buah tropis dengan rasa manis dan aroma khas. Mangga matang dapat memberikan vitamin C dan karotenoid, sekaligus menjadi bagian dari pola makan yang beragam.",
+nutrients:"Vitamin C, karotenoid, serat, folat, dan karbohidrat alami.",
+benefits:[
+"Vitamin C membantu tubuh membentuk kolagen dan mendukung penyerapan zat besi.",
+"Karotenoid tertentu dapat diubah menjadi vitamin A, yang penting untuk penglihatan dan fungsi kekebalan.",
+"Serat dalam buah utuh membantu menunjang kesehatan pencernaan.",
+"Mangga dapat membantu menambah variasi rasa dan warna dalam konsumsi buah."
+],
+how:"Makan potongan mangga segar, tambahkan ke salad buah, atau campurkan ke oatmeal tanpa tambahan gula berlebihan.",
+caution:"Mangga matang mengandung gula alami. Orang yang mengatur kadar glukosa darah dapat memperhatikan ukuran porsi dan menggabungkannya dengan menu seimbang."
+},
+{
+id:"alpukat",title:"Manfaat Buah Alpukat",category:"Buah",icon:"🥑",
+tags:["lemak tak jenuh","serat","kalium"],
+intro:"Alpukat berbeda dari banyak buah lain karena mengandung lemak tak jenuh dalam jumlah cukup besar. Teksturnya lembut dan cocok sebagai bagian dari makanan utama.",
+nutrients:"Lemak tak jenuh tunggal, serat, folat, kalium, dan vitamin E.",
+benefits:[
+"Lemak tak jenuh dapat menjadi pengganti lemak jenuh ketika digunakan dalam pola makan yang seimbang.",
+"Serat membantu menunjang pencernaan dan dapat membantu rasa kenyang.",
+"Folat berperan dalam pembentukan DNA dan sel darah.",
+"Kalium diperlukan untuk fungsi normal otot, saraf, dan keseimbangan cairan."
+],
+how:"Tambahkan beberapa irisan alpukat ke roti gandum, salad, atau makanan utama. Gunakan sebagai pengganti sebagian olesan tinggi lemak jenuh.",
+caution:"Alpukat cukup padat energi karena kandungan lemaknya. Porsi bisa disesuaikan dengan kebutuhan energi dan pola makan."
+},
+{
+id:"semangka",title:"Manfaat Buah Semangka",category:"Buah",icon:"🍉",
+tags:["air","likopen","hidrasi"],
+intro:"Semangka memiliki kandungan air yang tinggi sehingga terasa menyegarkan, terutama ketika cuaca panas. Buah ini juga mengandung likopen dan vitamin C.",
+nutrients:"Air, vitamin C, karotenoid seperti likopen, dan sedikit serat.",
+benefits:[
+"Kandungan airnya membantu menambah asupan cairan harian.",
+"Vitamin C berperan dalam pembentukan kolagen dan mendukung fungsi normal sistem kekebalan.",
+"Likopen merupakan pigmen tumbuhan dengan aktivitas antioksidan yang sedang diteliti dalam kaitannya dengan kesehatan.",
+"Semangka utuh dapat menjadi pilihan pencuci mulut yang menyegarkan."
+],
+how:"Sajikan potongan semangka yang sudah dicuci dan dipotong dengan peralatan bersih. Simpan dalam lemari pendingin setelah dipotong.",
+caution:"Semangka tetap mengandung karbohidrat alami. Porsi perlu disesuaikan jika sedang mengatur glukosa darah atau memiliki batasan diet tertentu."
+},
+{
+id:"buah-naga",title:"Manfaat Buah Naga",category:"Buah",icon:"🐉",
+tags:["serat","vitamin C","warna alami"],
+intro:"Buah naga memiliki daging putih atau merah dengan biji kecil yang dapat dimakan. Buah ini menambah variasi serat dan senyawa tumbuhan dalam menu.",
+nutrients:"Air, serat, vitamin C dalam jumlah bervariasi, dan pigmen betalain pada beberapa varietas merah.",
+benefits:[
+"Serat mendukung pencernaan dan membantu menjaga keteraturan buang air besar.",
+"Air dalam buah membantu melengkapi asupan cairan.",
+"Pigmen pada buah naga merah merupakan senyawa tumbuhan yang memiliki aktivitas antioksidan.",
+"Rasanya yang ringan memudahkan buah ini dipadukan dengan buah lain."
+],
+how:"Belah buah, ambil dagingnya dengan sendok, atau potong menjadi kubus untuk salad buah. Cuci kulit luar sebelum membelahnya.",
+caution:"Perubahan warna urine atau tinja dapat terjadi setelah mengonsumsi buah berpigmen merah pada sebagian orang. Jika ada gejala mengkhawatirkan, periksakan diri."
+},
+{
+id:"nanas",title:"Manfaat Buah Nanas",category:"Buah",icon:"🍍",
+tags:["vitamin C","mangan","bromelain"],
+intro:"Nanas adalah buah tropis dengan rasa manis dan asam. Nanas menyediakan vitamin C dan mangan, serta mengandung enzim bromelain.",
+nutrients:"Vitamin C, mangan, karbohidrat, air, dan bromelain.",
+benefits:[
+"Vitamin C mendukung pembentukan kolagen dan membantu penyerapan zat besi dari pangan nabati.",
+"Mangan membantu fungsi sejumlah enzim dan metabolisme tubuh.",
+"Nanas menyediakan air dan variasi rasa dalam menu buah.",
+"Bromelain adalah kelompok enzim yang dapat memecah protein; keberadaannya tidak berarti nanas dapat menyembuhkan penyakit."
+],
+how:"Nikmati nanas segar dalam porsi wajar, tambahkan ke salad, atau sajikan bersama makanan utama.",
+caution:"Keasaman nanas dapat mengiritasi mulut atau memperburuk refluks pada sebagian orang. Hentikan konsumsi jika timbul reaksi alergi."
+},
+{
+id:"jambu-biji",title:"Manfaat Jambu Biji",category:"Buah",icon:"🍐",
+tags:["vitamin C","serat","folat"],
+intro:"Jambu biji dikenal sebagai salah satu buah yang kaya vitamin C. Daging buah dan bijinya juga menyediakan serat.",
+nutrients:"Vitamin C, serat, folat, kalium, dan senyawa karotenoid pada varietas berdaging merah muda.",
+benefits:[
+"Vitamin C membantu pembentukan kolagen dan mendukung penyerapan zat besi.",
+"Serat membantu menunjang kesehatan saluran pencernaan.",
+"Folat berperan dalam pembentukan sel dan materi genetik.",
+"Jambu biji utuh dapat menjadi alternatif camilan yang menyediakan beragam zat gizi."
+],
+how:"Cuci buah dengan baik, lalu makan langsung atau potong menjadi bagian kecil. Jika bijinya tidak nyaman dikonsumsi, pilih cara penyajian yang sesuai.",
+caution:"Tambahkan serat secara bertahap jika belum terbiasa makan banyak serat, dan cukup minum sesuai kebutuhan."
+},
+{
+id:"stroberi",title:"Manfaat Buah Stroberi",category:"Buah",icon:"🍓",
+tags:["vitamin C","polifenol","serat"],
+intro:"Stroberi adalah buah yang kaya vitamin C dengan warna merah dari pigmen tumbuhan. Buah ini cocok untuk menambah variasi rasa pada sarapan atau camilan.",
+nutrients:"Vitamin C, serat, folat, mangan, dan polifenol.",
+benefits:[
+"Vitamin C membantu proses pembentukan kolagen dan mendukung fungsi normal kekebalan.",
+"Serat pada stroberi mendukung pencernaan.",
+"Polifenol merupakan senyawa tumbuhan yang diteliti karena sifat antioksidannya.",
+"Stroberi segar dapat menggantikan sebagian camilan dengan gula tambahan."
+],
+how:"Bilas stroberi di bawah air mengalir sebelum membuang tangkai. Tambahkan ke oatmeal, yoghurt tawar, atau makan langsung.",
+caution:"Stroberi dapat memicu alergi pada sebagian orang. Pilih buah yang tidak rusak dan simpan pada suhu yang sesuai."
+},
+{
+id:"anggur",title:"Manfaat Buah Anggur",category:"Buah",icon:"🍇",
+tags:["polifenol","air","vitamin K"],
+intro:"Anggur tersedia dalam berbagai warna dan mengandung air serta polifenol. Buah utuh lebih baik untuk kebiasaan makan sehari-hari dibanding mengandalkan jus saja.",
+nutrients:"Air, karbohidrat, vitamin K, dan polifenol seperti resveratrol dalam jumlah bervariasi.",
+benefits:[
+"Air dalam anggur membantu menambah asupan cairan.",
+"Polifenol merupakan senyawa tumbuhan yang diteliti terkait aktivitas antioksidan.",
+"Anggur utuh menyediakan makanan ringan yang praktis.",
+"Buah ini menambah variasi rasa dan warna dalam pola makan."
+],
+how:"Cuci anggur secara menyeluruh di bawah air mengalir. Untuk anak kecil, potong memanjang menjadi bagian kecil sesuai usia dan kemampuan mengunyah.",
+caution:"Anggur utuh berbentuk bulat dapat menyebabkan tersedak pada anak kecil. Jus anggur tidak memiliki manfaat serat yang sama seperti buah utuh."
+},
+{
+id:"pir",title:"Manfaat Buah Pir",category:"Buah",icon:"🍐",
+tags:["serat","air","pektin"],
+intro:"Pir memiliki tekstur renyah atau lembut tergantung tingkat kematangan. Kandungan air dan seratnya membuat pir cocok sebagai bagian dari menu buah.",
+nutrients:"Serat, air, karbohidrat, dan sejumlah vitamin C serta kalium.",
+benefits:[
+"Serat pir mendukung kesehatan pencernaan.",
+"Kandungan airnya membantu menambah asupan cairan.",
+"Buah utuh memberi tekstur dan rasa manis alami sebagai pilihan camilan.",
+"Pir dapat menambah keragaman sumber serat dalam menu."
+],
+how:"Cuci pir sebelum dimakan. Kulitnya dapat dimakan jika bersih dan cocok untukmu; potong kecil bila teksturnya terlalu keras.",
+caution:"Peningkatan konsumsi serat secara mendadak dapat menyebabkan kembung pada sebagian orang."
+},
+{
+id:"melon",title:"Manfaat Buah Melon",category:"Buah",icon:"🍈",
+tags:["air","vitamin C","karotenoid"],
+intro:"Melon adalah buah berair yang cocok dinikmati saat cuaca panas. Beberapa jenis melon, terutama yang berdaging jingga, mengandung karotenoid.",
+nutrients:"Air, vitamin C, kalium, dan karotenoid pada varietas tertentu.",
+benefits:[
+"Kandungan air membantu melengkapi kebutuhan cairan.",
+"Vitamin C berperan dalam pembentukan kolagen.",
+"Kalium mendukung fungsi otot dan saraf.",
+"Melon menambah variasi buah dengan rasa ringan."
+],
+how:"Cuci kulit melon sebelum dipotong agar kotoran di permukaan tidak berpindah ke daging buah. Simpan potongan dalam lemari pendingin.",
+caution:"Melon yang telah dipotong sebaiknya tidak dibiarkan lama pada suhu ruang. Orang yang membatasi kalium perlu menyesuaikan asupan."
+},
+{
+id:"salak",title:"Manfaat Buah Salak",category:"Buah",icon:"🥥",
+tags:["serat","karbohidrat","mineral"],
+intro:"Salak merupakan buah tropis dengan daging renyah dan rasa manis-asam. Salak dapat menjadi bagian dari variasi buah lokal.",
+nutrients:"Karbohidrat, serat, serta sejumlah mineral dan senyawa tumbuhan.",
+benefits:[
+"Karbohidratnya menyediakan energi bagi aktivitas sehari-hari.",
+"Serat membantu menunjang pencernaan.",
+"Buah utuh dapat menjadi alternatif camilan dibanding makanan dengan gula tambahan.",
+"Memilih buah lokal yang sedang musim dapat menambah keragaman menu."
+],
+how:"Kupas salak dengan tangan bersih, buang biji yang keras, lalu makan daging buahnya. Kunyah dengan baik.",
+caution:"Tidak ada bukti kuat bahwa salak otomatis menyebabkan sembelit. Efek pencernaan dipengaruhi total serat, cairan, dan pola makan."
+},
+{
+id:"durian",title:"Manfaat Buah Durian",category:"Buah",icon:"🌰",
+tags:["energi","kalium","vitamin B"],
+intro:"Durian memiliki aroma khas dan kandungan energi yang relatif tinggi dibanding banyak buah berair. Buah ini tetap bisa dinikmati dengan memperhatikan porsi.",
+nutrients:"Karbohidrat, lemak, serat, kalium, dan beberapa vitamin B.",
+benefits:[
+"Karbohidrat dan lemak menyediakan energi.",
+"Serat membantu mendukung pencernaan.",
+"Durian mengandung sejumlah mineral, termasuk kalium.",
+"Menikmati porsi yang sesuai dapat menjadi bagian dari pola makan beragam."
+],
+how:"Nikmati durian dalam porsi kecil hingga sedang dan imbangi dengan sayuran, protein, serta makanan lain yang beragam.",
+caution:"Durian cukup padat energi. Orang dengan diabetes, penyakit ginjal, atau pembatasan diet tertentu sebaiknya memperhatikan porsi sesuai anjuran tenaga kesehatan."
+},
+{
+id:"kelapa",title:"Manfaat Kelapa",category:"Buah",icon:"🥥",
+tags:["air","lemak","mineral"],
+intro:"Kelapa memiliki bagian yang berbeda dengan kandungan gizi berbeda pula. Air kelapa dapat menyegarkan, sementara daging kelapa mengandung lemak dan serat.",
+nutrients:"Air kelapa mengandung cairan dan elektrolit; daging kelapa mengandung lemak, serat, dan mineral.",
+benefits:[
+"Air kelapa dapat membantu menambah cairan, tetapi tidak selalu diperlukan sebagai pengganti air putih.",
+"Daging kelapa menyediakan energi dan serat.",
+"Kelapa dapat memberi variasi rasa dalam masakan.",
+"Komposisi gizi berbeda menurut bagian kelapa dan tingkat kematangannya."
+],
+how:"Pilih air kelapa tanpa tambahan gula. Gunakan daging kelapa secukupnya sebagai bagian dari menu seimbang.",
+caution:"Air kelapa mengandung kalium sehingga tidak cocok dikonsumsi berlebihan oleh sebagian orang dengan penyakit ginjal atau pembatasan kalium."
+},
+{
+id:"delima",title:"Manfaat Buah Delima",category:"Buah",icon:"🔴",
+tags:["polifenol","serat","vitamin K"],
+intro:"Delima memiliki biji berair yang disebut aril. Buah utuh menyediakan serat dan senyawa polifenol.",
+nutrients:"Serat, polifenol, vitamin K, dan sejumlah vitamin serta mineral.",
+benefits:[
+"Polifenol delima diteliti karena aktivitas antioksidannya.",
+"Serat pada biji yang dimakan membantu mendukung pencernaan.",
+"Buah utuh menyediakan tekstur dan rasa manis-asam.",
+"Delima dapat menjadi variasi buah dalam pola makan."
+],
+how:"Belah delima dengan hati-hati, pisahkan aril, dan tambahkan ke salad atau yoghurt tawar.",
+caution:"Jangan menganggap jus atau ekstrak delima sebagai obat. Jika menggunakan obat rutin, konsultasikan dahulu sebelum memakai suplemen ekstrak."
+},
+{
+id:"kiwi",title:"Manfaat Buah Kiwi",category:"Buah",icon:"🥝",
+tags:["vitamin C","serat","folat"],
+intro:"Kiwi adalah buah berasa asam-manis yang mengandung vitamin C dan serat. Dagingnya dapat berwarna hijau atau kuning.",
+nutrients:"Vitamin C, serat, vitamin K, folat, dan kalium.",
+benefits:[
+"Vitamin C berperan dalam pembentukan kolagen.",
+"Serat membantu fungsi pencernaan.",
+"Kiwi dapat menambah variasi buah dengan rasa segar.",
+"Buah utuh membantu memberikan tekstur dan rasa kenyang dibanding minuman buah yang disaring."
+],
+how:"Cuci kulit kiwi. Kulitnya dapat dimakan jika bersih dan nyaman, atau belah dan ambil dagingnya dengan sendok.",
+caution:"Kiwi dapat memicu alergi pada sebagian orang. Hentikan konsumsi bila timbul gatal, bengkak, atau gejala alergi lain."
+},
+{
+id:"belimbing",title:"Manfaat Buah Belimbing",category:"Buah",icon:"⭐",
+tags:["air","vitamin C","serat"],
+intro:"Belimbing memiliki bentuk khas dan rasa segar. Walaupun dapat menjadi buah yang menyegarkan, ada catatan keselamatan yang sangat penting bagi penderita penyakit ginjal.",
+nutrients:"Air, vitamin C, serat, dan berbagai senyawa tumbuhan.",
+benefits:[
+"Vitamin C berperan dalam pembentukan kolagen dan membantu penyerapan zat besi.",
+"Air dan serat membantu melengkapi pola makan.",
+"Belimbing dapat menambah variasi buah lokal.",
+"Buah ini sebaiknya dinikmati hanya oleh orang yang tidak memiliki kontraindikasi kesehatan."
+],
+how:"Jika tidak memiliki penyakit ginjal atau kontraindikasi, cuci belimbing dengan baik sebelum dipotong.",
+caution:"Belimbing dapat berbahaya bagi penderita penyakit ginjal karena mengandung zat yang dapat menimbulkan efek neurologis serius. Penderita penyakit ginjal sebaiknya menghindarinya."
+},
+{
+id:"manggis",title:"Manfaat Buah Manggis",category:"Buah",icon:"🟣",
+tags:["serat","vitamin C","polifenol"],
+intro:"Manggis merupakan buah tropis dengan daging putih yang lembut. Buah utuh dapat menambah variasi buah, sedangkan klaim kesehatan ekstrak kulitnya sering kali belum didukung bukti klinis memadai.",
+nutrients:"Karbohidrat, serat, vitamin C dalam jumlah tertentu, dan senyawa tumbuhan.",
+benefits:[
+"Daging buah menyediakan karbohidrat dan serat.",
+"Buah utuh membantu memperkaya variasi konsumsi buah.",
+"Senyawa tumbuhan pada manggis diteliti dalam penelitian laboratorium, tetapi hasil laboratorium tidak membuktikan bahwa buah atau ekstraknya mengobati penyakit.",
+"Manggis dapat menjadi bagian dari pola makan seimbang."
+],
+how:"Pilih buah segar yang baik, buka kulitnya dengan hati-hati, lalu konsumsi daging buahnya.",
+caution:"Jangan menggunakan ekstrak manggis untuk menggantikan pengobatan. Suplemen dapat memiliki risiko atau interaksi dengan obat."
+},
+{
+id:"rambutan",title:"Manfaat Buah Rambutan",category:"Buah",icon:"🔴",
+tags:["vitamin C","air","karbohidrat"],
+intro:"Rambutan adalah buah tropis dengan daging putih manis. Buah ini dapat dinikmati sebagai camilan saat musimnya.",
+nutrients:"Air, karbohidrat, serta vitamin dan mineral dalam jumlah bervariasi.",
+benefits:[
+"Karbohidrat memberikan energi.",
+"Rambutan menambah variasi buah lokal.",
+"Buah utuh dapat menjadi pilihan camilan dibanding makanan dengan gula tambahan.",
+"Mengonsumsi berbagai jenis buah membantu memperluas ragam zat gizi yang didapat."
+],
+how:"Kupas kulit, keluarkan biji, dan konsumsi daging buah. Jangan menelan biji yang keras.",
+caution:"Rambutan matang memiliki gula alami. Perhatikan porsi jika sedang mengatur asupan karbohidrat."
+},
+{
+id:"jambu-air",title:"Manfaat Jambu Air",category:"Buah",icon:"🍐",
+tags:["air","serat","camilan"],
+intro:"Jambu air memiliki kandungan air yang tinggi dan rasa ringan. Buah ini cocok untuk menambah variasi buah segar.",
+nutrients:"Air, sedikit serat, dan sejumlah vitamin serta mineral.",
+benefits:[
+"Kandungan air membantu menambah asupan cairan.",
+"Buah utuh memberikan tekstur segar sebagai camilan.",
+"Jambu air dapat membantu menambah variasi buah lokal.",
+"Mengganti sebagian camilan tinggi gula tambahan dengan buah dapat mendukung pola makan yang lebih baik."
+],
+how:"Cuci buah di bawah air mengalir, potong jika perlu, lalu nikmati langsung.",
+caution:"Cuci buah sebelum dikonsumsi dan simpan dengan baik untuk mengurangi risiko kontaminasi."
+},
+{
+id:"sirsak",title:"Manfaat Buah Sirsak",category:"Buah",icon:"🍈",
+tags:["serat","vitamin C","buah tropis"],
+intro:"Sirsak memiliki daging putih dan rasa asam-manis. Daging buahnya dapat memberikan serat serta vitamin dalam jumlah bervariasi.",
+nutrients:"Air, karbohidrat, serat, dan vitamin C.",
+benefits:[
+"Serat membantu menunjang pencernaan.",
+"Vitamin C berperan dalam pembentukan kolagen.",
+"Sirsak dapat menjadi bagian dari variasi buah tropis.",
+"Buah utuh dapat menjadi pilihan makanan penutup."
+],
+how:"Buang kulit dan biji yang keras, lalu nikmati daging buahnya. Hindari menelan biji.",
+caution:"Jangan mengonsumsi biji sirsak atau ekstrak daunnya untuk mengobati penyakit. Keamanan dan efektivitas penggunaan sebagai obat belum terbukti memadai."
+},
+{
+id:"markisa",title:"Manfaat Buah Markisa",category:"Buah",icon:"🟠",
+tags:["serat","vitamin C","aroma"],
+intro:"Markisa memiliki aroma khas dan rasa asam yang kuat. Bagian berbiji dapat dimakan dan menyediakan serat.",
+nutrients:"Serat, vitamin C, karotenoid, dan senyawa tumbuhan.",
+benefits:[
+"Serat membantu menunjang fungsi pencernaan.",
+"Vitamin C mendukung pembentukan kolagen.",
+"Markisa menambah variasi rasa buah dalam menu.",
+"Buah ini dapat digunakan untuk memberi rasa pada yoghurt atau air tanpa banyak tambahan gula."
+],
+how:"Belah buah dan makan bagian dalamnya dengan sendok. Jika dibuat minuman, batasi gula tambahan.",
+caution:"Rasa asam dapat mengganggu orang yang sensitif terhadap makanan asam atau mengalami refluks."
+},
+{
+id:"lemon",title:"Manfaat Lemon",category:"Buah",icon:"🍋",
+tags:["vitamin C","rasa","hidrasi"],
+intro:"Lemon sering digunakan sebagai penambah rasa pada air dan masakan. Lemon mengandung vitamin C, meskipun jumlah yang didapat bergantung pada porsinya.",
+nutrients:"Vitamin C, air, asam sitrat, dan senyawa tumbuhan.",
+benefits:[
+"Vitamin C berperan dalam pembentukan kolagen.",
+"Perasan lemon dapat menambah rasa pada air sehingga sebagian orang lebih mudah minum.",
+"Rasa asam dapat membantu memberi cita rasa pada masakan tanpa harus menambahkan banyak garam.",
+"Lemon dapat menjadi bagian dari pola makan beragam, bukan bahan detoks."
+],
+how:"Tambahkan sedikit perasan lemon ke air atau masakan. Bilas mulut dengan air biasa setelah mengonsumsi minuman asam.",
+caution:"Asam lemon dapat mengikis enamel gigi jika sering terpapar. Lemon bukan cara khusus untuk membuang racun dari tubuh."
+},
+{
+id:"kurma",title:"Manfaat Buah Kurma",category:"Buah",icon:"🌴",
+tags:["energi","serat","kalium"],
+intro:"Kurma merupakan buah kering yang padat energi dan mengandung gula alami. Kurma juga menyediakan serat dan sejumlah mineral.",
+nutrients:"Karbohidrat, serat, kalium, dan sejumlah mineral.",
+benefits:[
+"Karbohidrat kurma menyediakan energi dengan cepat.",
+"Serat membantu menunjang pencernaan.",
+"Kurma dapat menjadi pemanis alami untuk beberapa resep.",
+"Kurma dapat menjadi camilan praktis jika dikonsumsi dengan porsi yang sesuai."
+],
+how:"Makan beberapa butir sesuai kebutuhan, atau cincang ke dalam oatmeal dan yoghurt tawar.",
+caution:"Kurma mengandung gula dan energi yang terkonsentrasi. Perhatikan porsi jika sedang mengatur kadar glukosa darah."
+},
+{
+id:"tomat-buah",title:"Manfaat Tomat sebagai Buah",category:"Buah",icon:"🍅",
+tags:["likopen","vitamin C","kalium"],
+intro:"Tomat secara botani merupakan buah, meskipun sering dimasak sebagai sayuran. Tomat mengandung likopen, vitamin C, dan kalium.",
+nutrients:"Likopen, vitamin C, kalium, dan karotenoid.",
+benefits:[
+"Likopen adalah pigmen tumbuhan yang memiliki aktivitas antioksidan.",
+"Vitamin C membantu pembentukan kolagen.",
+"Kalium mendukung fungsi otot dan saraf.",
+"Tomat dapat dikonsumsi segar maupun dimasak sebagai bagian dari makanan beragam."
+],
+how:"Tambahkan tomat ke salad, sup, atau tumisan. Memasak tomat dengan sedikit minyak dapat meningkatkan ketersediaan likopen dalam makanan.",
+caution:"Produk tomat yang dikemas dapat mengandung garam atau gula tambahan. Periksa label bila perlu membatasi asupan tersebut."
+},
+
+/* ==================== SAYUR-SAYURAN ==================== */
+{
+id:"bayam",title:"Manfaat Sayur Bayam",category:"Sayur",icon:"🥬",
+tags:["folat","vitamin K","zat besi"],
+intro:"Bayam adalah sayuran berdaun hijau yang menyediakan folat, vitamin K, dan berbagai karotenoid. Bayam dapat dimasukkan ke menu harian dengan cara pengolahan yang tepat.",
+nutrients:"Folat, vitamin K, karotenoid, magnesium, dan zat besi non-heme.",
+benefits:[
+"Folat berperan dalam pembentukan DNA dan sel.",
+"Vitamin K dibutuhkan dalam proses pembekuan darah normal dan kesehatan tulang.",
+"Karotenoid tertentu dapat diubah menjadi vitamin A.",
+"Bayam menyumbang serat dan berbagai mikronutrien pada pola makan."
+],
+how:"Cuci daun di bawah air mengalir dan masak sebagai sayur bening, tumisan, atau campuran telur. Variasikan dengan sayuran lain.",
+caution:"Bayam mengandung vitamin K, sehingga orang yang memakai warfarin perlu menjaga asupan vitamin K tetap konsisten dan berkonsultasi dengan tenaga kesehatan."
+},
+{
+id:"wortel",title:"Manfaat Wortel",category:"Sayur",icon:"🥕",
+tags:["beta-karoten","serat","vitamin A"],
+intro:"Wortel terkenal karena warna jingganya yang berasal dari beta-karoten. Tubuh dapat mengubah beta-karoten menjadi vitamin A sesuai kebutuhan.",
+nutrients:"Beta-karoten, serat, vitamin K, kalium, dan karbohidrat.",
+benefits:[
+"Vitamin A diperlukan untuk penglihatan normal, kesehatan kulit, dan fungsi kekebalan.",
+"Serat mendukung pencernaan.",
+"Wortel dapat dimakan mentah maupun dimasak untuk menambah variasi sayuran.",
+"Sedikit lemak dalam makanan dapat membantu penyerapan karotenoid yang larut dalam lemak."
+],
+how:"Cuci dan sikat wortel dengan baik. Sajikan sebagai sup, tumisan, kukusan, atau potongan mentah jika teksturnya aman untukmu.",
+caution:"Mengonsumsi wortel sebagai makanan berbeda dari memakai suplemen vitamin A dosis tinggi. Hindari suplemen berlebihan tanpa anjuran tenaga kesehatan."
+},
+{
+id:"brokoli",title:"Manfaat Brokoli",category:"Sayur",icon:"🥦",
+tags:["vitamin C","folat","serat"],
+intro:"Brokoli merupakan sayuran dari keluarga kubis-kubisan. Brokoli menyediakan vitamin C, folat, serat, serta senyawa tumbuhan khas kelompok ini.",
+nutrients:"Vitamin C, vitamin K, folat, serat, dan glukosinolat.",
+benefits:[
+"Vitamin C mendukung pembentukan kolagen.",
+"Folat membantu pembentukan sel dan DNA.",
+"Serat membantu menunjang kesehatan pencernaan.",
+"Glukosinolat dan senyawa turunannya diteliti terkait proses biologis, tetapi brokoli bukan obat kanker."
+],
+how:"Kukus sebentar, tumis, atau masukkan ke sup. Pengolahan yang tidak terlalu lama dapat membantu mempertahankan beberapa zat gizi.",
+caution:"Brokoli dapat menyebabkan gas pada sebagian orang. Tingkatkan porsinya secara bertahap bila belum terbiasa."
+},
+{
+id:"kangkung",title:"Manfaat Sayur Kangkung",category:"Sayur",icon:"🌿",
+tags:["folat","serat","mineral"],
+intro:"Kangkung populer dalam masakan Indonesia dan dapat menjadi sumber serat serta sejumlah vitamin dan mineral.",
+nutrients:"Folat, karotenoid, vitamin C, serat, dan mineral.",
+benefits:[
+"Folat berperan dalam pembentukan sel.",
+"Serat mendukung fungsi pencernaan.",
+"Karotenoid dapat membantu memenuhi kebutuhan prekursor vitamin A.",
+"Kangkung membantu menambah variasi sayuran hijau dalam menu sehari-hari."
+],
+how:"Pilih kangkung segar, cuci di bawah air mengalir, dan masak sampai matang. Sajikan sebagai tumisan atau sayur bening.",
+caution:"Hindari sayuran mentah dari sumber air yang tidak aman. Cuci dan masak dengan baik untuk mengurangi risiko kontaminasi."
+},
+{
+id:"sawi",title:"Manfaat Sayur Sawi",category:"Sayur",icon:"🥬",
+tags:["vitamin K","folat","serat"],
+intro:"Sawi memiliki beberapa jenis, seperti sawi hijau dan sawi putih. Kandungan gizinya bervariasi menurut jenis dan cara pengolahan.",
+nutrients:"Vitamin K, folat, vitamin C, serat, dan senyawa tumbuhan.",
+benefits:[
+"Vitamin K berperan dalam pembekuan darah normal.",
+"Folat membantu pembentukan sel.",
+"Serat mendukung kesehatan pencernaan.",
+"Sawi dapat menjadi sayuran yang mudah ditambahkan ke sup, tumisan, dan hidangan berkuah."
+],
+how:"Cuci setiap helai dengan air mengalir. Masak hingga sesuai tekstur yang disukai dan batasi garam berlebih.",
+caution:"Jika menggunakan warfarin, jaga pola konsumsi sayuran kaya vitamin K tetap konsisten dan bicarakan perubahan diet dengan dokter."
+},
+{
+id:"kol",title:"Manfaat Sayur Kol",category:"Sayur",icon:"🥬",
+tags:["vitamin C","vitamin K","serat"],
+intro:"Kol atau kubis termasuk keluarga sayuran cruciferous. Kol dapat dimakan mentah atau dimasak dan membantu memperkaya menu sayuran.",
+nutrients:"Vitamin C, vitamin K, serat, folat, dan senyawa tumbuhan.",
+benefits:[
+"Vitamin C mendukung pembentukan kolagen.",
+"Serat membantu menunjang pencernaan.",
+"Kol mengandung senyawa tumbuhan khas keluarga kubis-kubisan.",
+"Kol dapat menjadi pilihan sayuran ekonomis yang mudah dipadukan dengan makanan lain."
+],
+how:"Cuci daun kol dan buang bagian yang rusak. Tambahkan ke sup, tumisan, atau salad dari bahan yang dicuci dengan baik.",
+caution:"Kol dapat meningkatkan gas atau kembung pada sebagian orang. Sesuaikan porsi dan cara pengolahan."
+},
+{
+id:"kembang-kol",title:"Manfaat Kembang Kol",category:"Sayur",icon:"🥦",
+tags:["vitamin C","folat","serat"],
+intro:"Kembang kol adalah sayuran berwarna putih dari keluarga kubis-kubisan. Rasanya relatif ringan sehingga mudah dipadukan dengan banyak hidangan.",
+nutrients:"Vitamin C, folat, serat, vitamin K, dan senyawa tumbuhan.",
+benefits:[
+"Vitamin C membantu pembentukan kolagen.",
+"Folat berperan dalam pembentukan DNA dan sel.",
+"Serat mendukung pencernaan.",
+"Kembang kol dapat menjadi variasi sayuran dalam menu seimbang."
+],
+how:"Kukus, panggang, atau masak dalam sup. Hindari menggoreng berlebihan jika ingin membatasi tambahan minyak.",
+caution:"Seperti sayuran keluarga kubis lainnya, kembang kol bisa menyebabkan gas pada sebagian orang."
+},
+{
+id:"tomat-sayur",title:"Manfaat Tomat dalam Masakan",category:"Sayur",icon:"🍅",
+tags:["likopen","vitamin C","kalium"],
+intro:"Tomat sering digunakan sebagai sayuran dalam masakan. Tomat memberi rasa segar dan menyumbang likopen, vitamin C, serta kalium.",
+nutrients:"Likopen, vitamin C, kalium, dan karotenoid.",
+benefits:[
+"Likopen merupakan pigmen tumbuhan yang diteliti karena sifat antioksidannya.",
+"Vitamin C mendukung pembentukan kolagen.",
+"Kalium membantu fungsi normal saraf dan otot.",
+"Tomat menambah rasa pada masakan sehingga dapat membantu mengurangi kebutuhan garam tambahan."
+],
+how:"Gunakan tomat segar pada salad atau masak dalam sup dan saus. Pilih saus tomat dengan tambahan gula dan garam yang sesuai.",
+caution:"Tomat bersifat asam dan dapat memicu refluks pada sebagian orang."
+},
+{
+id:"mentimun",title:"Manfaat Mentimun",category:"Sayur",icon:"🥒",
+tags:["air","hidrasi","rendah energi"],
+intro:"Mentimun memiliki kandungan air tinggi dan rasa ringan. Mentimun cocok sebagai tambahan salad, lalapan yang bersih, atau pelengkap makanan.",
+nutrients:"Air, sedikit serat, dan sejumlah vitamin K serta mineral.",
+benefits:[
+"Kandungan air membantu melengkapi asupan cairan.",
+"Mentimun memberi tekstur segar dengan energi relatif rendah.",
+"Sayuran ini membantu menambah variasi makanan.",
+"Mengonsumsi mentimun bersama sayuran lain membantu memperluas ragam pangan nabati."
+],
+how:"Cuci mentimun dengan air mengalir. Potong dengan alat bersih dan simpan sisa potongan dalam lemari pendingin.",
+caution:"Mentimun tidak menggantikan kebutuhan air minum. Pastikan mentimun mentah dicuci dengan baik."
+},
+{
+id:"terong",title:"Manfaat Terong",category:"Sayur",icon:"🍆",
+tags:["serat","antosianin","kalium"],
+intro:"Terong memiliki tekstur lembut setelah dimasak. Kulit terong ungu mengandung pigmen antosianin, sedangkan dagingnya menyediakan serat.",
+nutrients:"Serat, mangan, dan antosianin pada kulit berwarna ungu.",
+benefits:[
+"Serat mendukung pencernaan.",
+"Antosianin merupakan senyawa tumbuhan dengan aktivitas antioksidan.",
+"Terong dapat menambah variasi sayuran dan tekstur pada makanan.",
+"Terong dapat dimasak dengan berbagai cara sehingga cocok untuk menu rumahan."
+],
+how:"Panggang, kukus, atau tumis dengan minyak secukupnya. Cuci terong sebelum dipotong.",
+caution:"Terong sering menyerap minyak ketika digoreng. Sesuaikan metode memasak jika ingin membatasi asupan energi."
+},
+{
+id:"labu-kuning",title:"Manfaat Labu Kuning",category:"Sayur",icon:"🎃",
+tags:["beta-karoten","serat","vitamin A"],
+intro:"Labu kuning memiliki daging berwarna jingga yang kaya karotenoid. Labu dapat digunakan untuk sup, kukusan, atau hidangan rumahan.",
+nutrients:"Beta-karoten, serat, kalium, dan karbohidrat.",
+benefits:[
+"Beta-karoten dapat diubah tubuh menjadi vitamin A.",
+"Vitamin A diperlukan untuk penglihatan normal.",
+"Serat membantu menunjang pencernaan.",
+"Labu menambah variasi warna dan rasa pada menu sayuran."
+],
+how:"Kukus atau masak menjadi sup. Padukan dengan sumber protein dan makanan lain agar hidangan lebih seimbang.",
+caution:"Labu tetap mengandung karbohidrat. Perhatikan porsi dan tambahan gula jika dibuat menjadi hidangan manis."
+},
+{
+id:"buncis",title:"Manfaat Buncis",category:"Sayur",icon:"🫛",
+tags:["serat","folat","vitamin C"],
+intro:"Buncis merupakan sayuran polong yang dapat dimasak dalam tumisan, sup, atau campuran lauk.",
+nutrients:"Serat, folat, vitamin C, vitamin K, dan sejumlah mineral.",
+benefits:[
+"Serat membantu menjaga fungsi pencernaan.",
+"Folat berperan dalam pembentukan sel.",
+"Vitamin C mendukung pembentukan kolagen.",
+"Buncis dapat menambah volume sayuran dalam hidangan."
+],
+how:"Cuci buncis, potong ujungnya, lalu masak hingga matang sesuai tekstur yang diinginkan.",
+caution:"Hindari menyimpan buncis matang terlalu lama pada suhu ruang."
+},
+{
+id:"kacang-panjang",title:"Manfaat Kacang Panjang",category:"Sayur",icon:"🌱",
+tags:["serat","folat","protein nabati"],
+intro:"Kacang panjang sering digunakan dalam masakan Indonesia. Sebagai sayuran polong, kacang panjang menyediakan serat dan sejumlah zat gizi.",
+nutrients:"Serat, folat, vitamin C, dan sedikit protein nabati.",
+benefits:[
+"Serat membantu menunjang pencernaan.",
+"Folat berperan dalam pembentukan DNA dan sel.",
+"Kacang panjang menambah variasi sumber pangan nabati.",
+"Sayuran ini dapat dipadukan dengan tahu, tempe, telur, atau ikan untuk hidangan yang lebih lengkap."
+],
+how:"Cuci dan potong kacang panjang, lalu masak hingga matang. Sajikan dalam tumisan atau sayur berkuah.",
+caution:"Masak dengan cara yang higienis dan jangan mengandalkan sayuran saja untuk memenuhi semua kebutuhan protein."
+},
+{
+id:"pare",title:"Manfaat Pare",category:"Sayur",icon:"🥒",
+tags:["serat","vitamin C","rasa pahit"],
+intro:"Pare memiliki rasa pahit khas dan digunakan dalam berbagai masakan. Pare menyediakan serat serta beberapa vitamin dan mineral.",
+nutrients:"Serat, vitamin C, folat, dan sejumlah senyawa tumbuhan.",
+benefits:[
+"Serat mendukung fungsi pencernaan.",
+"Vitamin C membantu pembentukan kolagen.",
+"Pare menambah variasi sayuran dan rasa dalam menu.",
+"Memasak pare dengan bahan lain dapat menghasilkan hidangan yang lebih beragam."
+],
+how:"Cuci, belah, buang biji sesuai kebutuhan, lalu masak sebagai tumisan atau campuran sup.",
+caution:"Pare atau ekstraknya tidak boleh dianggap sebagai pengganti obat diabetes. Konsumsi suplemen pare dapat berisiko, terutama jika memakai obat penurun glukosa."
+},
+{
+id:"daun-singkong",title:"Manfaat Daun Singkong",category:"Sayur",icon:"🌿",
+tags:["protein nabati","folat","mineral"],
+intro:"Daun singkong digunakan sebagai sayuran di berbagai daerah Indonesia. Daun ini menyediakan zat gizi, tetapi wajib diolah dengan benar.",
+nutrients:"Protein nabati, serat, folat, dan mineral dalam jumlah bervariasi.",
+benefits:[
+"Protein nabati membantu memenuhi kebutuhan protein sebagai bagian dari menu beragam.",
+"Serat mendukung pencernaan.",
+"Daun singkong menambah variasi sayuran lokal.",
+"Pengolahan yang benar membuat daun singkong lebih aman untuk dimakan."
+],
+how:"Pilih daun yang baik, cuci bersih, lalu rebus hingga benar-benar matang dan buang air rebusannya sebelum diolah lebih lanjut.",
+caution:"Daun singkong mentah atau kurang matang dapat mengandung senyawa penghasil sianida. Jangan dikonsumsi mentah atau setengah matang."
+},
+{
+id:"daun-kelor",title:"Manfaat Daun Kelor",category:"Sayur",icon:"🌿",
+tags:["karotenoid","kalsium","zat besi"],
+intro:"Daun kelor adalah sayuran lokal yang mengandung berbagai zat gizi. Kandungannya dipengaruhi varietas, kondisi tumbuh, dan cara pengolahan.",
+nutrients:"Karotenoid, vitamin C, kalsium, zat besi, dan protein dalam jumlah bervariasi.",
+benefits:[
+"Karotenoid tertentu dapat menjadi prekursor vitamin A.",
+"Daun kelor menambah keragaman sayuran dalam pola makan.",
+"Sejumlah mineral di dalamnya mendukung fungsi tubuh normal.",
+"Daun kelor dapat menjadi salah satu bagian dari menu beragam, bukan satu-satunya sumber gizi."
+],
+how:"Cuci daun dengan baik dan masak sebagai sayur bening atau campuran makanan.",
+caution:"Jangan menganggap bubuk atau ekstrak kelor sebagai obat untuk penyakit. Konsultasikan dengan tenaga kesehatan sebelum memakai suplemen, khususnya saat hamil atau menggunakan obat."
+},
+{
+id:"daun-katuk",title:"Manfaat Daun Katuk",category:"Sayur",icon:"🍃",
+tags:["folat","vitamin","sayuran hijau"],
+intro:"Daun katuk banyak dikenal sebagai sayuran di Indonesia. Daun ini dapat menjadi bagian dari menu, dengan perhatian pada cara pengolahan dan jumlah konsumsi.",
+nutrients:"Berbagai vitamin, mineral, dan serat; kandungan tepat bergantung pada bahan dan pengolahan.",
+benefits:[
+"Daun katuk menambah variasi sayuran hijau.",
+"Sayuran hijau dapat membantu memenuhi kebutuhan serat dan mikronutrien.",
+"Memakan beragam jenis sayuran membantu mencegah ketergantungan pada satu bahan pangan.",
+"Daun katuk dapat dimasukkan ke hidangan matang sebagai bagian dari pola makan seimbang."
+],
+how:"Cuci daun dan masak dengan baik. Gunakan sebagai bagian dari hidangan yang bervariasi.",
+caution:"Hindari konsumsi daun katuk mentah atau jus daun katuk dalam jumlah besar secara rutin. Konsumsi mentah berlebihan pernah dikaitkan dengan gangguan paru serius."
+},
+{
+id:"daun-singkong-lain",title:"Manfaat Daun Pepaya",category:"Sayur",icon:"🍃",
+tags:["serat","folat","sayuran lokal"],
+intro:"Daun pepaya memiliki rasa pahit dan digunakan dalam masakan tradisional. Daun ini dapat memberikan variasi sayuran apabila diolah dengan baik.",
+nutrients:"Serat dan sejumlah vitamin serta mineral; komposisinya bergantung pada pengolahan.",
+benefits:[
+"Sayuran daun dapat menyumbang serat dalam menu.",
+"Daun pepaya menambah variasi bahan pangan lokal.",
+"Memasak daun dapat membantu melunakkan tekstur dan mengurangi rasa pahit.",
+"Daun pepaya dapat menjadi pelengkap menu, bukan pengganti semua jenis sayuran."
+],
+how:"Pilih daun yang layak konsumsi, cuci bersih, dan masak dengan cara yang lazim serta higienis.",
+caution:"Jangan mengonsumsi ekstrak daun pepaya sebagai obat tanpa arahan tenaga kesehatan, terutama saat hamil atau menggunakan obat rutin."
+},
+{
+id:"jagung",title:"Manfaat Jagung",category:"Sayur",icon:"🌽",
+tags:["karbohidrat","serat","vitamin B"],
+intro:"Jagung adalah pangan berbiji yang sering dikelompokkan sebagai sayuran ketika masih segar. Jagung terutama menyediakan karbohidrat dan serat.",
+nutrients:"Karbohidrat, serat, vitamin B, dan karotenoid pada jagung kuning.",
+benefits:[
+"Karbohidrat menyediakan energi bagi tubuh.",
+"Serat mendukung pencernaan.",
+"Jagung kuning mengandung karotenoid yang dapat menyumbang zat gizi bagi tubuh.",
+"Jagung dapat menjadi sumber karbohidrat alternatif selain nasi."
+],
+how:"Rebus atau kukus jagung, lalu sajikan bersama protein dan sayuran lain. Batasi tambahan garam, mentega, atau saus tinggi gula jika perlu.",
+caution:"Jagung merupakan sumber karbohidrat, jadi porsinya perlu disesuaikan dengan kebutuhan energi dan kondisi kesehatan."
+},
+{
+id:"jamur",title:"Manfaat Jamur Konsumsi",category:"Sayur",icon:"🍄",
+tags:["serat","vitamin B","umami"],
+intro:"Jamur yang aman dimakan dapat memberi tekstur dan rasa umami pada masakan. Kandungan zat gizinya berbeda menurut jenis jamur.",
+nutrients:"Serat tertentu, vitamin B, mineral, dan protein dalam jumlah bervariasi.",
+benefits:[
+"Jamur menambah variasi bahan makanan.",
+"Rasa umaminya dapat membantu memberi cita rasa tanpa harus menggunakan banyak garam.",
+"Jamur menyediakan sejumlah vitamin B dan mineral.",
+"Jamur dapat dipadukan dengan sumber protein lain dalam hidangan."
+],
+how:"Beli jamur konsumsi dari sumber tepercaya, bersihkan dengan cara yang sesuai, dan masak hingga matang.",
+caution:"Jangan pernah memakan jamur liar yang tidak teridentifikasi secara pasti. Beberapa jamur liar sangat beracun."
+},
+{
+id:"paprika",title:"Manfaat Paprika",category:"Sayur",icon:"🫑",
+tags:["vitamin C","karotenoid","serat"],
+intro:"Paprika berwarna merah, kuning, atau hijau memberi warna cerah pada makanan. Paprika merah umumnya mengandung vitamin C dan karotenoid.",
+nutrients:"Vitamin C, karotenoid, serat, dan sejumlah vitamin B.",
+benefits:[
+"Vitamin C membantu pembentukan kolagen.",
+"Karotenoid berperan sebagai pigmen tumbuhan dan beberapa dapat diubah menjadi vitamin A.",
+"Serat mendukung pencernaan.",
+"Paprika membantu menambah warna dan variasi sayuran pada menu."
+],
+how:"Cuci paprika, buang bijinya, lalu sajikan mentah atau masak dalam tumisan dan sup.",
+caution:"Orang yang sensitif terhadap sayuran tertentu dapat menyesuaikan porsi dan cara pengolahan."
+},
+{
+id:"lobak",title:"Manfaat Lobak",category:"Sayur",icon:"🥕",
+tags:["air","serat","vitamin C"],
+intro:"Lobak memiliki rasa segar dan dapat dimakan mentah maupun matang. Lobak menambah variasi sayuran akar dalam menu.",
+nutrients:"Air, serat, vitamin C, dan senyawa tumbuhan.",
+benefits:[
+"Air dan serat membantu melengkapi pola makan.",
+"Vitamin C berperan dalam pembentukan kolagen.",
+"Lobak menambah tekstur renyah dan variasi rasa.",
+"Sayuran akar dapat membantu memperluas keragaman jenis sayuran yang dikonsumsi."
+],
+how:"Cuci dan kupas bila diperlukan. Tambahkan ke sup, tumisan, atau salad dari bahan yang dicuci dengan baik.",
+caution:"Sayuran mentah harus dicuci secara menyeluruh. Jika pencernaan sensitif, coba porsi kecil terlebih dahulu."
+},
+{
+id:"bawang-bombai",title:"Manfaat Bawang Bombai",category:"Sayur",icon:"🧅",
+tags:["senyawa sulfur","rasa","serat"],
+intro:"Bawang bombai memberi aroma dan rasa pada masakan. Bawang mengandung serat serta senyawa sulfur dan polifenol.",
+nutrients:"Serat, vitamin C dalam jumlah tertentu, dan senyawa tumbuhan.",
+benefits:[
+"Bawang membantu memberi rasa sehingga masakan bisa terasa nikmat dengan garam lebih sedikit.",
+"Senyawa tumbuhan dalam bawang diteliti terkait aktivitas biologisnya.",
+"Bawang dapat menjadi bagian dari pola makan beragam.",
+"Serat bawang menyumbang sedikit tambahan serat dalam hidangan."
+],
+how:"Tumis atau masak bawang sebagai dasar sup, saus, dan lauk. Gunakan minyak secukupnya.",
+caution:"Bawang dapat memicu kembung pada orang yang sensitif terhadap karbohidrat fermentabel tertentu."
+},
+{
+id:"bawang-putih",title:"Manfaat Bawang Putih",category:"Sayur",icon:"🧄",
+tags:["allicin","aroma","masakan"],
+intro:"Bawang putih sering digunakan sebagai bumbu. Ketika dihancurkan, bawang putih membentuk senyawa sulfur seperti allicin, tetapi efeknya tidak sama dengan obat.",
+nutrients:"Senyawa sulfur, sedikit vitamin B6, mangan, dan zat gizi lainnya dalam jumlah kecil pada porsi bumbu.",
+benefits:[
+"Bawang putih menambah aroma dan rasa masakan.",
+"Menggunakan bumbu dapat membantu mengurangi ketergantungan pada garam untuk memberi rasa.",
+"Senyawa bawang putih diteliti dalam berbagai studi, tetapi hasilnya tidak membuktikan bawang putih menyembuhkan penyakit.",
+"Bawang putih dapat menjadi bagian dari pola makan normal sebagai bumbu."
+],
+how:"Gunakan bawang putih segar atau matang dalam masakan. Simpan dengan baik dan hindari membuat campuran bawang putih dalam minyak lalu menyimpannya pada suhu ruang.",
+caution:"Suplemen bawang putih dapat berinteraksi dengan obat pengencer darah dan memengaruhi risiko perdarahan. Konsultasikan sebelum menggunakan suplemen."
+},
+{
+id:"bawang-merah",title:"Manfaat Bawang Merah",category:"Sayur",icon:"🧅",
+tags:["polifenol","rasa","senyawa sulfur"],
+intro:"Bawang merah merupakan bumbu penting dalam masakan Indonesia. Selain memberi aroma, bawang mengandung senyawa tumbuhan.",
+nutrients:"Senyawa sulfur, polifenol, dan sejumlah vitamin dalam jumlah kecil.",
+benefits:[
+"Bawang merah membantu meningkatkan cita rasa masakan.",
+"Senyawa tumbuhan di dalamnya diteliti karena aktivitas biologisnya.",
+"Bawang dapat membantu membangun rasa pada masakan dengan penggunaan garam yang lebih terukur.",
+"Bawang merah merupakan bagian dari keragaman bahan pangan nabati."
+],
+how:"Gunakan dalam bumbu tumis, sambal, atau sup. Masak dengan minyak secukupnya.",
+caution:"Bawang dapat menyebabkan iritasi pencernaan pada sebagian orang, terutama dalam jumlah besar."
+},
+
+/* ==================== KACANG DAN BIJI ==================== */
+{
+id:"kacang-tanah",title:"Manfaat Kacang Tanah",category:"Kacang dan biji",icon:"🥜",
+tags:["protein","lemak tak jenuh","vitamin E"],
+intro:"Kacang tanah merupakan sumber protein nabati, lemak tak jenuh, dan energi. Kacang dapat membantu melengkapi menu jika porsinya sesuai.",
+nutrients:"Protein, lemak tak jenuh, serat, vitamin E, niasin, dan magnesium.",
+benefits:[
+"Protein membantu membangun dan memperbaiki jaringan tubuh.",
+"Lemak tak jenuh dapat menjadi bagian dari pola makan yang mendukung kesehatan jantung.",
+"Serat membantu menunjang pencernaan.",
+"Kacang tanah dapat memberi rasa kenyang dan menambah variasi sumber protein."
+],
+how:"Pilih kacang tanpa banyak garam atau gula. Konsumsi sebagai camilan atau tambahkan sedikit ke makanan.",
+caution:"Alergi kacang tanah dapat menyebabkan reaksi berat. Orang dengan alergi harus menghindarinya dan memperhatikan kemungkinan kontaminasi silang."
+},
+{
+id:"kacang-hijau",title:"Manfaat Kacang Hijau",category:"Kacang dan biji",icon:"🫘",
+tags:["protein","folat","serat"],
+intro:"Kacang hijau merupakan sumber protein nabati dan serat. Kacang ini dapat diolah menjadi sup, bubur, atau hidangan lain.",
+nutrients:"Protein, serat, folat, zat besi, dan magnesium.",
+benefits:[
+"Protein membantu perbaikan jaringan dan fungsi tubuh.",
+"Folat berperan dalam pembentukan sel.",
+"Serat membantu pencernaan dan mendukung rasa kenyang.",
+"Kacang hijau dapat membantu menambah variasi sumber protein nabati."
+],
+how:"Rendam jika diperlukan, lalu rebus hingga benar-benar empuk. Batasi gula tambahan pada bubur kacang hijau.",
+caution:"Tambahkan kacang secara bertahap jika belum terbiasa makan banyak serat untuk mengurangi kembung."
+},
+{
+id:"kedelai",title:"Manfaat Kedelai",category:"Kacang dan biji",icon:"🫘",
+tags:["protein lengkap","serat","isoflavon"],
+intro:"Kedelai adalah sumber protein nabati berkualitas yang digunakan dalam tempe, tahu, susu kedelai, dan berbagai produk lainnya.",
+nutrients:"Protein, lemak tak jenuh, serat, zat besi, dan isoflavon.",
+benefits:[
+"Protein kedelai mengandung semua asam amino esensial yang diperlukan tubuh.",
+"Kedelai dapat menjadi alternatif protein selain daging.",
+"Produk kedelai tertentu menyediakan serat dan mineral.",
+"Isoflavon merupakan senyawa tumbuhan yang diteliti dalam berbagai aspek kesehatan."
+],
+how:"Pilih tahu, tempe, atau kedelai yang dimasak dengan baik. Variasikan sumber protein sepanjang minggu.",
+caution:"Kedelai dapat menyebabkan alergi. Suplemen isoflavon bukan pengganti makanan dan sebaiknya dibahas dengan tenaga kesehatan bila memiliki kondisi khusus."
+},
+{
+id:"tempe",title:"Manfaat Tempe",category:"Kacang dan biji",icon:"🍽️",
+tags:["protein","fermentasi","zat besi"],
+intro:"Tempe adalah pangan fermentasi berbahan kedelai yang populer di Indonesia. Tempe merupakan sumber protein nabati yang terjangkau.",
+nutrients:"Protein, lemak, serat dalam jumlah tertentu, zat besi, dan vitamin B.",
+benefits:[
+"Protein membantu pemeliharaan dan perbaikan jaringan tubuh.",
+"Tempe dapat menjadi sumber protein utama atau pelengkap dalam hidangan.",
+"Fermentasi mengubah sebagian komponen kedelai dan menghasilkan karakteristik rasa khas.",
+"Tempe dapat dipadukan dengan sayuran dan sumber karbohidrat untuk menu seimbang."
+],
+how:"Kukus, panggang, pepes, atau tumis tempe. Pilih cara masak dengan minyak secukupnya.",
+caution:"Pastikan tempe segar dan diolah secara higienis. Tempe yang berbau tidak normal atau menunjukkan pembusukan sebaiknya dibuang."
+},
+{
+id:"tahu",title:"Manfaat Tahu",category:"Kacang dan biji",icon:"◻️",
+tags:["protein","kalsium","kedelai"],
+intro:"Tahu merupakan pangan kedelai yang mudah diolah. Kandungan kalsiumnya bergantung pada bahan penggumpal yang digunakan saat produksi.",
+nutrients:"Protein, lemak dalam jumlah bervariasi, zat besi, dan kalsium pada jenis tertentu.",
+benefits:[
+"Protein tahu mendukung pemeliharaan jaringan tubuh.",
+"Tahu dapat menjadi alternatif protein hewani.",
+"Jenis tahu yang dibuat dengan garam kalsium dapat menyumbang kalsium untuk tulang.",
+"Tahu mudah dipadukan dengan sayuran dan sumber karbohidrat."
+],
+how:"Pilih tahu segar, simpan dalam lemari pendingin, dan masak sampai panas merata.",
+caution:"Periksa label atau informasi produk jika perlu memperhatikan kandungan garam atau bahan tambahan."
+},
+{
+id:"kacang-merah",title:"Manfaat Kacang Merah",category:"Kacang dan biji",icon:"🫘",
+tags:["serat","protein","folat"],
+intro:"Kacang merah merupakan sumber protein nabati, karbohidrat kompleks, dan serat. Kacang ini sering digunakan dalam sup dan masakan rumahan.",
+nutrients:"Protein, serat, folat, zat besi, dan kalium.",
+benefits:[
+"Protein membantu membangun dan memperbaiki jaringan tubuh.",
+"Serat membantu mendukung pencernaan.",
+"Folat berperan dalam pembentukan sel.",
+"Kacang merah dapat membantu membuat makanan lebih mengenyangkan."
+],
+how:"Kacang merah kering harus direndam sesuai petunjuk keamanan pangan dan direbus hingga benar-benar matang. Kacang kalengan dapat dibilas untuk mengurangi sebagian garam.",
+caution:"Kacang merah mentah atau kurang matang mengandung fitohemaglutinin yang dapat menyebabkan keracunan. Jangan memasaknya hanya dengan slow cooker bersuhu rendah."
+},
+{
+id:"almond",title:"Manfaat Kacang Almond",category:"Kacang dan biji",icon:"🥜",
+tags:["vitamin E","lemak tak jenuh","magnesium"],
+intro:"Almond menyediakan lemak tak jenuh, serat, protein, dan vitamin E. Kacang ini cukup padat energi sehingga porsinya perlu disesuaikan.",
+nutrients:"Lemak tak jenuh, protein, serat, vitamin E, dan magnesium.",
+benefits:[
+"Vitamin E berperan sebagai antioksidan yang membantu melindungi sel.",
+"Lemak tak jenuh merupakan bagian dari pola makan yang seimbang.",
+"Protein dan serat dapat membantu rasa kenyang.",
+"Almond menambah variasi sumber lemak dan protein nabati."
+],
+how:"Nikmati segenggam kecil almond tanpa banyak garam atau gula sebagai camilan.",
+caution:"Almond dapat memicu alergi kacang pohon. Hindari jika alergi dan perhatikan risiko tersedak pada anak kecil."
+},
+{
+id:"biji-chia",title:"Manfaat Biji Chia",category:"Kacang dan biji",icon:"⚫",
+tags:["serat","omega-3 ALA","mineral"],
+intro:"Biji chia mengandung serat dan asam lemak omega-3 jenis ALA. Biji kecil ini menyerap cairan sehingga dapat mengental.",
+nutrients:"Serat, ALA, protein, kalsium, dan magnesium.",
+benefits:[
+"Serat membantu menunjang pencernaan.",
+"ALA merupakan jenis lemak esensial yang diperlukan tubuh.",
+"Chia dapat menambah tekstur pada oatmeal atau yoghurt.",
+"Kandungan serat dapat membantu menambah rasa kenyang sebagai bagian dari makanan."
+],
+how:"Campurkan chia dengan cairan dan biarkan mengembang sebelum dimakan. Tambahkan sedikit ke oatmeal atau yoghurt.",
+caution:"Jangan menelan biji chia kering dalam jumlah besar, terutama jika kesulitan menelan, karena biji mengembang saat terkena cairan."
+},
+{
+id:"biji-wijen",title:"Manfaat Biji Wijen",category:"Kacang dan biji",icon:"⚪",
+tags:["kalsium","lemak tak jenuh","mineral"],
+intro:"Wijen digunakan sebagai taburan dan bahan pasta. Bijinya mengandung lemak tak jenuh serta mineral, dengan kandungan yang berbeda menurut proses pengolahan.",
+nutrients:"Lemak tak jenuh, protein, kalsium, magnesium, dan zat besi.",
+benefits:[
+"Wijen menambah variasi lemak dan mineral dalam menu.",
+"Protein membantu mendukung fungsi dan perbaikan jaringan.",
+"Mineral seperti magnesium berperan dalam banyak proses tubuh.",
+"Wijen dapat menambah rasa dan tekstur pada hidangan."
+],
+how:"Gunakan wijen sebagai taburan salad, sayur, atau lauk. Pasta wijen dapat menjadi bahan saus.",
+caution:"Wijen merupakan alergen bagi sebagian orang. Perhatikan label makanan olahan."
+},
+{
+id:"biji-labu",title:"Manfaat Biji Labu",category:"Kacang dan biji",icon:"🎃",
+tags:["magnesium","protein","lemak tak jenuh"],
+intro:"Biji labu yang telah diproses untuk dimakan dapat menjadi camilan kaya mineral, protein, dan lemak tak jenuh.",
+nutrients:"Protein, lemak tak jenuh, magnesium, seng, dan zat besi.",
+benefits:[
+"Protein membantu pemeliharaan jaringan tubuh.",
+"Magnesium diperlukan untuk fungsi otot, saraf, dan metabolisme.",
+"Seng mendukung fungsi kekebalan dan penyembuhan luka.",
+"Biji labu menambah variasi sumber mineral."
+],
+how:"Pilih biji labu siap makan dari sumber tepercaya. Tambahkan sedikit ke oatmeal atau salad.",
+caution:"Biji dapat menjadi risiko tersedak bagi anak kecil. Porsi besar juga menambah asupan energi secara signifikan."
+},
+
+/* ==================== REMPAH DAN BAHAN MASAK ==================== */
+{
+id:"jahe",title:"Manfaat Jahe",category:"Rempah",icon:"🫚",
+tags:["aroma","gingerol","mual"],
+intro:"Jahe adalah rimpang yang digunakan sebagai bumbu dan minuman. Beberapa penelitian menunjukkan jahe dapat membantu keluhan mual tertentu, tetapi bukti dan efektivitas bergantung pada kondisi serta bentuk penggunaannya.",
+nutrients:"Senyawa gingerol dan shogaol serta sejumlah zat gizi dalam jumlah kecil pada porsi bumbu.",
+benefits:[
+"Jahe memberi aroma dan rasa hangat pada makanan dan minuman.",
+"Penelitian pada bentuk dan dosis tertentu menunjukkan kemungkinan manfaat untuk beberapa jenis mual.",
+"Senyawa jahe sedang diteliti terkait berbagai proses biologis, tetapi jahe bukan obat untuk semua penyakit.",
+"Jahe dapat digunakan sebagai bumbu untuk menambah cita rasa."
+],
+how:"Tambahkan irisan jahe ke sup, tumisan, atau seduhan. Minuman jahe tidak harus diberi banyak gula.",
+caution:"Suplemen jahe dapat berinteraksi dengan obat tertentu dan menyebabkan keluhan pencernaan. Konsultasikan sebelum memakai dosis tinggi, terutama saat hamil atau menggunakan obat rutin."
+},
+{
+id:"kunyit",title:"Manfaat Kunyit",category:"Rempah",icon:"🟠",
+tags:["kurkumin","bumbu","antioksidan"],
+intro:"Kunyit memberi warna kuning pada makanan dan mengandung kurkuminoid. Bukti manfaat suplemen kunyit untuk berbagai penyakit masih beragam dan tidak boleh dianggap sebagai pengganti pengobatan.",
+nutrients:"Kurkumin dan senyawa tumbuhan lain; jumlahnya bergantung pada jenis dan pengolahan.",
+benefits:[
+"Kunyit membantu memberi warna dan aroma pada masakan.",
+"Kurkumin diteliti terkait aktivitas antioksidan dan proses peradangan.",
+"Hasil penelitian laboratorium tidak berarti kunyit dapat menyembuhkan penyakit pada manusia.",
+"Penggunaan kunyit sebagai bumbu dapat menambah variasi rasa tanpa banyak tambahan garam."
+],
+how:"Gunakan kunyit segar atau bubuk sebagai bumbu sup, kari, dan masakan rumahan.",
+caution:"Suplemen kunyit berkonsentrasi tinggi dapat menimbulkan efek samping atau interaksi obat. Produk tertentu juga pernah dikaitkan dengan gangguan hati."
+},
+{
+id:"kencur",title:"Manfaat Kencur",category:"Rempah",icon:"🌿",
+tags:["aroma","bumbu tradisional","rimpang"],
+intro:"Kencur merupakan rimpang aromatik yang digunakan dalam masakan dan minuman tradisional Indonesia. Data klinis untuk klaim pengobatan tertentu masih terbatas.",
+nutrients:"Senyawa aromatik dan zat tumbuhan dalam jumlah yang bervariasi.",
+benefits:[
+"Kencur memberikan aroma khas pada makanan dan minuman.",
+"Rimpang dapat menambah keragaman bumbu dalam masakan.",
+"Penggunaan sebagai bumbu berbeda dari penggunaan ekstrak pekat sebagai obat.",
+"Minuman tradisional dapat dinikmati sebagai bagian dari kebiasaan makan, dengan memperhatikan kebersihan dan gula tambahan."
+],
+how:"Cuci kencur, gunakan secukupnya dalam bumbu, atau olah dalam resep tradisional yang higienis.",
+caution:"Jangan mengganti pengobatan yang diresepkan dengan jamu atau ekstrak kencur. Konsultasikan penggunaan produk pekat bila sedang hamil atau memakai obat."
+},
+{
+id:"serai",title:"Manfaat Serai",category:"Rempah",icon:"🌾",
+tags:["aroma","minuman","bumbu"],
+intro:"Serai atau sereh digunakan untuk memberi aroma pada sup, masakan, dan minuman. Manfaat utamanya dalam menu adalah sebagai bahan penyedap.",
+nutrients:"Senyawa aromatik seperti sitral; jumlah zat gizi pada porsi bumbu relatif kecil.",
+benefits:[
+"Serai menambah aroma sehingga masakan terasa lebih kaya.",
+"Bumbu aromatik dapat membantu mengurangi kebutuhan akan garam tambahan pada beberapa resep.",
+"Serai menambah variasi bahan pangan dalam menu.",
+"Seduhan serai dapat menjadi minuman tanpa kafein jika tidak dicampur teh berkafein."
+],
+how:"Memarkan batang serai sebelum dimasukkan ke sup atau seduhan. Saring bagian keras sebelum diminum.",
+caution:"Bukti bahwa seduhan serai mengobati penyakit masih terbatas. Hindari minyak esensial pekat untuk diminum."
+},
+{
+id:"kayu-manis",title:"Manfaat Kayu Manis",category:"Rempah",icon:"🪵",
+tags:["aroma","polifenol","bumbu"],
+intro:"Kayu manis merupakan rempah beraroma manis yang sering digunakan dalam makanan dan minuman. Bukti manfaatnya terhadap pengendalian glukosa darah masih belum cukup untuk menggantikan terapi medis.",
+nutrients:"Senyawa aromatik dan polifenol; jumlahnya bergantung pada jenis kayu manis.",
+benefits:[
+"Kayu manis memberi rasa dan aroma sehingga dapat membantu mengurangi kebutuhan gula dalam beberapa resep.",
+"Senyawa tumbuhannya sedang diteliti dalam berbagai aspek kesehatan.",
+"Penggunaan dalam jumlah bumbu berbeda dari konsumsi ekstrak atau suplemen dosis tinggi.",
+"Kayu manis dapat memperkaya rasa oatmeal, buah, atau minuman."
+],
+how:"Gunakan sedikit bubuk kayu manis atau batangnya dalam masakan. Pilih resep dengan gula tambahan yang wajar.",
+caution:"Kayu manis jenis cassia dapat mengandung kumarin yang tinggi; konsumsi besar dan berkepanjangan dapat berisiko bagi hati. Jangan mengganti obat diabetes dengan kayu manis."
+},
+{
+id:"lada-hitam",title:"Manfaat Lada Hitam",category:"Rempah",icon:"⚫",
+tags:["piperin","aroma","bumbu"],
+intro:"Lada hitam adalah rempah yang memberi rasa pedas dan mengandung piperin. Dalam masakan, lada dapat membantu memperkaya cita rasa.",
+nutrients:"Piperin dan senyawa aromatik; digunakan dalam jumlah kecil.",
+benefits:[
+"Lada menambah rasa pada makanan.",
+"Bumbu dapat membantu mengurangi ketergantungan pada garam untuk menambah cita rasa.",
+"Piperin diteliti terkait penyerapan senyawa tertentu, tetapi efeknya juga dapat memengaruhi obat.",
+"Lada dapat menjadi bagian dari bumbu sehari-hari dalam jumlah wajar."
+],
+how:"Tambahkan lada secukupnya ke sup, tumisan, telur, atau hidangan lainnya.",
+caution:"Piperin pekat dapat memengaruhi metabolisme beberapa obat. Gunakan sebagai bumbu biasa dan konsultasikan sebelum memakai suplemen."
+},
+{
+id:"cabai",title:"Manfaat Cabai",category:"Rempah",icon:"🌶️",
+tags:["vitamin C","kapsaisin","rasa"],
+intro:"Cabai memberi rasa pedas karena mengandung kapsaisin. Jenis dan tingkat kepedasan menentukan pengalaman saat mengonsumsinya.",
+nutrients:"Vitamin C pada sejumlah jenis cabai, karotenoid, dan kapsaisin.",
+benefits:[
+"Cabai dapat menambah cita rasa pada makanan.",
+"Beberapa jenis cabai mengandung vitamin C dan karotenoid.",
+"Kapsaisin digunakan dalam produk topikal tertentu untuk nyeri, tetapi memakan cabai tidak sama dengan memakai produk tersebut.",
+"Cabai dapat membantu membangun rasa tanpa harus menambahkan banyak garam."
+],
+how:"Gunakan cabai sesuai toleransi. Cuci tangan setelah memotong cabai dan hindari menyentuh mata.",
+caution:"Cabai dapat memperburuk refluks, iritasi lambung, atau gangguan usus pada sebagian orang. Sesuaikan porsi dengan toleransi."
+},
+
+/* ==================== POLA MAKAN DAN HIDUP SEHAT ==================== */
+{
+id:"makan-seimbang",title:"Manfaat Pola Makan Seimbang",category:"Pola hidup",icon:"🍽️",
+tags:["gizi","energi","kesehatan"],
+intro:"Pola makan seimbang menggabungkan beragam sumber karbohidrat, protein, lemak, sayur, buah, dan cairan sesuai kebutuhan tubuh.",
+nutrients:"Berbagai zat gizi makro dan mikro dari kombinasi pangan yang beragam.",
+benefits:[
+"Menyediakan energi dan zat gizi untuk aktivitas harian.",
+"Membantu tubuh memperoleh protein, vitamin, mineral, dan serat dari berbagai sumber.",
+"Variasi makanan mengurangi ketergantungan pada satu bahan pangan.",
+"Pola makan yang sesuai kebutuhan dapat mendukung kesehatan jangka panjang."
+],
+how:"Isi menu dengan sayuran dan buah, sumber protein seperti ikan, telur, tahu atau tempe, serta sumber karbohidrat seperti nasi atau umbi. Sesuaikan porsi dengan kebutuhan.",
+caution:"Kebutuhan gizi dipengaruhi usia, aktivitas, kondisi kesehatan, kehamilan, dan faktor lain. Diet khusus sebaiknya dibahas dengan tenaga kesehatan."
+},
+{
+id:"manfaat-air",title:"Pentingnya Minum Air",category:"Pola hidup",icon:"💧",
+tags:["hidrasi","cairan","konsentrasi"],
+intro:"Air membantu mengatur suhu tubuh, mengangkut zat, dan mendukung fungsi organ. Kebutuhan cairan setiap orang tidak selalu sama.",
+nutrients:"Air tidak menyediakan energi, tetapi sangat penting bagi fungsi tubuh.",
+benefits:[
+"Air membantu mempertahankan volume cairan tubuh.",
+"Cairan diperlukan untuk pengaturan suhu melalui keringat.",
+"Asupan cairan yang cukup membantu fungsi normal ginjal dan pencernaan.",
+"Minum air putih dapat mengurangi kebutuhan minuman tinggi gula."
+],
+how:"Minum secara teratur sepanjang hari dan tambah cairan sesuai cuaca, aktivitas, serta kondisi tubuh. Perhatikan rasa haus dan warna urine sebagai petunjuk umum, bukan diagnosis.",
+caution:"Orang dengan gagal jantung, penyakit ginjal tertentu, atau kondisi lain mungkin memiliki batasan cairan khusus. Ikuti anjuran dokter."
+},
+{
+id:"manfaat-serat",title:"Manfaat Serat untuk Pencernaan",category:"Pola hidup",icon:"🌾",
+tags:["pencernaan","buah","sayuran"],
+intro:"Serat terdapat dalam buah, sayuran, kacang-kacangan, biji-bijian utuh, dan polong-polongan. Berbagai jenis serat memiliki fungsi yang berbeda.",
+nutrients:"Serat pangan, yang tidak dicerna sepenuhnya seperti karbohidrat biasa.",
+benefits:[
+"Serat membantu menjaga keteraturan buang air besar.",
+"Sebagian serat dapat difermentasi oleh bakteri usus.",
+"Makanan kaya serat dapat membantu rasa kenyang.",
+"Jenis serat tertentu dapat membantu mengelola kadar kolesterol atau glukosa sebagai bagian dari pola makan."
+],
+how:"Tambahkan buah utuh, sayuran, kacang, dan biji-bijian utuh secara bertahap. Minum cukup sesuai kebutuhan.",
+caution:"Meningkatkan serat terlalu cepat dapat menyebabkan gas atau kembung. Jika memiliki penyakit saluran cerna, ikuti saran tenaga kesehatan."
+},
+{
+id:"protein",title:"Manfaat Protein bagi Tubuh",category:"Pola hidup",icon:"🥚",
+tags:["otot","jaringan","pemulihan"],
+intro:"Protein tersusun dari asam amino yang digunakan tubuh untuk membangun dan memperbaiki jaringan serta membuat enzim dan hormon tertentu.",
+nutrients:"Asam amino dari makanan hewani maupun nabati.",
+benefits:[
+"Protein mendukung pertumbuhan dan perbaikan jaringan.",
+"Protein diperlukan untuk membuat berbagai enzim dan molekul tubuh.",
+"Protein membantu mempertahankan massa otot bersama aktivitas fisik yang sesuai.",
+"Beragam sumber protein dapat menyediakan zat gizi lain seperti zat besi, kalsium, atau serat."
+],
+how:"Variasikan ikan, telur, susu jika cocok, daging tanpa lemak, tahu, tempe, dan kacang-kacangan.",
+caution:"Kebutuhan protein bergantung pada usia, aktivitas, kehamilan, dan kondisi kesehatan. Orang dengan penyakit ginjal tertentu mungkin memerlukan pengaturan khusus."
+},
+{
+id:"sarapan",title:"Manfaat Sarapan Bergizi",category:"Pola hidup",icon:"🥣",
+tags:["energi","konsentrasi","kebiasaan"],
+intro:"Sarapan dapat membantu sebagian orang memenuhi kebutuhan energi dan zat gizi, meskipun waktu makan yang paling tepat berbeda menurut rutinitas dan kondisi individu.",
+nutrients:"Bergantung pada menu, misalnya karbohidrat, protein, serat, vitamin, dan mineral.",
+benefits:[
+"Menu sarapan yang sesuai dapat membantu memenuhi kebutuhan gizi harian.",
+"Kombinasi karbohidrat berserat dan protein dapat membantu rasa kenyang.",
+"Buah, telur, yoghurt, atau biji-bijian dapat menambah keragaman zat gizi.",
+"Rencana sarapan yang praktis dapat membantu membangun rutinitas makan."
+],
+how:"Coba oatmeal dengan buah, nasi dengan telur dan sayur, atau roti gandum dengan protein sesuai selera dan kebutuhan.",
+caution:"Sarapan bukan kewajiban yang sama bagi setiap orang. Pilih pola makan yang sesuai kebutuhan, obat, dan kondisi kesehatan."
+},
+{
+id:"buah-utuh",title:"Manfaat Memilih Buah Utuh",category:"Pola hidup",icon:"🍎",
+tags:["serat","gula tambahan","camilan"],
+intro:"Buah utuh mengandung air dan serat alami. Jus, sirup buah, serta minuman rasa buah dapat memiliki komposisi yang berbeda.",
+nutrients:"Vitamin, mineral, serat, air, dan karbohidrat alami.",
+benefits:[
+"Buah utuh menyediakan serat yang berkurang ketika buah dijus dan disaring.",
+"Mengunyah buah utuh dapat membantu memberi rasa kenyang.",
+"Buah dapat menjadi pengganti camilan yang tinggi gula tambahan.",
+"Beragam warna buah membantu memperluas variasi zat gizi dan senyawa tumbuhan."
+],
+how:"Sediakan buah yang mudah dijangkau, cuci sebelum dimakan, dan variasikan jenisnya sesuai musim.",
+caution:"Buah kering dan jus dapat dikonsumsi, tetapi porsinya perlu diperhatikan karena lebih mudah dikonsumsi dalam jumlah besar."
+},
+{
+id:"sayur-harian",title:"Mengapa Sayur Perlu Dikonsumsi?",category:"Pola hidup",icon:"🥦",
+tags:["serat","vitamin","mineral"],
+intro:"Sayuran menyediakan serat, vitamin, mineral, air, dan senyawa tumbuhan. Setiap jenis sayuran memiliki kandungan berbeda, sehingga variasi sangat penting.",
+nutrients:"Serat, folat, vitamin C, vitamin K, karotenoid, dan berbagai mineral.",
+benefits:[
+"Sayuran membantu memenuhi kebutuhan serat.",
+"Sayuran berwarna hijau dan jingga dapat menyediakan berbagai vitamin dan karotenoid.",
+"Memperbanyak pilihan sayur membantu membangun menu yang beragam.",
+"Sayuran dapat menambah volume makanan dengan energi relatif rendah, tergantung cara pengolahannya."
+],
+how:"Tambahkan sayur ke hidangan utama, sup, tumisan, atau menu sarapan. Pilih sayuran yang mudah didapat dan sesuai anggaran.",
+caution:"Sayuran mentah harus dicuci dengan baik. Metode pengolahan dan saus tambahan dapat mengubah kandungan garam, gula, serta energi."
+},
+{
+id:"tidur-sehat",title:"Manfaat Tidur yang Cukup",category:"Pola hidup",icon:"🌙",
+tags:["pemulihan","konsentrasi","rutinitas"],
+intro:"Tidur yang cukup dan teratur mendukung kesehatan fisik, suasana hati, konsentrasi, dan fungsi tubuh sehari-hari.",
+nutrients:"Bukan zat gizi; tidur merupakan kebutuhan biologis.",
+benefits:[
+"Tidur membantu fungsi perhatian, pembelajaran, dan memori.",
+"Tidur mendukung pemulihan fisik.",
+"Rutinitas tidur yang teratur dapat membantu menjaga ritme biologis.",
+"Tidur yang baik berkontribusi pada pengaturan suasana hati dan fungsi sehari-hari."
+],
+how:"Usahakan jadwal tidur dan bangun yang konsisten, kurangi kafein menjelang tidur, dan buat kamar nyaman serta gelap.",
+caution:"Jika mendengkur keras, sering terbangun, atau mengalami kantuk berat pada siang hari, konsultasikan dengan tenaga kesehatan."
+},
+{
+id:"aktivitas-fisik",title:"Manfaat Aktivitas Fisik Harian",category:"Pola hidup",icon:"🚶",
+tags:["jantung","otot","kebugaran"],
+intro:"Aktivitas fisik mencakup berjalan, bersepeda, menari, olahraga, dan pekerjaan rumah. Aktivitas yang sesuai kemampuan dapat mendukung kesehatan secara menyeluruh.",
+nutrients:"Bukan zat gizi; aktivitas fisik menggunakan energi dan melatih fungsi tubuh.",
+benefits:[
+"Aktivitas teratur mendukung kesehatan jantung dan pembuluh darah.",
+"Latihan kekuatan membantu mempertahankan kekuatan otot.",
+"Gerak tubuh dapat mendukung keseimbangan, mobilitas, dan fungsi sehari-hari.",
+"Aktivitas fisik dapat membantu tidur dan suasana hati pada banyak orang."
+],
+how:"Mulai dari berjalan singkat, gunakan tangga jika aman, dan tambah durasi secara bertahap sesuai kemampuan.",
+caution:"Pilih aktivitas yang aman untuk kondisi tubuh. Jika memiliki penyakit atau gejala saat berolahraga, konsultasikan dengan tenaga kesehatan."
+},
+{
+id:"kurangi-gula",title:"Cara Mengurangi Gula Tambahan",category:"Pola hidup",icon:"🥤",
+tags:["minuman","kebiasaan","gizi"],
+intro:"Gula tambahan sering ditemukan pada minuman manis, teh kemasan, kue, saus, dan makanan olahan. Menguranginya dapat membantu mengendalikan asupan energi.",
+nutrients:"Topik pola makan, bukan satu bahan pangan.",
+benefits:[
+"Mengganti sebagian minuman manis dengan air dapat mengurangi asupan gula tambahan.",
+"Membiasakan rasa yang kurang manis dapat memudahkan pemilihan makanan.",
+"Membaca label membantu mengenali gula dalam produk kemasan.",
+"Buah utuh dapat menjadi alternatif untuk memenuhi keinginan akan rasa manis."
+],
+how:"Kurangi gula pada teh atau kopi sedikit demi sedikit. Pilih air putih lebih sering dan periksa daftar bahan pada label makanan.",
+caution:"Tidak semua gula memiliki sumber atau konteks yang sama. Ikuti arahan medis jika memiliki diabetes atau kondisi lain yang membutuhkan pengaturan makan."
+},
+{
+id:"kurangi-garam",title:"Cara Mengurangi Garam",category:"Pola hidup",icon:"🧂",
+tags:["tekanan darah","bumbu","label pangan"],
+intro:"Natrium dibutuhkan tubuh dalam jumlah tertentu, tetapi asupan berlebihan dapat berkontribusi pada tekanan darah tinggi pada banyak orang.",
+nutrients:"Natrium merupakan mineral elektrolit.",
+benefits:[
+"Mengurangi garam berlebihan dapat membantu mendukung pengelolaan tekanan darah.",
+"Membaca label membantu membandingkan kadar natrium produk.",
+"Bumbu aromatik seperti bawang, serai, jahe, dan rempah dapat memberi rasa tambahan.",
+"Mengurangi makanan sangat asin membantu membangun kebiasaan makan yang lebih seimbang."
+],
+how:"Cicipi makanan sebelum menambah garam, gunakan rempah, dan periksa natrium pada makanan kemasan.",
+caution:"Kebutuhan natrium dapat berbeda menurut kondisi kesehatan dan aktivitas. Jangan melakukan pembatasan ekstrem tanpa saran profesional."
+},
+{
+id:"makan-beragam",title:"Pentingnya Makanan yang Beragam",category:"Pola hidup",icon:"🌈",
+tags:["variasi","vitamin","mineral"],
+intro:"Tidak ada satu buah, sayur, atau suplemen yang menyediakan semua zat gizi dalam jumlah ideal. Keragaman makanan membantu memenuhi kebutuhan tubuh.",
+nutrients:"Berbagai zat gizi makro, vitamin, mineral, serat, dan senyawa tumbuhan.",
+benefits:[
+"Variasi membantu memperluas jenis zat gizi yang didapat.",
+"Mengganti-ganti sumber protein memberi pilihan zat gizi yang berbeda.",
+"Beragam buah dan sayur menyediakan jenis serat dan pigmen tumbuhan yang berbeda.",
+"Menu bervariasi membantu mengurangi ketergantungan pada klaim manfaat satu makanan."
+],
+how:"Coba memilih warna sayuran berbeda sepanjang minggu dan variasikan sumber protein serta karbohidrat.",
+caution:"Keragaman tetap harus mempertimbangkan alergi, anggaran, ketersediaan bahan, budaya, dan kebutuhan medis."
+},
+{
+id:"keamanan-pangan",title:"Cara Mencuci dan Menyimpan Buah",category:"Pola hidup",icon:"🧼",
+tags:["kebersihan","penyimpanan","keamanan"],
+intro:"Penanganan makanan yang bersih membantu mengurangi risiko penyakit akibat kontaminasi. Buah dan sayur tetap perlu ditangani dengan benar sebelum dimakan.",
+nutrients:"Topik keamanan pangan.",
+benefits:[
+"Mencuci buah dan sayur di bawah air mengalir membantu menghilangkan kotoran dari permukaan.",
+"Menggunakan alat potong bersih membantu mengurangi kontaminasi silang.",
+"Menyimpan bahan yang mudah rusak dalam lemari pendingin membantu memperlambat pertumbuhan mikroorganisme.",
+"Membuang bahan yang berjamur atau membusuk dapat mengurangi risiko paparan yang tidak aman."
+],
+how:"Cuci tangan sebelum menyiapkan makanan. Bilas bahan di air mengalir, pisahkan bahan mentah dari makanan siap santap, dan simpan potongan buah di lemari pendingin.",
+caution:"Jangan mencuci buah menggunakan sabun atau deterjen rumah tangga. Ikuti petunjuk keamanan pangan untuk bahan yang perlu dimasak."
+}
+];
+
+/* ==================== TAMPILAN DAN PENCARIAN ==================== */
+const grid = document.getElementById("articleGrid");
+const count = document.getElementById("resultCount");
+const empty = document.getElementById("emptyState");
+const detail = document.getElementById("articleDetail");
+const detailBody = document.getElementById("detailBody");
+const searchInput = document.getElementById("searchInput");
+const listHeading = document.getElementById("listHeading");
+
+let activeCategory = "Semua";
+let currentQuery = "";
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+
+function searchableText(article) {
+  return [
+    article.title, article.category, article.intro, article.nutrients,
+    article.how, article.caution, ...article.tags, ...article.benefits
+  ].join(" ").toLocaleLowerCase("id");
+}
+
+function getFilteredArticles() {
+  return articles.filter(article => {
+    const matchesCategory = activeCategory === "Semua" ||
+      article.category === activeCategory;
+    const matchesQuery = !currentQuery ||
+      searchableText(article).includes(currentQuery.toLocaleLowerCase("id"));
+    return matchesCategory && matchesQuery;
+  });
+}
+
+function renderArticles() {
+  const list = getFilteredArticles();
+  grid.innerHTML = "";
+  empty.hidden = list.length !== 0;
+  grid.hidden = list.length === 0;
+  count.textContent = list.length + " artikel";
+
+  if (currentQuery) {
+    listHeading.textContent = "Hasil pencarian: " + searchInput.value.trim();
+  } else if (activeCategory !== "Semua") {
+    listHeading.textContent = "Kategori " + activeCategory;
+  } else {
+    listHeading.textContent = "Jelajahi informasi bermanfaat";
+  }
+
+  list.forEach(article => {
+    const card = document.createElement("article");
+    card.className = "article-card";
+    card.innerHTML = `
+      <div class="food-icon" aria-hidden="true">${escapeHTML(article.icon)}</div>
+      <span class="card-category">${escapeHTML(article.category)}</span>
+      <h3>${escapeHTML(article.title)}</h3>
+      <p>${escapeHTML(article.intro)}</p>
+      <div class="card-tags">
+        ${article.tags.slice(0,3).map(tag =>
+          `<span class="tag">${escapeHTML(tag)}</span>`).join("")}
+      </div>
+      <button class="read-btn" type="button" data-read="${escapeHTML(article.id)}">
+        Baca penjelasan lengkap →
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function openArticle(id, updateURL = true) {
+  const article = articles.find(item => item.id === id);
+  if (!article) return;
+
+  detailBody.innerHTML = `
+    <div class="detail-top">
+      <div class="detail-icon" aria-hidden="true">${escapeHTML(article.icon)}</div>
+      <div>
+        <h2>${escapeHTML(article.title)}</h2>
+        <p>${escapeHTML(article.category)} · OeR Manfaat</p>
+      </div>
+    </div>
+    <div class="detail-content">
+      <p>${escapeHTML(article.intro)}</p>
+
+      <h3>🥗 Kandungan gizi</h3>
+      <p>${escapeHTML(article.nutrients)}</p>
+
+      <h3>💚 Penjelasan manfaat</h3>
+      <ul>${article.benefits.map(item =>
+        `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+
+      <h3>🍽️ Cara mengonsumsi</h3>
+      <p>${escapeHTML(article.how)}</p>
+
+      <h3>⚠️ Hal yang perlu diperhatikan</h3>
+      <p>${escapeHTML(article.caution)}</p>
+
+      <div class="notice">
+        Informasi ini merupakan edukasi umum, bukan saran medis individual.
+        Manfaat tidak menjamin pencegahan atau penyembuhan penyakit.
+        Sesuaikan konsumsi dengan kondisi tubuh dan konsultasikan dengan tenaga kesehatan
+        bila memiliki kebutuhan khusus.
+      </div>
+    </div>
+  `;
+
+  detail.classList.add("open");
+  if (updateURL) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("artikel", article.id);
+    history.replaceState(null, "", url);
+  }
+  detail.scrollIntoView({behavior:"smooth",block:"start"});
+  detail.focus({preventScroll:true});
+}
+
+function closeArticle() {
+  detail.classList.remove("open");
+  const url = new URL(window.location.href);
+  url.searchParams.delete("artikel");
+  history.replaceState(null, "", url);
+}
+
+grid.addEventListener("click", event => {
+  const button = event.target.closest("[data-read]");
+  if (button) openArticle(button.dataset.read);
+});
+
+document.getElementById("closeDetail").addEventListener("click", closeArticle);
+
+document.getElementById("categoryFilters").addEventListener("click", event => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+  activeCategory = button.dataset.category;
+  document.querySelectorAll(".chip[data-category]").forEach(chip => {
+    chip.classList.toggle("active", chip === button);
+  });
+  renderArticles();
+});
+
+document.getElementById("searchForm").addEventListener("submit", event => {
+  event.preventDefault();
+  currentQuery = searchInput.value.trim();
+  renderArticles();
+  grid.scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+searchInput.addEventListener("input", () => {
+  currentQuery = searchInput.value.trim();
+  renderArticles();
+});
+
+document.getElementById("resetSearch").addEventListener("click", () => {
+  currentQuery = "";
+  activeCategory = "Semua";
+  searchInput.value = "";
+  document.querySelectorAll(".chip[data-category]").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.category === "Semua");
+  });
+  renderArticles();
+});
+
+document.getElementById("backTop").addEventListener("click", () => {
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ==================== PROMOSI OeR YANG BISA DITUTUP ==================== */
+const adOverlay = document.getElementById("adOverlay");
+const closeAd = document.getElementById("closeAd");
+let lastFocusedElement = null;
+
+function showAd() {
+  // Hormati pilihan pengguna bila promosi sudah ditutup pada kunjungan ini.
+  try {
+    if (sessionStorage.getItem("oer_ad_closed") === "1") return;
+  } catch (error) {
+    // Jika penyimpanan tidak tersedia, promosi tetap dapat ditutup manual.
+  }
+
+  lastFocusedElement = document.activeElement;
+  adOverlay.hidden = false;
+  closeAd.focus();
+}
+
+function hideAd() {
+  adOverlay.hidden = true;
+  try {
+    sessionStorage.setItem("oer_ad_closed", "1");
+  } catch (error) {
+    // Tombol tutup tetap bekerja walau penyimpanan tidak tersedia.
+  }
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+    lastFocusedElement.focus();
+  }
+}
+
+closeAd.addEventListener("click", hideAd);
+
+adOverlay.addEventListener("click", event => {
+  if (event.target === adOverlay) hideAd();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !adOverlay.hidden) hideAd();
+});
+
+document.getElementById("adVisit").addEventListener("click", () => {
+  // Link akan membuka halaman pencarian OeR.
+  // Pengunjung yang memilih tautan ini akan meninggalkan halaman artikel.
+});
+
+renderArticles();
+
+/* Jika tautan artikel digunakan, buka artikel yang sesuai. */
+const initialArticle = new URLSearchParams(window.location.search).get("artikel");
+if (initialArticle && articles.some(item => item.id === initialArticle)) {
+  openArticle(initialArticle, false);
+}
+
+/* Promosi internal tampil setelah halaman sempat terbuka. */
+window.setTimeout(showAd, 1800);
+</script>
+</body>
+</html>
