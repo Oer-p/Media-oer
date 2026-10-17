@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101322">
+  <title>OeR Games — Temukan Game Favoritmu</title>
+  <meta name="description" content="Jelajahi kumpulan game Android, iOS, dan PC di OeR Games. Cari game favoritmu dan kunjungi sumber unduhan resmi.">
+
+  <style>
+    :root {
+      --bg: #0c1020;
+      --panel: #151a2e;
+      --panel2: #1c2340;
+      --text: #f5f7ff;
+      --muted: #a6afca;
+      --accent: #7c6cff;
+      --cyan: #45d9e8;
+      --border: rgba(255,255,255,.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at top left, #222054 0, transparent 38%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 17px max(20px, calc((100% - 1180px)/2));
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,16,32,.86);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brand span { color: var(--cyan); }
+
+    .nav a.back {
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+    }
+
+    main {
+      max-width: 1180px;
+      padding: 32px 20px 60px;
+      margin: auto;
+    }
+
+    .hero {
+      padding: clamp(24px, 5vw, 55px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(125deg, #29215a, #182a49 70%, #123441);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.05;
+      margin: 13px 0;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      color: #d2d9f3;
+      max-width: 590px;
+      line-height: 1.7;
+    }
+
+    .searchbox {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+      max-width: 700px;
+    }
+
+    .searchbox input, .filters select {
+      color: var(--text);
+      background: #10152a;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      outline: none;
+    }
+
+    .searchbox input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px;
+    }
+
+    .searchbox input:focus, .filters select:focus {
+      border-color: var(--cyan);
+    }
+
+    .searchbox button, .download {
+      border: 0;
+      background: linear-gradient(100deg, var(--accent), #526fe9);
+      color: white;
+      padding: 13px 19px;
+      border-radius: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 34px 0 18px;
+    }
+
+    .section-head h2 { margin: 0; font-size: 24px; }
+
+    .filters {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .filters select { padding: 10px 12px; }
+
+    .categories {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding: 2px 0 10px;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      flex-shrink: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 30px;
+      padding: 9px 15px;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      background: #33306a;
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .game {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background: var(--panel);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .game:hover {
+      transform: translateY(-4px);
+      border-color: #7770dc;
+    }
+
+    .cover {
+      aspect-ratio: 16 / 10;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 20% 20%, #6059b5, transparent 55%),
+        linear-gradient(135deg, #232a48, #11182b);
+      font-size: 48px;
+      overflow: hidden;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game-info { padding: 15px; }
+
+    .game h3 {
+      margin: 0 0 7px;
+      font-size: 17px;
+    }
+
+    .game p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 39px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 13px 0;
+    }
+
+    .tag {
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: var(--panel2);
+      color: #cbd4f3;
+      font-size: 11px;
+    }
+
+    .download {
+      display: block;
+      text-align: center;
+      padding: 11px;
+      font-size: 13px;
+    }
+
+    .download:hover, .searchbox button:hover { filter: brightness(1.15); }
+
+    .notice {
+      margin-top: 28px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    #resultCount { color: var(--muted); font-size: 13px; }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 40px 20px;
+      text-align: center;
+      background: var(--panel);
+      border-radius: 18px;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 650px) {
+      main { padding: 22px 14px 40px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+      .game-info { padding: 11px; }
+      .game h3 { font-size: 15px; }
+      .game p { font-size: 12px; }
+      .searchbox { flex-direction: column; }
+      .searchbox button { width: 100%; }
+      .nav { padding: 14px; }
+      .brand { font-size: 22px; }
+    }
+
+    @media (max-width: 350px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <a class="brand" href="index.html" aria-label="OeR Home">OeR<span> Games</span></a>
+    <a class="back" href="index.html">← Kembali ke OeR</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Explore · Discover · Play</div>
+      <h1>Temukan game<br>favoritmu.</h1>
+      <p>
+        Jelajahi kumpulan game mobile dan PC di OeR Games.
+        Cari judul favoritmu dan kunjungi sumber resmi untuk
+        informasi serta unduhan.
+      </p>
+
+      <form class="searchbox" id="searchForm">
+        <input id="gameSearch" type="search"
+          placeholder="Cari PUBG, Minecraft, balapan..."
+          aria-label="Cari game">
+        <button type="submit">Cari Game 🔎</button>
+      </form>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>🎮 Jelajahi Game</h2>
+        <div class="filters">
+          <select id="platformFilter" aria-label="Filter platform">
+            <option value="semua">Semua platform</option>
+            <option value="Android">Android</option>
+            <option value="iOS">iPhone / iPad</option>
+            <option value="PC">PC</option>
+          </select>
+          <select id="sortFilter" aria-label="Urutkan game">
+            <option value="default">Pilihan OeR</option>
+            <option value="az">Nama A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="categories" id="categories">
+        <button class="chip active" data-category="Semua">Semua</button>
+        <button class="chip" data-category="Aksi">Aksi</button>
+        <button class="chip" data-category="Battle Royale">Battle Royale</button>
+        <button class="chip" data-category="Petualangan">Petualangan</button>
+        <button class="chip" data-category="RPG">RPG</button>
+        <button class="chip" data-category="Balapan">Balapan</button>
+        <button class="chip" data-category="Strategi">Strategi</button>
+        <button class="chip" data-category="Sandbox">Sandbox</button>
+      </div>
+
+      <div class="section-head">
+        <h2>Game untuk kamu</h2>
+        <span id="resultCount"></span>
+      </div>
+
+      <div class="grid" id="gameGrid" aria-live="polite"></div>
+
+      <div class="notice">
+        <strong>Informasi unduhan:</strong>
+        OeR Games membantu menemukan game dan mengarahkanmu ke sumber
+        resmi. OeR tidak meng-host file instalasi milik penerbit.
+        Ketersediaan, harga, dan dukungan perangkat dapat berbeda
+        menurut negara dan perangkat.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> OeR Games · Temukan game favoritmu
+  </footer>
+
+  <script>
+    /*
+      Katalog awal OeR Games.
+      Tautan diarahkan ke toko atau situs resmi.
+      Katalog ini dapat ditambah tanpa mengubah tampilan.
+    */
+    const games = [
+      {
+        name: "PUBG Mobile",
+        description: "Pertempuran battle royale bersama pemain lain.",
+        category: "Battle Royale",
+        platforms: ["Android", "iOS"],
+        icon: "🎯",
+        url: "https://pubgmobile.com/"
+      },
+      {
+        name: "Free Fire",
+        description: "Game battle royale dengan pertandingan cepat.",
+        category: "Battle Royale",
+        platforms: ["Android", "iOS"],
+        icon: "🔥",
+        url: "https://ff.garena.com/"
+      },
+      {
+        name: "Mobile Legends: Bang Bang",
+        description: "Pertandingan MOBA lima lawan lima.",
+        category: "Strategi",
+        platforms: ["Android", "iOS"],
+        icon: "⚔️",
+        url: "https://m.mobilelegends.com/"
+      },
+      {
+        name: "Minecraft",
+        description: "Bangun dunia dan jelajahi petualanganmu.",
+        category: "Sandbox",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "🧱",
+        url: "https://www.minecraft.net/"
+      },
+      {
+        name: "Genshin Impact",
+        description: "Petualangan RPG di dunia terbuka.",
+        category: "RPG",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "✨",
+        url: "https://genshin.hoyoverse.com/"
+      },
+      {
+        name: "Call of Duty",
+        description: "Aksi tembak-menembak dari seri Call of Duty.",
+        category: "Aksi",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "🎖️",
+        url: "https://www.callofduty.com/"
+      },
+      {
+        name: "Roblox",
+        description: "Jelajahi banyak pengalaman dan dunia buatan pengguna.",
+        category: "Petualangan",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "🧩",
+        url: "https://www.roblox.com/"
+      },
+      {
+        name: "Asphalt Legends",
+        description: "Balapan mobil berkecepatan tinggi.",
+        category: "Balapan",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "🏎️",
+        url: "https://asphaltlegends.com/"
+      },
+      {
+        name: "Clash of Clans",
+        description: "Bangun desa dan susun strategi pertempuran.",
+        category: "Strategi",
+        platforms: ["Android", "iOS"],
+        icon: "🏰",
+        url: "https://supercell.com/en/games/clashofclans/"
+      },
+      {
+        name: "Stardew Valley",
+        description: "Bangun kebun dan jalani kehidupan di desa.",
+        category: "Petualangan",
+        platforms: ["Android", "iOS", "PC"],
+        icon: "🌱",
+        url: "https://www.stardewvalley.net/"
+      },
+      {
+        name: "League of Legends",
+        description: "Game strategi MOBA kompetitif untuk PC.",
+        category: "Strategi",
+        platforms: ["PC"],
+        icon: "🛡️",
+        url: "https://www.leagueoflegends.com/"
+      },
+      {
+        name: "Valorant",
+        description: "Tactical shooter berbasis karakter.",
+        category: "Aksi",
+        platforms: ["PC"],
+        icon: "🎯",
+        url: "https://playvalorant.com/"
+      }
+    ];
+
+    const grid = document.getElementById("gameGrid");
+    const searchInput = document.getElementById("gameSearch");
+    const platformFilter = document.getElementById("platformFilter");
+    const sortFilter = document.getElementById("sortFilter");
+    const resultCount = document.getElementById("resultCount");
+
+    let selectedCategory = "Semua";
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function renderGames() {
+      const query = searchInput.value.trim().toLowerCase();
+      const platform = platformFilter.value;
+
+      let filtered = games.filter(game => {
+        const matchesQuery =
+          (game.name + " " + game.description + " " + game.category)
+            .toLowerCase().includes(query);
+
+        const matchesCategory =
+          selectedCategory === "Semua" ||
+          game.category === selectedCategory;
+
+        const matchesPlatform =
+          platform === "semua" || game.platforms.includes(platform);
+
+        return matchesQuery && matchesCategory && matchesPlatform;
+      });
+
+      if (sortFilter.value === "az") {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      resultCount.textContent = filtered.length + " game";
+
+      if (!filtered.length) {
+        grid.innerHTML =
+          '<div class="empty">Game tidak ditemukan. Coba kata kunci atau kategori lain.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(game => `
+        <article class="game">
+          <div class="cover" aria-hidden="true">${escapeHTML(game.icon)}</div>
+          <div class="game-info">
+            <h3>${escapeHTML(game.name)}</h3>
+            <p>${escapeHTML(game.description)}</p>
+            <div class="tags">
+              <span class="tag">${escapeHTML(game.category)}</span>
+              ${game.platforms.map(p =>
+                `<span class="tag">${escapeHTML(p)}</span>`
+              ).join("")}
+            </div>
+            <a class="download"
+               href="${escapeHTML(game.url)}"
+               target="_blank"
+               rel="noopener noreferrer">
+              Situs Resmi ↗
+            </a>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    document.getElementById("searchForm").addEventListener("submit", event => {
+      event.preventDefault();
+      renderGames();
+      document.getElementById("gameGrid").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+
+    searchInput.addEventListener("input", renderGames);
+    platformFilter.addEventListener("change", renderGames);
+    sortFilter.addEventListener("change", renderGames);
+
+    document.getElementById("categories").addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+
+      selectedCategory = button.dataset.category;
+
+      document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.toggle("active", chip === button);
+      });
+
+      renderGames();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderGames();
+  </script>
+</body>
+</html>
