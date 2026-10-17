@@ -5,1194 +5,387 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-
-<title>OeR Platform — Pencarian, AI Chat & Reels</title>
-<meta name="description" content="Jelajahi OeR Platform untuk pencarian web, AI Chat, dan Reels. Temukan informasi dan konten digital dalam satu platform.">
+<title>OeR Platform — Pencarian, AI Chat, Reels & Bola</title>
+<meta name="description" content="Jelajahi OeR Platform untuk pencarian web, AI Chat, Reels, dan berita sepak bola Indonesia maupun dunia.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://oer-p.github.io/Media-oer/">
-
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OeR Platform">
-<meta property="og:title" content="OeR Platform — Pencarian, AI Chat & Reels">
-<meta property="og:description" content="Jelajahi pencarian web, AI Chat, dan Reels melalui OeR Platform.">
+<meta property="og:title" content="OeR Platform — Pencarian, AI Chat, Reels & Bola">
+<meta property="og:description" content="Pencarian web, AI Chat, Reels, dan berita sepak bola di OeR Platform.">
 <meta property="og:url" content="https://oer-p.github.io/Media-oer/">
-
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OeR Platform">
-<meta name="twitter:description" content="Pencarian web, AI Chat, dan Reels dalam satu platform.">
+<meta name="twitter:description" content="Pencarian web, AI Chat, Reels, dan berita sepak bola.">
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+
 <style>
-:root{
-  --black:#171717;
-  --green:#a3e635;
-  --green-dark:#65a30d;
-  --text:#202124;
-  --muted:#5f6368;
-  --border:#dfe1e5;
-  --bg:#fff;
-}
-
+:root{--black:#171717;--green:#a3e635;--green-dark:#65a30d;--text:#202124;--muted:#5f6368;--border:#dfe1e5;--bg:#fff}
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
-
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-/* HEADER */
-
-header{
-  height:64px;
-  padding:0 28px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.brand{
-  font-size:25px;
-  font-weight:800;
-  letter-spacing:-2.5px;
-  white-space:nowrap;
-}
-
-.brand .e,
-.hero-logo .e{
-  color:var(--green-dark);
-}
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:22px;
-  font-size:13px;
-}
-
-.avatar{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:var(--black);
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s;
-  overflow:hidden;
-}
-
-.avatar:hover{
-  transform:scale(1.06);
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-/* LOGO ANIMATION */
-
-.logo-letter{
-  display:inline-block;
-  transform-origin:center;
-  animation:oerLogo 3.8s ease-in-out infinite;
-}
-
-.hero-logo .logo-letter{
-  margin-right:-3px;
-}
-
-.hero-logo .logo-letter.e{
-  margin-left:-2px;
-  margin-right:-4px;
-}
-
-.brand .logo-letter{
-  margin-right:-1px;
-}
-
-.brand .logo-letter.e{
-  margin-left:-1px;
-  margin-right:-2px;
-}
-
-.logo-letter:nth-child(1){
-  animation-delay:0s;
-}
-
-.logo-letter:nth-child(2){
-  animation-delay:.12s;
-}
-
-.logo-letter:nth-child(3){
-  animation-delay:.24s;
-}
-
-@keyframes oerLogo{
-  0%,100%{
-    transform:translateY(0) scale(1);
-  }
-
-  45%{
-    transform:translateY(-5px) scale(1.025);
-  }
-
-  55%{
-    transform:translateY(0) scale(1);
-  }
-}
-
-/* MAIN */
-
-main{
-  width:100%;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:100px 20px 60px;
-}
-
-.hero-logo{
-  font-size:clamp(76px,12vw,108px);
-  font-weight:800;
-  letter-spacing:-9px;
-  line-height:1.1;
-  margin-bottom:12px;
-  user-select:none;
-}
-
-.tagline{
-  margin:0 0 30px;
-  color:var(--muted);
-  font-size:16px;
-  text-align:center;
-}
-
-/* SEARCH */
-
-.search-wrap{
-  position:relative;
-  width:min(100%,584px);
-}
-
-.search-box{
-  width:100%;
-  min-height:52px;
-  border:1px solid var(--border);
-  border-radius:28px;
-  display:flex;
-  align-items:center;
-  padding:0 18px;
-  gap:12px;
-  background:#fff;
-  transition:.18s;
-}
-
-.search-box:hover,
-.search-box:focus-within{
-  border-color:transparent;
-  box-shadow:0 1px 6px #20212430;
-}
-
-.search-icon{
-  width:20px;
-  height:20px;
-  color:var(--muted);
-  flex-shrink:0;
-}
-
-#searchInput{
-  width:100%;
-  border:0;
-  outline:0;
-  font-size:16px;
-  background:transparent;
-  color:var(--text);
-}
-
-#searchInput::placeholder{
-  color:#80868b;
-}
-
-/* SUGGESTIONS */
-
-.suggestions{
-  display:none;
-  position:absolute;
-  top:58px;
-  left:0;
-  right:0;
-  padding:8px 0;
-  border-radius:18px;
-  background:#fff;
-  box-shadow:0 4px 16px #00000020;
-  z-index:50;
-  overflow:hidden;
-}
-
-.suggestions.show{
-  display:block;
-}
-
-.suggestion{
-  width:100%;
-  border:0;
-  background:#fff;
-  padding:11px 20px;
-  display:flex;
-  align-items:center;
-  gap:13px;
-  text-align:left;
-  cursor:pointer;
-  font-size:14px;
-  color:var(--text);
-}
-
-.suggestion:hover{
-  background:#f5f5f5;
-}
-
-/* ENGINE */
-
-.engine-choice{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:22px;
-  font-size:13px;
-  color:var(--muted);
-}
-
-.engine-choice button{
-  padding:8px 14px;
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius:18px;
-  cursor:pointer;
-  color:var(--text);
-  transition:.18s;
-}
-
-.engine-choice button:hover{
-  background:#f8f9fa;
-}
-
-.engine-choice button.active{
-  border-color:var(--green-dark);
-  background:#f7fee7;
-}
-
-.ai-button{
-  background:var(--black)!important;
-  color:var(--green)!important;
-  border-color:var(--black)!important;
-}
-
-/* NOTICE */
-
-#notice{
-  min-height:20px;
-  margin-top:24px;
-  font-size:13px;
-  color:var(--muted);
-  text-align:center;
-}
-
-/* AI */
-
-.ai-panel{
-  width:min(100%,584px);
-  display:none;
-  margin-top:20px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:#fff;
-  box-shadow:0 3px 15px #00000012;
-  overflow:hidden;
-}
-
-.ai-panel.show{
-  display:block;
-}
-
-.ai-header{
-  padding:15px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid #eee;
-}
-
-.ai-title{
-  font-size:14px;
-  font-weight:700;
-}
-
-.ai-close{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  cursor:pointer;
-  font-size:18px;
-}
-
-.ai-messages{
-  min-height:100px;
-  max-height:260px;
-  overflow:auto;
-  padding:16px;
-}
-
-.ai-message{
-  max-width:85%;
-  padding:10px 13px;
-  border-radius:14px;
-  margin-bottom:10px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.ai-message.bot{
-  background:#f5f5f5;
-}
-
-.ai-message.user{
-  margin-left:auto;
-  background:var(--black);
-  color:var(--green);
-}
-
-.ai-form{
-  display:flex;
-  gap:8px;
-  padding:12px;
-  border-top:1px solid #eee;
-}
-
-.ai-form input{
-  flex:1;
-  min-width:0;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:10px 14px;
-  outline:0;
-}
-
-.ai-form button{
-  border:0;
-  border-radius:20px;
-  padding:0 16px;
-  background:var(--black);
-  color:var(--green);
-  cursor:pointer;
-}
-
-/* FEATURES */
-
-.features{
-  width:min(100%,584px);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-top:38px;
-}
-
-.feature{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:17px;
-  border:1px solid #eee;
-  border-radius:16px;
-  background:#fff;
-  transition:.18s;
-}
-
-.feature:hover{
-  transform:translateY(-2px);
-  box-shadow:0 3px 12px #0000000d;
-}
-
-.feature-icon{
-  width:42px;
-  height:42px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:var(--black);
-  color:var(--green);
-  font-size:19px;
-}
-
-.feature-title{
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:4px;
-}
-
-.feature-text{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.4;
-}
-
-/* REELS */
-
-.reels-section{
-  width:min(100%,900px);
-  margin-top:55px;
-  text-align:left;
-}
-
-.section-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.section-heading h2{
-  margin:0;
-  font-size:20px;
-}
-
-.section-heading span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.reels-empty{
-  border:1px dashed #d9d9d9;
-  border-radius:16px;
-  padding:25px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-  background:#fafafa;
-}
-
-/* FOOTER */
-
-footer{
-  min-height:54px;
-  padding:16px 28px;
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-  background:#f8f9fa;
-  border-top:1px solid #f1f3f4;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.footer-links{
-  display:flex;
-  gap:22px;
-  flex-wrap:wrap;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-  .features{
-    grid-template-columns:1fr;
-  }
-}
-
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+header{height:64px;padding:0 28px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:25px;font-weight:800;letter-spacing:-2.5px;white-space:nowrap}
+.brand .e,.hero-logo .e{color:var(--green-dark)}
+.header-right{display:flex;align-items:center;gap:22px;font-size:13px}
+.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--black);color:#fff;font-weight:700;cursor:pointer;transition:.2s;overflow:hidden}
+.avatar:hover{transform:scale(1.06)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.logo-letter{display:inline-block;transform-origin:center;animation:oerLogo 3.8s ease-in-out infinite}
+.hero-logo .logo-letter{margin-right:-3px}
+.hero-logo .logo-letter.e{margin-left:-2px;margin-right:-4px}
+.brand .logo-letter{margin-right:-1px}
+.brand .logo-letter.e{margin-left:-1px;margin-right:-2px}
+.logo-letter:nth-child(1){animation-delay:0s}
+.logo-letter:nth-child(2){animation-delay:.12s}
+.logo-letter:nth-child(3){animation-delay:.24s}
+@keyframes oerLogo{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(-5px) scale(1.025)}55%{transform:translateY(0) scale(1)}}
+main{width:100%;flex:1;display:flex;flex-direction:column;align-items:center;padding:100px 20px 60px}
+.hero-logo{font-size:clamp(76px,12vw,108px);font-weight:800;letter-spacing:-9px;line-height:1.1;margin-bottom:12px;user-select:none}
+.tagline{margin:0 0 30px;color:var(--muted);font-size:16px;text-align:center}
+.search-wrap{position:relative;width:min(100%,584px)}
+.search-box{width:100%;min-height:52px;border:1px solid var(--border);border-radius:28px;display:flex;align-items:center;padding:0 18px;gap:12px;background:#fff;transition:.18s}
+.search-box:hover,.search-box:focus-within{border-color:transparent;box-shadow:0 1px 6px #20212430}
+.search-icon{width:20px;height:20px;color:var(--muted);flex-shrink:0}
+#searchInput{width:100%;border:0;outline:0;font-size:16px;background:transparent;color:var(--text)}
+#searchInput::placeholder{color:#80868b}
+.suggestions{display:none;position:absolute;top:58px;left:0;right:0;padding:8px 0;border-radius:18px;background:#fff;box-shadow:0 4px 16px #00000020;z-index:50;overflow:hidden}
+.suggestions.show{display:block}
+.suggestion{width:100%;border:0;background:#fff;padding:11px 20px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;font-size:14px;color:var(--text)}
+.suggestion:hover{background:#f5f5f5}
+.engine-choice{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:22px;font-size:13px;color:var(--muted)}
+.engine-choice button{padding:8px 14px;border:1px solid var(--border);background:#fff;border-radius:18px;cursor:pointer;color:var(--text);transition:.18s}
+.engine-choice button:hover{background:#f8f9fa}
+.engine-choice button.active{border-color:var(--green-dark);background:#f7fee7}
+.ai-button{background:var(--black)!important;color:var(--green)!important;border-color:var(--black)!important}
+#notice{min-height:20px;margin-top:24px;font-size:13px;color:var(--muted);text-align:center}
+.ai-panel{width:min(100%,584px);display:none;margin-top:20px;border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:0 3px 15px #00000012;overflow:hidden}
+.ai-panel.show{display:block}
+.ai-header{padding:15px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee}
+.ai-title{font-size:14px;font-weight:700}
+.ai-close{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px}
+.ai-messages{min-height:100px;max-height:260px;overflow:auto;padding:16px}
+.ai-message{max-width:85%;padding:10px 13px;border-radius:14px;margin-bottom:10px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.ai-message.bot{background:#f5f5f5}
+.ai-message.user{margin-left:auto;background:var(--black);color:var(--green)}
+.ai-form{display:flex;gap:8px;padding:12px;border-top:1px solid #eee}
+.ai-form input{flex:1;min-width:0;border:1px solid var(--border);border-radius:20px;padding:10px 14px;outline:0}
+.ai-form button{border:0;border-radius:20px;padding:0 16px;background:var(--black);color:var(--green);cursor:pointer}
+
+/* OeR BOLA */
+.bola-section{width:min(100%,584px);margin-top:24px;text-align:left}
+.bola-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
+.bola-heading h2{font-size:19px;margin:0}
+.bola-status{font-size:11px;color:var(--muted);text-align:right}
+.bola-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.bola-filter{border:1px solid var(--border);background:#fff;color:var(--text);padding:7px 11px;border-radius:18px;cursor:pointer;font-size:11px}
+.bola-filter.active{border-color:var(--green-dark);background:#f7fee7}
+.bola-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bola-card{min-width:0;border:1px solid #eee;border-radius:14px;padding:14px;background:#fff;transition:.18s}
+.bola-card:hover{box-shadow:0 3px 12px #0000000d}
+.bola-meta{font-size:10px;color:var(--muted);margin-bottom:9px;line-height:1.5}
+.bola-source{color:var(--green-dark);font-weight:700}
+.bola-card h3{font-size:13px;line-height:1.5;margin:0 0 8px;overflow-wrap:anywhere}
+.bola-card p{font-size:12px;line-height:1.5;color:var(--muted);margin:0;overflow-wrap:anywhere}
+.bola-read{display:inline-block;margin-top:12px;color:var(--green-dark);font-size:11px;font-weight:700}
+.bola-empty{grid-column:1/-1;padding:20px 15px;border:1px dashed var(--border);border-radius:14px;background:#fafafa;color:var(--muted);font-size:12px;line-height:1.7;text-align:center}
+.bola-note{font-size:10px;color:var(--muted);line-height:1.5;margin-top:10px}
+.features{width:min(100%,584px);display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:38px}
+.feature{display:flex;align-items:center;gap:14px;padding:17px;border:1px solid #eee;border-radius:16px;background:#fff;transition:.18s}
+.feature:hover{transform:translateY(-2px);box-shadow:0 3px 12px #0000000d}
+.feature-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:13px;background:var(--black);color:var(--green);font-size:19px}
+.feature-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.feature-text{color:var(--muted);font-size:12px;line-height:1.4}
+.reels-section{width:min(100%,900px);margin-top:40px;text-align:left}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.section-heading h2{margin:0;font-size:20px}
+.section-heading span{color:var(--muted);font-size:12px}
+.reels-empty{border:1px dashed #d9d9d9;border-radius:16px;padding:25px;text-align:center;color:var(--muted);font-size:13px;background:#fafafa}
+.oer-intro{width:min(900px,100%);margin:36px auto;text-align:center}
+.oer-intro h2{margin-bottom:12px}
+.oer-intro>p{max-width:680px;margin:0 auto 24px;line-height:1.7;color:var(--muted)}
+.oer-intro-features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;text-align:left}
+.oer-intro-features article{padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--bg)}
+.oer-intro-features h3{margin-top:0;font-size:1rem}
+.oer-intro-features p{margin-bottom:0;color:var(--muted);line-height:1.6;font-size:.92rem}
+footer{min-height:54px;padding:16px 28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#f8f9fa;border-top:1px solid #f1f3f4;color:var(--muted);font-size:12px}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+@media(max-width:700px){.features{grid-template-columns:1fr}.oer-intro-features{grid-template-columns:1fr}}
 @media(max-width:600px){
-
-  header{
-    padding:0 18px;
-  }
-
-  .header-right{
-    gap:15px;
-  }
-
-  main{
-    padding-top:90px;
-  }
-
-  .hero-logo{
-    letter-spacing:-7px;
-  }
-
-  .hero-logo .logo-letter{
-    margin-right:-2px;
-  }
-
-  .hero-logo .logo-letter.e{
-    margin-left:-2px;
-    margin-right:-3px;
-  }
-
-  footer{
-    justify-content:center;
-    text-align:center;
-    padding:18px;
-  }
-
-  .footer-links{
-    justify-content:center;
-  }
+ header{padding:0 18px}.header-right{gap:15px}main{padding-top:90px}
+ .hero-logo{letter-spacing:-7px}.hero-logo .logo-letter{margin-right:-2px}
+ .hero-logo .logo-letter.e{margin-left:-2px;margin-right:-3px}
+ footer{justify-content:center;text-align:center;padding:18px}
+ .footer-links{justify-content:center}
+ .bola-list{grid-template-columns:1fr 1fr;gap:8px}
+ .bola-card{padding:11px}
+ .bola-card h3{font-size:12px}
+ .bola-card p{font-size:11px}
+ .bola-heading h2{font-size:18px}
 }
-
-@media(prefers-reduced-motion:reduce){
-  .logo-letter{
-    animation:none;
-  }
-}
-
-/* PENGENALAN OeR */
-.oer-intro {
-  width: min(900px, calc(100% - 32px));
-  margin: 36px auto;
-  text-align: center;
-}
-
-.oer-intro h2 {
-  margin-bottom: 12px;
-}
-
-.oer-intro > p {
-  max-width: 680px;
-  margin: 0 auto 24px;
-  line-height: 1.7;
-  color: var(--muted);
-}
-
-.oer-intro-features {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  text-align: left;
-}
-
-.oer-intro-features article {
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--bg);
-}
-
-.oer-intro-features h3 {
-  margin-top: 0;
-  font-size: 1rem;
-}
-
-.oer-intro-features p {
-  margin-bottom: 0;
-  color: var(--muted);
-  line-height: 1.6;
-  font-size: 0.92rem;
-}
-
-@media (max-width: 650px) {
-  .oer-intro-features {
-    grid-template-columns: 1fr;
-  }
-}
+@media(max-width:360px){.bola-list{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.logo-letter{animation:none}.feature,.bola-card{transition:none}}
 </style>
 </head>
-  
 
 <body>
-
 <header>
-
   <a class="brand" href="./" aria-label="Beranda OeR">
     <span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span>
   </a>
-
   <nav class="header-right">
-
-    <a href="#tentang" id="aboutLink">
-      Tentang
-    </a>
-
-    <a href="#akun"
-       class="avatar"
-       id="loginButton"
-       aria-label="Profil OeR"
-       title="Masuk dengan Google">
-      O
-    </a>
-
+    <a href="#tentang" id="aboutLink">Tentang</a>
+    <a href="#akun" class="avatar" id="loginButton" aria-label="Profil OeR" title="Masuk dengan Google">O</a>
   </nav>
-
 </header>
 
 <main>
-
   <div class="hero-logo" aria-label="OeR">
-    <span class="logo-letter">O</span>
-    <span class="logo-letter e">e</span>
-    <span class="logo-letter">R</span>
+    <span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span>
   </div>
 
-  <p class="tagline">
-    Temukan sesuatu yang baru.
-  </p>
-
-  <!-- SEARCH -->
+  <p class="tagline">Temukan sesuatu yang baru.</p>
 
   <form class="search-wrap" id="searchForm">
-
     <div class="search-box">
-
-      <svg class="search-icon"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           aria-hidden="true">
-
-        <circle cx="11" cy="11" r="7"></circle>
-        <path d="m16 16 4 4"></path>
-
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path>
       </svg>
-
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Cari di OeR..."
-        autocomplete="off"
-        aria-label="Cari di OeR">
-
+      <input id="searchInput" type="search" placeholder="Cari di OeR..." autocomplete="off" aria-label="Cari di OeR">
     </div>
-
     <div class="suggestions" id="suggestions"></div>
-
   </form>
 
- 
-<!-- OeR / GOOGLE / BING / AI -->
+  <div class="engine-choice">
+    <span>Cari menggunakan</span>
+    <button type="button" data-engine="oer" class="active">OeR</button>
+    <button type="button" data-engine="google">Google</button>
+    <button type="button" data-engine="bing">Bing</button>
+    <button type="button" class="ai-button" id="aiButton">AI Chat</button>
+  </div>
 
-<div class="engine-choice">
-
-  <span>Cari menggunakan</span>
-
-  <button
-    type="button"
-    data-engine="oer"
-    class="active">
-    OeR
-  </button>
-
-  <button
-    type="button"
-    data-engine="google">
-    Google
-  </button>
-
-  <button
-    type="button"
-    data-engine="bing">
-    Bing
-  </button>
-
-  <button
-    type="button"
-    class="ai-button"
-    id="aiButton">
-    AI Chat
-  </button>
-
-</div>
-  
-  <p id="notice">
-    OeR menggunakan mesin pencari pilihanmu untuk sementara.
-  </p>
+  <p id="notice">OeR menggunakan mesin pencari pilihanmu untuk sementara.</p>
 
   <!-- AI CHAT -->
-
-  <section
-    class="ai-panel"
-    id="aiPanel"
-    aria-label="AI Chat OeR">
-
+  <section class="ai-panel" id="aiPanel" aria-label="AI Chat OeR">
     <div class="ai-header">
+      <div class="ai-title">🤖 AI Chat OeR</div>
+      <button class="ai-close" id="aiClose" type="button" aria-label="Tutup AI Chat">×</button>
+    </div>
+    <div class="ai-messages" id="aiMessages">
+      <div class="ai-message bot">Halo! 👋 Saya AI Chat OeR. Untuk saat ini mode AI masih dalam tahap pengembangan.</div>
+    </div>
+    <form class="ai-form" id="aiForm">
+      <input id="aiInput" type="text" placeholder="Tulis pertanyaan..." autocomplete="off">
+      <button type="submit">Kirim</button>
+    </form>
+  </section>
 
-      <div class="ai-title">
-        🤖 AI Chat OeR
-      </div>
-
-      <button
-        class="ai-close"
-        id="aiClose"
-        type="button">
-        ×
-      </button>
-
+  <!-- OeR BOLA: TEPAT DI BAWAH AI CHAT -->
+  <section class="bola-section" id="oer-bola">
+    <div class="bola-heading">
+      <h2>⚽ OeR Bola</h2>
+      <span class="bola-status" id="bolaStatus">Memeriksa berita...</span>
     </div>
 
-    <div
-      class="ai-messages"
-      id="aiMessages">
-
-      <div class="ai-message bot">
-        Halo! 👋 Saya AI Chat OeR.
-        Untuk saat ini mode AI masih dalam tahap pengembangan.
-      </div>
-
+    <div class="bola-filters" aria-label="Kategori berita">
+      <button type="button" class="bola-filter active" data-bola-filter="semua">Semua</button>
+      <button type="button" class="bola-filter" data-bola-filter="indonesia">Indonesia</button>
+      <button type="button" class="bola-filter" data-bola-filter="dunia">Dunia</button>
+      <button type="button" class="bola-filter" data-bola-filter="transfer">Transfer</button>
     </div>
 
-    <form
-      class="ai-form"
-      id="aiForm">
+    <div class="bola-list" id="bolaList" aria-live="polite">
+      <div class="bola-empty">⚽ Berita sepak bola akan muncul di sini setelah feed berita diaktifkan.</div>
+    </div>
 
-      <input
-        id="aiInput"
-        type="text"
-        placeholder="Tulis pertanyaan..."
-        autocomplete="off">
-
-      <button type="submit">
-        Kirim
-      </button>
-
-    
-</form>
-
+    <div class="bola-note">Maksimal dua berita ditampilkan. Baca berita lengkap melalui situs penerbit aslinya.</div>
   </section>
 
   <!-- PENGENALAN OeR -->
   <section class="oer-intro" id="tentang">
     <h2>Selamat Datang di OeR Platform</h2>
-
-    <p>
-      OeR adalah platform digital yang dikembangkan untuk
-      membantu pengguna mencari informasi dan menjelajahi
-      konten baru dalam satu tempat.
-    </p>
-
+    <p>OeR adalah platform digital yang dikembangkan untuk membantu pengguna mencari informasi dan menjelajahi konten baru dalam satu tempat.</p>
     <div class="oer-intro-features">
-      <article>
-        <h3>Pencarian Web</h3>
-        <p>Temukan informasi melalui Google atau Bing.</p>
-      </article>
-
-      <article>
-        <h3>AI Chat</h3>
-        <p>Asisten AI OeR masih dalam tahap pengembangan.</p>
-      </article>
-
-      <article>
-        <h3>Reels OeR</h3>
-        <p>Fitur video pendek berbasis YouTube Shorts sedang dikembangkan.</p>
-      </article>
+      <article><h3>Pencarian Web</h3><p>Temukan informasi melalui Google atau Bing.</p></article>
+      <article><h3>AI Chat</h3><p>Asisten AI OeR masih dalam tahap pengembangan.</p></article>
+      <article><h3>Reels OeR</h3><p>Fitur video pendek berbasis YouTube Shorts sedang dikembangkan.</p></article>
     </div>
   </section>
 
   <!-- FITUR -->
-
   <section class="features">
-    
-
-    <a
-      class="feature"
-      href="#reels"
-      id="reelsLink">
-
-      <div class="feature-icon">
-        ▶
-      </div>
-
-      <div>
-
-        <div class="feature-title">
-          Reels OeR
-        </div>
-
-        <div class="feature-text">
-          Jelajahi video pendek dari YouTube Shorts.
-        </div>
-
-      </div>
-
+    <a class="feature" href="#reels" id="reelsLink">
+      <div class="feature-icon">▶</div>
+      <div><div class="feature-title">Reels OeR</div><div class="feature-text">Jelajahi video pendek dari YouTube Shorts.</div></div>
     </a>
-
-    <a
-      class="feature"
-      href="#akun"
-      id="accountLink">
-
-      <div class="feature-icon">
-        O
-      </div>
-
-      <div>
-
-        <div class="feature-title">
-          Akun OeR
-        </div>
-
-        <div class="feature-text">
-          Masuk menggunakan akun OeR.
-        </div>
-
-      </div>
-
+    <a class="feature" href="#akun" id="accountLink">
+      <div class="feature-icon">O</div>
+      <div><div class="feature-title">Akun OeR</div><div class="feature-text">Masuk menggunakan akun OeR.</div></div>
     </a>
-
   </section>
 
   <!-- REELS -->
-
-  <section
-    class="reels-section"
-    id="reels">
-
+  <section class="reels-section" id="reels">
     <div class="section-heading">
-
-      <h2>
-        Reels OeR
-      </h2>
-
-      <span>
-        YouTube Shorts
-      </span>
-
+      <h2>Reels OeR</h2>
+      <span>YouTube Shorts</span>
     </div>
-
     <div class="reels-empty">
-
       🎬 Reels OeR sedang dikembangkan.
-
       <br><br>
-
-      Pencarian Shorts akan kita sambungkan
-      pada tahap berikutnya tanpa API berbayar.
-
+      Pencarian Shorts akan kita sambungkan pada tahap berikutnya tanpa API berbayar.
     </div>
-
   </section>
-
 </main>
 
 <footer>
-
-  <span>
-    © <span id="year"></span> OeR
-  </span>
-
+  <span>© <span id="year"></span> OeR</span>
   <div class="footer-links">
-
-    <a href="#tentang" id="footerAbout">
-      Tentang OeR
-    </a>
-
-    <a href="#bantuan">
-      Bantuan
-    </a>
-
+    <a href="#tentang" id="footerAbout">Tentang OeR</a>
+    <a href="#bantuan">Bantuan</a>
   </div>
-
 </footer>
 
 <script>
 (() => {
-
   "use strict";
 
-  /* =====================================================
-     SUPABASE
-  ===================================================== */
+  /* SUPABASE — KONFIGURASI ASLI DIPERTAHANKAN */
+  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const SUPABASE_URL =
-    "https://jhopfzmyxuafdbwwkjbf.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-  /* =====================================================
-     ELEMENTS
-  ===================================================== */
-
-  const form =
-    document.getElementById("searchForm");
-
-  const input =
-    document.getElementById("searchInput");
-
-  const suggestions =
-    document.getElementById("suggestions");
-
-  const notice =
-    document.getElementById("notice");
-
-  const loginButton =
-    document.getElementById("loginButton");
-
-  const accountLink =
-    document.getElementById("accountLink");
-
-  const aiButton =
-    document.getElementById("aiButton");
-
-  const aiPanel =
-    document.getElementById("aiPanel");
-
-  const aiClose =
-    document.getElementById("aiClose");
-
-  const aiForm =
-    document.getElementById("aiForm");
-
-  const aiInput =
-    document.getElementById("aiInput");
-
-  const aiMessages =
-    document.getElementById("aiMessages");
-
-  const engines =
-    document.querySelectorAll("[data-engine]");
-
+  const form = document.getElementById("searchForm");
+  const input = document.getElementById("searchInput");
+  const suggestions = document.getElementById("suggestions");
+  const notice = document.getElementById("notice");
+  const loginButton = document.getElementById("loginButton");
+  const accountLink = document.getElementById("accountLink");
+  const aiButton = document.getElementById("aiButton");
+  const aiPanel = document.getElementById("aiPanel");
+  const aiClose = document.getElementById("aiClose");
+  const aiForm = document.getElementById("aiForm");
+  const aiInput = document.getElementById("aiInput");
+  const aiMessages = document.getElementById("aiMessages");
+  const engines = document.querySelectorAll("[data-engine]");
   let engine = "oer";
 
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-
-  /* =====================================================
-     SEARCH HISTORY
-  ===================================================== */
-
-  function getHistory(){
-
-    try{
-
-      const data =
-        JSON.parse(
-          localStorage.getItem(
-            "oer_search_history"
-          ) || "[]"
-        );
-
-      return Array.isArray(data)
-        ? data.filter(
-            item => typeof item === "string"
-          )
-        : [];
-
-    }catch{
-
+  /* RIWAYAT PENCARIAN */
+  function getHistory() {
+    try {
+      const data = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
+      return Array.isArray(data) ? data.filter(item => typeof item === "string") : [];
+    } catch {
       return [];
-
     }
-
   }
 
-
-  function saveHistory(query){
-
-    try{
-
-      const history =
-        getHistory().filter(
-          item =>
-            item.toLowerCase() !==
-            query.toLowerCase()
-        );
-
+  function saveHistory(query) {
+    try {
+      const history = getHistory().filter(item => item.toLowerCase() !== query.toLowerCase());
       history.unshift(query);
-
-      localStorage.setItem(
-        "oer_search_history",
-        JSON.stringify(
-          history.slice(0,8)
-        )
-      );
-
-    }catch{}
-
+      localStorage.setItem("oer_search_history", JSON.stringify(history.slice(0, 8)));
+    } catch {}
   }
 
-
-  /* =====================================================
-     SUGGESTIONS
-  ===================================================== */
-
-  function hideSuggestions(){
-
+  function hideSuggestions() {
     suggestions.classList.remove("show");
-
   }
 
-
-  function renderSuggestions(){
-
-    const query =
-      input.value.trim().toLowerCase();
-
-    const history =
-      getHistory();
-
-    const items =
-      query
-        ? history.filter(
-            item =>
-              item.toLowerCase()
-              .includes(query)
-          )
-        : history.slice(0,5);
+  function renderSuggestions() {
+    const query = input.value.trim().toLowerCase();
+    const history = getHistory();
+    const items = query
+      ? history.filter(item => item.toLowerCase().includes(query))
+      : history.slice(0, 5);
 
     suggestions.replaceChildren();
 
-    if(!items.length){
-
+    if (!items.length) {
       hideSuggestions();
-
       return;
-
     }
 
     items.forEach(item => {
-
-      const button =
-        document.createElement("button");
-
+      const button = document.createElement("button");
       button.type = "button";
       button.className = "suggestion";
 
-      const icon =
-        document.createElement("span");
-
+      const icon = document.createElement("span");
       icon.textContent = "◷";
 
-      const label =
-        document.createElement("span");
-
+      const label = document.createElement("span");
       label.textContent = item;
 
-      button.append(icon,label);
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          input.value = item;
-
-          performSearch();
-
-        }
-      );
+      button.append(icon, label);
+      button.addEventListener("click", () => {
+        input.value = item;
+        performSearch();
+      });
 
       suggestions.appendChild(button);
-
     });
 
     suggestions.classList.add("show");
-
   }
 
+  /* PENCARIAN OeR / GOOGLE / BING */
+  function performSearch() {
+    const query = input.value.trim();
 
-  /* =====================================================
-     SEARCH OeR / GOOGLE / BING
-  ===================================================== */
-
-function performSearch() {
-  const query = input.value.trim();
-
-  if (!query) {
-    notice.textContent = "Masukkan kata yang ingin dicari.";
-    input.focus();
-    return;
-  }
-
-  saveHistory(query);
-  hideSuggestions();
-
-  const encodedQuery = encodeURIComponent(query);
-  let target;
-
-  if (engine === "oer") {
-    const normalizedQuery = query.toLowerCase();
-
-    const gameKeywords = [
-      "game",
-      "games",
-      "oer game",
-      "oer games",
-      "mobile legends",
-      "pubg mobile",
-      "free fire",
-      "genshin impact",
-      "minecraft",
-      "roblox",
-      "valorant",
-      "tekken",
-      "god of war",
-      "need for speed",
-      "gran turismo",
-      "stardew valley",
-      "among us"
-    ];
-
-    if (gameKeywords.includes(normalizedQuery)) {
-      target = new URL("./games.html", window.location.href).href;
-    } else {
-      const searchUrl = new URL("./search.html", window.location.href);
-      searchUrl.searchParams.set("q", query);
-      target = searchUrl.href;
+    if (!query) {
+      notice.textContent = "Masukkan kata yang ingin dicari.";
+      input.focus();
+      return;
     }
-  } else if (engine === "google") {
-    target = "https://www.google.com/search?q=" + encodedQuery;
-  } else if (engine === "bing") {
-    target = "https://www.bing.com/search?q=" + encodedQuery;
-  } else {
-    notice.textContent = "Pilih mesin pencari terlebih dahulu.";
-    return;
+
+    saveHistory(query);
+    hideSuggestions();
+
+    const encodedQuery = encodeURIComponent(query);
+    let target;
+
+    if (engine === "oer") {
+      const normalizedQuery = query.toLowerCase();
+      const gameKeywords = [
+        "game", "games", "oer game", "oer games",
+        "mobile legends", "pubg mobile", "free fire",
+        "genshin impact", "minecraft", "roblox", "valorant",
+        "tekken", "god of war", "need for speed",
+        "gran turismo", "stardew valley", "among us"
+      ];
+
+      if (gameKeywords.includes(normalizedQuery)) {
+        target = new URL("./games.html", window.location.href).href;
+      } else {
+        const searchUrl = new URL("./search.html", window.location.href);
+        searchUrl.searchParams.set("q", query);
+        target = searchUrl.href;
+      }
+    } else if (engine === "google") {
+      target = "https://www.google.com/search?q=" + encodedQuery;
+    } else if (engine === "bing") {
+      target = "https://www.bing.com/search?q=" + encodedQuery;
+    } else {
+      notice.textContent = "Pilih mesin pencari terlebih dahulu.";
+      return;
+    }
+
+    window.location.href = target;
   }
 
-  window.location.href = target;
-  }
-  /* FORM: ENTER DAN PENGIRIMAN PENCARIAN */
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    performSearch();
+  });
 
-form.addEventListener("submit", event => {
-  event.preventDefault();
-  performSearch();
-});
-
-/* SARAN DARI RIWAYAT PENCARIAN */
-
-input.addEventListener("input", renderSuggestions);
-input.addEventListener("focus", renderSuggestions);
-
- 
-  /* =====================================================
-     PILIH MESIN PENCARI
-  ===================================================== */
+  input.addEventListener("input", renderSuggestions);
+  input.addEventListener("focus", renderSuggestions);
 
   engines.forEach(button => {
     button.addEventListener("click", () => {
@@ -1202,428 +395,306 @@ input.addEventListener("focus", renderSuggestions);
         item.classList.toggle("active", item === button);
       });
 
-      const labels = {
-        oer: "OeR",
-        google: "Google",
-        bing: "Bing"
-      };
-
-      notice.textContent =
-        "Mesin pencari: " + labels[engine] + ".";
-
+      const labels = { oer: "OeR", google: "Google", bing: "Bing" };
+      notice.textContent = "Mesin pencari: " + labels[engine] + ".";
       input.focus();
     });
   });
-  
-  
-  /* =====================================================
-     ENGINE
-  ===================================================== */
 
-  engines.forEach(button => {
+  /* AI CHAT — MASIH MODE PENGEMBANGAN */
+  aiButton.addEventListener("click", () => {
+    aiPanel.classList.toggle("show");
 
-    button.addEventListener(
-      "click",
-      () => {
-
-        engine =
-          button.dataset.engine;
-
-        engines.forEach(item => {
-
-          item.classList.toggle(
-            "active",
-            item === button
-          );
-
-        });
-
-        notice.textContent =
-          "Mesin pencari: " +
-          (
-            engine === "google"
-              ? "Google"
-              : "Bing"
-          ) +
-          ".";
-
-        input.focus();
-
-      }
-    );
-
+    if (aiPanel.classList.contains("show")) {
+      aiInput.focus();
+      notice.textContent = "AI Chat OeR terbuka.";
+      aiPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
   });
 
+  aiClose.addEventListener("click", () => {
+    aiPanel.classList.remove("show");
+    input.focus();
+  });
 
-  /* =====================================================
-     AI CHAT
-  ===================================================== */
-
-  aiButton.addEventListener(
-    "click",
-    () => {
-
-      aiPanel.classList.toggle("show");
-
-      if(aiPanel.classList.contains("show")){
-
-        aiInput.focus();
-
-        notice.textContent =
-          "AI Chat OeR terbuka.";
-
-        aiPanel.scrollIntoView({
-          behavior:"smooth",
-          block:"nearest"
-        });
-
-      }
-
-    }
-  );
-
-
-  aiClose.addEventListener(
-    "click",
-    () => {
-
-      aiPanel.classList.remove("show");
-
-      input.focus();
-
-    }
-  );
-
-
-  aiForm.addEventListener(
-    "submit",
-    event => {
-
-      event.preventDefault();
-
-      const question =
-        aiInput.value.trim();
-
-      if(!question){
-
-        aiInput.focus();
-
-        return;
-
-      }
-
-      const userMessage =
-        document.createElement("div");
-
-      userMessage.className =
-        "ai-message user";
-
-      userMessage.textContent =
-        question;
-
-      aiMessages.appendChild(
-        userMessage
-      );
-
-      aiInput.value = "";
-
-      const botMessage =
-        document.createElement("div");
-
-      botMessage.className =
-        "ai-message bot";
-
-      botMessage.textContent =
-        "AI OeR sedang dikembangkan. " +
-        "Pertanyaanmu sudah diterima.";
-
-      setTimeout(() => {
-
-        aiMessages.appendChild(
-          botMessage
-        );
-
-        aiMessages.scrollTop =
-          aiMessages.scrollHeight;
-
-      },300);
-
-    }
-  );
-
-
-  /* =====================================================
-     REELS
-  ===================================================== */
-
-  document
-    .getElementById("reelsLink")
-    .addEventListener(
-      "click",
-      event => {
-
-        event.preventDefault();
-
-        document
-          .getElementById("reels")
-          .scrollIntoView({
-            behavior:"smooth"
-          });
-
-        notice.textContent =
-          "Reels OeR sedang dikembangkan.";
-
-      }
-    );
-
-
-  /* =====================================================
-     GOOGLE LOGIN SUPABASE
-  ===================================================== */
-
-  async function signInWithGoogle(event){
-
+  aiForm.addEventListener("submit", event => {
     event.preventDefault();
+    const question = aiInput.value.trim();
 
-    notice.textContent =
-      "Menghubungkan ke Google...";
-
-    try{
-
-      const { error } =
-        await supabaseClient.auth.signInWithOAuth({
-          provider:"google",
-          options:{
-            redirectTo:window.location.origin +
-              window.location.pathname
-          }
-        });
-
-      if(error){
-
-        console.error(error);
-
-        notice.textContent =
-          "Login Google gagal: " +
-          error.message;
-
-      }
-
-    }catch(error){
-
-      console.error(error);
-
-      notice.textContent =
-        "Terjadi kesalahan saat login.";
-
+    if (!question) {
+      aiInput.focus();
+      return;
     }
 
+    const userMessage = document.createElement("div");
+    userMessage.className = "ai-message user";
+    userMessage.textContent = question;
+    aiMessages.appendChild(userMessage);
+    aiInput.value = "";
+
+    const botMessage = document.createElement("div");
+    botMessage.className = "ai-message bot";
+    botMessage.textContent = "AI OeR sedang dikembangkan. Pertanyaanmu sudah diterima.";
+
+    window.setTimeout(() => {
+      aiMessages.appendChild(botMessage);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }, 300);
+  });
+
+  /* OeR BOLA — MAKSIMAL DUA BERITA */
+  {
+    const bolaList = document.getElementById("bolaList");
+    const bolaStatus = document.getElementById("bolaStatus");
+    const bolaFilters = document.querySelectorAll("[data-bola-filter]");
+    let articles = [];
+    let activeFilter = "semua";
+    let refreshInProgress = false;
+
+    function renderBola() {
+      bolaList.replaceChildren();
+
+      const filtered = articles.filter(article => {
+        if (activeFilter === "semua") return true;
+        return String(article.category || "").toLowerCase() === activeFilter;
+      });
+
+      const visible = filtered.slice(0, 2);
+
+      if (!visible.length) {
+        const empty = document.createElement("div");
+        empty.className = "bola-empty";
+        empty.textContent = articles.length
+          ? "Belum ada berita dalam kategori ini."
+          : "Belum ada feed berita yang tersedia. Berita akan muncul setelah pengumpul feed diaktifkan.";
+        bolaList.appendChild(empty);
+        return;
+      }
+
+      visible.forEach(article => {
+        const card = document.createElement("article");
+        card.className = "bola-card";
+
+        const meta = document.createElement("div");
+        meta.className = "bola-meta";
+
+        const source = document.createElement("div");
+        source.className = "bola-source";
+        source.textContent = article.source || "Sumber berita";
+
+        const date = document.createElement("div");
+        const published = article.published ? new Date(article.published) : null;
+        date.textContent = published && !Number.isNaN(published.getTime())
+          ? published.toLocaleString("id-ID")
+          : "Waktu terbit tidak tersedia";
+
+        meta.append(source, date);
+
+        const title = document.createElement("h3");
+        title.textContent = article.title || "Berita sepak bola";
+
+        const summary = document.createElement("p");
+        summary.textContent = article.summary || "Baca artikel asli untuk informasi selengkapnya.";
+
+        card.append(meta, title, summary);
+
+        let validUrl = "";
+        try {
+          const parsed = new URL(article.url);
+          if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+            validUrl = parsed.href;
+          }
+        } catch {}
+
+        if (validUrl) {
+          const link = document.createElement("a");
+          link.className = "bola-read";
+          link.textContent = "Baca berita asli ↗";
+          link.href = validUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          card.appendChild(link);
+        }
+
+        bolaList.appendChild(card);
+      });
+    }
+
+    bolaFilters.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.bolaFilter;
+
+        bolaFilters.forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+
+        renderBola();
+      });
+    });
+
+    async function loadBola() {
+      if (refreshInProgress) return;
+      refreshInProgress = true;
+
+      try {
+        const response = await fetch("./data/bola.json?updated=" + Date.now(), {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Feed berita belum tersedia");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.articles)) {
+          throw new Error("Format data berita tidak valid");
+        }
+
+        articles = data.articles
+          .filter(article =>
+            article &&
+            typeof article.title === "string" &&
+            typeof article.url === "string"
+          )
+          .sort((a, b) =>
+            new Date(b.published || 0).getTime() -
+            new Date(a.published || 0).getTime()
+          );
+
+        bolaStatus.textContent = data.updated
+          ? "Diperbarui " + new Date(data.updated).toLocaleTimeString("id-ID", {
+              hour: "2-digit",
+              minute: "2-digit"
+            })
+          : "Berita terbaru";
+
+        renderBola();
+      } catch (error) {
+        console.warn("OeR Bola:", error);
+        bolaStatus.textContent = "Feed belum tersedia";
+
+        if (!articles.length) {
+          bolaList.replaceChildren();
+          const empty = document.createElement("div");
+          empty.className = "bola-empty";
+          empty.textContent = "Feed berita belum terhubung. Bagian OeR Bola siap menampilkan maksimal dua berita setelah data tersedia.";
+          bolaList.appendChild(empty);
+        }
+      } finally {
+        refreshInProgress = false;
+      }
+    }
+
+    loadBola();
+    window.setInterval(loadBola, 5 * 60 * 1000);
   }
 
+  /* REELS */
+  document.getElementById("reelsLink").addEventListener("click", event => {
+    event.preventDefault();
+    document.getElementById("reels").scrollIntoView({ behavior: "smooth" });
+    notice.textContent = "Reels OeR sedang dikembangkan.";
+  });
 
-  loginButton.addEventListener(
-    "click",
-    signInWithGoogle
-  );
+  /* LOGIN GOOGLE SUPABASE */
+  async function signInWithGoogle(event) {
+    event.preventDefault();
+    notice.textContent = "Menghubungkan ke Google...";
 
+    try {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.origin + window.location.pathname
+        }
+      });
 
-  accountLink.addEventListener(
-    "click",
-    signInWithGoogle
-  );
+      if (error) {
+        console.error(error);
+        notice.textContent = "Login Google gagal: " + error.message;
+      }
+    } catch (error) {
+      console.error(error);
+      notice.textContent = "Terjadi kesalahan saat login.";
+    }
+  }
 
+  loginButton.addEventListener("click", signInWithGoogle);
+  accountLink.addEventListener("click", signInWithGoogle);
 
-  /* =====================================================
-     UPDATE PROFIL
-  ===================================================== */
-
-  function updateProfile(user){
-
-    if(!user){
-
+  /* UPDATE PROFIL */
+  function updateProfile(user) {
+    if (!user) {
       loginButton.textContent = "O";
       loginButton.title = "Masuk dengan Google";
-
-      accountLink.querySelector(".feature-title")
-        .textContent = "Akun OeR";
-
-      accountLink.querySelector(".feature-text")
-        .textContent = "Masuk menggunakan akun OeR.";
-
+      accountLink.querySelector(".feature-title").textContent = "Akun OeR";
+      accountLink.querySelector(".feature-text").textContent = "Masuk menggunakan akun OeR.";
       return;
-
     }
 
+    const metadata = user.user_metadata || {};
+    const name = metadata.full_name || metadata.name || user.email || "Pengguna OeR";
+    const avatar = metadata.avatar_url || metadata.picture;
 
-    const metadata =
-      user.user_metadata || {};
-
-    const name =
-      metadata.full_name ||
-      metadata.name ||
-      user.email ||
-      "Pengguna OeR";
-
-    const avatar =
-      metadata.avatar_url ||
-      metadata.picture;
-
-
-    if(avatar){
-
-      loginButton.innerHTML =
-        '<img src="' +
-        avatar.replace(/"/g,"&quot;") +
-        '" alt="Profil">';
-
-    }else{
-
-      loginButton.textContent =
-        name.charAt(0).toUpperCase();
-
+    if (avatar) {
+      const image = document.createElement("img");
+      image.src = avatar;
+      image.alt = "Profil";
+      loginButton.replaceChildren(image);
+    } else {
+      loginButton.textContent = name.charAt(0).toUpperCase();
     }
 
-
-    loginButton.title =
-      name + " • OeR";
-
-
-    accountLink.querySelector(".feature-title")
-      .textContent = name;
-
-    accountLink.querySelector(".feature-text")
-      .textContent =
-        user.email ||
-        "Akun Google terhubung.";
-
+    loginButton.title = name + " • OeR";
+    accountLink.querySelector(".feature-title").textContent = name;
+    accountLink.querySelector(".feature-text").textContent =
+      user.email || "Akun Google terhubung.";
   }
 
+  async function loadSession() {
+    try {
+      const { data, error } = await supabaseClient.auth.getSession();
 
-  /* =====================================================
-     CEK SESSION
-  ===================================================== */
-
-  async function loadSession(){
-
-    try{
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.auth.getSession();
-
-      if(error){
-
+      if (error) {
         console.error(error);
-
         return;
-
       }
 
-      updateProfile(
-        data.session
-          ? data.session.user
-          : null
-      );
-
-    }catch(error){
-
+      updateProfile(data.session ? data.session.user : null);
+    } catch (error) {
       console.error(error);
-
     }
-
   }
-
 
   loadSession();
 
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    updateProfile(session ? session.user : null);
 
-  /* =====================================================
-     PERUBAHAN LOGIN
-  ===================================================== */
-
-  supabaseClient.auth.onAuthStateChange(
-    (_event, session) => {
-
-      updateProfile(
-        session
-          ? session.user
-          : null
-      );
-
-      if(session){
-
-        notice.textContent =
-          "Selamat datang di OeR, " +
-          (
-            session.user.user_metadata?.full_name ||
-            session.user.email ||
-            "Pengguna"
-          ) +
-          ".";
-
-      }
-
+    if (session) {
+      notice.textContent = "Selamat datang di OeR, " +
+        (session.user.user_metadata?.full_name || session.user.email || "Pengguna") + ".";
     }
-  );
+  });
 
-
-  /* =====================================================
-     TENTANG
-  ===================================================== */
-
-  function showAbout(event){
-
+  /* TENTANG */
+  function showAbout(event) {
     event.preventDefault();
 
     notice.textContent =
-      "OeR adalah platform yang sedang " +
-      "dikembangkan untuk mencari, " +
-      "menjelajahi, dan menemukan " +
-      "konten baru.";
+      "OeR adalah platform yang sedang dikembangkan untuk mencari, menjelajahi, dan menemukan konten baru.";
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  document.getElementById("aboutLink").addEventListener("click", showAbout);
+  document.getElementById("footerAbout").addEventListener("click", showAbout);
 
-  document
-    .getElementById("aboutLink")
-    .addEventListener(
-      "click",
-      showAbout
-    );
-
-
-  document
-    .getElementById("footerAbout")
-    .addEventListener(
-      "click",
-      showAbout
-    );
-
-
-  /* =====================================================
-     TUTUP SUGGESTION
-  ===================================================== */
-
-  document.addEventListener(
-    "click",
-    event => {
-
-      if(!form.contains(event.target)){
-
-        hideSuggestions();
-
-      }
-
-    }
-  );
-
+  /* TUTUP SARAN PENCARIAN */
+  document.addEventListener("click", event => {
+    if (!form.contains(event.target)) hideSuggestions();
+  });
 })();
 </script>
 </body>
