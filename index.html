@@ -1117,39 +1117,88 @@ footer{
   }
 
 
-/* =====================================================
-   SEARCH OeR / GOOGLE / BING
-===================================================== */
+  /* =====================================================
+     SEARCH OeR / GOOGLE / BING
+  ===================================================== */
 
-function performSearch() {
-  const query = input.value.trim();
+  function performSearch() {
+    const query = input.value.trim();
 
-  if (!query) {
-    notice.textContent = "Masukkan kata yang ingin dicari.";
-    input.focus();
-    return;
+    if (!query) {
+      notice.textContent = "Masukkan kata yang ingin dicari.";
+      input.focus();
+      return;
+    }
+
+    saveHistory(query);
+    hideSuggestions();
+
+    const encodedQuery = encodeURIComponent(query);
+    let target;
+
+    if (engine === "oer") {
+      const searchUrl = new URL(
+        "search.html",
+        document.baseURI
+      );
+
+      searchUrl.searchParams.set("q", query);
+      target = searchUrl.href;
+    } else if (engine === "google") {
+      target =
+        "https://www.google.com/search?q=" +
+        encodedQuery;
+    } else if (engine === "bing") {
+      target =
+        "https://www.bing.com/search?q=" +
+        encodedQuery;
+    } else {
+      notice.textContent =
+        "Pilih mesin pencari terlebih dahulu.";
+      return;
+    }
+
+    notice.textContent = "Membuka hasil pencarian...";
+    window.location.href = target;
   }
 
-  saveHistory(query);
-  hideSuggestions();
+  /* FORM: ENTER DAN PENGIRIMAN PENCARIAN */
 
-  if (engine === "oer") {
-    window.location.href =
-      "/Media-oer/search.html?q=" + encodeURIComponent(query);
-    return;
-  }
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    performSearch();
+  });
 
-  if (engine === "google") {
-    window.location.href =
-      "https://www.google.com/search?q=" + encodeURIComponent(query);
-    return;
-  }
+  /* SARAN DARI RIWAYAT PENCARIAN */
 
-  if (engine === "bing") {
-    window.location.href =
-      "https://www.bing.com/search?q=" + encodeURIComponent(query);
-  }
-}
+  input.addEventListener("input", renderSuggestions);
+
+  input.addEventListener("focus", renderSuggestions);
+
+  /* =====================================================
+     PILIH MESIN PENCARI
+  ===================================================== */
+
+  engines.forEach(button => {
+    button.addEventListener("click", () => {
+      engine = button.dataset.engine;
+
+      engines.forEach(item => {
+        item.classList.toggle("active", item === button);
+      });
+
+      const labels = {
+        oer: "OeR",
+        google: "Google",
+        bing: "Bing"
+      };
+
+      notice.textContent =
+        "Mesin pencari: " + labels[engine] + ".";
+
+      input.focus();
+    });
+  });
   
   
   /* =====================================================
