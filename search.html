@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ffffff">
-  <title>OeR Search — Hasil Pencarian</title>
-  <meta name="description" content="Cari informasi melalui OeR Search.">
+  <title>OeR — Hasil Pencarian</title>
+  <meta name="description" content="Cari informasi melalui OeR.">
   <link rel="canonical" href="https://oer-p.github.io/Media-oer/search.html">
 
   <style>
@@ -21,7 +21,9 @@
       --bg: #ffffff;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -35,7 +37,7 @@
       border-bottom: 1px solid #eee;
     }
 
-    /* LOGO OeR — SAMA DENGAN HOMEPAGE */
+    /* LOGO UTAMA OeR — ANIMASI DIPERTAHANKAN */
     .brand {
       display: inline-block;
       color: var(--black);
@@ -103,29 +105,76 @@
       font-size: 13px;
     }
 
-    form {
+    /* KOLOM PENCARIAN OeR */
+    form#searchForm {
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
       max-width: 700px;
       margin-top: 18px;
+      padding: 5px 6px 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
     }
 
-    input {
+    form#searchForm:focus-within {
+      border-color: var(--green-dark);
+      box-shadow: 0 1px 7px rgba(101, 163, 13, .18);
+    }
+
+    /* LOGO O WARNA-WARNI */
+    .search-o {
+      display: block;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+    }
+
+    form#searchForm input {
       flex: 1;
+      width: 100%;
       min-width: 0;
-      padding: 13px 17px;
-      border: 1px solid var(--border);
-      border-radius: 28px;
+      padding: 10px 0;
+      border: 0;
+      outline: 0;
+      box-shadow: none;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
       font-size: 16px;
     }
 
-    button {
-      padding: 12px 22px;
-      color: white;
-      background: var(--blue);
+    form#searchForm input:focus {
       border: 0;
-      border-radius: 24px;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    form#searchForm button {
+      flex: 0 0 auto;
+      padding: 11px 20px;
+      color: var(--black);
+      background: var(--green);
+      border: 0;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.5px;
       cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+
+    form#searchForm button:hover {
+      background: var(--green-dark);
+      color: #fff;
+    }
+
+    form#searchForm button:focus-visible {
+      outline: 2px solid var(--black);
+      outline-offset: 3px;
     }
 
     main {
@@ -151,11 +200,17 @@
       font-size: 14px;
     }
 
-    a { color: #1a0dab; }
+    a {
+      color: #1a0dab;
+    }
 
-    /* Pertahankan warna logo OeR */
-    .brand { color: var(--black); }
-    .brand .e { color: var(--green-dark); }
+    .brand {
+      color: var(--black);
+    }
+
+    .brand .e {
+      color: var(--green-dark);
+    }
 
     .status {
       color: var(--muted);
@@ -193,9 +248,22 @@
     }
 
     @media (max-width: 480px) {
-      header { padding: 18px; }
-      form { gap: 6px; }
-      button { padding: 12px 16px; }
+      header {
+        padding: 18px;
+      }
+
+      form#searchForm {
+        gap: 8px;
+        padding-left: 11px;
+      }
+
+      form#searchForm button {
+        padding: 11px 15px;
+      }
+
+      .external {
+        gap: 14px;
+      }
     }
   </style>
 </head>
@@ -203,9 +271,36 @@
 <body>
   <header>
     <a class="brand" href="./" aria-label="Beranda OeR"><span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span></a>
+
     <span class="tagline">Temukan sesuatu yang baru</span>
 
     <form id="searchForm" role="search">
+      <svg
+        class="search-o"
+        viewBox="0 0 40 40"
+        role="img"
+        aria-label="Logo O warna-warni OeR"
+      >
+        <defs>
+          <linearGradient id="oerColor"
+            x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4285F4"/>
+            <stop offset="32%" stop-color="#34A853"/>
+            <stop offset="65%" stop-color="#FBBC05"/>
+            <stop offset="100%" stop-color="#EA4335"/>
+          </linearGradient>
+        </defs>
+
+        <circle
+          cx="20"
+          cy="20"
+          r="13"
+          fill="none"
+          stroke="url(#oerColor)"
+          stroke-width="6"
+        />
+      </svg>
+
       <input
         id="query"
         name="q"
@@ -214,31 +309,46 @@
         aria-label="Kata kunci pencarian"
         required
       >
-      <button type="submit">Cari</button>
+
+      <button type="submit">OeR</button>
     </form>
 
     <nav class="external" aria-label="Pencarian lainnya">
-      <a id="googleLink" target="_blank" rel="noopener noreferrer">Cari di Google ↗</a>
-      <a id="bingLink" target="_blank" rel="noopener noreferrer">Cari di Bing ↗</a>
+      <a
+        id="googleLink"
+        href="https://www.google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Cari di Google ↗</a>
+
+      <a
+        id="bingLink"
+        href="https://www.bing.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Cari di Bing ↗</a>
     </nav>
   </header>
 
   <main>
     <div class="notice">
-      <strong>OeR Search — tahap awal.</strong>
-      Hasil di halaman ini berasal dari Wikipedia bahasa Indonesia.
-      Untuk mencari seluruh web, gunakan Google atau Bing sementara
-      OeR mengembangkan kemampuan pencariannya.
+      <strong>OeR — tahap pengembangan.</strong>
+      Hasil pencarian di halaman ini berasal dari Wikipedia
+      bahasa Indonesia. Untuk mencari seluruh web, kamu dapat
+      menggunakan Google atau Bing sementara OeR mengembangkan
+      kemampuan pencariannya sendiri.
     </div>
 
-    <p class="status" id="status">
+    <p class="status" id="status" aria-live="polite">
       Masukkan kata kunci untuk mulai mencari.
     </p>
 
-    <section id="results" aria-live="polite"></section>
+    <section id="results" aria-label="Hasil pencarian" aria-live="polite"></section>
   </main>
 
-  <footer>OeR Platform · Mesin pencarian dalam pengembangan</footer>
+  <footer>
+    OeR Platform · Mesin pencarian dalam pengembangan
+  </footer>
 
   <script>
     (() => {
@@ -246,19 +356,27 @@
       const form = document.getElementById("searchForm");
       const status = document.getElementById("status");
       const results = document.getElementById("results");
+      const googleLink = document.getElementById("googleLink");
+      const bingLink = document.getElementById("bingLink");
 
       function updateExternalLinks(query) {
         const q = encodeURIComponent(query);
-        document.getElementById("googleLink").href =
+
+        googleLink.href =
           "https://www.google.com/search?q=" + q;
-        document.getElementById("bingLink").href =
+
+        bingLink.href =
           "https://www.bing.com/search?q=" + q;
       }
 
       function makeText(tag, text, className) {
         const element = document.createElement(tag);
         element.textContent = text || "";
-        if (className) element.className = className;
+
+        if (className) {
+          element.className = className;
+        }
+
         return element;
       }
 
@@ -268,7 +386,8 @@
         results.replaceChildren();
 
         if (!query) {
-          status.textContent = "Masukkan kata kunci untuk mulai mencari.";
+          status.textContent =
+            "Masukkan kata kunci untuk mulai mencari.";
           return;
         }
 
@@ -282,7 +401,10 @@
             "&utf8=1&format=json&origin=*&srlimit=10";
 
           const response = await fetch(api);
-          if (!response.ok) throw new Error("API tidak tersedia");
+
+          if (!response.ok) {
+            throw new Error("API tidak tersedia");
+          }
 
           const data = await response.json();
           const items = data?.query?.search || [];
@@ -296,7 +418,7 @@
           if (!items.length) {
             results.append(makeText(
               "p",
-              "Coba kata kunci lain atau gunakan Google/Bing untuk pencarian seluruh web."
+              "Coba kata kunci lain atau gunakan Google/Bing untuk mencari seluruh web."
             ));
             return;
           }
@@ -314,8 +436,10 @@
             const heading = document.createElement("h2");
             const link = document.createElement("a");
 
-            link.href = "https://id.wikipedia.org/wiki/" +
+            link.href =
+              "https://id.wikipedia.org/wiki/" +
               encodeURIComponent(item.title.replace(/ /g, "_"));
+
             link.target = "_blank";
             link.rel = "noopener noreferrer";
             link.textContent = item.title;
@@ -325,7 +449,8 @@
 
             const parser = new DOMParser();
             const parsed = parser.parseFromString(
-              item.snippet || "", "text/html"
+              item.snippet || "",
+              "text/html"
             );
 
             article.append(makeText(
@@ -337,36 +462,58 @@
           }
         } catch (error) {
           results.replaceChildren();
+
           status.textContent = "Pencarian belum dapat dimuat.";
+
           results.append(makeText(
             "p",
-            "Koneksi ke Wikipedia gagal. Coba lagi atau gunakan Google/Bing di atas."
+            "Koneksi ke Wikipedia gagal. Periksa koneksi internet atau gunakan Google/Bing di atas."
           ));
         }
       }
 
       form.addEventListener("submit", event => {
         event.preventDefault();
+
         const query = input.value.trim();
-        if (!query) return;
+
+        if (!query) {
+          input.focus();
+          return;
+        }
 
         const url = new URL(location.href);
         url.searchParams.set("q", query);
+
         history.pushState({}, "", url);
         search(query);
       });
 
       window.addEventListener("popstate", () => {
-        const query = new URLSearchParams(location.search).get("q") || "";
+        const query =
+          new URLSearchParams(location.search).get("q") || "";
+
         input.value = query;
-        search(query);
+        updateExternalLinks(query);
+
+        if (query) {
+          search(query);
+        } else {
+          results.replaceChildren();
+          status.textContent =
+            "Masukkan kata kunci untuk mulai mencari.";
+        }
       });
 
       const initialQuery =
         new URLSearchParams(location.search).get("q") || "";
 
       input.value = initialQuery;
-      if (initialQuery) search(initialQuery);
+      updateExternalLinks(initialQuery);
+
+      if (initialQuery) {
+        search(initialQuery);
+      }
     })();
   </script>
 </body>
