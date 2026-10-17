@@ -687,34 +687,41 @@ footer{
 
   </form>
 
-  <!-- GOOGLE BING AI -->
+ 
+<!-- OeR / GOOGLE / BING / AI -->
 
-  <div class="engine-choice">
+<div class="engine-choice">
 
-    <span>Cari menggunakan</span>
+  <span>Cari menggunakan</span>
 
-    <button
-      type="button"
-      data-engine="google"
-      class="active">
-      Google
-    </button>
+  <button
+    type="button"
+    data-engine="oer"
+    class="active">
+    OeR
+  </button>
 
-    <button
-      type="button"
-      data-engine="bing">
-      Bing
-    </button>
+  <button
+    type="button"
+    data-engine="google">
+    Google
+  </button>
 
-    <button
-      type="button"
-      class="ai-button"
-      id="aiButton">
-      AI Chat
-    </button>
+  <button
+    type="button"
+    data-engine="bing">
+    Bing
+  </button>
 
-  </div>
+  <button
+    type="button"
+    class="ai-button"
+    id="aiButton">
+    AI Chat
+  </button>
 
+</div>
+  
   <p id="notice">
     OeR menggunakan mesin pencari pilihanmu untuk sementara.
   </p>
@@ -970,7 +977,7 @@ footer{
   const engines =
     document.querySelectorAll("[data-engine]");
 
-  let engine = "google";
+  let engine = "oer";
 
 
   document.getElementById("year").textContent =
@@ -1126,34 +1133,25 @@ function performSearch() {
   saveHistory(query);
   hideSuggestions();
 
-  notice.textContent = "Membuka hasil pencarian OeR...";
+  if (engine === "oer") {
+    window.location.href =
+      "/Media-oer/search.html?q=" + encodeURIComponent(query);
+    return;
+  }
 
-  // Pilihan Google dan Bing tetap tersedia.
   if (engine === "google") {
     window.location.href =
-      "https://oer-p.github.io/Media-oer/search.html?q=" +
-      encodeURIComponent(query);
+      "https://www.google.com/search?q=" + encodeURIComponent(query);
     return;
   }
 
   if (engine === "bing") {
-    window.open(
-      "https://www.bing.com/search?q=" +
-      encodeURIComponent(query),
-      "_blank",
-      "noopener,noreferrer"
-    );
-    return;
+    window.location.href =
+      "https://www.bing.com/search?q=" + encodeURIComponent(query);
   }
-
-  // Default: halaman hasil pencarian OeR.
-  window.location.href =
-    "https://oer-p.github.io/Media-oer/search.html?q=" +
-    encodeURIComponent(query);
- }
- 
-
-
+}
+  
+  
   /* =====================================================
      ENGINE
   ===================================================== */
