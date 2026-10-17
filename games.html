@@ -2,587 +2,553 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101322">
-  <title>OeR Games — Temukan Game Favoritmu</title>
-  <meta name="description" content="Jelajahi kumpulan game Android, iOS, dan PC di OeR Games. Cari game favoritmu dan kunjungi sumber unduhan resmi.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>OeR Games — Pusat Game</title>
+<meta name="description" content="Temukan game mobile, PSP, PC, balapan, aksi, RPG, dan petualangan di OeR Games.">
 
-  <style>
-    :root {
-      --bg: #0c1020;
-      --panel: #151a2e;
-      --panel2: #1c2340;
-      --text: #f5f7ff;
-      --muted: #a6afca;
-      --accent: #7c6cff;
-      --cyan: #45d9e8;
-      --border: rgba(255,255,255,.1);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse at top left, #222054 0, transparent 38%),
-        var(--bg);
-      min-height: 100vh;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button, input, select { font: inherit; }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 17px max(20px, calc((100% - 1180px)/2));
-      border-bottom: 1px solid var(--border);
-      background: rgba(12,16,32,.86);
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      backdrop-filter: blur(16px);
-    }
-
-    .brand {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
-    .brand span { color: var(--cyan); }
-
-    .nav a.back {
-      padding: 10px 15px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--muted);
-    }
-
-    main {
-      max-width: 1180px;
-      padding: 32px 20px 60px;
-      margin: auto;
-    }
-
-    .hero {
-      padding: clamp(24px, 5vw, 55px);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background: linear-gradient(125deg, #29215a, #182a49 70%, #123441);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .eyebrow {
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    h1 {
-      font-size: clamp(34px, 6vw, 62px);
-      line-height: 1.05;
-      margin: 13px 0;
-      letter-spacing: -2px;
-    }
-
-    .hero p {
-      color: #d2d9f3;
-      max-width: 590px;
-      line-height: 1.7;
-    }
-
-    .searchbox {
-      display: flex;
-      gap: 10px;
-      margin-top: 25px;
-      max-width: 700px;
-    }
-
-    .searchbox input, .filters select {
-      color: var(--text);
-      background: #10152a;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      outline: none;
-    }
-
-    .searchbox input {
-      flex: 1;
-      min-width: 0;
-      padding: 15px;
-    }
-
-    .searchbox input:focus, .filters select:focus {
-      border-color: var(--cyan);
-    }
-
-    .searchbox button, .download {
-      border: 0;
-      background: linear-gradient(100deg, var(--accent), #526fe9);
-      color: white;
-      padding: 13px 19px;
-      border-radius: 12px;
-      font-weight: 750;
-      cursor: pointer;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 34px 0 18px;
-    }
-
-    .section-head h2 { margin: 0; font-size: 24px; }
-
-    .filters {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-    }
-
-    .filters select { padding: 10px 12px; }
-
-    .categories {
-      display: flex;
-      gap: 9px;
-      overflow-x: auto;
-      padding: 2px 0 10px;
-      margin-bottom: 18px;
-    }
-
-    .chip {
-      flex-shrink: 0;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 30px;
-      padding: 9px 15px;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      background: #33306a;
-      color: white;
-      border-color: var(--accent);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 17px;
-    }
-
-    .game {
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 19px;
-      background: var(--panel);
-      transition: transform .2s, border-color .2s;
-    }
-
-    .game:hover {
-      transform: translateY(-4px);
-      border-color: #7770dc;
-    }
-
-    .cover {
-      aspect-ratio: 16 / 10;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 20% 20%, #6059b5, transparent 55%),
-        linear-gradient(135deg, #232a48, #11182b);
-      font-size: 48px;
-      overflow: hidden;
-    }
-
-    .cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .game-info { padding: 15px; }
-
-    .game h3 {
-      margin: 0 0 7px;
-      font-size: 17px;
-    }
-
-    .game p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-      min-height: 39px;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 13px 0;
-    }
-
-    .tag {
-      padding: 5px 8px;
-      border-radius: 7px;
-      background: var(--panel2);
-      color: #cbd4f3;
-      font-size: 11px;
-    }
-
-    .download {
-      display: block;
-      text-align: center;
-      padding: 11px;
-      font-size: 13px;
-    }
-
-    .download:hover, .searchbox button:hover { filter: brightness(1.15); }
-
-    .notice {
-      margin-top: 28px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    #resultCount { color: var(--muted); font-size: 13px; }
-
-    .empty {
-      grid-column: 1 / -1;
-      padding: 40px 20px;
-      text-align: center;
-      background: var(--panel);
-      border-radius: 18px;
-      color: var(--muted);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 650px) {
-      main { padding: 22px 14px 40px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
-      .game-info { padding: 11px; }
-      .game h3 { font-size: 15px; }
-      .game p { font-size: 12px; }
-      .searchbox { flex-direction: column; }
-      .searchbox button { width: 100%; }
-      .nav { padding: 14px; }
-      .brand { font-size: 22px; }
-    }
-
-    @media (max-width: 350px) {
-      .grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<style>
+:root {
+  --bg:#0b1020;
+  --panel:#141b30;
+  --panel2:#1c2540;
+  --text:#f5f7ff;
+  --muted:#aab5d1;
+  --accent:#8874ff;
+  --cyan:#44e0e9;
+  --border:rgba(255,255,255,.1);
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+  margin:0;
+  background:radial-gradient(ellipse at top left,#252052 0,transparent 38%),var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+a {color:inherit;text-decoration:none}
+button,input,select {font:inherit}
+button {cursor:pointer}
+.nav {
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;padding:15px max(18px,calc((100% - 1200px)/2));
+  background:rgba(11,16,32,.92);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(15px);
+}
+.logo {font-size:25px;font-weight:900;letter-spacing:-1px}
+.logo span {color:var(--cyan)}
+.nav-link {
+  padding:10px 14px;border:1px solid var(--border);
+  border-radius:12px;color:var(--muted);font-size:14px
+}
+main {max-width:1200px;margin:auto;padding:26px 18px 55px}
+.hero {
+  position:relative;overflow:hidden;
+  padding:clamp(25px,5vw,55px);
+  border:1px solid var(--border);border-radius:27px;
+  background:linear-gradient(125deg,#30215d,#192b4c 65%,#103b49);
+}
+.eyebrow {
+  color:var(--cyan);font-size:12px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase
+}
+h1 {
+  margin:13px 0;font-size:clamp(36px,6vw,64px);
+  line-height:1.03;letter-spacing:-2px
+}
+.hero p {max-width:620px;color:#d1d9f3;line-height:1.75}
+.search {
+  display:flex;gap:10px;max-width:720px;margin-top:24px
+}
+.search input {
+  flex:1;min-width:0;padding:15px 16px;
+  background:#0e1529;color:white;border:1px solid var(--border);
+  border-radius:13px;outline:none
+}
+.search input:focus {border-color:var(--cyan)}
+.primary {
+  display:inline-block;border:0;border-radius:12px;
+  padding:13px 17px;background:linear-gradient(100deg,#8874ff,#526fe9);
+  color:white;font-weight:800
+}
+.section-head {
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;margin:32px 0 17px
+}
+.section-head h2 {margin:0;font-size:23px}
+.filters {display:flex;gap:9px;flex-wrap:wrap}
+.filters select {
+  max-width:100%;padding:10px 12px;border-radius:11px;
+  color:var(--text);background:var(--panel);border:1px solid var(--border)
+}
+.categories {
+  display:flex;gap:9px;overflow-x:auto;padding:3px 0 12px
+}
+.chip {
+  flex-shrink:0;padding:9px 15px;border-radius:30px;
+  color:var(--muted);background:var(--panel);
+  border:1px solid var(--border)
+}
+.chip.active {color:white;background:#343064;border-color:var(--accent)}
+.count {color:var(--muted);font-size:13px}
+.grid {
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px
+}
+.card {
+  min-width:0;overflow:hidden;background:var(--panel);
+  border:1px solid var(--border);border-radius:18px;
+  transition:transform .2s,border-color .2s
+}
+.card:hover {transform:translateY(-4px);border-color:#8174e9}
+.art {
+  position:relative;aspect-ratio:16/10;overflow:hidden;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+}
+.art::before,.art::after {
+  content:"";position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.09)
+}
+.art::before {width:170px;height:170px;right:-45px;top:-65px}
+.art::after {width:100px;height:100px;left:-30px;bottom:-45px}
+.art .emoji {font-size:62px;position:relative;z-index:1;
+  filter:drop-shadow(0 7px 12px rgba(0,0,0,.3))}
+.platform-label {
+  position:absolute;top:10px;left:10px;z-index:2;
+  padding:5px 8px;border-radius:7px;background:rgba(0,0,0,.4);
+  font-size:10px;font-weight:800;letter-spacing:.5px
+}
+.info {padding:14px}
+.info h3 {margin:0 0 7px;font-size:16px}
+.info p {min-height:42px;margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.tags {display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.tag {padding:5px 8px;border-radius:7px;background:var(--panel2);
+  color:#d4dcf5;font-size:10px}
+.actions {display:flex;gap:7px}
+.actions a {
+  flex:1;text-align:center;padding:10px 6px;border-radius:10px;
+  background:linear-gradient(100deg,#7868eb,#536be5);
+  font-size:12px;font-weight:750
+}
+.actions a.secondary {
+  background:#252d47;border:1px solid var(--border);color:#e3e8fb
+}
+.notice {
+  margin-top:28px;padding:16px;border:1px solid var(--border);
+  border-radius:14px;color:var(--muted);font-size:12px;line-height:1.8
+}
+.empty {
+  grid-column:1/-1;text-align:center;padding:42px 20px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;color:var(--muted)
+}
+footer {
+  text-align:center;border-top:1px solid var(--border);
+  padding:23px 16px;color:var(--muted);font-size:12px
+}
+@media(max-width:950px) {
+  .grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:650px) {
+  main {padding:18px 12px 40px}
+  .nav {padding:13px}
+  .logo {font-size:22px}
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .info {padding:10px}
+  .info h3 {font-size:14px}
+  .info p {font-size:11px}
+  .art .emoji {font-size:48px}
+  .search {flex-direction:column}
+  .search .primary {width:100%}
+  .section-head h2 {font-size:20px}
+}
+@media(max-width:350px) {
+  .grid {grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
-  <header class="nav">
-    <a class="brand" href="index.html" aria-label="OeR Home">OeR<span> Games</span></a>
-    <a class="back" href="index.html">← Kembali ke OeR</a>
-  </header>
+<header class="nav">
+  <a class="logo" href="index.html">OeR<span> Games</span></a>
+  <a class="nav-link" href="index.html">← Kembali ke OeR</a>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="eyebrow">Explore · Discover · Play</div>
-      <h1>Temukan game<br>favoritmu.</h1>
-      <p>
-        Jelajahi kumpulan game mobile dan PC di OeR Games.
-        Cari judul favoritmu dan kunjungi sumber resmi untuk
-        informasi serta unduhan.
-      </p>
+<main>
+  <section class="hero">
+    <div class="eyebrow">Explore · Discover · Play</div>
+    <h1>Semua game,<br>satu tempat.</h1>
+    <p>
+      Jelajahi game mobile, PSP, dan PC. Cari game favorit,
+      temukan kategorinya, lalu kunjungi situs resmi untuk
+      informasi dan pilihan unduhan yang tersedia.
+    </p>
+    <form class="search" id="searchForm">
+      <input id="query" type="search" placeholder="Cari Mobile Legends, PSP, balapan..."
+        aria-label="Cari game" autocomplete="off">
+      <button class="primary" type="submit">Cari Game 🔎</button>
+    </form>
+  </section>
 
-      <form class="searchbox" id="searchForm">
-        <input id="gameSearch" type="search"
-          placeholder="Cari PUBG, Minecraft, balapan..."
-          aria-label="Cari game">
-        <button type="submit">Cari Game 🔎</button>
-      </form>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>🎮 Jelajahi Game</h2>
-        <div class="filters">
-          <select id="platformFilter" aria-label="Filter platform">
-            <option value="semua">Semua platform</option>
-            <option value="Android">Android</option>
-            <option value="iOS">iPhone / iPad</option>
-            <option value="PC">PC</option>
-          </select>
-          <select id="sortFilter" aria-label="Urutkan game">
-            <option value="default">Pilihan OeR</option>
-            <option value="az">Nama A–Z</option>
-          </select>
-        </div>
+  <section>
+    <div class="section-head">
+      <h2>🎮 Jelajahi Koleksi</h2>
+      <div class="filters">
+        <select id="platform" aria-label="Filter platform">
+          <option value="Semua">Semua platform</option>
+          <option value="Mobile">Mobile</option>
+          <option value="PSP">PSP</option>
+          <option value="PC">PC</option>
+          <option value="Multi">Multi-platform</option>
+        </select>
+        <select id="sort" aria-label="Urutkan game">
+          <option value="featured">Pilihan OeR</option>
+          <option value="az">Nama A–Z</option>
+        </select>
       </div>
+    </div>
 
-      <div class="categories" id="categories">
-        <button class="chip active" data-category="Semua">Semua</button>
-        <button class="chip" data-category="Aksi">Aksi</button>
-        <button class="chip" data-category="Battle Royale">Battle Royale</button>
-        <button class="chip" data-category="Petualangan">Petualangan</button>
-        <button class="chip" data-category="RPG">RPG</button>
-        <button class="chip" data-category="Balapan">Balapan</button>
-        <button class="chip" data-category="Strategi">Strategi</button>
-        <button class="chip" data-category="Sandbox">Sandbox</button>
-      </div>
+    <div class="categories" id="categories">
+      <button class="chip active" data-cat="Semua">Semua</button>
+      <button class="chip" data-cat="Mobile">Mobile</button>
+      <button class="chip" data-cat="PSP">PSP</button>
+      <button class="chip" data-cat="PC">PC</button>
+      <button class="chip" data-cat="Aksi">Aksi</button>
+      <button class="chip" data-cat="Battle Royale">Battle Royale</button>
+      <button class="chip" data-cat="Balapan">Balapan</button>
+      <button class="chip" data-cat="Sepak Bola">Sepak Bola</button>
+      <button class="chip" data-cat="RPG">RPG</button>
+      <button class="chip" data-cat="Petualangan">Petualangan</button>
+      <button class="chip" data-cat="Strategi">Strategi</button>
+      <button class="chip" data-cat="Sandbox">Sandbox</button>
+    </div>
 
-      <div class="section-head">
-        <h2>Game untuk kamu</h2>
-        <span id="resultCount"></span>
-      </div>
+    <div class="section-head">
+      <h2 id="listTitle">Game untuk kamu</h2>
+      <span class="count" id="count">Memuat katalog...</span>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
 
-      <div class="grid" id="gameGrid" aria-live="polite"></div>
+    <div class="notice">
+      <strong>Catatan OeR Games:</strong>
+      Katalog ini berisi informasi dan tautan menuju situs resmi.
+      Tidak semua game menyediakan unduhan gratis atau mendukung
+      semua perangkat. Untuk game PSP, pastikan kamu menggunakan
+      salinan game yang diperoleh secara legal. OeR tidak menyediakan
+      ROM bajakan atau file instalasi yang tidak memiliki izin.
+    </div>
+  </section>
+</main>
 
-      <div class="notice">
-        <strong>Informasi unduhan:</strong>
-        OeR Games membantu menemukan game dan mengarahkanmu ke sumber
-        resmi. OeR tidak meng-host file instalasi milik penerbit.
-        Ketersediaan, harga, dan dukungan perangkat dapat berbeda
-        menurut negara dan perangkat.
-      </div>
-    </section>
-  </main>
+<footer>© <span id="year"></span> OeR Games · Temukan game favoritmu</footer>
 
-  <footer>
-    © <span id="year"></span> OeR Games · Temukan game favoritmu
-  </footer>
+<script>
+(function () {
+  "use strict";
 
-  <script>
-    /*
-      Katalog awal OeR Games.
-      Tautan diarahkan ke toko atau situs resmi.
-      Katalog ini dapat ditambah tanpa mengubah tampilan.
-    */
-    const games = [
-      {
-        name: "PUBG Mobile",
-        description: "Pertempuran battle royale bersama pemain lain.",
-        category: "Battle Royale",
-        platforms: ["Android", "iOS"],
-        icon: "🎯",
-        url: "https://pubgmobile.com/"
-      },
-      {
-        name: "Free Fire",
-        description: "Game battle royale dengan pertandingan cepat.",
-        category: "Battle Royale",
-        platforms: ["Android", "iOS"],
-        icon: "🔥",
-        url: "https://ff.garena.com/"
-      },
-      {
-        name: "Mobile Legends: Bang Bang",
-        description: "Pertandingan MOBA lima lawan lima.",
-        category: "Strategi",
-        platforms: ["Android", "iOS"],
-        icon: "⚔️",
-        url: "https://m.mobilelegends.com/"
-      },
-      {
-        name: "Minecraft",
-        description: "Bangun dunia dan jelajahi petualanganmu.",
-        category: "Sandbox",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "🧱",
-        url: "https://www.minecraft.net/"
-      },
-      {
-        name: "Genshin Impact",
-        description: "Petualangan RPG di dunia terbuka.",
-        category: "RPG",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "✨",
-        url: "https://genshin.hoyoverse.com/"
-      },
-      {
-        name: "Call of Duty",
-        description: "Aksi tembak-menembak dari seri Call of Duty.",
-        category: "Aksi",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "🎖️",
-        url: "https://www.callofduty.com/"
-      },
-      {
-        name: "Roblox",
-        description: "Jelajahi banyak pengalaman dan dunia buatan pengguna.",
-        category: "Petualangan",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "🧩",
-        url: "https://www.roblox.com/"
-      },
-      {
-        name: "Asphalt Legends",
-        description: "Balapan mobil berkecepatan tinggi.",
-        category: "Balapan",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "🏎️",
-        url: "https://asphaltlegends.com/"
-      },
-      {
-        name: "Clash of Clans",
-        description: "Bangun desa dan susun strategi pertempuran.",
-        category: "Strategi",
-        platforms: ["Android", "iOS"],
-        icon: "🏰",
-        url: "https://supercell.com/en/games/clashofclans/"
-      },
-      {
-        name: "Stardew Valley",
-        description: "Bangun kebun dan jalani kehidupan di desa.",
-        category: "Petualangan",
-        platforms: ["Android", "iOS", "PC"],
-        icon: "🌱",
-        url: "https://www.stardewvalley.net/"
-      },
-      {
-        name: "League of Legends",
-        description: "Game strategi MOBA kompetitif untuk PC.",
-        category: "Strategi",
-        platforms: ["PC"],
-        icon: "🛡️",
-        url: "https://www.leagueoflegends.com/"
-      },
-      {
-        name: "Valorant",
-        description: "Tactical shooter berbasis karakter.",
-        category: "Aksi",
-        platforms: ["PC"],
-        icon: "🎯",
-        url: "https://playvalorant.com/"
-      }
-    ];
+  // Katalog lokal: tidak membutuhkan API eksternal.
+  const games = [
+    {
+      name:"Mobile Legends: Bang Bang",
+      desc:"Game MOBA dengan pertarungan tim lima lawan lima.",
+      platform:"Mobile", category:"Strategi",
+      tags:["MOBA","Online"], emoji:"⚔️",
+      colors:["#3b2879","#12627b"],
+      url:"https://m.mobilelegends.com/"
+    },
+    {
+      name:"PUBG Mobile",
+      desc:"Bertahan dan bertarung dalam game battle royale.",
+      platform:"Mobile", category:"Battle Royale",
+      tags:["Shooter","Online"], emoji:"🎯",
+      colors:["#73502b","#252d45"],
+      url:"https://www.pubgmobile.com/"
+    },
+    {
+      name:"Free Fire",
+      desc:"Battle royale dengan pertandingan yang cepat.",
+      platform:"Mobile", category:"Battle Royale",
+      tags:["Aksi","Online"], emoji:"🔥",
+      colors:["#8b382c","#411e47"],
+      url:"https://ff.garena.com/"
+    },
+    {
+      name:"Genshin Impact",
+      desc:"RPG dunia terbuka dengan petualangan fantasi.",
+      platform:"Multi", category:"RPG",
+      tags:["Open World","Fantasi"], emoji:"✨",
+      colors:["#315d83","#47376e"],
+      url:"https://genshin.hoyoverse.com/"
+    },
+    {
+      name:"Minecraft",
+      desc:"Bangun, menjelajah, dan ciptakan dunia sendiri.",
+      platform:"Multi", category:"Sandbox",
+      tags:["Kreatif","Petualangan"], emoji:"🧱",
+      colors:["#477743","#493b2a"],
+      url:"https://www.minecraft.net/"
+    },
+    {
+      name:"Roblox",
+      desc:"Jelajahi banyak dunia dan pengalaman buatan komunitas.",
+      platform:"Multi", category:"Petualangan",
+      tags:["Kreatif","Online"], emoji:"🧩",
+      colors:["#414b61","#242b3a"],
+      url:"https://www.roblox.com/"
+    },
+    {
+      name:"Asphalt Legends",
+      desc:"Balapan mobil dengan trek dan aksi berkecepatan tinggi.",
+      platform:"Multi", category:"Balapan",
+      tags:["Mobil","Balapan"], emoji:"🏎️",
+      colors:["#234e82","#5d2d7c"],
+      url:"https://asphaltlegends.com/"
+    },
+    {
+      name:"EA SPORTS FC",
+      desc:"Seri game sepak bola; pilih versi sesuai perangkat.",
+      platform:"Multi", category:"Sepak Bola",
+      tags:["Olahraga","Sepak Bola"], emoji:"⚽",
+      colors:["#216c50","#19344c"],
+      url:"https://www.ea.com/games/ea-sports-fc"
+    },
+    {
+      name:"Call of Duty",
+      desc:"Seri game aksi dan shooter untuk beberapa platform.",
+      platform:"Multi", category:"Aksi",
+      tags:["Shooter","Aksi"], emoji:"🎖️",
+      colors:["#5a5943","#252b35"],
+      url:"https://www.callofduty.com/"
+    },
+    {
+      name:"Clash of Clans",
+      desc:"Bangun desa, latih pasukan, dan susun strategi.",
+      platform:"Mobile", category:"Strategi",
+      tags:["Strategi","Desa"], emoji:"🏰",
+      colors:["#49804c","#354f86"],
+      url:"https://supercell.com/en/games/clashofclans/"
+    },
+    {
+      name:"Stardew Valley",
+      desc:"Bertani, berteman, dan menjalani hidup di desa.",
+      platform:"Multi", category:"Petualangan",
+      tags:["Santai","Simulasi"], emoji:"🌱",
+      colors:["#538052","#77533e"],
+      url:"https://www.stardewvalley.net/"
+    },
+    {
+      name:"Valorant",
+      desc:"Tactical shooter kompetitif untuk komputer.",
+      platform:"PC", category:"Aksi",
+      tags:["Shooter","Kompetitif"], emoji:"🎯",
+      colors:["#9e354d","#38213f"],
+      url:"https://playvalorant.com/"
+    },
+    {
+      name:"League of Legends",
+      desc:"MOBA PC dengan beragam karakter dan strategi tim.",
+      platform:"PC", category:"Strategi",
+      tags:["MOBA","Kompetitif"], emoji:"🛡️",
+      colors:["#9b7738","#244d67"],
+      url:"https://www.leagueoflegends.com/"
+    },
+    {
+      name:"God of War: Chains of Olympus",
+      desc:"Petualangan aksi klasik yang dirilis untuk PSP.",
+      platform:"PSP", category:"Aksi",
+      tags:["Klasik","Petualangan"], emoji:"⚔️",
+      colors:["#813d36","#2b2637"],
+      url:"https://www.playstation.com/"
+    },
+    {
+      name:"Tekken: Dark Resurrection",
+      desc:"Game pertarungan klasik yang tersedia di PSP.",
+      platform:"PSP", category:"Aksi",
+      tags:["Fighting","Klasik"], emoji:"🥊",
+      colors:["#873d38","#32345a"],
+      url:"https://www.playstation.com/"
+    },
+    {
+      name:"Gran Turismo",
+      desc:"Seri simulasi balap; cek edisi dan platform yang sesuai.",
+      platform:"PSP", category:"Balapan",
+      tags:["Mobil","Simulasi"], emoji:"🏁",
+      colors:["#286c9b","#34364c"],
+      url:"https://www.playstation.com/"
+    },
+    {
+      name:"Need for Speed: Most Wanted",
+      desc:"Seri balapan dan kejar-kejaran dari Need for Speed.",
+      platform:"PSP", category:"Balapan",
+      tags:["Balapan","Klasik"], emoji:"🚘",
+      colors:["#aa512b","#2b2f43"],
+      url:"https://www.ea.com/games/need-for-speed"
+    },
+    {
+      name:"Tekken 6",
+      desc:"Game fighting dari seri Tekken; tersedia pada sejumlah platform.",
+      platform:"Multi", category:"Aksi",
+      tags:["Fighting","Pertarungan"], emoji:"🥋",
+      colors:["#a14743","#3c3159"],
+      url:"https://www.bandainamcoent.com/"
+    },
+    {
+      name:"Persona 3 Portable",
+      desc:"RPG klasik yang awalnya dirilis untuk PSP.",
+      platform:"PSP", category:"RPG",
+      tags:["RPG","Klasik"], emoji:"🌙",
+      colors:["#294e9a","#332b58"],
+      url:"https://atlus.com/"
+    },
+    {
+      name:"Daxter",
+      desc:"Petualangan platform klasik yang dirilis untuk PSP.",
+      platform:"PSP", category:"Petualangan",
+      tags:["Platform","Klasik"], emoji:"🦊",
+      colors:["#b16c36","#4d3a6b"],
+      url:"https://www.playstation.com/"
+    },
+    {
+      name:"Wipeout Pure",
+      desc:"Balapan futuristik klasik di konsol PSP.",
+      platform:"PSP", category:"Balapan",
+      tags:["Futuristik","Klasik"], emoji:"🚀",
+      colors:["#287c9b","#44316d"],
+      url:"https://www.playstation.com/"
+    },
+    {
+      name:"The Sims 4",
+      desc:"Bangun rumah dan kelola kehidupan karakter.",
+      platform:"PC", category:"Simulasi",
+      tags:["Kehidupan","Kreatif"], emoji:"🏡",
+      colors:["#419b74","#2c5681"],
+      url:"https://www.ea.com/games/the-sims/the-sims-4"
+    }
+  ];
 
-    const grid = document.getElementById("gameGrid");
-    const searchInput = document.getElementById("gameSearch");
-    const platformFilter = document.getElementById("platformFilter");
-    const sortFilter = document.getElementById("sortFilter");
-    const resultCount = document.getElementById("resultCount");
+  const grid = document.getElementById("grid");
+  const query = document.getElementById("query");
+  const platform = document.getElementById("platform");
+  const sort = document.getElementById("sort");
+  const count = document.getElementById("count");
+  let category = "Semua";
 
-    let selectedCategory = "Semua";
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[char];
+    });
+  }
 
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[char]);
+  function matchesCategory(game) {
+    if (category === "Semua") return true;
+    if (category === "Mobile") return game.platform === "Mobile" || game.platform === "Multi";
+    if (category === "PSP" || category === "PC") return game.platform === category;
+    return game.category === category;
+  }
+
+  function render() {
+    const term = query.value.trim().toLocaleLowerCase("id");
+    const selectedPlatform = platform.value;
+
+    let result = games.filter(function (game) {
+      const searchable = [
+        game.name, game.desc, game.platform, game.category,
+        ...game.tags
+      ].join(" ").toLocaleLowerCase("id");
+
+      const queryMatches = searchable.includes(term);
+      const categoryMatches = matchesCategory(game);
+      const platformMatches =
+        selectedPlatform === "Semua" ||
+        (selectedPlatform === "Multi"
+          ? game.platform === "Multi"
+          : game.platform === selectedPlatform ||
+            (game.platform === "Multi" &&
+              ["Mobile","PC"].includes(selectedPlatform)));
+
+      return queryMatches && categoryMatches && platformMatches;
+    });
+
+    if (sort.value === "az") {
+      result.sort(function (a,b) {
+        return a.name.localeCompare(b.name, "id");
+      });
     }
 
-    function renderGames() {
-      const query = searchInput.value.trim().toLowerCase();
-      const platform = platformFilter.value;
+    count.textContent = result.length + " game";
 
-      let filtered = games.filter(game => {
-        const matchesQuery =
-          (game.name + " " + game.description + " " + game.category)
-            .toLowerCase().includes(query);
+    if (!result.length) {
+      grid.innerHTML =
+        '<div class="empty">Game tidak ditemukan. Coba kata kunci atau filter lain.</div>';
+      return;
+    }
 
-        const matchesCategory =
-          selectedCategory === "Semua" ||
-          game.category === selectedCategory;
+    grid.innerHTML = result.map(function (game) {
+      const colors = game.colors;
+      const platformLabel = game.platform === "Multi"
+        ? "MULTI-PLATFORM" : game.platform.toUpperCase();
 
-        const matchesPlatform =
-          platform === "semua" || game.platforms.includes(platform);
-
-        return matchesQuery && matchesCategory && matchesPlatform;
-      });
-
-      if (sortFilter.value === "az") {
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-      }
-
-      resultCount.textContent = filtered.length + " game";
-
-      if (!filtered.length) {
-        grid.innerHTML =
-          '<div class="empty">Game tidak ditemukan. Coba kata kunci atau kategori lain.</div>';
-        return;
-      }
-
-      grid.innerHTML = filtered.map(game => `
-        <article class="game">
-          <div class="cover" aria-hidden="true">${escapeHTML(game.icon)}</div>
-          <div class="game-info">
+      return `
+        <article class="card">
+          <div class="art" style="--c1:${escapeHTML(colors[0])};--c2:${escapeHTML(colors[1])}">
+            <span class="platform-label">${escapeHTML(platformLabel)}</span>
+            <span class="emoji" aria-hidden="true">${escapeHTML(game.emoji)}</span>
+          </div>
+          <div class="info">
             <h3>${escapeHTML(game.name)}</h3>
-            <p>${escapeHTML(game.description)}</p>
+            <p>${escapeHTML(game.desc)}</p>
             <div class="tags">
               <span class="tag">${escapeHTML(game.category)}</span>
-              ${game.platforms.map(p =>
-                `<span class="tag">${escapeHTML(p)}</span>`
-              ).join("")}
+              ${game.tags.map(function(tag) {
+                return `<span class="tag">${escapeHTML(tag)}</span>`;
+              }).join("")}
             </div>
-            <a class="download"
-               href="${escapeHTML(game.url)}"
-               target="_blank"
-               rel="noopener noreferrer">
-              Situs Resmi ↗
-            </a>
+            <div class="actions">
+              <a href="${escapeHTML(game.url)}" target="_blank"
+                 rel="noopener noreferrer">Sumber resmi ↗</a>
+            </div>
           </div>
-        </article>
-      `).join("");
-    }
+        </article>`;
+    }).join("");
+  }
 
-    document.getElementById("searchForm").addEventListener("submit", event => {
-      event.preventDefault();
-      renderGames();
-      document.getElementById("gameGrid").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+  document.getElementById("searchForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    render();
+    document.getElementById("grid").scrollIntoView({
+      behavior:"smooth", block:"start"
     });
+  });
 
-    searchInput.addEventListener("input", renderGames);
-    platformFilter.addEventListener("change", renderGames);
-    sortFilter.addEventListener("change", renderGames);
+  query.addEventListener("input", render);
+  platform.addEventListener("change", render);
+  sort.addEventListener("change", render);
 
-    document.getElementById("categories").addEventListener("click", event => {
-      const button = event.target.closest("button[data-category]");
-      if (!button) return;
+  document.getElementById("categories").addEventListener("click", function (event) {
+    const button = event.target.closest("[data-cat]");
+    if (!button) return;
 
-      selectedCategory = button.dataset.category;
-
-      document.querySelectorAll(".chip").forEach(chip => {
-        chip.classList.toggle("active", chip === button);
-      });
-
-      renderGames();
+    category = button.dataset.cat;
+    document.querySelectorAll(".chip").forEach(function (chip) {
+      chip.classList.toggle("active", chip === button);
     });
+    render();
+  });
 
-    document.getElementById("year").textContent = new Date().getFullYear();
-    renderGames();
-  </script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Render langsung; tidak menunggu API, jaringan, atau Supabase.
+  render();
+})();
+</script>
 </body>
 </html>
