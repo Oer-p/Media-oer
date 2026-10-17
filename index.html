@@ -1121,22 +1121,47 @@ footer{
      SEARCH OeR / GOOGLE / BING
   ===================================================== */
 
-  function performSearch() {
-    const query = input.value.trim();
+function performSearch() {
+  const query = input.value.trim();
 
-    if (!query) {
-      notice.textContent = "Masukkan kata yang ingin dicari.";
-      input.focus();
-      return;
-    }
+  if (!query) {
+    notice.textContent = "Masukkan kata yang ingin dicari.";
+    input.focus();
+    return;
+  }
 
-    saveHistory(query);
-    hideSuggestions();
+  saveHistory(query);
+  hideSuggestions();
 
-    const encodedQuery = encodeURIComponent(query);
-    let target;
+  const encodedQuery = encodeURIComponent(query);
+  let target;
 
-    if (engine === "oer") {
+  if (engine === "oer") {
+    const normalizedQuery = query.toLowerCase().trim();
+
+    const gameKeywords = [
+      "games",
+      "game",
+      "oer games",
+      "oer game",
+      "mobile legends",
+      "pubg mobile",
+      "free fire",
+      "genshin impact",
+      "minecraft",
+      "roblox",
+      "valorant",
+      "tekken",
+      "god of war",
+      "need for speed",
+      "gran turismo",
+      "stardew valley",
+      "among us"
+    ];
+
+    if (gameKeywords.includes(normalizedQuery)) {
+      target = new URL("games.html", document.baseURI).href;
+    } else {
       const searchUrl = new URL(
         "search.html",
         document.baseURI
@@ -1144,37 +1169,26 @@ footer{
 
       searchUrl.searchParams.set("q", query);
       target = searchUrl.href;
-    } else if (engine === "google") {
-      target =
-        "https://www.google.com/search?q=" +
-        encodedQuery;
-    } else if (engine === "bing") {
-      target =
-        "https://www.bing.com/search?q=" +
-        encodedQuery;
-    } else {
-      notice.textContent =
-        "Pilih mesin pencari terlebih dahulu.";
-      return;
     }
-
-    notice.textContent = "Membuka hasil pencarian...";
-    window.location.href = target;
+  } else if (engine === "google") {
+    target =
+      "https://www.google.com/search?q=" +
+      encodedQuery;
+  } else if (engine === "bing") {
+    target =
+      "https://www.bing.com/search?q=" +
+      encodedQuery;
+  } else {
+    notice.textContent =
+      "Pilih mesin pencari terlebih dahulu.";
+    return;
   }
 
-  /* FORM: ENTER DAN PENGIRIMAN PENCARIAN */
+  notice.textContent = "Membuka hasil pencarian...";
+  window.location.href = target;
+}
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    performSearch();
-  });
-
-  /* SARAN DARI RIWAYAT PENCARIAN */
-
-  input.addEventListener("input", renderSuggestions);
-
-  input.addEventListener("focus", renderSuggestions);
-
+ 
   /* =====================================================
      PILIH MESIN PENCARI
   ===================================================== */
