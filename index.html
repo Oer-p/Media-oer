@@ -1137,13 +1137,13 @@ function performSearch() {
   let target;
 
   if (engine === "oer") {
-    const normalizedQuery = query.toLowerCase().trim();
+    const normalizedQuery = query.toLowerCase();
 
     const gameKeywords = [
-      "games",
       "game",
-      "oer games",
+      "games",
       "oer game",
+      "oer games",
       "mobile legends",
       "pubg mobile",
       "free fire",
@@ -1160,33 +1160,34 @@ function performSearch() {
     ];
 
     if (gameKeywords.includes(normalizedQuery)) {
-      target = new URL("games.html", document.baseURI).href;
+      target = new URL("./games.html", window.location.href).href;
     } else {
-      const searchUrl = new URL(
-        "search.html",
-        document.baseURI
-      );
-
+      const searchUrl = new URL("./search.html", window.location.href);
       searchUrl.searchParams.set("q", query);
       target = searchUrl.href;
     }
   } else if (engine === "google") {
-    target =
-      "https://www.google.com/search?q=" +
-      encodedQuery;
+    target = "https://www.google.com/search?q=" + encodedQuery;
   } else if (engine === "bing") {
-    target =
-      "https://www.bing.com/search?q=" +
-      encodedQuery;
+    target = "https://www.bing.com/search?q=" + encodedQuery;
   } else {
-    notice.textContent =
-      "Pilih mesin pencari terlebih dahulu.";
+    notice.textContent = "Pilih mesin pencari terlebih dahulu.";
     return;
   }
 
-  notice.textContent = "Membuka hasil pencarian...";
   window.location.href = target;
-}
+  }
+  /* FORM: ENTER DAN PENGIRIMAN PENCARIAN */
+
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  performSearch();
+});
+
+/* SARAN DARI RIWAYAT PENCARIAN */
+
+input.addEventListener("input", renderSuggestions);
+input.addEventListener("focus", renderSuggestions);
 
  
   /* =====================================================
