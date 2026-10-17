@@ -1110,66 +1110,48 @@ footer{
   }
 
 
-  /* =====================================================
-     SEARCH GOOGLE / BING
-  ===================================================== */
+/* =====================================================
+   SEARCH OeR / GOOGLE / BING
+===================================================== */
 
-  function performSearch(){
+function performSearch() {
+  const query = input.value.trim();
 
-    const query =
-      input.value.trim();
-
-    if(!query){
-
-      notice.textContent =
-        "Masukkan kata yang ingin dicari.";
-
-      input.focus();
-
-      return;
-
-    }
-
-    saveHistory(query);
-    hideSuggestions();
-
-    const target =
-      engine === "bing"
-        ? "https://www.bing.com/search?q="
-        : "https://www.google.com/search?q=";
-
-    notice.textContent =
-      "Membuka hasil pencarian...";
-
-    window.location.href =
-      target +
-      encodeURIComponent(query);
-
+  if (!query) {
+    notice.textContent = "Masukkan kata yang ingin dicari.";
+    input.focus();
+    return;
   }
 
+  saveHistory(query);
+  hideSuggestions();
 
-  form.addEventListener(
-    "submit",
-    event => {
+  notice.textContent = "Membuka hasil pencarian OeR...";
 
-      event.preventDefault();
+  // Pilihan Google dan Bing tetap tersedia.
+  if (engine === "google") {
+    window.location.href =
+      "https://oer-p.github.io/Media-oer/search.html?q=" +
+      encodeURIComponent(query);
+    return;
+  }
 
-      performSearch();
+  if (engine === "bing") {
+    window.open(
+      "https://www.bing.com/search?q=" +
+      encodeURIComponent(query),
+      "_blank",
+      "noopener,noreferrer"
+    );
+    return;
+  }
 
-    }
-  );
-
-
-  input.addEventListener(
-    "input",
-    renderSuggestions
-  );
-
-
-  input.addEventListener(
-    "focus",
-    renderSuggestions
-  );
+  // Default: halaman hasil pencarian OeR.
+  window.location.href =
+    "https://oer-p.github.io/Media-oer/search.html?q=" +
+    encodeURIComponent(query);
+ }
+ 
 
 
   /* =====================================================
