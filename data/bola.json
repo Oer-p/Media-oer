@@ -1,0 +1,22 @@
+
+{
+  "updated": "2026-10-17T07:00:00Z",
+  "articles": [
+    {
+      "title": "Ikuti Berita Sepak Bola Indonesia",
+      "summary": "Baca informasi dan perkembangan sepak bola Indonesia melalui situs resmi PSSI.",
+      "source": "PSSI",
+      "url": "https://www.pssi.org/",
+      "published": "2026-10-17T07:00:00Z",
+      "category": "indonesia"
+    },
+    {
+      "title": "Berita Sepak Bola Internasional",
+      "summary": "Jelajahi informasi dan perkembangan sepak bola internasional melalui situs resmi FIFA.",
+      "source": "FIFA",
+      "url": "https://www.fifa.com/",
+      "published": "2026-10-17T07:00:00Z",
+      "category": "dunia"
+    }
+  ]
+}
