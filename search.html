@@ -638,75 +638,74 @@
       }
 
       // Daftar pintasan situs. Ini bukan indeks seluruh internet.
-      function getWebsiteResults(query) {
-        const q = query.trim().toLowerCase();
+      
+    function getWebsiteResults(query) {
+  const q = query.trim().toLowerCase();
 
-        const sites = [
-          {
-           {
-  names: ["manfaat", "manfaat buah", "manfaat sayur", "manfaat oer", "oer manfaat", "manfaat makanan", "manfaat sehat"],
-  title: "OeR Manfaat — Buah, Sayur & Makanan Sehat",
-  url: "./manfaat.html",          // ganti kalau file-nya di lokasi lain
-  displayUrl: "oer-p.github.io/manfaat",
-  description: "Temukan panduan manfaat buah, sayuran, kacang-kacangan, rempah, dan makanan bergizi. Pelajari kandungan gizi, cara konsumsi, serta tips hidup sehat bersama OeR."
-          },
-          {
-            names: ["facebook", "fb"],
-            title: "Facebook",
-            url: "./facebook.html",
-            displayUrl: "facebook.com",
-            description: "Buka Facebook melalui halaman akses OeR. Jika pratinjau tidak dapat dimuat, buka situs resmi Facebook.",
-            officialUrl: "https://www.facebook.com/"
-          },
-          {
-            names: ["youtube", "yt"],
-            title: "YouTube",
-            url: "https://www.youtube.com/",
-            displayUrl: "youtube.com",
-            description: "Buka YouTube untuk mencari dan menonton video."
-          },
-          {
-            names: ["instagram", "ig"],
-            title: "Instagram",
-            url: "https://www.instagram.com/",
-            displayUrl: "instagram.com",
-            description: "Buka situs resmi Instagram."
-          },
-          {
-            names: ["tiktok", "tik tok"],
-            title: "TikTok",
-            url: "https://www.tiktok.com/",
-            displayUrl: "tiktok.com",
-            description: "Buka TikTok untuk menjelajahi video."
-          },
-          {
-            names: ["google"],
-            title: "Google",
-            url: "https://www.google.com/",
-            displayUrl: "google.com",
-            description: "Buka mesin pencari Google."
-          },
-          {
-            names: ["bing"],
-            title: "Bing",
-            url: "https://www.bing.com/",
-            displayUrl: "bing.com",
-            description: "Buka mesin pencari Bing."
-          },
-          {
-            names: ["wikipedia"],
-            title: "Wikipedia",
-            url: "https://id.wikipedia.org/",
-            displayUrl: "id.wikipedia.org",
-            description: "Buka ensiklopedia Wikipedia Indonesia."
-          }
-        ];
+  const sites = [
+    {
+      names: ["manfaat", "manfaat buah", "manfaat sayur", "manfaat oer", "oer manfaat", "manfaat makanan", "manfaat sehat"],
+      title: "OeR Manfaat — Buah, Sayur & Makanan Sehat",
+      url: "./manfaat.html",
+      displayUrl: "oer-p.github.io/manfaat",
+      description: "Temukan panduan manfaat buah, sayuran, kacang-kacangan, rempah, dan makanan bergizi. Pelajari kandungan gizi, cara konsumsi, serta tips hidup sehat bersama OeR."
+    },
+    {
+      names: ["facebook", "fb"],
+      title: "Facebook",
+      url: "./facebook.html",
+      displayUrl: "facebook.com",
+      description: "Buka Facebook melalui halaman akses OeR. Jika pratinjau tidak dapat dimuat, buka situs resmi Facebook.",
+      officialUrl: "https://www.facebook.com/"
+    },
+    {
+      names: ["youtube", "yt"],
+      title: "YouTube",
+      url: "https://www.youtube.com/",
+      displayUrl: "youtube.com",
+      description: "Buka YouTube untuk mencari dan menonton video."
+    },
+    {
+      names: ["instagram", "ig"],
+      title: "Instagram",
+      url: "https://www.instagram.com/",
+      displayUrl: "instagram.com",
+      description: "Buka situs resmi Instagram."
+    },
+    {
+      names: ["tiktok", "tik tok"],
+      title: "TikTok",
+      url: "https://www.tiktok.com/",
+      displayUrl: "tiktok.com",
+      description: "Buka TikTok untuk menjelajahi video."
+    },
+    {
+      names: ["google"],
+      title: "Google",
+      url: "https://www.google.com/",
+      displayUrl: "google.com",
+      description: "Buka mesin pencari Google."
+    },
+    {
+      names: ["bing"],
+      title: "Bing",
+      url: "https://www.bing.com/",
+      displayUrl: "bing.com",
+      description: "Buka mesin pencari Bing."
+    },
+    {
+      names: ["wikipedia"],
+      title: "Wikipedia",
+      url: "https://id.wikipedia.org/",
+      displayUrl: "id.wikipedia.org",
+      description: "Buka ensiklopedia Wikipedia Indonesia."
+    }
+  ];
 
-        return sites.filter(site =>
-          site.names.some(name => q === name || q.includes(name))
-        );
-      }
-
+  return sites.filter(site =>
+    site.names.some(name => q === name || q.includes(name))
+  );
+    }
       function makeWebsiteResultCard(item) {
         const article = document.createElement("article");
         article.className = "result-card";
