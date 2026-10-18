@@ -9,12 +9,13 @@
   <meta name="description" content="Pelajari cara mengatasi stres dengan latihan pernapasan, aktivitas fisik, tidur cukup, mengatur pikiran, dan kebiasaan sehat sehari-hari.">
   <meta name="keywords" content="cara mengatasi stres, menghilangkan stres, mengelola stres, kesehatan mental, relaksasi">
   <meta name="robots" content="index,follow">
-  <link rel="canonical" href="https://oer-p.github.io/Media-oer/artikel/cara-mengatasi-stres.html">
+  <link rel="canonical" href="https://oer-p.github.io/Media-oer/stres.html">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Cara Mengatasi Stres: Panduan Lengkap | OeR">
   <meta property="og:description" content="Panduan praktis untuk memahami dan mengelola stres sehari-hari.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:url" content="https://oer-p.github.io/Media-oer/stres.html">
 
   <style>
     :root {
@@ -241,6 +242,7 @@
       margin: 22px 0;
     }
 
+    /* ===== IKLAN KEREN ===== */
     .ad {
       position: relative;
       color: #fff;
@@ -249,17 +251,28 @@
         linear-gradient(135deg, #101812, #10291b 70%, #163c25);
       border: 1px solid #2a6540;
       border-radius: 17px;
-      padding: 21px;
-      margin: 26px 0;
+      padding: 22px;
+      margin: 28px 0;
       overflow: hidden;
+    }
+
+    .ad::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(64, 215, 122, 0.22) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .ad-label {
       display: inline-block;
-      color: #b6f4c9;
-      background: #19472c;
-      border: 1px solid #32734a;
-      padding: 3px 10px;
+      color: #082e18;
+      background: #39d477;
+      border: none;
+      padding: 4px 12px;
       border-radius: 50px;
       font-size: 11px;
       font-weight: 800;
@@ -270,11 +283,11 @@
       display: flex;
       align-items: center;
       gap: 9px;
-      margin: 12px 0;
+      margin: 14px 0 8px;
     }
 
     .ad-logo {
-      font-size: 29px;
+      font-size: 28px;
       font-weight: 900;
       letter-spacing: -1.4px;
       line-height: 1.2;
@@ -286,31 +299,40 @@
 
     .ad h3 {
       color: #fff;
-      font-size: 23px;
-      margin: 12px 0 7px;
+      font-size: 22px;
+      margin: 8px 0 8px;
     }
 
     .ad p {
       color: #d7eadc;
       font-size: 14px;
+      margin: 0 0 14px;
+      line-height: 1.6;
     }
 
     .ad-close {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 31px;
-      height: 31px;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
       border: 1px solid #4a7057;
       border-radius: 50%;
-      background: rgba(0,0,0,.2);
+      background: rgba(0,0,0,.25);
       color: #fff;
       cursor: pointer;
       font-size: 20px;
       line-height: 1;
+      display: grid;
+      place-items: center;
+      transition: .2s;
+      z-index: 2;
     }
 
-    .ad-close:hover { background: #28613b; }
+    .ad-close:hover {
+      background: #28613b;
+      transform: scale(1.08);
+    }
 
     .ad-cta {
       display: inline-flex;
@@ -319,14 +341,21 @@
       background: #39d477;
       color: #082e18;
       border-radius: 10px;
-      padding: 10px 16px;
+      padding: 11px 18px;
       text-decoration: none;
       font-size: 14px;
       font-weight: 850;
-      margin-top: 5px;
+      transition: .2s;
     }
 
-    .ad-cta:hover { background: #75eba0; }
+    .ad-cta:hover {
+      background: #75eba0;
+      transform: translateY(-1px);
+    }
+
+    .ad.hidden {
+      display: none !important;
+    }
 
     .sidebar {
       position: sticky;
@@ -442,7 +471,7 @@
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://oer-p.github.io/Media-oer/artikel/cara-mengatasi-stres.html"
+      "@id": "https://oer-p.github.io/Media-oer/stres.html"
     }
   }
   </script>
@@ -451,13 +480,13 @@
 <body>
   <header class="topbar">
     <nav class="nav" aria-label="Navigasi utama">
-      <a class="brand" href="../index.html" aria-label="Beranda OeR">
+      <a class="brand" href="index.html" aria-label="Beranda OeR">
         <span class="brand-mark" aria-hidden="true">
           <span class="brand-o">O</span><span class="brand-e">e</span><span class="brand-r">R</span>
         </span>
         <span>OeR</span>
       </a>
-      <a class="nav-link" href="../search.html">Cari di OeR →</a>
+      <a class="nav-link" href="search.html">Cari di OeR →</a>
     </nav>
     <div class="progress-track" aria-hidden="true">
       <div class="progress-bar" id="readingProgress"></div>
@@ -1210,27 +1239,9 @@
           tetap berarti.
         </div>
 
-        <h2>Artikel Terkait</h2>
-        <div class="side-card">
-          <a href="cara-tidur-lebih-nyenyak.html">Cara Tidur Lebih Nyenyak →</a>
-          <a href="cara-mengatasi-kecemasan.html">Cara Mengelola Kecemasan →</a>
-          <a href="manfaat-buah-buahan.html">Manfaat Buah-Buahan →</a>
-          <a href="manfaat-sayur-sayuran.html">Manfaat Sayur-Sayuran →</a>
-        </div>
-
-        <h2>Catatan Informasi</h2>
-        <p>
-          Artikel ini ditujukan untuk edukasi umum dan bukan pengganti diagnosis,
-          nasihat, atau perawatan dari tenaga kesehatan. Kebutuhan setiap orang
-          berbeda. Jika memiliki keluhan yang menetap, kondisi medis tertentu,
-          atau membutuhkan bantuan khusus, konsultasikan dengan tenaga
-          kesehatan yang sesuai.
-        </p>
-
-        <!-- Iklan OeR: dapat ditutup oleh pembaca -->
+        <!-- ===== IKLAN KEREN (bisa ditutup dengan ×) ===== -->
         <section class="ad" id="oerAd" aria-label="Iklan OeR">
-          <button class="ad-close" id="closeAd"
-            type="button" aria-label="Tutup iklan">×</button>
+          <button class="ad-close" id="closeAd" type="button" aria-label="Tutup iklan">×</button>
 
           <span class="ad-label">GRATIS</span>
 
@@ -1243,13 +1254,29 @@
           <h3>Jelajahi dunia bersama OeR</h3>
           <p>
             Temukan informasi, baca artikel bermanfaat, dan cari hal baru
-            melalui OeR Search.
+            melalui OeR Search. Semua gratis.
           </p>
-          <a class="ad-cta" href="../search.html">Jelajahi OeR Search →</a>
+          <a class="ad-cta" href="search.html">Jelajahi OeR Search →</a>
         </section>
 
+        <h2>Artikel Terkait</h2>
+        <div class="side-card">
+          <a href="index.html">← Kembali ke Beranda OeR</a>
+          <a href="search.html">Cari di OeR Search →</a>
+          <a href="manfaat.html">Manfaat Buah &amp; Sayur →</a>
+        </div>
+
+        <h2>Catatan Informasi</h2>
         <p>
-          <a href="../index.html">← Kembali ke beranda OeR</a>
+          Artikel ini ditujukan untuk edukasi umum dan bukan pengganti diagnosis,
+          nasihat, atau perawatan dari tenaga kesehatan. Kebutuhan setiap orang
+          berbeda. Jika memiliki keluhan yang menetap, kondisi medis tertentu,
+          atau membutuhkan bantuan khusus, konsultasikan dengan tenaga
+          kesehatan yang sesuai.
+        </p>
+
+        <p>
+          <a href="index.html">← Kembali ke beranda OeR</a>
         </p>
       </div>
     </article>
@@ -1266,11 +1293,9 @@
 
       <section class="side-card">
         <h2>Jelajahi OeR</h2>
-        <a href="../index.html">Beranda OeR</a>
-        <a href="../search.html">OeR Search</a>
-        <a href="manfaat-buah-buahan.html">Manfaat buah-buahan</a>
-        <a href="manfaat-sayur-sayuran.html">Manfaat sayur-sayuran</a>
-        <a href="cara-tidur-lebih-nyenyak.html">Panduan tidur sehat</a>
+        <a href="index.html">Beranda OeR</a>
+        <a href="search.html">OeR Search</a>
+        <a href="manfaat.html">Manfaat buah &amp; sayur</a>
       </section>
 
       <section class="side-card">
@@ -1292,17 +1317,23 @@
   </footer>
 
   <script>
-    // Tombol X hanya menyembunyikan iklan di halaman yang sedang dibuka.
+    // Tombol × menutup iklan (tersimpan di localStorage)
     const closeAd = document.getElementById("closeAd");
     const oerAd = document.getElementById("oerAd");
 
     if (closeAd && oerAd) {
+      // Jika sudah pernah ditutup, sembunyikan
+      if (localStorage.getItem("oer_ad_closed") === "1") {
+        oerAd.classList.add("hidden");
+      }
+
       closeAd.addEventListener("click", function () {
         oerAd.classList.add("hidden");
+        localStorage.setItem("oer_ad_closed", "1");
       });
     }
 
-    // Indikator kemajuan membaca.
+    // Indikator kemajuan membaca
     const progress = document.getElementById("readingProgress");
 
     function updateReadingProgress() {
