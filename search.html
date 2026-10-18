@@ -638,18 +638,10 @@
       }
 
       // Daftar pintasan situs. Ini bukan indeks seluruh internet.
-      
-    function getWebsiteResults(query) {
+      function getWebsiteResults(query) {
   const q = query.trim().toLowerCase();
 
   const sites = [
-    {
-      names: ["manfaat", "manfaat buah", "manfaat sayur", "manfaat oer", "oer manfaat", "manfaat makanan", "manfaat sehat"],
-      title: "OeR Manfaat — Buah, Sayur & Makanan Sehat",
-      url: "./manfaat.html",
-      displayUrl: "oer-p.github.io/manfaat",
-      description: "Temukan panduan manfaat buah, sayuran, kacang-kacangan, rempah, dan makanan bergizi. Pelajari kandungan gizi, cara konsumsi, serta tips hidup sehat bersama OeR."
-    },
     {
       names: ["facebook", "fb"],
       title: "Facebook",
@@ -706,6 +698,8 @@
     site.names.some(name => q === name || q.includes(name))
   );
     }
+    
+    
       function makeWebsiteResultCard(item) {
         const article = document.createElement("article");
         article.className = "result-card";
