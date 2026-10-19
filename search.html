@@ -680,7 +680,7 @@
   url: "https://mobile.capcutshare.com/sv2/ZSgrLvdCr/",
   displayUrl: "capcut.com · Bey Uye",
   description: "Akun CapCut Bey Uye (ID: 9643266484). Lihat video, template, dan karya editan CapCut.",
-  image: "https://i.ibb.co/placeholder-avatar.jpg",   // ← ganti dengan foto profil
+  image: "https://cdn.imagetourls.com/uploads/tyImg/oGzWhsuH.jpg",
   badge: "Creator"
 },
     {
@@ -781,13 +781,9 @@
         return sites.length;
       }
 
-  function makeWebsiteResultCard(item) {
+      function makeWebsiteResultCard(item) {
   const article = document.createElement("article");
   article.className = "result-card";
-
-  const badge = document.createElement("span");
-  badge.className = "site-badge";
-  badge.textContent = item.badge || "Situs web";
 
   const layout = document.createElement("div");
   layout.className = "result-layout";
@@ -795,11 +791,12 @@
   layout.style.gap = "14px";
   layout.style.alignItems = "flex-start";
 
-  // Foto profil (jika ada)
+  // Foto profil
   if (item.image) {
     const img = document.createElement("img");
     img.src = item.image;
     img.alt = item.title;
+    img.loading = "lazy";
     img.style.width = "56px";
     img.style.height = "56px";
     img.style.borderRadius = "50%";
@@ -812,6 +809,10 @@
   const copy = document.createElement("div");
   copy.style.flex = "1";
   copy.style.minWidth = "0";
+
+  const badge = document.createElement("span");
+  badge.className = "site-badge";
+  badge.textContent = item.badge || "Situs web";
 
   const title = createSourceLink(item.url, item.title);
   title.className = "result-title";
