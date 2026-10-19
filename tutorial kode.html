@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Web Pemula - OeR Learning</title>
+    <style>
+        /* ==========================================
+           1. STYLING & DESAIN TAMPILAN (CSS)
+           ========================================== */
+        :root {
+            --primary-color: #00b4d2; /* Warna Pirus OeR */
+            --primary-hover: #0093ab;
+            --dark-color: #222222;
+            --light-bg: #f4f6f8;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', System-UI, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        /* Container Utama */
+        .app-container {
+            max-width: 600px; /* Ukuran pas untuk layar HP dan Desktop */
+            margin: 0 auto;
+            background: var(--card-bg);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        /* Header Navbar */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--dark-color);
+            transition: transform 0.1s;
+        }
+
+        .btn-back:active {
+            transform: scale(0.9);
+        }
+
+        /* Logo OeR */
+        .logo-oer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--primary-color);
+            border-radius: 50% 50% 50% 5%; /* Bentuk Gelembung Bicara */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            padding-left: 2px;
+        }
+
+        /* Kolom Pencarian (Search) */
+        .search-section {
+            padding: 15px 20px;
+            background: var(--card-bg);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 10px 18px;
+            gap: 10px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: var(--dark-color);
+        }
+
+        /* 4 Pilihan Topik Pembahasan */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 20px 15px 20px;
+        }
+
+        .topic-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 10px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: all 0.2s ease;
+        }
+
+        .topic-card:hover, .topic-card.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 180, 210, 0.3);
+        }
+
+        /* Area Konten Utama */
+        .content-area {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .content-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .content-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #006064;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border: 1px dashed var(--primary-color);
+        }
+
+        .content-body {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        /* Banner Iklan OeR di Tengah (Bisa Ditutup) */
+        .ad-banner-oer {
+            background: linear-gradient(135deg, #00b4d2, #0077b6);
+            color: white;
+            padding: 18px 20px;
+            margin: 10px 20px 20px 20px;
+            border-radius: 14px;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(0, 180, 210, 0.25);
+        }
+
+        .ad-banner-oer h4 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ad-banner-oer p {
+            font-size: 12px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        .btn-close-ad {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-close-ad:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Navigasi Halaman (1, 2, 3, 4) */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0 25px 0;
+        }
+
+        .page-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--dark-color);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .page-btn.active, .page-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER NAVIGASI -->
+        <header>
+            <div class="header-left">
+                <button class="btn-back" onclick="kembaliKeSebelumnya()" title="Kembali">←</button>
+                <a href="#" class="logo-oer">
+                    <div class="logo-icon">▶</div>
+                    <span>OeR</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- KOLOM PENCARIAN -->
+        <div class="search-section">
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Cari materi tutorial di sini..." onkeyup="cariMateri()">
+            </div>
+        </div>
+
+        <!-- 4 PILIHAN TOPIK PEMBAHASAN -->
+        <div class="topics-grid">
+            <div class="topic-card active" id="btn-topik-1" onclick="pilihTopik(1)">1. Kode Pemula</div>
+            <div class="topic-card" id="btn-topik-2" onclick="pilihTopik(2)">2. Fungsi Sistem</div>
+            <div class="topic-card" id="btn-topik-3" onclick="pilihTopik(3)">3. Open API</div>
+            <div class="topic-card" id="btn-topik-4" onclick="pilihTopik(4)">4. Tampilan Web</div>
+        </div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <div class="content-area" id="contentArea">
+            <!-- Isi materi akan dimuat dinamis oleh JavaScript -->
+        </div>
+
+        <!-- IKLAN OER DI TENGAH BACAAN (Bisa Ditutup) -->
+        <div class="ad-banner-oer" id="iklanOeR">
+            <button class="btn-close-ad" onclick="tutupIklan()" title="Tutup Iklan">×</button>
+            <h4>🚀 Promo Komunitas OeR Platform</h4>
+            <p>Bagikan karya foto, video, audio, dan aplikasi Android kamu secara gratis dan aman di ekosistem OeR sekarang!</p>
+        </div>
+
+        <!-- NAVIGASI NOMOR HALAMAN (1, 2, 3, 4) -->
+        <div class="pagination-container">
+            <button class="page-btn active" id="page-1" onclick="pilihTopik(1)">1</button>
+            <button class="page-btn" id="page-2" onclick="pilihTopik(2)">2</button>
+            <button class="page-btn" id="page-3" onclick="pilihTopik(3)">3</button>
+            <button class="page-btn" id="page-4" onclick="pilihTopik(4)">4</button>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       2. LOGIKA & INTERAKSI SISTEM (JAVASCRIPT)
+       ========================================== -->
+    <script>
+        // Database Materi Tutorial Sederhana
+        const dataMateri = {
+            1: {
+                judul: "1. Belajar Kode Dasar HTML & CSS",
+                gambar: "🖼️ Visual Gambar: Struktur HTML5 & CSS3",
+                isi: "Di bagian ini, pemula belajar dasar susunan dokumen web. HTML berfungsi membentuk kerangka seperti tombol dan teks, sedangkan CSS memberikan warna, font, dan tata letak yang indah."
+            },
+            2: {
+                judul: "2. Penjelasan Fungsi Sistem OeR",
+                gambar: "⚙️ Visual Gambar: Alur Logika Sistem JavaScript",
+                isi: "Fungsi sistem adalah otak dari aplikasi web. Dengan JavaScript, web dapat merespons tindakan pengguna seperti tombol diklik, pengiriman formulir, dan perpindahan halaman tanpa reload."
+            },
+            3: {
+                judul: "3. Penggunaan Open API & Data Fetching",
+                desc API: "API (Application Programming Interface) memungkinkan web OeR terhubung dengan server luar. Kita bisa mengambil data pengguna, tutorial, atau cuaca secara otomatis menggunakan perintah Fetch API.",
+                gambar: "🌐 Visual Gambar: Koneksi Server & Open API"
+            },
+            4: {
+                judul: "4. Desain Tampilan Web (UI/UX) Responsif",
+                gambar: "📱 Visual Gambar: Layout Responsif di HP & Laptop",
+                isi: "Pengalaman pengguna (UX) adalah kunci utama. Pembahasan ini mengajarkan cara mengatur grid dan flexbox agar web tampil rapi di berbagai layar gadget pengguna."
+            }
+        };
+
+        // Fungsi Memilih Topik / Halaman
+        function pilihTopik(nomor) {
+            const materi = dataMateri[nomor];
+            const areaUtama = document.getElementById('contentArea');
+
+            // 1. Tampilkan Konten Sesuai Pilihan
+            areaUtama.innerHTML = `
+                <h3 class="content-title">${materi.judul}</h3>
+                <div class="content-image">${materi.gambar}</div>
+                <p class="content-body">${materi.isi || materi['desc API']}</p>
+            `;
+
+            // 2. Perbarui Status Tombol Pilihan Topik
+            for (let i = 1; i <= 4; i++) {
+                const btnTopik = document.getElementById(`btn-topik-${i}`);
+                const btnPage = document.getElementById(`page-${i}`);
+                
+                if (i === nomor) {
+                    btnTopik.classList.add('active');
+                    btnPage.classList.add('active');
+                } else {
+                    btnTopik.classList.remove('active');
+                    btnPage.classList.remove('active');
+                }
+            }
+        }
+
+        // Fungsi Tutup Iklan OeR
+        function tutupIklan() {
+            const bannerIklan = document.getElementById('iklanOeR');
+            bannerIklan.style.display = 'none';
+        }
+
+        // Fungsi Tombol Back
+        function kembaliKeSebelumnya() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                alert("Ini adalah halaman pertama Anda.");
+            }
+        }
+
+        // Fungsi Pencarian Sederhana
+        function cariMateri() {
+            const kataKunci = document.getElementById('searchInput').value.toLowerCase();
+            if (kataKunci.trim() === "") return;
+            
+            console.log("Mencari materi tentang:", kataKunci);
+        }
+
+        // Jalankan Topik 1 Pertama Kali Saat Halaman Dimuat
+        window.onload = function() {
+            pilihTopik(1);
+        };
+    </script>
+</body>
+</html>
