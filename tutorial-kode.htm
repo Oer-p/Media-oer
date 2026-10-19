@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial Web Pemula - OeR Learning</title>
+    <title>Tutorial Web Pemula & Panduan Sistem - OeR Platform</title>
     <style>
         /* ==========================================
-           1. STYLING & DESAIN TAMPILAN (CSS)
+           PENGATURAN TAMPILAN & CSS (UI/UX)
            ========================================== */
         :root {
             --primary-color: #00b4d2; /* Warna Pirus OeR */
@@ -32,13 +32,12 @@
             padding-bottom: 40px;
         }
 
-        /* Container Utama */
         .app-container {
-            max-width: 600px; /* Ukuran pas untuk layar HP dan Desktop */
+            max-width: 650px;
             margin: 0 auto;
             background: var(--card-bg);
             min-height: 100vh;
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
 
         /* Header Navbar */
@@ -73,7 +72,7 @@
             transform: scale(0.9);
         }
 
-        /* Logo OeR */
+        /* Logo OeR (Gelembung Pirus + Play) */
         .logo-oer {
             display: flex;
             align-items: center;
@@ -88,7 +87,7 @@
             width: 34px;
             height: 34px;
             background: var(--primary-color);
-            border-radius: 50% 50% 50% 5%; /* Bentuk Gelembung Bicara */
+            border-radius: 50% 50% 50% 5%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -122,7 +121,7 @@
             color: var(--dark-color);
         }
 
-        /* 4 Pilihan Topik Pembahasan */
+        /* 4 Pilihan Topik Pembahasan di Atas */
         .topics-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -150,7 +149,7 @@
             box-shadow: 0 4px 10px rgba(0, 180, 210, 0.3);
         }
 
-        /* Area Konten Utama */
+        /* Area Konten Pembahasan */
         .content-area {
             padding: 20px;
             border-top: 1px solid var(--border-color);
@@ -160,11 +159,12 @@
             font-size: 18px;
             color: var(--primary-color);
             margin-bottom: 12px;
+            font-weight: 700;
         }
 
         .content-image {
             width: 100%;
-            height: 180px;
+            height: 160px;
             background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
             border-radius: 12px;
             display: flex;
@@ -175,31 +175,48 @@
             font-weight: 600;
             margin-bottom: 15px;
             border: 1px dashed var(--primary-color);
+            font-size: 15px;
+            text-align: center;
+            padding: 10px;
         }
 
         .content-body {
             font-size: 14px;
             color: #475569;
             margin-bottom: 15px;
+            line-height: 1.7;
         }
 
-        /* Banner Iklan OeR di Tengah (Bisa Ditutup) */
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        /* BANNER IKLAN OER DI TENGAH (Bisa di-klik / Ditutup X) */
         .ad-banner-oer {
             background: linear-gradient(135deg, #00b4d2, #0077b6);
             color: white;
             padding: 18px 20px;
-            margin: 10px 20px 20px 20px;
+            margin: 15px 20px;
             border-radius: 14px;
             position: relative;
             box-shadow: 0 6px 15px rgba(0, 180, 210, 0.25);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .ad-banner-oer:hover {
+            transform: translateY(-2px);
         }
 
         .ad-banner-oer h4 {
             font-size: 15px;
             margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .ad-banner-oer p {
@@ -223,14 +240,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            z-index: 10;
         }
 
         .btn-close-ad:hover {
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* Navigasi Halaman (1, 2, 3, 4) */
+        /* Navigasi Nomor Halaman (1, 2, 3, 4) di Bawah */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -264,11 +281,11 @@
 <body>
 
     <div class="app-container">
-        <!-- HEADER NAVIGASI -->
+        <!-- HEADER: Tombol Back & Logo OeR -->
         <header>
             <div class="header-left">
-                <button class="btn-back" onclick="kembaliKeSebelumnya()" title="Kembali">←</button>
-                <a href="#" class="logo-oer">
+                <button class="btn-back" onclick="history.back()" title="Kembali">←</button>
+                <a href="https://oer-p.github.io/Media-oer/" class="logo-oer">
                     <div class="logo-icon">▶</div>
                     <span>OeR</span>
                 </a>
@@ -279,11 +296,11 @@
         <div class="search-section">
             <div class="search-box">
                 <span>🔍</span>
-                <input type="text" id="searchInput" placeholder="Cari materi tutorial di sini..." onkeyup="cariMateri()">
+                <input type="text" id="searchInput" placeholder="Cari materi tutorial, kode, atau sistem..." onkeyup="cariMateriRealtime()">
             </div>
         </div>
 
-        <!-- 4 PILIHAN TOPIK PEMBAHASAN -->
+        <!-- 4 PILIHAN PEMBAHASAN DI ATAS -->
         <div class="topics-grid">
             <div class="topic-card active" id="btn-topik-1" onclick="pilihTopik(1)">1. Kode Pemula</div>
             <div class="topic-card" id="btn-topik-2" onclick="pilihTopik(2)">2. Fungsi Sistem</div>
@@ -291,19 +308,17 @@
             <div class="topic-card" id="btn-topik-4" onclick="pilihTopik(4)">4. Tampilan Web</div>
         </div>
 
-        <!-- AREA KONTEN UTAMA -->
-        <div class="content-area" id="contentArea">
-            <!-- Isi materi akan dimuat dinamis oleh JavaScript -->
+        <!-- AREA KONTEN UTAMA (Tampil Komplit 1 Halaman) -->
+        <div class="content-area" id="contentArea"></div>
+
+        <!-- IKLAN OER DI TENGAH BACAAN (Bisa diklik & Ditutup Tanda X) -->
+        <div class="ad-banner-oer" id="iklanOeR" onclick="klikIklan()">
+            <button class="btn-close-ad" onclick="tutupIklan(event)" title="Tutup Iklan">×</button>
+            <h4>🚀 Iklan Komunitas OeR Platform</h4>
+            <p>Bagikan karya foto, video, audio, dan aplikasi Android kamu secara gratis & aman. Klik di sini untuk pelajari monetisasi!</p>
         </div>
 
-        <!-- IKLAN OER DI TENGAH BACAAN (Bisa Ditutup) -->
-        <div class="ad-banner-oer" id="iklanOeR">
-            <button class="btn-close-ad" onclick="tutupIklan()" title="Tutup Iklan">×</button>
-            <h4>🚀 Promo Komunitas OeR Platform</h4>
-            <p>Bagikan karya foto, video, audio, dan aplikasi Android kamu secara gratis dan aman di ekosistem OeR sekarang!</p>
-        </div>
-
-        <!-- NAVIGASI NOMOR HALAMAN (1, 2, 3, 4) -->
+        <!-- TOMBOL NOMOR HALAMAN (1, 2, 3, 4) DI BAWAH -->
         <div class="pagination-container">
             <button class="page-btn active" id="page-1" onclick="pilihTopik(1)">1</button>
             <button class="page-btn" id="page-2" onclick="pilihTopik(2)">2</button>
@@ -313,87 +328,106 @@
     </div>
 
     <!-- ==========================================
-       2. LOGIKA & INTERAKSI SISTEM (JAVASCRIPT)
+       LOGIKA SISTEM & DATA PEMBAHASAN (JAVASCRIPT)
        ========================================== -->
     <script>
-        // Database Materi Tutorial Sederhana
+        // Database 4 Pembahasan Lengkap Selengkap Mungkin
         const dataMateri = {
             1: {
-                judul: "1. Belajar Kode Dasar HTML & CSS",
-                gambar: "🖼️ Visual Gambar: Struktur HTML5 & CSS3",
-                isi: "Di bagian ini, pemula belajar dasar susunan dokumen web. HTML berfungsi membentuk kerangka seperti tombol dan teks, sedangkan CSS memberikan warna, font, dan tata letak yang indah."
+                judul: "1. Tutorial Kode Pembelajaran Pemula",
+                gambar: "🖼️ Visual: Kerangka HTML, CSS & Script Dasar",
+                isi: "Pembahasan ini dirancang khusus untuk pemula yang ingin belajar coding web dari nol. Kita menggunakan struktur file tunggal (Single-File) agar mudah dipelajari.<br><br><strong>Contoh Struktur HTML Sederhana:</strong>",
+                kode: "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;&lt;title&gt;Belajar OeR&lt;/title&gt;&lt;/head&gt;\n  &lt;body&gt;\n    &lt;h1&gt;Halo Pengunjung OeR!&lt;/h1&gt;\n  &lt;/body&gt;\n&lt;/html&gt;"
             },
             2: {
-                judul: "2. Penjelasan Fungsi Sistem OeR",
-                gambar: "⚙️ Visual Gambar: Alur Logika Sistem JavaScript",
-                isi: "Fungsi sistem adalah otak dari aplikasi web. Dengan JavaScript, web dapat merespons tindakan pengguna seperti tombol diklik, pengiriman formulir, dan perpindahan halaman tanpa reload."
+                judul: "2. Penjelasan Fungsi Sistem di Balik Layar",
+                gambar: "⚙️ Visual: Alur Logika, Event Listener & DOM",
+                isi: "Fungsi sistem adalah penggerak utama aplikasi web agar interaktif. Kita menggunakan fungsi JavaScript untuk menangani aksi klik, memproses data pencarian, dan memperbarui tampilan layar secara instan tanpa perlu reload halaman.<br><br><strong>Fungsi Utama yang Dipakai:</strong><br>• <code>pilihTopik(nomor)</code>: Mengubah isi bab secara dinamis.<br>• <code>history.back()</code>: Kembali ke halaman sebelumnya dengan mulus.",
+                kode: "function pilihTopik(nomor) {\n    const materi = dataMateri[nomor];\n    document.getElementById('contentArea').innerHTML = materi.judul;\n}"
             },
             3: {
-                judul: "3. Penggunaan Open API & Data Fetching",
-                desc API: "API (Application Programming Interface) memungkinkan web OeR terhubung dengan server luar. Kita bisa mengambil data pengguna, tutorial, atau cuaca secara otomatis menggunakan perintah Fetch API.",
-                gambar: "🌐 Visual Gambar: Koneksi Server & Open API"
+                judul: "3. Penggunaan Open API & Pengambilan Data",
+                gambar: "🌐 Visual: Integrasi Fetch API & Format JSON",
+                isi: "Open API memungkinkan platform OeR terhubung dengan server eksternal untuk mengambil data secara real-time. Teknik yang digunakan adalah <code>Async/Await Fetch API</code>.<br><br><strong>Contoh Kode Pengambilan Data API:</strong>",
+                kode: "async function ambilDataServer() {\n    try {\n        let res = await fetch('https://api.oer.platform/v1/data');\n        let data = await res.json();\n        console.log(data);\n    } catch(err) {\n        console.error('Gagal memuat data:', err);\n    }\n}"
             },
             4: {
-                judul: "4. Desain Tampilan Web (UI/UX) Responsif",
-                gambar: "📱 Visual Gambar: Layout Responsif di HP & Laptop",
-                isi: "Pengalaman pengguna (UX) adalah kunci utama. Pembahasan ini mengajarkan cara mengatur grid dan flexbox agar web tampil rapi di berbagai layar gadget pengguna."
+                judul: "4. Penjelasan Tampilan Web & Desain UI/UX",
+                gambar: "📱 Visual: Tata Letak Responsif (CSS Flexbox & Grid)",
+                isi: "Tampilan antarmuka web OeR menggunakan prinsip <strong>Responsive Design</strong> agar sangat nyaman dibaca lewat smartphone, tablet, maupun komputer.<br><br>• Menggunakan <code>CSS Grid</code> untuk menyusun 4 pilihan pembahasan.<br>• Menggunakan warna pirus khas OeR (<code>#00b4d2</code>) untuk memberikan kesan segar, modern, dan ramah pengguna."
             }
         };
 
-        // Fungsi Memilih Topik / Halaman
+        // Fungsi Menampilkan Topik Berdasarkan Pilihan
         function pilihTopik(nomor) {
             const materi = dataMateri[nomor];
-            const areaUtama = document.getElementById('contentArea');
-
-            // 1. Tampilkan Konten Sesuai Pilihan
-            areaUtama.innerHTML = `
+            const area = document.getElementById('contentArea');
+            
+            let htmlKonten = `
                 <h3 class="content-title">${materi.judul}</h3>
                 <div class="content-image">${materi.gambar}</div>
-                <p class="content-body">${materi.isi || materi['desc API']}</p>
+                <p class="content-body">${materi.isi}</p>
             `;
 
-            // 2. Perbarui Status Tombol Pilihan Topik
+            if(materi.kode) {
+                htmlKonten += `<pre><code>${materi.kode}</code></pre>`;
+            }
+
+            area.innerHTML = htmlKonten;
+
+            // Sinkronisasi kelas aktif pada tombol atas & bawah
             for (let i = 1; i <= 4; i++) {
                 const btnTopik = document.getElementById(`btn-topik-${i}`);
                 const btnPage = document.getElementById(`page-${i}`);
-                
                 if (i === nomor) {
-                    btnTopik.classList.add('active');
-                    btnPage.classList.add('active');
+                    if(btnTopik) btnTopik.classList.add('active');
+                    if(btnPage) btnPage.classList.add('active');
                 } else {
-                    btnTopik.classList.remove('active');
-                    btnPage.classList.remove('active');
+                    if(btnTopik) btnTopik.classList.remove('active');
+                    if(btnPage) btnPage.classList.remove('active');
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fungsi Menutup Iklan Oer di Tengah (Tombol X)
+        function tutupIklan(event) {
+            event.stopPropagation(); // Mencegah klik tembus ke banner
+            document.getElementById('iklanOeR').style.display = 'none';
+        }
+
+        // Fungsi Aksi Ketika Banner Iklan Diklik
+        function klikIklan() {
+            alert("Terima kasih telah tertarik dengan penawaran OeR Platform!");
+        }
+
+        // Fungsi Pencarian Realtime & Penangkap Query URL dari Search Utama OeR
+        function cariMateriRealtime() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            for (let id in dataMateri) {
+                const item = dataMateri[id];
+                if ((item.judul + " " + item.isi).toLowerCase().includes(keyword) && keyword !== "") {
+                    pilihTopik(Number(id));
+                    break;
                 }
             }
         }
 
-        // Fungsi Tutup Iklan OeR
-        function tutupIklan() {
-            const bannerIklan = document.getElementById('iklanOeR');
-            bannerIklan.style.display = 'none';
-        }
-
-        // Fungsi Tombol Back
-        function kembaliKeSebelumnya() {
-            if (document.referrer) {
-                window.history.back();
+        // Otomatis Tangkap Keyword dari Pencarian Utama OeR (?q=...)
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            if (query) {
+                document.getElementById('searchInput').value = query;
+                const q = query.toLowerCase();
+                if (q.includes('sistem') || q.includes('fungsi')) pilihTopik(2);
+                else if (q.includes('api')) pilihTopik(3);
+                else if (q.includes('tampilan') || q.includes('ui')) pilihTopik(4);
+                else pilihTopik(1);
             } else {
-                alert("Ini adalah halaman pertama Anda.");
+                pilihTopik(1); // Default buka Bab 1
             }
-        }
-
-        // Fungsi Pencarian Sederhana
-        function cariMateri() {
-            const kataKunci = document.getElementById('searchInput').value.toLowerCase();
-            if (kataKunci.trim() === "") return;
-            
-            console.log("Mencari materi tentang:", kataKunci);
-        }
-
-        // Jalankan Topik 1 Pertama Kali Saat Halaman Dimuat
-        window.onload = function() {
-            pilihTopik(1);
-        };
+        });
     </script>
 </body>
 </html>
