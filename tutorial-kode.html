@@ -1,669 +1,965 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial Kode Pemula & Panduan Sistem Lengkap — OeR Platform</title>
-    <style>
-        :root {
-            --primary-color: #00b4d2; /* Warna Pirus OeR */
-            --primary-hover: #008fa8;
-            --dark-color: #1e293b;
-            --light-bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --code-bg: #0f172a;
-            --text-color: #334155;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.8;
-            padding-bottom: 50px;
-        }
-
-        .app-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            min-height: 100vh;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-        }
-
-        /* HEADER NAVIGASI */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .btn-back {
-            background: #f1f5f9;
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--dark-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .btn-back:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* LOGO OER */
-        .logo-oer {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 24px;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--primary-color);
-            border-radius: 50% 50% 50% 5%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 15px;
-            padding-left: 3px;
-            box-shadow: 0 3px 8px rgba(0, 180, 210, 0.4);
-        }
-
-        /* SEARCH BAR */
-        .search-section {
-            padding: 16px 24px;
-            background: var(--card-bg);
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--light-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 12px 20px;
-            gap: 12px;
-        }
-
-        .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            font-size: 15px;
-            color: var(--dark-color);
-        }
-
-        /* 4 PILIHAN TOPIK */
-        .topics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 0 24px 16px 24px;
-        }
-
-        .topic-card {
-            background: var(--light-bg);
-            border: 1px solid var(--border-color);
-            padding: 14px 12px;
-            border-radius: 14px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--dark-color);
-            transition: all 0.2s ease;
-        }
-
-        .topic-card:hover, .topic-card.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(0, 180, 210, 0.3);
-        }
-
-        /* KONTEN UTAMA */
-        .content-area {
-            padding: 24px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .content-title {
-            font-size: 22px;
-            color: var(--primary-color);
-            margin-bottom: 16px;
-            font-weight: 800;
-            line-height: 1.3;
-        }
-
-        .illustration-box {
-            width: 100%;
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #006064;
-            margin-bottom: 24px;
-            border: 1px dashed var(--primary-color);
-            text-align: center;
-        }
-
-        .illustration-box svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 12px;
-            fill: var(--primary-color);
-        }
-
-        .section-block {
-            margin-bottom: 24px;
-        }
-
-        .section-block h4 {
-            font-size: 17px;
-            color: var(--dark-color);
-            margin-bottom: 8px;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 10px;
-        }
-
-        .section-block p {
-            margin-bottom: 12px;
-            font-size: 15px;
-            text-align: justify;
-        }
-
-        .section-block ul {
-            margin-left: 20px;
-            margin-bottom: 12px;
-            font-size: 15px;
-        }
-
-        pre {
-            background: var(--code-bg);
-            color: #38bdf8;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            overflow-x: auto;
-            margin: 14px 0;
-            line-height: 1.5;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        /* IKLAN OER DI TENGAH BACAAN */
-        .ad-banner-oer {
-            background: linear-gradient(135deg, #00b4d2, #0077b6);
-            color: white;
-            padding: 20px 24px;
-            margin: 20px;
-            border-radius: 16px;
-            position: relative;
-            box-shadow: 0 8px 20px rgba(0, 180, 210, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .ad-banner-oer:hover {
-            transform: translateY(-2px);
-        }
-
-        .ad-banner-oer h4 {
-            font-size: 17px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ad-banner-oer p {
-            font-size: 13px;
-            opacity: 0.95;
-            line-height: 1.5;
-        }
-
-        .btn-close-ad {
-            position: absolute;
-            top: 12px;
-            right: 14px;
-            background: rgba(255, 255, 255, 0.25);
-            border: none;
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .btn-close-ad:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* NAVIGASI HALAMAN (1, 2, 3, 4) */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 0 30px 0;
-        }
-
-        .page-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--dark-color);
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .page-btn.active, .page-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 10px rgba(0, 180, 210, 0.3);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Panduan lengkap belajar coding dari nol bersama OeR: HTML, CSS, JavaScript, dan GitHub Pages.">
+<title>Panduan Belajar Coding | OeR</title>
+<style>
+:root {
+  --green: #20c55e;
+  --dark: #101820;
+  --bg: #f4f7f5;
+  --text: #17212b;
+  --muted: #687581;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+}
+header {
+  background: var(--dark);
+  color: white;
+  padding: 15px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  text-decoration: none;
+}
+.logo span { color: var(--green); }
+.home {
+  background: var(--green);
+  color: #092513;
+  padding: 9px 15px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.hero {
+  background: linear-gradient(135deg,#101820,#214334);
+  color: white;
+  padding: 55px 20px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(30px,5vw,48px);
+  line-height: 1.2;
+  margin: 8px auto 15px;
+}
+.hero p {
+  max-width: 700px;
+  margin: auto;
+  color: #d8e5dd;
+}
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 18px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 260px minmax(0,1fr);
+  gap: 22px;
+  align-items: start;
+}
+.menu,.content,.advert {
+  background: white;
+  border: 1px solid #e2e8e4;
+  border-radius: 15px;
+}
+.menu {
+  padding: 17px;
+  position: sticky;
+  top: 85px;
+}
+.menu h2 { font-size: 19px; margin-top: 0; }
+.lesson-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 9px 0;
+  padding: 13px;
+  background: #f3f6f4;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+}
+.lesson-btn.active {
+  background: #e4f9eb;
+  border-color: #65d98d;
+  color: #087b39;
+}
+.lesson-btn small {
+  display: block;
+  font-weight: normal;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.content { padding: clamp(20px,4vw,38px); min-width: 0; }
+.lesson { display: none; }
+.lesson.active { display: block; }
+.label {
+  color: #07833b;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+h2 { line-height: 1.3; }
+.lesson h2 { font-size: clamp(26px,4vw,35px); }
+.lesson h3 { margin-top: 30px; line-height: 1.4; }
+.code {
+  background: #101820;
+  color: #c8f7d7;
+  border-radius: 10px;
+  padding: 17px;
+  overflow-x: auto;
+  white-space: pre;
+  font: 13px/1.8 monospace;
+}
+.note {
+  padding: 15px;
+  background: #eaf9ee;
+  border-left: 4px solid var(--green);
+  border-radius: 7px;
+  margin: 22px 0;
+}
+.exercise {
+  padding: 17px;
+  border: 1px solid #dce5df;
+  background: #f8faf8;
+  border-radius: 12px;
+}
+.exercise h3 { margin-top: 0; }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e9e6;
+}
+.action {
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: bold;
+  background: var(--dark);
+  color: white;
+}
+.action.next { background: var(--green); color: #082511; }
+.action:disabled { opacity: .35; cursor: not-allowed; }
+.advert {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(120deg,#fff,#eaffef);
+}
+.ad-logo {
+  background: var(--dark);
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 23px;
+  font-weight: 900;
+}
+.ad-logo span { color: var(--green); }
+.ad-copy { flex: 1; padding-right: 18px; }
+.ad-copy p { margin: 4px 0; font-size: 14px; color: var(--muted); }
+.ad-copy a { color: #087b39; font-weight: bold; }
+.close {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #e5e9e7;
+  font-size: 21px;
+}
+.hidden { display: none !important; }
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 15px;
+}
+@media(max-width:760px) {
+  header { padding: 12px 16px; }
+  .grid { grid-template-columns: 1fr; }
+  .menu { position: static; }
+  .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .lesson-btn { margin: 0; padding: 10px; }
+  .hero { padding: 40px 18px; }
+}
+@media(max-width:430px) {
+  .menu-list { grid-template-columns: 1fr; }
+  .advert { align-items: flex-start; padding: 15px; }
+  .actions { flex-direction: column; }
+  .actions button { width: 100%; }
+}
+</style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- HEADER DENGAN TOMBOL BACK KE HOME OER -->
-        <header>
-            <div class="header-left">
-                <button class="btn-back" onclick="kembaliKeHome()" title="Kembali ke Home OeR">←</button>
-                <a href="https://oer-p.github.io/Media-oer/" class="logo-oer">
-                    <div class="logo-icon">▶</div>
-                    <span>OeR</span>
-                </a>
-            </div>
-        </header>
+<header>
+  <a href="index.html" class="logo">O<span>e</span>R</a>
+  <a href="index.html" class="home">← Home OeR</a>
+</header>
 
-        <!-- KOLOM PENCARIAN -->
-        <div class="search-section">
-            <div class="search-box">
-                <span>🔍</span>
-                <input type="text" id="searchInput" placeholder="Cari kode, logika sistem, atau materi..." onkeyup="cariMateriRealtime()">
-            </div>
-        </div>
+<section class="hero">
+  <div style="color:#7cf2a0;font-weight:bold;letter-spacing:2px">
+    OeR LEARNING
+  </div>
+  <h1>Panduan Belajar Coding dari Nol</h1>
+  <p>
+    Mulai perjalananmu menjadi pembuat website.
+    Pelajari HTML, CSS, JavaScript, dan cara menerbitkan
+    website ke internet secara bertahap.
+  </p>
+</section>
 
-        <!-- 4 PILIHAN PEMBAHASAN DI ATAS -->
-        <div class="topics-grid">
-            <div class="topic-card active" id="btn-topik-1" onclick="pilihTopik(1)">1. Kode Pemula</div>
-            <div class="topic-card" id="btn-topik-2" onclick="pilihTopik(2)">2. Fungsi Sistem</div>
-            <div class="topic-card" id="btn-topik-3" onclick="pilihTopik(3)">3. Open API</div>
-            <div class="topic-card" id="btn-topik-4" onclick="pilihTopik(4)">4. Tampilan Web</div>
-        </div>
+<main class="container">
+<div class="grid">
 
-        <!-- AREA KONTEN PENJELASAN LENGKAP -->
-        <div class="content-area" id="contentArea"></div>
+<aside class="menu">
+  <h2>Daftar Tutorial</h2>
+  <div class="menu-list">
+    <button class="lesson-btn active" data-page="0">
+      Kode 1 <small>Dasar HTML</small>
+    </button>
+    <button class="lesson-btn" data-page="1">
+      Kode 2 <small>CSS dan desain</small>
+    </button>
+    <button class="lesson-btn" data-page="2">
+      Kode 3 <small>JavaScript</small>
+    </button>
+    <button class="lesson-btn" data-page="3">
+      Kode 4 <small>GitHub Pages</small>
+    </button>
+  </div>
+  <p style="font-size:13px;color:#687581">
+    Tips: baca satu modul, praktikkan kodenya,
+    lalu lanjutkan ke pembelajaran berikutnya.
+  </p>
+</aside>
 
-        <!-- IKLAN OER DI TENGAH BACAAN (BISA DITUTUP DENGAN X) -->
-        <div class="ad-banner-oer" id="iklanOeR" onclick="klikIklan()">
-            <button class="btn-close-ad" onclick="tutupIklan(event)" title="Tutup Iklan">×</button>
-            <h4>🚀 Ekosistem Komunitas OeR Platform</h4>
-            <p>Bagikan karya foto, video, audio, serta aplikasi buatanmu secara instan dan aman. Klik banner ini untuk bergabung dengan pembuat konten OeR!</p>
-        </div>
+<div>
+<article class="content">
 
-        <!-- NAVIGASI HALAMAN (1, 2, 3, 4) DI BAWAH -->
-        <div class="pagination-container">
-            <button class="page-btn active" id="page-1" onclick="pilihTopik(1)">1</button>
-            <button class="page-btn" id="page-2" onclick="pilihTopik(2)">2</button>
-            <button class="page-btn" id="page-3" onclick="pilihTopik(3)">3</button>
-            <button class="page-btn" id="page-4" onclick="pilihTopik(4)">4</button>
-        </div>
-    </div>
+<section class="lesson active">
+<div class="label">MODUL 1 • DASAR WEBSITE</div>
+<h2>Kode 1: Belajar HTML dari Nol</h2>
 
-    <script>
-        // DATA MATERI LENGKAP DETAIL DENGAN GAMBAR ILUSTRASI
-        const dataMateri = {
-            1: {
-                judul: "1. Panduan Kode Pemula: HTML, CSS & JavaScript Dasar dari Nol",
-                ilmu: `<div class="illustration-box">
-                        <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-                        <strong>Arsitektur Dasar Web Development</strong>
-                        <p style="font-size:12px; margin-top:4px;">Struktur Kerangka (HTML) + Penataan Visual (CSS) + Logika Interaktif (JavaScript)</p>
-                       </div>`,
-                penjelasan: `
-                    <div class="section-block">
-                        <h4>A. Pengenalan Kerangka HTML5</h4>
-                        <p>Selamat datang di pemrograman web! Dalam membangun sebuah aplikasi web di platform OeR, HTML (HyperText Markup Language) bertindak sebagai pondasi dan kerangka utama. Tanpa HTML, browser tidak akan tahu bagaimana cara menampilkan teks, tombol, gambar, atau formulir pencarian.</p>
-                        <p>Setiap elemen dalam HTML dibungkus oleh apa yang disebut sebagai <em>Tag</em>. Tag dibuka dengan tanda <code>&lt;tag&gt;</code> dan ditutup dengan <code>&lt;/tag&gt;</code>. Pembagian struktur dokumen HTML5 terdiri dari:</p>
-                        <ul>
-                            <li><strong>&lt;!DOCTYPE html&gt;:</strong> Menginformasikan kepada browser bahwa dokumen ini standar HTML5.</li>
-                            <li><strong>&lt;head&gt;:</strong> Tempat menyimpan meta-data, judul halaman, serta tautan gaya CSS.</li>
-                            <li><strong>&lt;body&gt;:</strong> Area utama di mana semua elemen visual (teks, gambar, tombol) ditampilkan kepada pengguna.</li>
-                        </ul>
-                    </div>
+<p>Selamat datang di panduan belajar coding OeR.
+Modul pertama ini ditujukan untuk siapa saja yang ingin
+membuat website tetapi belum pernah menulis kode.
+Kamu tidak harus langsung memahami semuanya.
+Mulailah dengan memahami fungsi setiap bagian,
+kemudian praktikkan contoh yang tersedia.</p>
 
-                    <div class="section-block">
-                        <h4>B. Menghias Tampilan dengan CSS3 (Styling)</h4>
-                        <p>Jika HTML adalah kerangka tulang, maka CSS (Cascading Style Sheets) adalah pakaian dan penampilannya. CSS bertugas mengatur warna latar belakang, tipe huruf (font), ukuran margin, tata letak responsif, serta animasi saat tombol di-klik.</p>
-                        <p>Di platform OeR, kita menggunakan identitas warna Pirus (Cyan/Turquoise `#00b4d2`) sebagai warna utama. Warna ini dipasang menggunakan Variabel CSS agar konsisten di seluruh elemen web.</p>
-                    </div>
+<h3>1. Apa itu coding?</h3>
+<p>Coding adalah kegiatan menulis instruksi menggunakan
+bahasa yang dapat diproses komputer. Instruksi tersebut
+dapat digunakan untuk membangun website, aplikasi,
+permainan, dan berbagai perangkat lunak lainnya.
+Dalam pengembangan website, kita biasanya menggunakan
+HTML untuk struktur, CSS untuk tampilan, dan JavaScript
+untuk interaksi.</p>
 
-                    <div class="section-block">
-                        <h4>C. Memberikan Kehidupan dengan JavaScript</h4>
-                        <p>JavaScript adalah bahasa pemrograman yang membuat halaman web menjadi hidup dan dinamis. Tanpa JavaScript, tombol yang di-klik tidak akan merespons atau berpindah pembahasan secara mulus.</p>
-                    </div>
+<p>Bayangkan website seperti sebuah rumah.
+HTML adalah kerangka dan ruangannya. CSS menjadi cat,
+dekorasi, dan pengaturan interior. JavaScript membuat
+sebagian komponen dapat melakukan sesuatu ketika
+pengunjung menekan tombol atau memasukkan informasi.
+Ketiga teknologi tersebut bekerja sama membentuk
+pengalaman website yang utuh.</p>
 
-                    <div class="section-block">
-                        <h4>D. Contoh Kode Lengkap Pemula</h4>
-                        <p>Berikut adalah contoh kode kombinasi dasar yang bisa disalin untuk latihan:</p>
-                        <pre><code>&lt;!DOCTYPE html&gt;
+<h3>2. Mengenal HTML</h3>
+<p>HTML adalah singkatan dari HyperText Markup Language.
+HTML digunakan untuk menyusun judul, paragraf, gambar,
+tautan, daftar, formulir, dan konten lainnya. HTML memakai
+elemen yang umumnya ditulis dengan tag pembuka dan
+penutup. Contohnya, tag p digunakan untuk paragraf.
+Tag pembukanya adalah &lt;p&gt; dan tag penutupnya
+adalah &lt;/p&gt;.</p>
+
+<h3>3. Membuat file pertama</h3>
+<p>Buka editor teks. Kamu dapat menggunakan Visual Studio
+Code atau editor teks lain. Buat file bernama
+<code>index.html</code>. Perhatikan bahwa nama file harus
+berakhir dengan .html. Masukkan kode berikut.</p>
+
+<pre class="code"><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="id"&gt;
 &lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;title&gt;Aplikasi Pemula OeR&lt;/title&gt;
-    &lt;style&gt;
-        body { font-family: sans-serif; background: #f8fafc; color: #333; }
-        .tombol-oer { background: #00b4d2; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
-        .tombol-oer:hover { background: #008fa8; }
-    &lt;/style&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport"
+        content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Website Pertamaku&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;h1&gt;Selamat Datang di OeR Learning!&lt;/h1&gt;
-    &lt;p&gt;Klik tombol di bawah ini untuk melihat reaksi logika JavaScript:&lt;/p&gt;
-    &lt;button class="tombol-oer" onclick="sapaPengunjung()"&gt;Sapa Saya&lt;/button&gt;
-
-    &lt;script&gt;
-        function sapaPengunjung() {
-            alert("Halo! Selamat belajar pembuatan web di platform OeR.");
-        }
-    &lt;/script&gt;
+  &lt;h1&gt;Halo, Dunia!&lt;/h1&gt;
+  &lt;p&gt;Saya sedang belajar coding di OeR.&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-                    </div>
-                `
-            },
-            2: {
-                judul: "2. Pembahasan Fungsi Sistem di Balik Layar",
-                ilmu: `<div class="illustration-box">
-                        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                        <strong>Sistem Pemrosesan & Logika Alur Kerja</strong>
-                        <p style="font-size:12px; margin-top:4px;">Event Handling + Manipulasi DOM + Manajemen Navigasi Halaman</p>
-                       </div>`,
-                penjelasan: `
-                    <div class="section-block">
-                        <h4>A. Konsep Dasar Manipulasi DOM (Document Object Model)</h4>
-                        <p>Ketika sebuah halaman web dimuat, browser mengubah seluruh dokumen HTML menjadi struktur pohon objek yang disebut <strong>DOM</strong>. Melalui JavaScript, kita dapat mengubah teks, menyembunyikan elemen, atau menambah kelas warna secara instan tanpa perlu memuat ulang (*reload*) halaman.</p>
-                        <p>Contoh perintah utama manipulasi DOM yang dipakai pada halaman ini:</p>
-                        <ul>
-                            <li><code>document.getElementById('contentArea')</code>: Mengambil area wadah utama berdasarkan ID-nya.</li>
-                            <li><code>innerHTML = ...</code>: Mengganti seluruh isi HTML di dalam wadah secara langsung.</li>
-                            <li><code>classList.add('active')</code>: Menambahkan status tombol pirus aktif.</li>
-                        </ul>
-                    </div>
 
-                    <div class="section-block">
-                        <h4>B. Mekanisme Event Listener (Penanganan Aksi)</h4>
-                        <p>Sistem OeR bekerja berdasarkan respon terhadap aksi pengguna. Aksi ini dinamakan <em>Event</em>. Beberapa contoh event interaktif yang berjalan di halaman ini adalah:</p>
-                        <ul>
-                            <li><code>onclick</code>: Memicu fungsi perpindahan bab saat tombol 1, 2, 3, atau 4 diklik.</li>
-                            <li><code>onkeyup</code>: Memproses pengetikan kata kunci di kolom pencarian secara real-time.</li>
-                            <li><code>DOMContentLoaded</code>: Mendeteksi saat halaman selesai dimuat agar parameter pencarian otomatis dibaca.</li>
-                        </ul>
-                    </div>
+<p>Baris DOCTYPE menyatakan bahwa dokumen memakai HTML
+modern. Elemen html membungkus seluruh dokumen. Atribut
+lang="id" memberi tahu browser bahwa bahasa halaman
+adalah bahasa Indonesia. Bagian head menyimpan informasi
+dokumen seperti judul tab dan pengaturan karakter.
+Bagian body memuat konten yang terlihat oleh pengunjung.</p>
 
-                    <div class="section-block">
-                        <h4>C. Logika Alur Fungsi Utama</h4>
-                        <p>Berikut adalah bentuk fungsi JavaScript yang mengendalikan interaksi halaman ini:</p>
-                        <pre><code>// 1. Fungsi Mengubah Bab Topik
-function pilihTopik(nomor) {
-    const materi = dataMateri[nomor];
-    
-    // Perbarui Tampilan Konten Utama
-    document.getElementById('contentArea').innerHTML = materi.penjelasan;
-    
-    // Atur Status Aktif Tombol 1, 2, 3, 4
-    for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById('btn-topik-' + i);
-        if (i === nomor) btn.classList.add('active');
-        else btn.classList.remove('active');
-    }
+<p>Elemen h1 menampilkan judul utama, sedangkan p
+menampilkan paragraf. Setelah menyimpan file, buka
+index.html di browser. Kamu seharusnya melihat judul
+Halo, Dunia! beserta paragraf di bawahnya.</p>
+
+<h3>4. Judul, tautan, dan gambar</h3>
+<p>Gunakan h1 untuk judul utama dan h2 untuk subjudul.
+Susunan judul yang teratur membantu pembaca memahami
+isi halaman. Untuk membuat tautan, gunakan elemen a
+dengan atribut href. Untuk menampilkan gambar, gunakan
+elemen img dengan atribut src dan alt.</p>
+
+<pre class="code"><code>&lt;h1&gt;Belajar Bersama OeR&lt;/h1&gt;
+&lt;h2&gt;Materi Pertama&lt;/h2&gt;
+&lt;p&gt;Saya sedang membuat website.&lt;/p&gt;
+
+&lt;a href="https://example.com"&gt;
+  Kunjungi contoh website
+&lt;/a&gt;
+
+&lt;img src="gambar.jpg"
+     alt="Ilustrasi belajar coding"&gt;</code></pre>
+
+<p>Atribut href menentukan tujuan tautan. Atribut src
+menunjukkan lokasi gambar. Atribut alt memberikan
+deskripsi gambar jika gambar tidak dapat ditampilkan
+dan membantu pengguna teknologi pembaca layar.
+Pastikan nama file gambar benar dan file tersebut
+memang tersedia pada lokasi yang ditentukan.</p>
+
+<h3>5. Memahami struktur kode</h3>
+<p>HTML tersusun secara bertingkat. Sebuah elemen dapat
+berisi elemen lainnya. Misalnya, sebuah bagian dapat
+memuat judul dan paragraf. Gunakan indentasi supaya
+hubungan antarelemen mudah dilihat. Indentasi tidak
+selalu mengubah hasil halaman, tetapi sangat membantu
+ketika kode mulai panjang.</p>
+
+<p>Atribut class juga penting. Class memberikan nama
+pada elemen sehingga nantinya dapat dipilih oleh CSS
+atau JavaScript. Contohnya adalah
+<code>&lt;div class="kartu"&gt;</code>. Nama kartu itu
+dapat dipakai untuk memberikan latar, jarak, dan bentuk
+tertentu melalui CSS.</p>
+
+<h3>6. Kesalahan yang sering terjadi</h3>
+<p>Kesalahan pemula yang umum adalah salah mengetik
+nama tag, lupa menutup tag, menyimpan file dengan
+ekstensi yang salah, atau menggunakan nama gambar yang
+tidak sesuai. Jika halaman kosong, periksa apakah konten
+berada di dalam body. Jika tautan tidak bekerja, periksa
+nilai href. Jika gambar tidak muncul, periksa nama,
+ekstensi, huruf besar-kecil, dan lokasi gambar.</p>
+
+<p>Belajar coding bukan berarti tidak boleh salah.
+Justru proses menemukan dan memperbaiki kesalahan
+adalah bagian penting dari belajar. Ubah satu bagian
+pada satu waktu, simpan file, kemudian muat ulang
+browser. Dengan cara ini kamu dapat melihat perubahan
+dan mengetahui bagian yang menyebabkan masalah.</p>
+
+<h3>7. Mengembangkan halaman pertama</h3>
+<p>Setelah halaman sederhana berhasil, tambahkan bagian
+tentang dirimu, daftar materi yang ingin dipelajari,
+dan tautan menuju halaman lain. Kamu juga dapat
+membuat file baru bernama tentang.html. Hubungkan
+kedua halaman menggunakan tautan relatif. Jika kedua
+file berada dalam folder yang sama, href="tentang.html"
+dapat digunakan untuk membuka halaman tersebut.</p>
+
+<p>Jangan langsung membuat proyek terlalu besar.
+Buat satu halaman yang berfungsi terlebih dahulu.
+Setelah itu, rapikan struktur, perbaiki tulisan, dan
+pastikan tautan berfungsi. Simpan salinan sebelum
+melakukan perubahan besar. Kebiasaan sederhana ini
+membuat proses belajar lebih aman dan teratur.</p>
+
+<div class="note">
+<strong>Kesimpulan:</strong> HTML adalah fondasi struktur
+website. Pahami elemen, atribut, judul, paragraf,
+tautan, dan gambar sebelum melanjutkan ke desain.
+</div>
+
+<div class="exercise">
+<h3>Latihan Kode 1</h3>
+<ol>
+<li>Buat file index.html.</li>
+<li>Tambahkan satu judul utama dan dua paragraf.</li>
+<li>Buat tautan ke website pilihanmu.</li>
+<li>Tambahkan gambar dengan atribut alt.</li>
+<li>Buka halaman di browser dan periksa hasilnya.</li>
+</ol>
+</div>
+
+<div class="actions">
+<button class="action" disabled>Sebelumnya</button>
+<button class="action next">Lanjut ke Kode 2 →</button>
+</div>
+</section>
+
+<section class="lesson">
+<div class="label">MODUL 2 • DESAIN WEBSITE</div>
+<h2>Kode 2: Belajar CSS dari Dasar</h2>
+
+<p>CSS adalah singkatan dari Cascading Style Sheets.
+CSS mengatur bagaimana elemen HTML ditampilkan.
+Dengan CSS, kamu dapat mengatur warna, ukuran teks,
+jarak, garis tepi, tata letak, dan tampilan responsif.
+Jika HTML adalah struktur rumah, CSS membantu membuat
+rumah tersebut nyaman dan menarik.</p>
+
+<h3>1. Cara kerja CSS</h3>
+<p>Aturan CSS memiliki selector, properti, dan nilai.
+Selector menentukan elemen yang akan dipilih.
+Properti menentukan bagian yang ingin diatur.
+Nilai menunjukkan pengaturan yang dipakai.</p>
+
+<pre class="code"><code>p {
+  color: green;
+  font-size: 18px;
+}</code></pre>
+
+<p>Aturan tersebut memilih semua paragraf, mengubah
+warna teks menjadi hijau, dan mengatur ukuran tulisan
+menjadi 18 piksel. Titik koma memisahkan deklarasi.
+Kurung kurawal mengelompokkan aturan yang berlaku
+untuk selector tersebut.</p>
+
+<h3>2. Menghubungkan file CSS</h3>
+<p>Buat file bernama style.css pada folder yang sama
+dengan index.html. Kemudian masukkan tautan berikut
+di dalam elemen head HTML.</p>
+
+<pre class="code"><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></pre>
+
+<p>Setelah itu, tuliskan aturan CSS pada style.css.
+Memisahkan HTML dan CSS membuat proyek lebih rapi.
+Jika tampilan belum berubah, periksa nama file,
+lokasi file, tanda kurung, dan simpan perubahan.</p>
+
+<h3>3. Warna, font, dan jarak</h3>
+<p>CSS mendukung nama warna, kode heksadesimal,
+dan berbagai format warna. Contohnya #20c55e adalah
+warna hijau. Properti font-family mengatur jenis huruf,
+font-size mengatur ukuran, dan line-height mengatur
+jarak antarbaris. Pilih kombinasi yang mudah dibaca.
+Teks harus memiliki kontras yang cukup dengan latarnya.</p>
+
+<p>Margin mengatur ruang di luar elemen. Padding
+mengatur ruang di antara isi dan tepi elemen. Border
+menambahkan garis tepi dan border-radius membulatkan
+sudut. Meskipun tampak sederhana, kombinasi jarak
+yang konsisten dapat membuat halaman lebih nyaman.</p>
+
+<pre class="code"><code>body {
+  font-family: Arial, sans-serif;
+  background: #f4f7f5;
+  color: #17212b;
+  margin: 0;
+  line-height: 1.7;
 }
 
-// 2. Fungsi Tombol Back Kembali ke Home
-function kembaliKeHome() {
-    window.location.href = "https://oer-p.github.io/Media-oer/";
+.kartu {
+  background: white;
+  padding: 20px;
+  border: 1px solid #dfe7e1;
+  border-radius: 14px;
 }</code></pre>
-                    </div>
-                `
-            },
-            3: {
-                judul: "3. Penggunaan Open API & Integrasi Data Luar",
-                ilmu: `<div class="illustration-box">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                        <strong>Arsitektur Integrasi Open API & Server Data</strong>
-                        <p style="font-size:12px; margin-top:4px;">Asynchronous Request + Protocol HTTP Fetch + JSON Parsing</p>
-                       </div>`,
-                penjelasan: `
-                    <div class="section-block">
-                        <h4>A. Apa itu Open API?</h4>
-                        <p><strong>API (Application Programming Interface)</strong> adalah jembatan komunikasi yang memungkinkan dua sistem atau aplikasi yang berbeda saling bertukar data. Dengan Open API, web OeR dapat mengambil informasi terbaru dari server luar—seperti daftar berita, data cuaca, informasi pengguna, atau file media—secara otomatis.</p>
-                    </div>
 
-                    <div class="section-block">
-                        <h4>B. Memahami Format Data JSON</h4>
-                        <p>Data yang dikirimkan oleh Open API hampir selalu berbentuk <strong>JSON (JavaScript Object Notation)</strong>. Format ini sangat ringan dan mudah dibaca oleh komputer maupun manusia.</p>
-                        <p>Contoh struktur data JSON dari server OeR:</p>
-                        <pre><code>{
-  "status": "success",
-  "total_tutorial": 4,
-  "data": [
-    {
-      "id": 1,
-      "judul": "Tutorial Kode Pemula",
-      "kategori": "Web Development"
-    }
-  ]
-}</code></pre>
-                    </div>
+<h3>4. Mengenal class dan selector</h3>
+<p>Selector p memilih semua elemen paragraf. Selector
+.kartu memilih elemen yang memiliki class kartu.
+Sementara itu, selector #utama memilih elemen dengan
+id utama. Class dapat digunakan oleh banyak elemen,
+sedangkan ID sebaiknya unik dalam satu halaman.</p>
 
-                    <div class="section-block">
-                        <h4>C. Menggunakan Async / Await Fetch API</h4>
-                        <p>Untuk mengambil data dari API tanpa membuat web terasa macet (lag), kita menggunakan konsep <em>Asynchronous JavaScript</em> dengan fungsi <code>fetch()</code>:</p>
-                        <pre><code>// Fungsi Mengambil Data dari Open API
-async function muatDataTutorialOeR() {
-    try {
-        // 1. Kirim Permintaan ke Server
-        const response = await fetch('https://api.github.com/repos/Oer-p/Media-oer');
-        
-        // 2. Ubah Respon Menjadi Format JSON
-        const data = await response.json();
-        
-        // 3. Tampilkan Hasil Data ke Layar Web
-        console.log("Nama Repository:", data.name);
-        console.log("Jumlah Bintang (Stars):", data.stargazers_count);
-    } catch (error) {
-        console.error("Gagal terhubung ke Open API:", error);
-    }
-}</code></pre>
-                    </div>
-                `
-            },
-            4: {
-                judul: "4. Penjelasan Tampilan Web, Tata Letak & UI/UX Responsif",
-                ilmu: `<div class="illustration-box">
-                        <svg viewBox="0 0 24 24"><path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"/></svg>
-                        <strong>Desain Antarmuka Multi-Layar (Responsive Layout)</strong>
-                        <p style="font-size:12px; margin-top:4px;">CSS Flexbox + Grid Layout + Mobile First Standard</p>
-                       </div>`,
-                penjelasan: `
-                    <div class="section-block">
-                        <h4>A. Prinsip Desain UI/UX Platform OeR</h4>
-                        <p>Pengalaman Pengguna (User Experience / UX) dan Tampilan Antarmuka (User Interface / UI) adalah aspek krusial. Pengunjung harus merasa nyaman, tidak bingung saat membaca, serta dengan mudah menemukan tombol navigasi.</p>
-                        <p>Beberapa aturan standar tampilan web OeR meliputi:</p>
-                        <ul>
-                            <li><strong>Konsistensi Warna:</strong> Penggunaan kombinasi Cyan/Pirus `#00b4d2` sebagai aksen tombol utama, dengan latar belakang terang `#f8fafc` agar teks nyaman dibaca.</li>
-                            <li><strong>Kemudahan Navigasi:</strong> Tombol Kembali (`←`) diletakkan di sudut kiri atas yang selalu terlihat (Sticky Header).</li>
-                            <li><strong>Dual Navigation:</strong> Pengunjung bisa berpindah pembahasan lewat 4 kartu pilihan di atas maupun tombol angka (1, 2, 3, 4) di paling bawah.</li>
-                        </ul>
-                    </div>
+<p>Contohnya, HTML
+<code>&lt;div class="kartu"&gt;Materi OeR&lt;/div&gt;</code>
+akan menerima aturan .kartu di atas. Kamu dapat
+menggunakan beberapa class pada satu elemen untuk
+menggabungkan gaya. Gunakan nama class yang mudah
+dimengerti dan konsisten.</p>
 
-                    <div class="section-block">
-                        <h4>B. Penerapan CSS Flexbox & CSS Grid</h4>
-                        <p>Halaman ini dibangun menggabungkan dua teknik tata letak paling modern di CSS:</p>
-                        <ul>
-                            <li><strong>CSS Flexbox:</strong> Digunakan untuk menyusun Header (Tombol Back & Logo OeR) secara sejajar horizontal.</li>
-                            <li><strong>CSS Grid:</strong> Digunakan untuk membagi 4 kotak pilihan topik menjadi 2 kolom rapi di layar HP maupun laptop.</li>
-                        </ul>
-                    </div>
+<h3>5. Mengatur tata letak</h3>
+<p>Flexbox membantu menyusun elemen dalam satu arah,
+misalnya menu navigasi atau tombol. Grid membantu
+menyusun baris dan kolom, misalnya kumpulan kartu.
+Keduanya lebih fleksibel daripada mengatur posisi
+setiap elemen dengan angka tetap.</p>
 
-                    <div class="section-block">
-                        <h4>C. Kode CSS Layout Responsif</h4>
-                        <pre><code>/* Tata Letak 4 Pilihan Topik Menggunakan CSS Grid */
-.topics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Membagi rata 2 Kolom */
-    gap: 12px;
+<pre class="code"><code>.daftar-kartu {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
-/* Header Menggunakan CSS Flexbox */
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+@media (max-width: 700px) {
+  .daftar-kartu {
+    grid-template-columns: 1fr;
+  }
 }</code></pre>
-                    </div>
-                `
-            }
-        };
 
-        // FUNGSI MEMILIH TOPIK PEMBAHASAN
-        function pilihTopik(nomor) {
-            const materi = dataMateri[nomor];
-            const areaUtama = document.getElementById('contentArea');
+<p>Contoh ini menampilkan tiga kolom pada layar lebar.
+Ketika lebar layar 700 piksel atau kurang, kartu
+berubah menjadi satu kolom. Aturan seperti ini disebut
+media query dan menjadi bagian penting desain responsif.</p>
 
-            // Render Gambar Ilustrasi + Judul + Penjelasan Lengkap
-            areaUtama.innerHTML = `
-                <h3 class="content-title">${materi.judul}</h3>
-                ${materi.ilmu}
-                ${materi.penjelasan}
-            `;
+<h3>6. Membuat website nyaman di ponsel</h3>
+<p>Pastikan halaman memiliki pengaturan viewport pada
+HTML. Gunakan ukuran fleksibel, hindari lebar tetap
+yang terlalu besar, dan uji tampilan di layar sempit.
+Tombol perlu mudah disentuh, teks mudah dibaca, dan
+gambar tidak boleh meluap keluar dari kontainer.</p>
 
-            // Update Status Aktif pada Tombol Topik (Atas) dan Pagination (Bawah)
-            for (let i = 1; i <= 4; i++) {
-                const btnTopik = document.getElementById(`btn-topik-${i}`);
-                const btnPage = document.getElementById(`page-${i}`);
+<p>Desain responsif bukan hanya mengecilkan website.
+Kamu mungkin perlu mengubah urutan elemen, menyusun
+menu menjadi lebih sederhana, atau memberi jarak
+yang cukup. Periksa semua halaman, bukan hanya
+homepage, karena setiap halaman dapat memiliki
+kebutuhan tata letak berbeda.</p>
 
-                if (i === nomor) {
-                    if(btnTopik) btnTopik.classList.add('active');
-                    if(btnPage) btnPage.classList.add('active');
-                } else {
-                    if(btnTopik) btnTopik.classList.remove('active');
-                    if(btnPage) btnPage.classList.remove('active');
-                }
-            }
+<h3>7. Prinsip desain yang baik</h3>
+<p>Gunakan palet warna yang konsisten, judul yang jelas,
+dan jarak yang teratur. Jangan memenuhi halaman dengan
+terlalu banyak efek. Animasi dapat membantu memberi
+umpan balik, tetapi jangan sampai mengganggu pembaca.
+Pertimbangkan aksesibilitas, kontras, dan penggunaan
+keyboard agar website dapat digunakan lebih banyak orang.</p>
 
-            // Scroll Halus Kembali ke Atas
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+<p>Jika tampilan tidak sesuai harapan, periksa apakah
+selector cocok, apakah file CSS terhubung, dan apakah
+ada aturan lain yang menimpa. Ubah satu nilai,
+simpan, lalu muat ulang. Kebiasaan menguji secara
+bertahap membantu kamu menemukan penyebab masalah.</p>
 
-        // FUNGSI TOMBOL BACK KEMBALI KE HOME OER
-        function kembaliKeHome() {
-            window.location.href = "https://oer-p.github.io/Media-oer/";
-        }
+<div class="note">
+<strong>Kesimpulan:</strong> CSS mengatur tampilan website.
+Kuasai warna, jarak, selector, Grid, Flexbox, dan media
+query untuk membangun desain yang rapi serta responsif.
+</div>
 
-        // FUNGSI MENUTUP IKLAN OER (TOMBOL X)
-        function tutupIklan(event) {
-            event.stopPropagation(); // Mencegah pemicu event klik iklan
-            const iklan = document.getElementById('iklanOeR');
-            if (iklan) iklan.style.display = 'none';
-        }
+<div class="exercise">
+<h3>Latihan Kode 2</h3>
+<ol>
+<li>Buat file style.css.</li>
+<li>Ubah warna latar dan warna judul.</li>
+<li>Buat sebuah kartu dengan sudut membulat.</li>
+<li>Susun tiga kartu memakai CSS Grid.</li>
+<li>Uji tampilannya di komputer dan ponsel.</li>
+</ol>
+</div>
 
-        // FUNGSI KLIK IKLAN OER
-        function klikIklan() {
-            window.location.href = "https://oer-p.github.io/Media-oer/";
-        }
+<div class="actions">
+<button class="action prev">← Kode 1</button>
+<button class="action next">Lanjut ke Kode 3 →</button>
+</div>
+</section>
 
-        // FUNGSI PENCARIAN REALTIME DENGAN PENELUSURAN KATA KUNCI
-        function cariMateriRealtime() {
-            const input = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (input === "") return;
+<section class="lesson">
+<div class="label">MODUL 3 • INTERAKSI</div>
+<h2>Kode 3: Belajar JavaScript</h2>
 
-            for (let id in dataMateri) {
-                const item = dataMateri[id];
-                const gabunganTeks = (item.judul + " " + item.penjelasan).toLowerCase();
+<p>JavaScript membuat website dapat merespons tindakan
+pengguna. Dengan JavaScript, tombol bisa mengubah
+teks, formulir dapat diperiksa, daftar dapat dicari,
+dan halaman bisa mengambil data dari layanan lain.
+Pelajari dasarnya sebelum membuat fitur yang kompleks.</p>
 
-                if (gabunganTeks.includes(input)) {
-                    pilihTopik(Number(id));
-                    break;
-                }
-            }
-        }
+<h3>1. Menambahkan JavaScript</h3>
+<p>JavaScript dapat ditulis langsung dalam tag script
+atau disimpan dalam file terpisah. Untuk proyek yang
+lebih rapi, buat file script.js dan hubungkan dengan
+HTML memakai kode berikut.</p>
 
-        // OTOMATIS MEMBACA QUERY PARAMETER DARI SEARCH UTAMA (?q=...)
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const query = urlParams.get('q');
+<pre class="code"><code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code></pre>
 
-            if (query) {
-                document.getElementById('searchInput').value = query;
-                const q = query.toLowerCase();
+<p>Atribut defer membuat skrip dijalankan setelah
+dokumen HTML selesai diproses. Pastikan file script.js
+berada di lokasi yang benar. Jika browser tidak
+menjalankan fitur, periksa Console untuk melihat
+apakah ada kesalahan JavaScript.</p>
 
-                if (q.includes('sistem') || q.includes('fungsi') || q.includes('logika')) {
-                    pilihTopik(2);
-                } else if (q.includes('api') || q.includes('open api') || q.includes('fetch')) {
-                    pilihTopik(3);
-                } else if (q.includes('tampilan') || q.includes('ui') || q.includes('ux') || q.includes('desain')) {
-                    pilihTopik(4);
-                } else {
-                    pilihTopik(1);
-                }
-            } else {
-                pilihTopik(1); // Default Buka Bab 1
-            }
-        });
-    </script>
+<h3>2. Variabel dan data</h3>
+<p>Variabel menyimpan nilai. Gunakan const jika variabel
+tidak perlu ditetapkan ulang dan let jika nilainya
+akan berubah. String adalah teks, number adalah angka,
+dan boolean adalah nilai benar atau salah.</p>
+
+<pre class="code"><code>const nama = "OeR";
+let jumlah = 1;
+jumlah = jumlah + 1;
+
+console.log(nama);
+console.log(jumlah);</code></pre>
+
+<p>console.log menampilkan nilai di Console browser.
+Fitur ini berguna untuk memeriksa proses program.
+Biasakan memakai nama variabel yang jelas dan
+hindari menaruh data sensitif di log atau kode publik.</p>
+
+<h3>3. Fungsi dan kondisi</h3>
+<p>Fungsi mengelompokkan instruksi yang dapat dipakai
+kembali. Fungsi dapat menerima parameter dan
+mengembalikan nilai. Kondisi if menjalankan kode
+berdasarkan suatu syarat.</p>
+
+<pre class="code"><code>function sapa(nama) {
+  return "Halo, " + nama + "!";
+}
+
+const jam = 10;
+
+if (jam < 12) {
+  console.log(sapa("teman OeR"));
+} else {
+  console.log("Selamat siang!");
+}</code></pre>
+
+<p>Fungsi sapa menerima nama lalu mengembalikan teks.
+Kondisi memilih pesan berdasarkan nilai jam.
+Kamu dapat mengembangkan contoh ini menjadi pesan
+sambutan atau fungsi lain yang sesuai kebutuhan.</p>
+
+<h3>4. Membuat tombol interaktif</h3>
+<p>JavaScript dapat memilih elemen HTML melalui DOM.
+Metode querySelector memilih elemen berdasarkan
+selector CSS. Kemudian addEventListener mendeteksi
+peristiwa seperti klik.</p>
+
+<pre class="code"><code>&lt;button id="tombol"&gt;Klik saya&lt;/button&gt;
+&lt;p id="pesan"&gt;Pesan awal&lt;/p&gt;
+
+&lt;script&gt;
+const tombol = document.querySelector("#tombol");
+const pesan = document.querySelector("#pesan");
+
+tombol.addEventListener("click", function() {
+  pesan.textContent = "Halo! Tombol berhasil diklik.";
+});
+&lt;/script&gt;</code></pre>
+
+<p>Saat tombol ditekan, teks paragraf berubah.
+Pastikan ID pada HTML sesuai dengan selector.
+Jika elemen tidak ditemukan, periksa ejaan dan
+waktu skrip dijalankan. Gunakan tombol HTML asli
+agar pengguna keyboard juga dapat mengoperasikannya.</p>
+
+<h3>5. Membuat pencarian sederhana</h3>
+<p>Pencarian lokal dapat dibuat dengan membandingkan
+kata yang diketik dengan daftar materi yang tersedia.
+Contoh berikut mencari daftar kecil yang disimpan
+di dalam JavaScript.</p>
+
+<pre class="code"><code>const materi = [
+  "HTML dasar",
+  "CSS responsif",
+  "JavaScript pemula"
+];
+
+function cariMateri(kata) {
+  return materi.filter(item =>
+    item.toLowerCase().includes(kata.toLowerCase())
+  );
+}
+
+console.log(cariMateri("css"));</code></pre>
+
+<p>Metode filter membuat daftar hasil baru berdasarkan
+kondisi. toLowerCase membuat pencarian tidak
+membedakan huruf besar dan kecil. Contoh ini hanya
+mencari data yang tersedia di dalam program, bukan
+seluruh internet. Mesin pencari yang lebih besar
+memerlukan indeks, sumber data, dan sistem pembaruan.</p>
+
+<h3>6. Menghubungkan layanan dan menjaga keamanan</h3>
+<p>JavaScript dapat meminta data dari API menggunakan
+fetch. Permintaan jaringan bisa gagal, sehingga
+program perlu memeriksa respons dan menangani
+kesalahan. Tampilkan pesan yang jelas ketika data
+sedang dimuat atau tidak berhasil diambil.</p>
+
+<p>Hal yang sangat penting: kode HTML dan JavaScript
+yang dikirim ke browser dapat dilihat pengunjung.
+Jangan menaruh password, kunci privat, atau rahasia
+database dalam file publik. Jika memakai Supabase,
+gunakan kunci yang memang ditujukan untuk penggunaan
+publik dan atur Row Level Security dengan benar.
+Kunci publik saja bukan pengganti aturan akses.</p>
+
+<h3>7. Memperbaiki kesalahan</h3>
+<p>Ketika tombol tidak berfungsi, periksa Console,
+nama variabel, selector, tanda kurung, dan urutan
+pemanggilan fungsi. Uji bagian kecil terlebih dahulu.
+Gunakan console.log untuk mengetahui nilai yang
+sedang diproses, lalu hapus log yang tidak diperlukan.</p>
+
+<p>Jangan langsung menulis ulang semua kode karena
+satu fitur gagal. Simpan versi yang berfungsi dan
+ubah sedikit demi sedikit. Semakin teratur kode
+ditulis, semakin mudah kamu memperbaiki dan
+mengembangkan website pada masa mendatang.</p>
+
+<div class="note">
+<strong>Kesimpulan:</strong> JavaScript menambahkan
+interaksi dan logika. Pelajari variabel, fungsi,
+kondisi, DOM, peristiwa klik, serta keamanan dasar.
+</div>
+
+<div class="exercise">
+<h3>Latihan Kode 3</h3>
+<ol>
+<li>Buat tombol yang mengubah isi paragraf.</li>
+<li>Buat fungsi yang menerima satu parameter.</li>
+<li>Buat daftar tiga materi.</li>
+<li>Tambahkan fungsi pencarian sederhana.</li>
+<li>Uji kode dan periksa pesan di Console.</li>
+</ol>
+</div>
+
+<div class="actions">
+<button class="action prev">← Kode 2</button>
+<button class="action next">Lanjut ke Kode 4 →</button>
+</div>
+</section>
+
+<section class="lesson">
+<div class="label">MODUL 4 • PUBLIKASI WEBSITE</div>
+<h2>Kode 4: GitHub dan GitHub Pages</h2>
+
+<p>Setelah membuat website, langkah berikutnya adalah
+membagikannya secara online. GitHub dapat menyimpan
+kode proyek, sedangkan GitHub Pages dapat menerbitkan
+website statis dari repositori. Dengan memahami
+proses ini, kamu dapat mempublikasikan hasil belajar
+tanpa harus mengelola server sendiri.</p>
+
+<h3>1. Apa itu Git dan GitHub?</h3>
+<p>Git adalah sistem kontrol versi untuk mencatat
+perubahan berkas. GitHub adalah layanan daring yang
+menyediakan repositori Git dan alat kolaborasi.
+Repositori berisi file proyek serta riwayat perubahan.
+Kamu dapat memulai lewat browser, lalu mempelajari
+perintah Git ketika sudah lebih nyaman.</p>
+
+<p>Susun proyek dengan rapi. Contohnya, index.html
+menjadi halaman utama, style.css menyimpan gaya,
+script.js menyimpan interaksi, dan folder images
+menyimpan gambar. Nama file dalam kode harus sesuai
+dengan file yang diunggah.</p>
+
+<h3>2. Membuat repositori</h3>
+<p>Masuk ke GitHub, buat repositori baru, lalu beri
+nama yang mudah dikenali. Tentukan visibilitas
+sesuai kebutuhan. Jika repositori publik, orang lain
+dapat melihat kode yang disimpan. Jangan mengunggah
+password, token akses, kunci rahasia, atau data pribadi.</p>
+
+<p>Unggah berkas proyek melalui fitur penambahan file.
+Pastikan index.html berada di folder sumber yang
+sesuai. Beri pesan perubahan yang jelas, misalnya
+"Menambahkan halaman tutorial". Riwayat perubahan
+membantu kamu mengetahui apa yang telah diubah.</p>
+
+<h3>3. Mengaktifkan GitHub Pages</h3>
+<p>Buka repositori, masuk ke Settings, lalu cari Pages.
+Pilih sumber publikasi yang tersedia, misalnya branch
+utama dan folder root jika file website berada di
+folder tersebut. Simpan pengaturan dan tunggu proses
+penerbitan selesai. Gunakan URL yang diberikan GitHub
+untuk membuka website.</p>
+
+<p>Jangan menebak URL akhir. Setelah publikasi berhasil,
+buka alamat yang ditampilkan GitHub. Uji halaman
+utama, navigasi, gambar, dan seluruh berkas CSS
+serta JavaScript. Periksa juga tampilannya di ponsel.
+Perubahan kadang memerlukan waktu sebelum terlihat
+di halaman online.</p>
+
+<h3>4. Memahami jalur berkas</h3>
+<p>Jalur berkas menentukan lokasi halaman atau aset
+yang akan dibuka. Jika tutorial.html berada dalam
+folder yang sama dengan index.html, tautan relatif
+href="index.html" dapat digunakan untuk kembali
+ke halaman utama.</p>
+
+<p>Untuk situs proyek GitHub Pages, penggunaan jalur
+absolut seperti /index.html dapat bermasalah karena
+website mungkin berada di bawah nama repositori.
+Pilih jalur yang sesuai dengan struktur situs dan
+uji dari halaman online. Perhatikan huruf besar
+dan kecil dalam nama file karena server dapat
+membedakannya.</p>
+
+<h3>5. Memperbarui website dengan aman</h3>
+<p>Setiap kali mengunggah perubahan, periksa kembali
+website setelah publikasi selesai. Untuk perubahan
+besar, buat salinan atau cabang kerja terlebih dahulu.
+Jika halaman rusak, riwayat perubahan GitHub dapat
+membantu menemukan versi yang sebelumnya berfungsi.</p>
+
+<p>Jika proyekmu sudah memiliki homepage dan integrasi
+Supabase, tambahkan halaman tutorial sebagai file
+terpisah. Jangan menghapus konfigurasi atau mengganti
+kode yang sudah berjalan hanya untuk menambahkan
+halaman baru. Uji halaman tutorial secara mandiri
+dan pastikan tautan kembali menuju homepage yang benar.</p>
+
+<h3>6. Keamanan dan privasi</h3>
+<p>GitHub Pages terutama digunakan untuk website statis.
+Website statis tidak otomatis menyediakan backend
+aman untuk menyimpan password atau mengatur seluruh
+hak akses pengguna. Jika membutuhkan akun dan database,
+gunakan layanan backend dengan aturan keamanan yang
+benar.</p>
+
+<p>Jangan menyimpan rahasia di HTML, JavaScript,
+atau repositori publik. Jika menggunakan layanan
+database, pahami autentikasi dan kebijakan aksesnya.
+Periksa pula kode pihak ketiga sebelum memasangnya.
+Pastikan tautan jelas dan konten iklan dapat
+dibedakan dari isi utama.</p>
+
+<h3>7. Pemeriksaan sebelum membagikan website</h3>
+<p>Buka website dari browser lain atau perangkat lain.
+Klik semua tautan, periksa tampilan di ponsel, dan
+pastikan tidak ada gambar yang gagal dimuat. Periksa
+judul dan deskripsi halaman agar pengunjung memahami
+isinya. Pastikan teks contoh sudah diganti dengan
+konten yang memang ingin kamu tampilkan.</p>
+
+<p>Mulailah dari website sederhana yang bekerja.
+Setelah itu, tambahkan halaman dan fitur secara
+bertahap. Simpan versi yang berfungsi, uji perubahan,
+dan catat hal yang dipelajari. Kebiasaan ini akan
+membantu proyek berkembang dengan lebih teratur.</p>
+
+<div class="note">
+<strong>Kesimpulan:</strong> GitHub menyimpan kode dan
+GitHub Pages dapat menerbitkan website statis.
+Selalu uji URL, jalur berkas, tampilan seluler,
+dan keamanan sebelum membagikan proyek.
+</div>
+
+<div class="exercise">
+<h3>Latihan Kode 4</h3>
+<ol>
+<li>Buat repositori untuk proyek latihan.</li>
+<li>Unggah HTML, CSS, dan JavaScript.</li>
+<li>Aktifkan GitHub Pages melalui Settings.</li>
+<li>Buka URL yang diberikan GitHub.</li>
+<li>Perbarui satu teks lalu uji hasilnya secara online.</li>
+</ol>
+</div>
+
+<div class="note">
+<strong>Selamat belajar!</strong> Kamu sudah mempelajari
+empat fondasi awal pengembangan website. Terus berlatih
+dengan membuat proyek kecil, misalnya halaman profil,
+daftar artikel, atau halaman tutorial milikmu sendiri.
+</div>
+
+<div class="actions">
+<button class="action prev">← Kode 3</button>
+<button class="action next" id="finish">Selesai belajar ✓</button>
+</div>
+</section>
+
+</article>
+
+<aside class="advert" id="oerAd">
+  <button class="close" id="closeAd" aria-label="Tutup iklan">×</button>
+  <div class="ad-logo">O<span>e</span>R</div>
+  <div class="ad-copy">
+    <small style="color:#087b39;font-weight:bold">PROMOSI OeR</small>
+    <strong style="display:block">Jelajahi OeR Platform</strong>
+    <p>Temukan halaman dan pembaruan lainnya di platform OeR.</p>
+    <a href="index.html">Kunjungi Home OeR →</a>
+  </div>
+</aside>
+</div>
+</div>
+</main>
+
+<footer>
+© OeR Platform • Panduan belajar coding untuk pemula.
+</footer>
+
+<script>
+(function () {
+  const buttons = [...document.querySelectorAll(".lesson-btn")];
+  const lessons = [...document.querySelectorAll(".lesson")];
+  let current = 0;
+
+  function showLesson(index) {
+    current = Math.max(0, Math.min(lessons.length - 1, index));
+
+    lessons.forEach((lesson, i) => {
+      lesson.classList.toggle("active", i === current);
+    });
+
+    buttons.forEach((button, i) => {
+      button.classList.toggle("active", i === current);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  buttons.forEach((button, index) => {
+    button.addEventListener("click", () => showLesson(index));
+  });
+
+  document.querySelectorAll(".next").forEach(button => {
+    button.addEventListener("click", () => {
+      if (button.id === "finish") {
+        alert("Selamat! Kamu sudah menyelesaikan empat modul dasar OeR. Terus berlatih dan buat proyekmu sendiri.");
+      } else {
+        showLesson(current + 1);
+      }
+    });
+  });
+
+  document.querySelectorAll(".prev").forEach(button => {
+    button.addEventListener("click", () => showLesson(current - 1));
+  });
+
+  document.getElementById("closeAd").addEventListener("click", () => {
+    document.getElementById("oerAd").classList.add("hidden");
+  });
+})();
+</script>
 </body>
 </html>
