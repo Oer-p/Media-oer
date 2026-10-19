@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OeR Browser Engine 0.1</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #edf2f0;
+    color: #18382e;
+    font-family: Arial, sans-serif;
+  }
+  header {
+    background: #176b4d;
+    color: white;
+    padding: 18px;
+  }
+  header h1 { margin: 0; font-size: 23px; }
+  header p { margin: 6px 0 0; font-size: 13px; }
+  main { max-width: 800px; margin: auto; padding: 16px; }
+  .panel {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px #0000000a;
+  }
+  textarea {
+    width: 100%;
+    min-height: 190px;
+    padding: 12px;
+    border: 1px solid #ccd8d2;
+    border-radius: 8px;
+    font: 14px/1.6 monospace;
+    resize: vertical;
+  }
+  button {
+    background: #176b4d;
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .status {
+    color: #52675d;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: white;
+    border: 1px solid #d8e1dc;
+    border-radius: 8px;
+  }
+  .label {
+    font-weight: bold;
+    margin: 0 0 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>OeR Browser Engine</h1>
+  <p>Prototipe mesin rendering independen · Versi 0.1</p>
+</header>
+
+<main>
+  <section class="panel">
+    <p class="label">1. Dokumen HTML masukan</p>
+    <textarea id="source" spellcheck="false"><h1>Selamat Datang di OeR</h1>
+<p>Ini adalah halaman pertama yang digambar oleh mesin rendering mini buatan kita.</p>
+<h2>Tentang OeR</h2>
+<p>Kita sedang membangun fondasi browser sendiri secara bertahap.</p>
+<ul>
+<li>Mesin rendering independen</li>
+<li>Pengembangan bertahap</li>
+<li>Target aplikasi Android</li>
+</ul>
+<hr>
+<p>OeR Engine 0.1 berhasil menjalankan layout dasar.</p></textarea>
+    <button id="render">Render Halaman</button>
+    <div class="status" id="status">Siap menjalankan mesin.</div>
+  </section>
+
+  <section class="panel">
+    <p class="label">2. Hasil rendering OeR</p>
+    <canvas id="screen" width="720" height="600"></canvas>
+    <div class="status">
+      HTML diproses menjadi token, lalu tata letak dan teks
+      digambar melalui kode OeR.
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+// OeR Engine 0.1
+// Renderer dasar: bukan Chromium, bukan mesin browser penuh.
+
+const source = document.getElementById("source");
+const canvas = document.getElementById("screen");
+const ctx = canvas.getContext("2d");
+const statusBox = document.getElementById("status");
+
+function renderOeR() {
+  const html = source.value;
+  const width = canvas.width;
+  const margin = 30;
+  const maxWidth = width - margin * 2;
+
+  // Bersihkan area gambar.
+  ctx.clearRect(0, 0, width, canvas.height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, width, canvas.height);
+
+  let y = 35;
+  let currentTag = "";
+  let listDepth = 0;
+  let overflow = false;
+
+  // Tokenizer awal: memisahkan tag dan teks.
+  // Belum mendukung seluruh aturan parsing HTML.
+  const tokens = html.match(/<[^>]*>|[^<]+/g) || [];
+
+  function setStyle(tag) {
+    currentTag = tag;
+
+    if (tag === "h1") {
+      ctx.font = "bold 30px Arial";
+      ctx.fillStyle = "#176b4d";
+    } else if (tag === "h2") {
+      ctx.font = "bold 23px Arial";
+      ctx.fillStyle = "#244b3c";
+    } else if (tag === "h3") {
+      ctx.font = "bold 19px Arial";
+      ctx.fillStyle = "#244b3c";
+    } else {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#263b32";
+    }
+  }
+
+  function drawWrappedText(text) {
+    // Entitas HTML dasar.
+    text = text
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/&lt;/gi, "<")
+      .replace(/&gt;/gi, ">")
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'");
+
+    const words = text.split(/\s+/).filter(Boolean);
+    let line = "";
+    const indent = currentTag === "li" ? 22 : 0;
+
+    for (const word of words) {
+      const candidate = line ? line + " " + word : word;
+
+      if (
+        line &&
+        ctx.measureText(candidate).width > maxWidth - indent
+      ) {
+        if (y > canvas.height - 25) {
+          overflow = true;
+          return;
+        }
+
+        ctx.fillText(line, margin + indent, y);
+        y += currentTag === "h1" ? 38 :
+             currentTag === "h2" ? 31 :
+             currentTag === "h3" ? 27 : 23;
+        line = word;
+      } else {
+        line = candidate;
+      }
+    }
+
+    if (line && y <= canvas.height - 25) {
+      if (currentTag === "li") {
+        ctx.fillStyle = "#176b4d";
+        ctx.fillText("•", margin + 2, y);
+        ctx.fillStyle = "#263b32";
+      }
+
+      ctx.fillText(line, margin + indent, y);
+      y += currentTag === "h1" ? 38 :
+           currentTag === "h2" ? 31 :
+           currentTag === "h3" ? 27 : 23;
+    } else if (line) {
+      overflow = true;
+    }
+  }
+
+  function spacing(amount) {
+    y += amount;
+  }
+
+  setStyle("");
+
+  for (const token of tokens) {
+    if (y > canvas.height - 25) {
+      overflow = true;
+      break;
+    }
+
+    if (token.startsWith("<")) {
+      const match = token.match(
+        /^<\s*(\/?)\s*([a-zA-Z0-9]+)/
+      );
+
+      if (!match) continue;
+
+      const closing = match[1] === "/";
+      const tag = match[2].toLowerCase();
+
+      if (closing) {
+        if (["p", "h1", "h2", "h3", "li"].includes(tag)) {
+          spacing(tag === "h1" ? 9 : 5);
+        }
+        setStyle("");
+        continue;
+      }
+
+      if (tag === "h1" || tag === "h2" || tag === "h3") {
+        spacing(8);
+        setStyle(tag);
+      } else if (tag === "p") {
+        spacing(5);
+        setStyle("p");
+      } else if (tag === "li") {
+        setStyle("li");
+      } else if (tag === "ul" || tag === "ol") {
+        listDepth++;
+        spacing(4);
+      } else if (tag === "br") {
+        spacing(23);
+      } else if (tag === "hr") {
+        spacing(7);
+        ctx.beginPath();
+        ctx.strokeStyle = "#cddbd3";
+        ctx.moveTo(margin, y);
+        ctx.lineTo(width - margin, y);
+        ctx.stroke();
+        spacing(12);
+      }
+
+    } else {
+      const text = token.replace(/\s+/g, " ").trim();
+      if (text) drawWrappedText(text);
+    }
+  }
+
+  if (overflow) {
+    statusBox.textContent =
+      "Render selesai sebagian: halaman melebihi area prototipe. " +
+      "Versi berikutnya akan mendukung halaman yang bisa digulir.";
+  } else {
+    statusBox.textContent =
+      "Render berhasil. Token diproses: " +
+      tokens.length +
+      ". OeR Engine 0.1.";
+  }
+}
+
+document.getElementById("render").addEventListener(
+  "click",
+  renderOeR
+);
+
+renderOeR();
+</script>
+</body>
+</html>
