@@ -679,7 +679,9 @@
   title: "CapCut — Bey Uye",
   url: "https://mobile.capcutshare.com/sv2/ZSgrLvdCr/",
   displayUrl: "capcut.com · Bey Uye",
-  description: "Akun CapCut Bey Uye (ID: 9643266484). Lihat video, template, dan karya editan CapCut."
+  description: "Akun CapCut Bey Uye (ID: 9643266484). Lihat video, template, dan karya editan CapCut.",
+  image: "https://i.ibb.co/placeholder-avatar.jpg",   // ← ganti dengan foto profil
+  badge: "Creator"
 },
     {
     names: ["youtube", "yt"],
@@ -779,51 +781,55 @@
         return sites.length;
       }
 
-      function makeResultCard(item) {
-        const article = document.createElement("article");
-        article.className = "result-card";
+  function makeWebsiteResultCard(item) {
+  const article = document.createElement("article");
+  article.className = "result-card";
 
-        const layout = document.createElement("div");
-        layout.className = "result-layout";
+  const badge = document.createElement("span");
+  badge.className = "site-badge";
+  badge.textContent = item.badge || "Situs web";
 
-        const copy = document.createElement("div");
-        copy.className = "result-copy";
+  const layout = document.createElement("div");
+  layout.className = "result-layout";
+  layout.style.display = "flex";
+  layout.style.gap = "14px";
+  layout.style.alignItems = "flex-start";
 
-        const source = document.createElement("span");
-        source.className = "source-label";
-        source.textContent = "Wikipedia Indonesia";
+  // Foto profil (jika ada)
+  if (item.image) {
+    const img = document.createElement("img");
+    img.src = item.image;
+    img.alt = item.title;
+    img.style.width = "56px";
+    img.style.height = "56px";
+    img.style.borderRadius = "50%";
+    img.style.objectFit = "cover";
+    img.style.flexShrink = "0";
+    img.style.border = "2px solid #e8f5e9";
+    layout.appendChild(img);
+  }
 
-        const title = createSourceLink(item.url, item.title);
-        title.className = "result-title";
+  const copy = document.createElement("div");
+  copy.style.flex = "1";
+  copy.style.minWidth = "0";
 
-        const description = document.createElement("p");
-        description.className = "result-description";
-        description.textContent = item.description ||
-          "Buka halaman sumber untuk membaca informasi lebih lanjut.";
+  const title = createSourceLink(item.url, item.title);
+  title.className = "result-title";
 
-        const url = document.createElement("span");
-        url.className = "result-url";
-        url.textContent = item.url;
+  const description = document.createElement("p");
+  description.className = "result-description";
+  description.textContent = item.description || "";
 
-        copy.append(source, title, description, url);
+  const url = document.createElement("span");
+  url.className = "result-url";
+  url.textContent = item.displayUrl || item.url;
 
-        const thumbnailUrl = safeHttpUrl(item.thumbnail || "");
-        if (thumbnailUrl) {
-          const image = document.createElement("img");
-          image.className = "result-image";
-          image.src = thumbnailUrl;
-          image.alt = "";
-          image.loading = "lazy";
-          image.referrerPolicy = "no-referrer";
-          image.addEventListener("error", () => image.remove(), { once: true });
-          layout.append(image);
-        }
+  copy.append(badge, title, description, url);
+  layout.appendChild(copy);
+  article.appendChild(layout);
 
-        layout.append(copy);
-        article.append(layout);
-        return article;
-      }
-
+  return article;
+    }
       async function fetchWikipedia(query, id, includeWebsites = false) {
         const searchUrl = new URL("https://id.wikipedia.org/w/api.php");
 
