@@ -1527,6 +1527,17 @@ if (user) {
 <link rel="manifest" href="/Media-oer/manifest.json">
 <meta name="theme-color" content="#202124">
 <meta name="mobile-web-app-capable" content="yes">
-  </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/Media-oer/sw.js")
+      .then(() => console.log("OoeR PWA siap"))
+      .catch((error) => {
+        console.error("PWA gagal diaktifkan:", error);
+      });
+  });
+}
+</script>
   </body>
 </html>
