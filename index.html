@@ -580,19 +580,13 @@ footer a:hover{text-decoration:underline}
       <span class="chevron">⌄</span>
     </button>
     <div class="account-menu" id="accountMenu">
-  <button type="button" id="menuLogin">
-    Masuk dengan Google
-  </button>
-  <button type="button" id="menuORAccount">
-    Masuk dengan OR Account
-  </button>
-  <button type="button" id="menuHistory">
-    Riwayat pencarian
-  </button>
-  <button type="button" id="menuFavorites">
-    Favorit saya
-  </button>
-  </div>
+      <button type="button" id="menuLogin">Masuk dengan Google</button>
+      <button type="button" id="menuORAccount">Masuk dengan OR Account</button>
+      <button type="button" id="menuHistory">Riwayat pencarian</button>
+      <button type="button" id="menuFavorites">Favorit saya</button>
+    </div>
+  </div>   <!-- ← tambahkan penutup div ini -->
+
   <nav class="header-tools" aria-label="Navigasi utama">
     <button class="icon-button" type="button" id="homeButton" aria-label="Home" title="Home">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -610,20 +604,14 @@ footer a:hover{text-decoration:underline}
         <path d="M12 7v5l3 2"></path>
       </svg>
     </button>
-    <button class="icon-button" type="button"
-  id="settingsButton" aria-label="Pengaturan" title="Pengaturan">
-  <svg viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" stroke-width="1.8"
-    stroke-linecap="round" stroke-linejoin="round"
-    aria-hidden="true">
-    <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
-    <path d="m19.4 15 .1.1 1.5 1.2-1.5 2.6-1.8-.7a8 8 0 0 1-1.7 1l-.3 1.9h-3.1l-.3-1.9a8 8 0 0 1-1.7-1l-1.8.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.2L7 9.2l1.8.7a8 8 0 0 1 1.7-1l.3-1.9h3.1l.3 1.9a8 8 0 0 1 1.7 1l1.8-.7 1.5 2.6-1.5 1.2a8 8 0 0 1 0 2Z"
-      transform="translate(-1 -1) scale(1.08)"/>
-  </svg>
+    <button class="icon-button" type="button" id="settingsButton" aria-label="Pengaturan" title="Pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+        <path d="m19.4 15 .1.1 1.5 1.2-1.5 2.6-1.8-.7a8 8 0 0 1-1.7 1l-.3 1.9h-3.1l-.3-1.9a8 8 0 0 1-1.7-1l-1.8.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.2L7 9.2l1.8.7a8 8 0 0 1 1.7-1l.3-1.9h3.1l.3 1.9a8 8 0 0 1 1.7 1l1.8-.7 1.5 2.6-1.5 1.2a8 8 0 0 1 0 2Z" transform="translate(-1 -1) scale(1.08)"/>
+      </svg>
     </button>
   </nav>
-</header>
-
+ </header>
 <main id="home">
   <section class="hero" aria-label="Pencarian OoeR">
     <div class="logo" role="img" aria-label="OoeR">
@@ -1453,7 +1441,7 @@ footer a:hover{text-decoration:underline}
   $("menuLogin").addEventListener("click", signInWithGoogle);
   loginButton.addEventListener("click", signInWithGoogle);
   $("menuORAccount").addEventListener("click", () => {
-  window.location.href = "https://oer-p.github.io/or-account/";
+  window.location.href = "https://oer-p.github.io/Oer/";
 });
   
   function updateProfile(user) {
