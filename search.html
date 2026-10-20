@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#17191d">
-<meta name="description" content="OoeR Search — cari pengetahuan, gambar, buku, arsip, dan informasi.">
+<meta name="description" content="OeR Search — cari pengetahuan, gambar, buku, arsip, dan informasi.">
 <meta name="robots" content="index,follow">
-<title>OoeR Search</title>
+<title>OeR Search</title>
 <style>
-:root{color-scheme:dark;--bg:#17191d;--panel:#202329;--panel2:#282b32;--text:#f1f3f4;--muted:#aeb4bf;--border:#373b44;--blue:#8ab4f8;--green:#34a853}
+:root{color-scheme:dark;--bg:#17191d;--panel:#202329;--text:#f1f3f4;--muted:#aeb4bf;--border:#373b44;--blue:#8ab4f8}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:130px}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
@@ -50,7 +49,6 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 .result-layout{display:flex;align-items:flex-start;gap:13px}
 .result-copy{flex:1;min-width:0}
 .result-image{width:120px;height:92px;flex-shrink:0;object-fit:cover;border-radius:9px;background:#2b2e34}
-.site-badge{display:inline-block;margin-bottom:7px;padding:4px 8px;border-radius:5px;background:#263b30;color:#a8e6b9;font-size:10px;font-weight:bold}
 .image-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:18px 0}
 .image-card{min-width:0;overflow:hidden;border:1px solid var(--border);border-radius:11px;background:#22252b}
 .image-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#2c3037}
@@ -66,6 +64,7 @@ footer a{color:var(--blue)}
 </style>
 </head>
 <body>
+
 <div class="browser-bar">
 <a class="browser-button" href="./" aria-label="Beranda">⌂</a>
 <div class="browser-address"><span>🔒</span><span class="address-text">oer-p.github.io/Media-oer/search.html</span></div>
@@ -74,21 +73,21 @@ footer a{color:var(--blue)}
 </div>
 
 <header class="main-header">
-<a class="brand" href="./" aria-label="Beranda OoeR"><span class="brand-o"></span><span class="brand-oe">oe</span><span class="brand-r">R</span></a>
+<a class="brand" href="./" aria-label="Beranda OeR"><span class="brand-o"></span><span class="brand-oe">oe</span><span class="brand-r">R</span></a>
 <div class="header-actions">
 <button class="icon-button" id="historyButton" type="button" title="Riwayat">◷</button>
-<button class="icon-button" id="aboutButton" type="button" title="Tentang OoeR">ⓘ</button>
+<button class="icon-button" id="aboutButton" type="button" title="Tentang OeR">ⓘ</button>
 </div>
 </header>
 
 <section class="search-area">
 <form id="searchForm" class="search-form" role="search">
 <span aria-hidden="true">⌕</span>
-<input id="query" name="q" type="search" placeholder="Cari di OoeR..." autocomplete="off" aria-label="Cari di OoeR">
+<input id="query" name="q" type="search" placeholder="Cari di OeR..." autocomplete="off" aria-label="Cari di OeR">
 <button class="clear-query" id="clearButton" type="button" aria-label="Hapus pencarian">×</button>
 <button class="search-submit" type="submit" aria-label="Cari">⌕</button>
 </form>
-<p class="search-note" id="searchNote" aria-live="polite">Pencarian melalui OoeR.</p>
+<p class="search-note" id="searchNote" aria-live="polite">Pencarian melalui OeR.</p>
 </section>
 
 <main class="content">
@@ -100,20 +99,20 @@ footer a{color:var(--blue)}
 <button class="tab" data-tab="news" type="button">Berita</button>
 <button class="tab" data-tab="videos" type="button">Video</button>
 </nav>
-<div class="result-meta"><span id="resultLabel">Pencarian OoeR</span><span id="resultCount"></span></div>
-<div id="status" class="message"><strong>Selamat datang di OoeR</strong>Ketik kata kunci untuk mencari halaman OoeR dan sumber pengetahuan yang tersedia.</div>
+<div class="result-meta"><span id="resultLabel">Pencarian OeR</span><span id="resultCount"></span></div>
+<div id="status" class="message"><strong>Selamat datang di OeR</strong>Ketik kata kunci untuk mencari halaman OeR dan sumber pengetahuan yang tersedia.</div>
 <div id="results"></div>
 <div id="imageResults" class="image-grid" hidden></div>
 <section id="externalSources" hidden>
 <h3>Sumber pencarian lainnya</h3>
-<p class="result-description">Buka pencarian resmi dari sumber berikut. Beberapa layanan membutuhkan API key untuk menampilkan hasil langsung di OoeR.</p>
+<p class="result-description">Buka pencarian resmi dari sumber berikut. Beberapa layanan membutuhkan API key untuk menampilkan hasil langsung di OeR.</p>
 <div class="source-links" id="sourceLinks"></div>
 </section>
 </main>
 
 <footer>
-<div>© <span id="year"></span> OoeR</div>
-<div>Pencarian OoeR · <a href="./">Beranda</a> · <a href="./manfaat.html">OoeR Manfaat</a></div>
+<div>© <span id="year"></span> OeR</div>
+<div>Pencarian OeR · <a href="./">Beranda</a> · <a href="./manfaat.html">OeR Manfaat</a></div>
 </footer>
 
 <script>
@@ -136,10 +135,34 @@ let requestId = 0;
 
 $("year").textContent = new Date().getFullYear();
 
+/* Daftar kata terkait agar halaman manfaat OeR mudah ditemukan. */
 const localPages = [
- {names:["manfaat","buah","manfaat buah","manfaatbuah","buah sehat","manfaat apel","apel","manfaat pisang","pisang","manfaat mangga","mangga","manfaat jeruk","jeruk","manfaat pepaya","pepaya","manfaat alpukat","alpukat","buah naga","semangka","nanas","anggur","stroberi","vitamin buah","nutrisi buah","kandungan buah","buah dan manfaat","sayur","sayuran","manfaat sayur","manfaat sayuran","vitamin","nutrisi","kesehatan","makanan sehat","khasiat buah","khasiat sayuran","gizi"],title:"OoeR Manfaat — Informasi Buah dan Kesehatan",url:"./manfaat.html",description:"Temukan informasi manfaat buah, sayuran, nutrisi, kandungan gizi, dan panduan hidup sehat di halaman OoeR Manfaat."},
- {names:["beranda","home","oer","ooer"],title:"Beranda OoeR",url:"./",description:"Kembali ke beranda OoeR untuk menjelajahi fitur dan layanan platform."},
- {names:["ruang belajar","belajar","pendidikan","materi belajar"],title:"Ruang Belajar OoeR",url:"./search.html?q=ruang%20belajar",description:"Jelajahi materi belajar dan informasi pendidikan melalui OoeR."}
+ {
+  names:[
+   "manfaat","buah","manfaat buah","manfaatbuah","buah sehat",
+   "manfaat apel","apel","manfaat pisang","pisang","manfaat mangga","mangga",
+   "manfaat jeruk","jeruk","manfaat pepaya","pepaya","manfaat alpukat","alpukat",
+   "buah naga","semangka","nanas","anggur","stroberi","vitamin buah",
+   "nutrisi buah","kandungan buah","buah dan manfaat","sayur","sayuran",
+   "manfaat sayur","manfaat sayuran","vitamin","nutrisi","kesehatan",
+   "makanan sehat","khasiat buah","khasiat sayuran","gizi"
+  ],
+  title:"OeR Manfaat — Informasi Buah dan Kesehatan",
+  url:"./manfaat.html",
+  description:"Temukan informasi manfaat buah, sayuran, nutrisi, kandungan gizi, dan panduan hidup sehat di halaman OeR Manfaat."
+ },
+ {
+  names:["beranda","home","oer","oer platform"],
+  title:"Beranda OeR",
+  url:"./",
+  description:"Kembali ke beranda OeR untuk menjelajahi fitur dan layanan platform."
+ },
+ {
+  names:["ruang belajar","belajar","pendidikan","materi belajar"],
+  title:"Ruang Belajar OeR",
+  url:"./search.html?q=ruang%20belajar",
+  description:"Jelajahi materi belajar dan informasi pendidikan melalui OeR."
+ }
 ];
 
 const sources = [
@@ -159,7 +182,7 @@ function normalize(value){
  return String(value||"").toLowerCase().replace(/#/g,"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
 }
 function safeUrl(value){
- try {const u=new URL(value,location.href);return ["https:","http:"].includes(u.protocol)?u.href:"";}catch{return "";}
+ try{const u=new URL(value,location.href);return ["https:","http:"].includes(u.protocol)?u.href:"";}catch{return "";}
 }
 function clearResults(){
  resultsBox.replaceChildren();imageBox.replaceChildren();sourceLinks.replaceChildren();
@@ -191,7 +214,7 @@ function websiteResults(query){
    if(q===n)score=Math.max(score,100);
    else if(n.startsWith(q)||q.startsWith(n))score=Math.max(score,65);
    else if(n.includes(q)||q.includes(n))score=Math.max(score,45);
-   else {
+   else{
     const terms=q.split(" ").filter(Boolean);
     const hits=terms.filter(term=>n.includes(term)||normalize(p.title).includes(term)).length;
     if(terms.length&&hits)score=Math.max(score,Math.round(25*hits/terms.length));
@@ -200,6 +223,31 @@ function websiteResults(query){
   return {...p,score};
  }).filter(p=>p.score>0).sort((a,b)=>b.score-a.score);
 }
+
+/* Integrasi pencarian indeks OeR melalui Supabase RPC. */
+const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+
+async function searchOeRIndex(query,id){
+ const response=await fetch(SUPABASE_URL+"/rest/v1/rpc/oeer_search",{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "apikey":SUPABASE_PUBLISHABLE_KEY,
+   "Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY
+  },
+  body:JSON.stringify({search_query:query,result_limit:20})
+ });
+ if(!response.ok)throw Error("Indeks Supabase tidak tersedia ("+response.status+")");
+ const data=await response.json();
+ if(id!==requestId)return [];
+ return (Array.isArray(data)?data:[]).map(item=>({
+  title:item.title||item.url||"Hasil pencarian OeR",
+  url:safeUrl(item.url||""),
+  description:item.description||item.content||"Buka halaman sumber untuk membaca informasi selengkapnya."
+ })).filter(item=>item.url);
+}
+
 function resultCard(item,source){
  const article=document.createElement("article");article.className="result-card";
  const label=document.createElement("span");label.className="source-label";label.textContent=source;
@@ -215,6 +263,7 @@ function resultCard(item,source){
  }
  return article;
 }
+
 async function fetchWiki(api,query,id){
  const url=new URL(api);
  url.search=new URLSearchParams({action:"query",list:"search",srsearch:query,srnamespace:"0",srlimit:"8",utf8:"1",format:"json",origin:"*"});
@@ -271,7 +320,7 @@ async function fetchNasa(query,id){
 function renderImages(items,query){
  clearResults();statusBox.hidden=true;
  if(!items.length){showStatus("Belum ada gambar","Coba kata kunci lain atau buka sumber gambar lainnya.");}
- else {
+ else{
   imageBox.hidden=false;
   items.forEach(item=>{
    const card=link(item.pageUrl,"","image-card");
@@ -297,16 +346,18 @@ function showHistory(){
  arr.forEach(q=>resultsBox.append(resultCard({title:q,url:"./search.html?q="+encodeURIComponent(q),description:"Ulangi pencarian ini."},"Riwayat lokal")));
  resultLabel.textContent="Riwayat pencarian";resultCount.textContent=arr.length+" pencarian";
 }
+
 async function runSearch(query,tab=activeTab,updateHistory=true){
  const q=query.trim();
- if(!q){clearResults();showStatus("Mulai pencarian","Masukkan kata yang ingin dicari.");resultLabel.textContent="Pencarian OoeR";return;}
+ if(!q){clearResults();showStatus("Mulai pencarian","Masukkan kata yang ingin dicari.");resultLabel.textContent="Pencarian OeR";return;}
  currentQuery=q;input.value=q;setTab(tab);
  if(updateHistory){saveHistory(q);const u=new URL(location.href);u.searchParams.set("q",q);if(tab==="all")u.searchParams.delete("tab");else u.searchParams.set("tab",tab);history.pushState({q,tab},"",u);}
  const id=++requestId;
  note.textContent="Mencari: "+q;
- loading("Memeriksa halaman OoeR dan sumber pencarian yang tersedia...");
+ loading("Memeriksa halaman OeR, indeks Supabase, dan sumber pencarian yang tersedia...");
  resultLabel.textContent="Hasil untuk: "+q;
  let total=0,errors=0;
+
  try{
   if(tab==="images"){
    const settled=await Promise.allSettled([fetchCommons(q,id),fetchOpenverse(q,id),fetchNasa(q,id)]);
@@ -317,9 +368,31 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
    note.textContent="Gambar dari sumber yang tersedia. Periksa lisensi dan atribusi pada halaman sumber.";
    return;
   }
+
   clearResults();statusBox.hidden=true;
+
   if(tab==="all"||tab==="knowledge"){
-   websiteResults(q).forEach(x=>{resultsBox.append(resultCard(x,"Situs OoeR"));total++;});
+   // Hasil halaman OeR lokal ditampilkan lebih dahulu.
+   const localMatches=websiteResults(q);
+   localMatches.forEach(x=>{resultsBox.append(resultCard(x,"Situs OeR"));total++;});
+
+   // Cari indeks Supabase. URL yang sudah ditampilkan tidak diulang.
+   try{
+    const indexed=await searchOeRIndex(q,id);
+    if(id!==requestId)return;
+    const seenUrls=new Set(localMatches.map(x=>safeUrl(x.url)).filter(Boolean));
+    indexed.forEach(item=>{
+     const normalized=safeUrl(item.url);
+     if(!normalized||seenUrls.has(normalized))return;
+     seenUrls.add(normalized);
+     resultsBox.append(resultCard(item,"Indeks OeR · Supabase"));
+     total++;
+    });
+   }catch(error){
+    errors++;
+    console.warn("Pencarian indeks OeR:",error.message);
+   }
+
    const apis=[
     ["https://id.wikipedia.org/w/api.php","Wikipedia Indonesia"],
     ["https://id.wikibooks.org/w/api.php","Wikibooks Indonesia"]
@@ -327,36 +400,45 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
    const settled=await Promise.allSettled(apis.map(x=>fetchWiki(x[0],q,id)));
    if(id!==requestId)return;
    settled.forEach((r,i)=>{if(r.status==="fulfilled")r.value.forEach(x=>{resultsBox.append(resultCard(x,apis[i][1]));total++;});else errors++;});
+
    const terms=await Promise.allSettled([fetchWiktionary(q,id)]);
    if(id!==requestId)return;
    terms.forEach(r=>{if(r.status==="fulfilled")r.value.forEach(x=>{resultsBox.append(resultCard(x,"Wiktionary Indonesia"));total++;});else errors++;});
   }
+
   if(tab==="books"||tab==="all"){
    const archive=await Promise.allSettled([fetchInternetArchive(q,id)]);
    if(id!==requestId)return;
    archive.forEach(r=>{if(r.status==="fulfilled")r.value.forEach(x=>{resultsBox.append(resultCard(x,"Internet Archive"));total++;});else errors++;});
   }
+
   if(id!==requestId)return;
-  if(!total)showStatus("Belum ditemukan hasil","OoeR belum menemukan hasil dari API yang tersedia. Coba kata kunci lain atau gunakan tautan sumber di bawah.");
-  resultLabel.textContent=(tab==="knowledge"?"Pengetahuan":tab==="books"?"Buku & Arsip":"Semua")+" · "+q;
+  if(!total)showStatus("Belum ditemukan hasil","OeR belum menemukan hasil dari sumber yang tersedia. Coba kata kunci lain atau gunakan tautan sumber di bawah.");
+  resultLabel.textContent=(tab==="knowledge"?"Pengetahuan":tab==="books"?"Buku & Arsip":tab==="news"?"Berita":tab==="videos"?"Video":"Semua")+" · "+q;
   resultCount.textContent=total+" hasil";
   addExternalSources(q,tab==="all"?"all":tab);
-  note.textContent=errors?"Sebagian sumber tidak merespons. Sumber lainnya tetap bisa dibuka di bawah.":"Hasil pencarian OoeR dari halaman lokal dan sumber yang tersedia.";
+  note.textContent=errors?"Sebagian sumber tidak merespons. Sumber lainnya tetap bisa dibuka di bawah.":"Hasil pencarian OeR dari halaman lokal, Supabase, dan sumber yang tersedia.";
  }catch(err){
   if(id!==requestId)return;
-  console.error(err);clearResults();showStatus("Pencarian belum berhasil","Koneksi ke sebagian sumber sedang bermasalah. Coba lagi atau gunakan tautan sumber di bawah.");
-  addExternalSources(q,tab);note.textContent="Sumber pencarian dapat memiliki batas akses atau gangguan.";
+  console.error(err);
+  clearResults();
+  showStatus("Pencarian belum berhasil","Koneksi ke sebagian sumber sedang bermasalah. Coba lagi atau gunakan tautan sumber di bawah.");
+  addExternalSources(q,tab);
+  note.textContent="Sumber pencarian dapat memiliki batas akses atau gangguan.";
  }
 }
+
 $("searchForm").addEventListener("submit",e=>{e.preventDefault();runSearch(input.value,activeTab,true);});
 $("clearButton").addEventListener("click",()=>{input.value="";input.focus();});
 $("historyButton").addEventListener("click",showHistory);
-$("aboutButton").addEventListener("click",()=>{clearResults();showStatus("Tentang OoeR Search","OoeR menghubungkan pencarian halaman OoeR dengan sumber pengetahuan dan media yang tersedia.");});
+$("aboutButton").addEventListener("click",()=>{clearResults();showStatus("Tentang OeR Search","OeR menghubungkan pencarian halaman OeR dengan indeks Supabase dan sumber pengetahuan serta media yang tersedia.");});
 $("newTabButton").addEventListener("click",()=>{location.href="./search.html";});
 $("reloadButton").addEventListener("click",()=>{if(currentQuery)runSearch(currentQuery,activeTab,false);else location.reload();});
 tabs.forEach(t=>t.addEventListener("click",()=>{const tab=t.dataset.tab;setTab(tab);if(currentQuery)runSearch(currentQuery,tab,true);else{clearResults();showStatus("Kategori siap digunakan","Masukkan kata pencarian untuk melihat hasil.");}}));
-window.addEventListener("popstate",()=>{const p=new URLSearchParams(location.search);const q=p.get("q")||"";const tab=p.get("tab")||"all";if(q)runSearch(q,["all","knowledge","images","books","news","videos"].includes(tab)?tab:"all",false);else{currentQuery="";input.value="";setTab("all");clearResults();showStatus("Selamat datang di OoeR","Ketik kata kunci untuk mencari.");}});
-const params=new URLSearchParams(location.search);const initial=params.get("q")||"";const initialTab=params.get("tab")||"all";
+window.addEventListener("popstate",()=>{const p=new URLSearchParams(location.search);const q=p.get("q")||"";const tab=p.get("tab")||"all";if(q)runSearch(q,["all","knowledge","images","books","news","videos"].includes(tab)?tab:"all",false);else{currentQuery="";input.value="";setTab("all");clearResults();showStatus("Selamat datang di OeR","Ketik kata pencarian untuk mencari.");}});
+const params=new URLSearchParams(location.search);
+const initial=params.get("q")||"";
+const initialTab=params.get("tab")||"all";
 if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"].includes(initialTab)?initialTab:"all",false);
 })();
 </script>
