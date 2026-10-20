@@ -5,320 +5,163 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>OoeR — Jelajahi dan Temukan</title>
 <meta name="description" content="Jelajahi OoeR, pencarian, AI Chat, Reels, berita sepak bola, dan konten menarik lainnya.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://oer-p.github.io/Media-oer/">
+<link rel="manifest" href="/Media-oer/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OoeR">
 <meta property="og:title" content="OoeR">
 <meta property="og:description" content="Cari, jelajahi, dan temukan melalui OoeR.">
+<title>OoeR — Jelajahi dan Temukan</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='37' fill='none' stroke='%234285F4' stroke-width='15'/%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  --text:#202124;
-  --muted:#5f6368;
-  --border:#dfe1e5;
-  --bg:#fff;
-  --soft:#f8f9fa;
-  --blue:#4285f4;
-  --red:#ea4335;
-  --yellow:#fbbc05;
-  --green:#34a853;
+  --text:#202124;--muted:#5f6368;--border:#dfe1e5;
+  --bg:#fff;--soft:#f8f9fa;--blue:#4285f4;
+  --red:#ea4335;--yellow:#fbbc05;--green:#34a853;
   --shadow:0 1px 6px #20212430;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  display:flex;
-  flex-direction:column;
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column
 }
 body.dark{
-  --text:#e8eaed;
-  --muted:#aeb4bc;
-  --border:#41454c;
-  --bg:#202124;
-  --soft:#303134;
-  --shadow:0 2px 10px #0005;
+  --text:#e8eaed;--muted:#aeb4bc;--border:#41454c;
+  --bg:#202124;--soft:#303134;--shadow:0 2px 10px #0005
 }
 a{color:inherit;text-decoration:none}
 button,input{font:inherit}
 button{color:inherit}
 button:focus-visible,a:focus-visible,input:focus-visible{
-  outline:2px solid var(--blue);
-  outline-offset:3px;
+  outline:2px solid var(--blue);outline-offset:3px
 }
 
 /* HEADER */
 header{
-  width:100%;
-  min-height:76px;
-  padding:14px 34px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+  width:100%;min-height:76px;padding:14px 34px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px
 }
-.account-area{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  position:relative;
-}
+.account-area{display:flex;align-items:center;gap:10px;position:relative}
 .account-button{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  padding:4px;
-  border-radius:24px;
+  display:flex;align-items:center;gap:10px;border:0;
+  background:transparent;cursor:pointer;padding:4px;border-radius:24px
 }
 .account-button:hover{background:var(--soft)}
 .avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  background:#e8f0fe;
-  color:#174ea6;
-  font-weight:700;
-  font-size:17px;
-  flex-shrink:0;
+  width:42px;height:42px;border-radius:50%;display:grid;
+  place-items:center;overflow:hidden;background:#e8f0fe;
+  color:#174ea6;font-weight:700;font-size:17px;flex-shrink:0
 }
 .avatar img{width:100%;height:100%;object-fit:cover}
 .account-label{font-size:15px}
 .chevron{font-size:13px;color:var(--muted)}
 .account-menu{
-  display:none;
-  position:absolute;
-  top:54px;
-  left:0;
-  min-width:205px;
-  padding:8px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:var(--bg);
-  box-shadow:var(--shadow);
-  z-index:100;
+  display:none;position:absolute;top:54px;left:0;min-width:220px;
+  padding:8px;border:1px solid var(--border);border-radius:14px;
+  background:var(--bg);box-shadow:var(--shadow);z-index:100
 }
 .account-menu.show{display:block}
 .account-menu button{
-  width:100%;
-  padding:12px;
-  border:0;
-  border-radius:8px;
-  background:transparent;
-  text-align:left;
-  cursor:pointer;
+  width:100%;padding:12px;border:0;border-radius:8px;
+  background:transparent;text-align:left;cursor:pointer
 }
 .account-menu button:hover{background:var(--soft)}
 .header-tools{display:flex;align-items:center;gap:8px}
 .icon-button{
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border:0;
-  border-radius:50%;
-  background:transparent;
-  color:var(--text);
-  cursor:pointer;
+  width:42px;height:42px;display:grid;place-items:center;border:0;
+  border-radius:50%;background:transparent;color:var(--text);cursor:pointer
 }
 .icon-button:hover{background:var(--soft)}
 .icon-button svg{width:23px;height:23px}
 
-/* HOME SEARCH */
+/* LOGO AND SEARCH */
 main{
-  width:100%;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:105px 20px 45px;
+  width:100%;flex:1;display:flex;flex-direction:column;
+  align-items:center;padding:105px 20px 45px
 }
-.hero{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+.hero{width:100%;display:flex;flex-direction:column;align-items:center}
 .logo{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:0;
-  height:116px;
-  margin-bottom:38px;
-  user-select:none;
-  white-space:nowrap;
+  display:flex;align-items:center;justify-content:center;gap:0;
+  height:116px;margin-bottom:38px;user-select:none;white-space:nowrap
 }
 .logo-o{
-  width:91px;
-  height:91px;
-  position:relative;
-  display:inline-block;
-  border-radius:50%;
-  background:conic-gradient(
-    from -43deg,
-    var(--red) 0deg 105deg,
-    var(--yellow) 105deg 225deg,
-    var(--blue) 225deg 360deg
-  );
-  flex-shrink:0;
+  width:91px;height:91px;position:relative;display:inline-block;
+  border-radius:50%;background:conic-gradient(
+    from -43deg,var(--red) 0deg 105deg,
+    var(--yellow) 105deg 225deg,var(--blue) 225deg 360deg
+  );flex-shrink:0
 }
 .logo-o::after{
-  content:"";
-  position:absolute;
-  inset:17px;
-  border-radius:50%;
-  background:var(--bg);
+  content:"";position:absolute;inset:17px;border-radius:50%;background:var(--bg)
 }
 .logo-oe,.logo-r{
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:112px;
-  font-weight:500;
-  line-height:1;
-  letter-spacing:-7px;
+  font-family:Arial,Helvetica,sans-serif;font-size:112px;
+  font-weight:500;line-height:1;letter-spacing:-7px
 }
 .logo-oe{color:var(--red);margin-left:9px}
 .logo-r{color:var(--green);margin-left:2px;letter-spacing:-5px}
-.search-wrap{
-  position:relative;
-  width:min(100%,690px);
-}
+.search-wrap{position:relative;width:min(100%,690px)}
 .search-box{
-  width:100%;
-  min-height:58px;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:0 20px;
-  border:1px solid var(--border);
-  border-radius:32px;
-  background:var(--bg);
-  transition:box-shadow .18s,border-color .18s;
+  width:100%;min-height:58px;display:flex;align-items:center;gap:14px;
+  padding:0 20px;border:1px solid var(--border);border-radius:32px;
+  background:var(--bg);transition:box-shadow .18s,border-color .18s
 }
 .search-box:hover,.search-box:focus-within{
-  border-color:transparent;
-  box-shadow:var(--shadow);
+  border-color:transparent;box-shadow:var(--shadow)
 }
-.search-icon{
-  width:23px;height:23px;
-  color:var(--muted);
-  flex-shrink:0;
-}
+.search-icon{width:23px;height:23px;color:var(--muted);flex-shrink:0}
 #searchInput{
-  width:100%;
-  min-width:0;
-  padding:15px 0;
-  border:0;
-  outline:none;
-  color:var(--text);
-  background:transparent;
-  font-size:16px;
+  width:100%;min-width:0;padding:15px 0;border:0;outline:none;
+  color:var(--text);background:transparent;font-size:16px
 }
 #searchInput::placeholder{color:var(--muted)}
 .search-action{
-  border:0;
-  background:transparent;
-  color:var(--blue);
-  cursor:pointer;
-  display:grid;
-  place-items:center;
-  padding:5px;
+  border:0;background:transparent;color:var(--blue);
+  cursor:pointer;display:grid;place-items:center;padding:5px;flex-shrink:0
 }
 .search-action svg{width:23px;height:23px}
 .suggestions{
-  display:none;
-  position:absolute;
-  top:64px;
-  left:0;
-  right:0;
-  z-index:50;
-  overflow:hidden;
-  padding:8px 0;
-  border-radius:18px;
-  background:var(--bg);
-  box-shadow:var(--shadow);
+  display:none;position:absolute;top:64px;left:0;right:0;z-index:50;
+  overflow:hidden;padding:8px 0;border-radius:18px;background:var(--bg);
+  box-shadow:var(--shadow)
 }
 .suggestions.show{display:block}
 .suggestion{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  width:100%;
-  padding:12px 20px;
-  border:0;
-  background:transparent;
-  color:var(--text);
-  text-align:left;
-  cursor:pointer;
+  display:flex;align-items:center;gap:13px;width:100%;padding:12px 20px;
+  border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer
 }
 .suggestion:hover{background:var(--soft)}
-.search-buttons{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:24px;
-}
+.search-buttons{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
 .search-buttons button{
-  padding:11px 17px;
-  border:1px solid transparent;
-  border-radius:5px;
-  background:var(--soft);
-  font-size:13px;
-  cursor:pointer;
+  padding:11px 17px;border:1px solid transparent;border-radius:5px;
+  background:var(--soft);font-size:13px;cursor:pointer
 }
 .search-buttons button:hover{border-color:var(--border)}
 #notice{
-  min-height:18px;
-  margin:14px 0 0;
-  color:var(--muted);
-  font-size:12px;
-  text-align:center;
+  min-height:18px;margin:14px 0 0;color:var(--muted);
+  font-size:12px;text-align:center
 }
 
 /* SHORTCUTS */
 .shortcuts{
-  width:min(100%,690px);
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:12px;
-  margin-top:46px;
+  width:min(100%,690px);display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:46px
 }
 .shortcut{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  padding:10px 4px 12px;
-  border:0;
-  border-radius:12px;
-  background:transparent;
-  cursor:pointer;
-  text-align:center;
+  min-width:0;display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:10px 4px 12px;border:0;border-radius:12px;
+  background:transparent;cursor:pointer;text-align:center
 }
 .shortcut:hover{background:var(--soft)}
 .shortcut-icon{
-  width:58px;
-  height:58px;
-  display:grid;
-  place-items:center;
-  border-radius:19px;
-  background:#f1f3f4;
-  color:#5f6368;
+  width:58px;height:58px;display:grid;place-items:center;
+  border-radius:19px;background:#f1f3f4;color:#5f6368
 }
 .shortcut-icon svg{width:27px;height:27px}
 .shortcut-icon.youtube{background:#fce8e6;color:#ea4335}
@@ -326,115 +169,65 @@ main{
 .shortcut-icon.news{background:#e6f4ea;color:#188038}
 .shortcut-icon.social{background:#f3e8fd;color:#8430ce}
 .shortcut-icon.add{background:var(--soft);color:var(--muted)}
-.shortcut-label{
-  max-width:100%;
-  font-size:13px;
-  overflow-wrap:anywhere;
-}
-.shortcut button{font:inherit}
+.shortcut-label{max-width:100%;font-size:13px;overflow-wrap:anywhere}
 
 /* DIALOGS */
 .overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:200;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:#0005;
+  display:none;position:fixed;inset:0;z-index:200;align-items:center;
+  justify-content:center;padding:18px;background:#0005
 }
 .overlay.show{display:flex}
 .dialog{
-  width:min(100%,470px);
-  max-height:85vh;
-  overflow:auto;
-  padding:22px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--bg);
-  box-shadow:var(--shadow);
+  width:min(100%,470px);max-height:85vh;overflow:auto;padding:22px;
+  border:1px solid var(--border);border-radius:18px;
+  background:var(--bg);box-shadow:var(--shadow)
 }
 .dialog-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;margin-bottom:16px
 }
 .dialog-head h2{font-size:19px;margin:0}
 .close-button{
-  width:35px;height:35px;
-  border:0;border-radius:50%;
-  background:var(--soft);
-  cursor:pointer;
-  font-size:20px;
+  width:35px;height:35px;border:0;border-radius:50%;
+  background:var(--soft);cursor:pointer;font-size:20px
 }
 .dialog-list{display:grid;gap:8px}
 .dialog-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  border-radius:10px;
-  overflow-wrap:anywhere;
+  display:flex;align-items:center;gap:12px;padding:12px;
+  border-radius:10px;overflow-wrap:anywhere
 }
 .dialog-item:hover{background:var(--soft)}
 .dialog-item button{
-  margin-left:auto;
-  border:0;background:transparent;
-  cursor:pointer;color:var(--muted);
+  margin-left:auto;border:0;background:transparent;cursor:pointer;color:var(--muted)
 }
 .dialog-empty{color:var(--muted);font-size:14px;line-height:1.6}
 .dialog-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:var(--bg);
-  color:var(--text);
+  width:100%;padding:12px;margin:8px 0;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text)
 }
 .primary-button{
-  padding:11px 16px;
-  border:0;border-radius:9px;
-  background:var(--blue);
-  color:white;
-  cursor:pointer;
+  padding:11px 16px;border:0;border-radius:9px;
+  background:var(--blue);color:white;cursor:pointer
 }
 
-/* CONTENT SECTIONS */
-.content-section{
-  width:min(100%,900px);
-  margin:48px auto 0;
-}
+/* CONTENT */
+.content-section{width:min(100%,900px);margin:48px auto 0}
 .section-heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:14px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:14px
 }
 .section-heading h2{margin:0;font-size:20px}
 .section-heading span{font-size:12px;color:var(--muted)}
 .bola-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}
 .bola-filter{
-  padding:7px 12px;
-  border:1px solid var(--border);
-  border-radius:20px;
-  background:var(--bg);
-  color:var(--text);
-  cursor:pointer;
-  font-size:12px;
+  padding:7px 12px;border:1px solid var(--border);border-radius:20px;
+  background:var(--bg);color:var(--text);cursor:pointer;font-size:12px
 }
 .bola-filter.active{background:#e8f0fe;border-color:#c6dafc;color:#174ea6}
 .bola-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .bola-card{
-  min-width:0;
-  padding:15px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:var(--bg);
+  min-width:0;padding:15px;border:1px solid var(--border);
+  border-radius:14px;background:var(--bg)
 }
 .bola-meta{font-size:11px;color:var(--muted);margin-bottom:9px;line-height:1.5}
 .bola-source{color:var(--green);font-weight:700}
@@ -442,100 +235,50 @@ main{
 .bola-card p{font-size:12px;line-height:1.6;color:var(--muted);margin:0}
 .bola-read{display:inline-block;margin-top:12px;color:var(--blue);font-size:12px;font-weight:700}
 .bola-empty,.reels-empty{
-  grid-column:1/-1;
-  padding:22px;
-  border:1px dashed var(--border);
-  border-radius:14px;
-  background:var(--soft);
-  color:var(--muted);
-  text-align:center;
-  font-size:13px;
-  line-height:1.7;
+  grid-column:1/-1;padding:22px;border:1px dashed var(--border);
+  border-radius:14px;background:var(--soft);color:var(--muted);
+  text-align:center;font-size:13px;line-height:1.7
 }
 .ai-panel{
-  display:none;
-  width:min(100%,690px);
-  margin-top:24px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:var(--bg);
-  overflow:hidden;
+  display:none;width:min(100%,690px);margin-top:24px;
+  border:1px solid var(--border);border-radius:16px;background:var(--bg);overflow:hidden
 }
 .ai-panel.show{display:block}
-.ai-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 17px;
-  border-bottom:1px solid var(--border);
-}
+.ai-header{display:flex;justify-content:space-between;align-items:center;padding:14px 17px;border-bottom:1px solid var(--border)}
 .ai-title{font-size:14px;font-weight:700}
 .ai-close{border:0;background:transparent;cursor:pointer;font-size:20px}
 .ai-messages{min-height:70px;max-height:250px;overflow:auto;padding:15px}
 .ai-message{
-  max-width:85%;
-  padding:10px 13px;
-  margin-bottom:10px;
-  border-radius:13px;
-  background:var(--soft);
-  font-size:13px;
-  line-height:1.6;
-  overflow-wrap:anywhere;
+  max-width:85%;padding:10px 13px;margin-bottom:10px;
+  border-radius:13px;background:var(--soft);font-size:13px;line-height:1.6;overflow-wrap:anywhere
 }
 .ai-message.user{margin-left:auto;background:#e8f0fe;color:#174ea6}
 .ai-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
 .ai-form input{
-  flex:1;min-width:0;padding:11px 14px;
-  border:1px solid var(--border);border-radius:22px;
-  background:var(--bg);color:var(--text);outline:none;
+  flex:1;min-width:0;padding:11px 14px;border:1px solid var(--border);
+  border-radius:22px;background:var(--bg);color:var(--text);outline:none
 }
-.ai-form button{
-  padding:0 16px;border:0;border-radius:22px;
-  background:var(--blue);color:#fff;cursor:pointer;
-}
+.ai-form button{padding:0 16px;border:0;border-radius:22px;background:var(--blue);color:#fff;cursor:pointer}
 .reels-empty{display:block}
-.about-section{
-  width:min(100%,900px);
-  margin:42px auto;
-  text-align:center;
-}
-.about-section p{
-  max-width:680px;
-  margin:12px auto;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8;
-}
+.about-section{width:min(100%,900px);margin:42px auto;text-align:center}
+.about-section p{max-width:680px;margin:12px auto;color:var(--muted);font-size:14px;line-height:1.8}
 footer{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:15px;
-  min-height:58px;
-  padding:16px 28px;
-  border-top:1px solid #f1f3f4;
-  background:var(--soft);
-  color:var(--muted);
-  font-size:12px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
+  gap:15px;min-height:58px;padding:16px 28px;border-top:1px solid #f1f3f4;
+  background:var(--soft);color:var(--muted);font-size:12px
 }
 .footer-links{display:flex;gap:20px;flex-wrap:wrap}
 footer a:hover{text-decoration:underline}
 
-/* RESPONSIVE */
 @media(max-width:700px){
   header{min-height:66px;padding:10px 14px}
-  .account-label{font-size:14px}
-  .header-tools{gap:1px}
-  .icon-button{width:36px;height:36px}
-  .icon-button svg{width:21px;height:21px}
+  .account-label{font-size:14px}.header-tools{gap:1px}
+  .icon-button{width:36px;height:36px}.icon-button svg{width:21px;height:21px}
   main{padding:76px 18px 35px}
   .logo{height:85px;margin-bottom:28px}
-  .logo-o{width:65px;height:65px}
-  .logo-o::after{inset:12px}
+  .logo-o{width:65px;height:65px}.logo-o::after{inset:12px}
   .logo-oe,.logo-r{font-size:80px;letter-spacing:-5px}
-  .logo-oe{margin-left:6px}
-  .logo-r{letter-spacing:-3px}
+  .logo-oe{margin-left:6px}.logo-r{letter-spacing:-3px}
   .search-box{min-height:54px;padding:0 15px;gap:10px}
   #searchInput{font-size:15px}
   .shortcuts{gap:3px;margin-top:34px}
@@ -549,16 +292,13 @@ footer a:hover{text-decoration:underline}
   .footer-links{justify-content:center}
 }
 @media(max-width:380px){
-  .account-area{gap:5px}
-  .avatar{width:36px;height:36px}
+  .account-area{gap:5px}.avatar{width:36px;height:36px}
   .account-label{font-size:12px}
   .header-tools .icon-button{width:32px;height:34px}
-  .logo-o{width:55px;height:55px}
-  .logo-o::after{inset:10px}
+  .logo-o{width:55px;height:55px}.logo-o::after{inset:10px}
   .logo-oe,.logo-r{font-size:68px}
   .shortcuts{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .shortcut-icon{width:42px;height:42px}
-  .shortcut-label{font-size:10px}
+  .shortcut-icon{width:42px;height:42px}.shortcut-label{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
@@ -569,8 +309,8 @@ footer a:hover{text-decoration:underline}
 <body>
 <header>
   <div class="account-area">
-    <button class="account-button" id="accountMenuButton" type="button" aria-label="Menu akun">
-      <span class="avatar" id="loginButton" title="Masuk dengan Google">
+    <button class="account-button" id="accountMenuButton" type="button" aria-label="Menu akun" aria-expanded="false">
+      <span class="avatar" id="loginButton" title="Profil OoeR">
         <svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <circle cx="12" cy="8" r="4"></circle>
           <path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path>
@@ -585,24 +325,17 @@ footer a:hover{text-decoration:underline}
       <button type="button" id="menuHistory">Riwayat pencarian</button>
       <button type="button" id="menuFavorites">Favorit saya</button>
     </div>
-  </div>   <!-- ← tambahkan penutup div ini -->
+  </div>
 
   <nav class="header-tools" aria-label="Navigasi utama">
     <button class="icon-button" type="button" id="homeButton" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path></svg>
     </button>
     <button class="icon-button" type="button" id="favoritesButton" aria-label="Favorit" title="Favorit">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path></svg>
     </button>
     <button class="icon-button" type="button" id="historyButton" aria-label="Riwayat" title="Riwayat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <circle cx="12" cy="12" r="9"></circle>
-        <path d="M12 7v5l3 2"></path>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
     </button>
     <button class="icon-button" type="button" id="settingsButton" aria-label="Pengaturan" title="Pengaturan">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -611,26 +344,23 @@ footer a:hover{text-decoration:underline}
       </svg>
     </button>
   </nav>
- </header>
+</header>
+
 <main id="home">
   <section class="hero" aria-label="Pencarian OoeR">
     <div class="logo" role="img" aria-label="OoeR">
       <span class="logo-o" aria-hidden="true"></span>
-      <span class="logo-oe">oe</span>
-      <span class="logo-r">R</span>
+      <span class="logo-oe">oe</span><span class="logo-r">R</span>
     </div>
 
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="m16 16 4 4"></path>
+          <circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path>
         </svg>
         <input id="searchInput" type="search" placeholder="Cari atau masukkan alamat" autocomplete="off" aria-label="Cari atau masukkan alamat">
         <button class="search-action" type="button" id="voiceButton" aria-label="Pencarian suara" title="Pencarian suara">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path></svg>
         </button>
       </div>
       <div class="suggestions" id="suggestions"></div>
@@ -639,103 +369,54 @@ footer a:hover{text-decoration:underline}
     <div class="search-buttons">
       <button type="submit" form="searchForm">Cari OoeR</button>
       <button type="button" id="luckyButton">Jelajahi OoeR</button>
+      <button type="button" id="aiButton">AI Chat</button>
     </div>
     <p id="notice" aria-live="polite"></p>
 
     <nav class="shortcuts" aria-label="Pintasan">
       <a class="shortcut" href="https://www.youtube.com/shorts/" target="_blank" rel="noopener noreferrer">
-        <span class="shortcut-icon youtube">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M23 7a3 3 0 0 0-2.1-2.1C19 4.4 12 4.4 12 4.4s-7 0-8.9.5A3 3 0 0 0 1 7a31 31 0 0 0-.5 5 31 31 0 0 0 .5 5 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5A3 3 0 0 0 23 17a31 31 0 0 0 .5-5 31 31 0 0 0-.5-5zM9.7 15.5v-7l6.1 3.5z"></path>
-          </svg>
-        </span>
+        <span class="shortcut-icon youtube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7a3 3 0 0 0-2.1-2.1C19 4.4 12 4.4 12 4.4s-7 0-8.9.5A3 3 0 0 0 1 7a31 31 0 0 0-.5 5 31 31 0 0 0 .5 5 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5A3 3 0 0 0 23 17a31 31 0 0 0 .5-5 31 31 0 0 0-.5-5zM9.7 15.5v-7l6.1 3.5z"></path></svg></span>
         <span class="shortcut-label">YouTube</span>
       </a>
-
       <a class="shortcut" href="./search.html?q=ruang%20belajar">
-        <span class="shortcut-icon study">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="m12 3 11 6-11 6L1 9zm-7 9 7 4 7-4v5l-7 4-7-4z"></path>
-          </svg>
-        </span>
+        <span class="shortcut-icon study"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3 11 6-11 6L1 9zm-7 9 7 4 7-4v5l-7 4-7-4z"></path></svg></span>
         <span class="shortcut-label">Ruang Belajar</span>
       </a>
-
       <a class="shortcut" href="#oer-bola">
-        <span class="shortcut-icon news">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
-            <path d="M7 8h4v3H7zm7 0h3M7 15h4m3 0h3"></path>
-          </svg>
-        </span>
+        <span class="shortcut-icon news"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 8h4v3H7zm7 0h3M7 15h4m3 0h3"></path></svg></span>
         <span class="shortcut-label">Berita</span>
       </a>
-
       <a class="shortcut" href="./search.html?q=sosial">
-        <span class="shortcut-icon social">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <circle cx="9" cy="8" r="4"></circle>
-            <path d="M2 20v-2a7 7 0 0 1 14 0v2z"></path>
-            <circle cx="18" cy="8" r="3"></circle>
-            <path d="M17 14a6 6 0 0 1 5 6h-4v-2a9 9 0 0 0-1-4z"></path>
-          </svg>
-        </span>
+        <span class="shortcut-icon social"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 20v-2a7 7 0 0 1 14 0v2z"></path><circle cx="18" cy="8" r="3"></circle><path d="M17 14a6 6 0 0 1 5 6h-4v-2a9 9 0 0 0-1-4z"></path></svg></span>
         <span class="shortcut-label">Sosial</span>
       </a>
-
       <button class="shortcut" type="button" id="addShortcutButton">
-        <span class="shortcut-icon add">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M12 5v14M5 12h14"></path>
-          </svg>
-        </span>
+        <span class="shortcut-icon add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
         <span class="shortcut-label">Tambah</span>
       </button>
     </nav>
   </section>
 
-  <!-- AI CHAT -->
   <section class="ai-panel" id="aiPanel" aria-label="AI Chat OoeR">
-    <div class="ai-header">
-      <div class="ai-title">AI Chat OoeR</div>
-      <button class="ai-close" id="aiClose" type="button" aria-label="Tutup AI Chat">×</button>
-    </div>
-    <div class="ai-messages" id="aiMessages">
-      <div class="ai-message bot">Halo! AI Chat OoeR masih dalam tahap pengembangan.</div>
-    </div>
-    <form class="ai-form" id="aiForm">
-      <input id="aiInput" type="text" placeholder="Tulis pertanyaan..." autocomplete="off">
-      <button type="submit">Kirim</button>
-    </form>
+    <div class="ai-header"><div class="ai-title">AI Chat OoeR</div><button class="ai-close" id="aiClose" type="button" aria-label="Tutup AI Chat">×</button></div>
+    <div class="ai-messages" id="aiMessages"><div class="ai-message bot">Halo! AI Chat OoeR masih dalam tahap pengembangan.</div></div>
+    <form class="ai-form" id="aiForm"><input id="aiInput" type="text" placeholder="Tulis pertanyaan..." autocomplete="off"><button type="submit">Kirim</button></form>
   </section>
 
-  <!-- OoeR BOLA -->
   <section class="content-section" id="oer-bola">
-    <div class="section-heading">
-      <h2>⚽ OoeR Bola</h2>
-      <span id="bolaStatus">Memeriksa berita...</span>
-    </div>
+    <div class="section-heading"><h2>⚽ OoeR Bola</h2><span id="bolaStatus">Memeriksa berita...</span></div>
     <div class="bola-filters" aria-label="Kategori berita">
       <button type="button" class="bola-filter active" data-bola-filter="semua">Semua</button>
       <button type="button" class="bola-filter" data-bola-filter="indonesia">Indonesia</button>
       <button type="button" class="bola-filter" data-bola-filter="dunia">Dunia</button>
       <button type="button" class="bola-filter" data-bola-filter="transfer">Transfer</button>
     </div>
-    <div class="bola-list" id="bolaList" aria-live="polite">
-      <div class="bola-empty">Berita sepak bola akan muncul di sini setelah feed tersedia.</div>
-    </div>
+    <div class="bola-list" id="bolaList" aria-live="polite"><div class="bola-empty">Berita sepak bola akan muncul di sini setelah feed tersedia.</div></div>
   </section>
 
-  <!-- REELS -->
   <section class="content-section" id="reels">
-    <div class="section-heading">
-      <h2>Reels OoeR</h2>
-      <span>YouTube Shorts</span>
-    </div>
-    <div class="reels-empty">
-      🎬 Reels OoeR sedang dikembangkan.<br>
-      Fitur video akan disambungkan pada tahap berikutnya.
-    </div>
+    <div class="section-heading"><h2>Reels OoeR</h2><span>YouTube Shorts</span></div>
+    <div class="reels-empty">🎬 Reels OoeR sedang dikembangkan.<br>Fitur video akan disambungkan pada tahap berikutnya.</div>
   </section>
 
   <section class="about-section" id="tentang">
@@ -752,37 +433,25 @@ footer a:hover{text-decoration:underline}
   </div>
 </footer>
 
-<!-- DIALOG RIWAYAT -->
 <div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="historyTitle">Riwayat pencarian</h2>
-      <button class="close-button" type="button" data-close="historyOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="historyTitle">Riwayat pencarian</h2><button class="close-button" type="button" data-close="historyOverlay" aria-label="Tutup">×</button></div>
     <div class="dialog-list" id="historyList"></div>
     <button class="primary-button" type="button" id="clearHistoryButton">Hapus riwayat</button>
   </div>
 </div>
 
-<!-- DIALOG FAVORIT -->
 <div class="overlay" id="favoritesOverlay" role="dialog" aria-modal="true" aria-labelledby="favoritesTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="favoritesTitle">Favorit</h2>
-      <button class="close-button" type="button" data-close="favoritesOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="favoritesTitle">Favorit</h2><button class="close-button" type="button" data-close="favoritesOverlay" aria-label="Tutup">×</button></div>
     <div class="dialog-list" id="favoritesList"></div>
-    <p class="dialog-empty">Simpan pencarian favorit melalui tombol bintang di samping kolom pencarian.</p>
+    <p class="dialog-empty">Simpan pencarian sebagai favorit menggunakan tombol bintang di kolom pencarian.</p>
   </div>
 </div>
 
-<!-- DIALOG TAMBAH PINTASAN -->
 <div class="overlay" id="shortcutOverlay" role="dialog" aria-modal="true" aria-labelledby="shortcutTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="shortcutTitle">Tambah pintasan</h2>
-      <button class="close-button" type="button" data-close="shortcutOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="shortcutTitle">Tambah pintasan</h2><button class="close-button" type="button" data-close="shortcutOverlay" aria-label="Tutup">×</button></div>
     <form id="shortcutForm">
       <label for="shortcutName">Nama pintasan</label>
       <input class="dialog-input" id="shortcutName" required maxlength="35" placeholder="Contoh: Situs belajar">
@@ -794,16 +463,12 @@ footer a:hover{text-decoration:underline}
   </div>
 </div>
 
-<!-- DIALOG PENGATURAN -->
 <div class="overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="settingsTitle">Pengaturan</h2>
-      <button class="close-button" type="button" data-close="settingsOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="settingsTitle">Pengaturan</h2><button class="close-button" type="button" data-close="settingsOverlay" aria-label="Tutup">×</button></div>
     <p>Atur tampilan OoeR sesuai keinginanmu.</p>
     <button class="primary-button" id="themeButton" type="button">Aktifkan mode gelap</button>
-    <p class="dialog-empty">Pencarian menggunakan OoeR Search. Pengaturan ini mengubah tampilan halaman saat ini.</p>
+    <p class="dialog-empty">Pengaturan ini mengubah tampilan halaman saat ini.</p>
   </div>
 </div>
 
@@ -811,10 +476,9 @@ footer a:hover{text-decoration:underline}
 (() => {
   "use strict";
 
-  /* SUPABASE: KONFIGURASI ASLI DIPERTAHANKAN */
+  /* SUPABASE: PERTAHANKAN URL DAN KEY PROYEK ASLI */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   const $ = id => document.getElementById(id);
   const form = $("searchForm");
@@ -828,13 +492,25 @@ footer a:hover{text-decoration:underline}
   const aiInput = $("aiInput");
   const aiMessages = $("aiMessages");
 
+  let supabaseClient = null;
+  let currentGoogleUser = null;
+
+  if (window.supabase?.createClient) {
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch (error) {
+      console.error("Supabase tidak dapat diinisialisasi:", error);
+    }
+  }
+
   $("year").textContent = new Date().getFullYear();
 
   function readStorage(key, fallback = []) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "null");
-      return Array.isArray(fallback) ? (Array.isArray(value) ? value : fallback) :
-        (value ?? fallback);
+      return Array.isArray(fallback)
+        ? (Array.isArray(value) ? value : fallback)
+        : (value ?? fallback);
     } catch {
       return fallback;
     }
@@ -843,10 +519,12 @@ footer a:hover{text-decoration:underline}
   function writeStorage(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch {}
+    } catch (error) {
+      console.warn("Penyimpanan lokal tidak tersedia:", error);
+    }
   }
 
-  /* RIWAYAT PENCARIAN */
+  /* RIWAYAT */
   function getHistory() {
     return readStorage("oer_search_history").filter(x => typeof x === "string");
   }
@@ -898,7 +576,7 @@ footer a:hover{text-decoration:underline}
     suggestions.classList.add("show");
   }
 
-  /* PENCARIAN HANYA MELALUI OoeR SEARCH */
+  /* PENCARIAN OoeR */
   function performSearch() {
     const query = input.value.trim();
 
@@ -947,10 +625,9 @@ footer a:hover{text-decoration:underline}
     input.focus();
   });
 
-  /* PENCARIAN SUARA JIKA DIDUKUNG BROWSER */
+  /* PENCARIAN SUARA */
   $("voiceButton").addEventListener("click", () => {
-    const SpeechRecognition = window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       notice.textContent = "Pencarian suara belum didukung browser ini.";
@@ -960,10 +637,7 @@ footer a:hover{text-decoration:underline}
     const recognition = new SpeechRecognition();
     recognition.lang = "id-ID";
     recognition.interimResults = false;
-
-    recognition.onstart = () => {
-      notice.textContent = "Silakan berbicara...";
-    };
+    recognition.onstart = () => notice.textContent = "Silakan berbicara...";
     recognition.onresult = event => {
       input.value = event.results[0][0].transcript;
       notice.textContent = "";
@@ -972,10 +646,16 @@ footer a:hover{text-decoration:underline}
     recognition.onerror = () => {
       notice.textContent = "Pencarian suara tidak berhasil. Coba lagi.";
     };
-    recognition.start();
+
+    try {
+      recognition.start();
+    } catch (error) {
+      console.warn("Pencarian suara:", error);
+      notice.textContent = "Pencarian suara belum bisa dimulai.";
+    }
   });
 
-  /* RIWAYAT */
+  /* DIALOG */
   function openOverlay(id) {
     $(id).classList.add("show");
   }
@@ -994,6 +674,15 @@ footer a:hover{text-decoration:underline}
     });
   });
 
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      document.querySelectorAll(".overlay.show").forEach(item => closeOverlay(item.id));
+      accountMenu.classList.remove("show");
+      hideSuggestions();
+    }
+  });
+
+  /* RIWAYAT */
   function renderHistory() {
     const list = $("historyList");
     list.replaceChildren();
@@ -1020,8 +709,7 @@ footer a:hover{text-decoration:underline}
       remove.type = "button";
       remove.textContent = "Hapus";
       remove.addEventListener("click", () => {
-        writeStorage("oer_search_history",
-          getHistory().filter(item => item !== query));
+        writeStorage("oer_search_history", getHistory().filter(item => item !== query));
         renderHistory();
       });
 
@@ -1050,6 +738,23 @@ footer a:hover{text-decoration:underline}
     return readStorage("oer_favorites").filter(x => typeof x === "string");
   }
 
+  function addFavorite(query) {
+    if (!query) {
+      notice.textContent = "Masukkan pencarian terlebih dahulu untuk menyimpan favorit.";
+      return;
+    }
+
+    const favorites = getFavorites();
+    if (favorites.some(item => item.toLowerCase() === query.toLowerCase())) {
+      notice.textContent = "Pencarian ini sudah ada di favorit.";
+      return;
+    }
+
+    favorites.unshift(query);
+    writeStorage("oer_favorites", favorites.slice(0, 30));
+    notice.textContent = "Pencarian ditambahkan ke favorit.";
+  }
+
   function renderFavorites() {
     const list = $("favoritesList");
     list.replaceChildren();
@@ -1058,7 +763,7 @@ footer a:hover{text-decoration:underline}
     if (!favorites.length) {
       const empty = document.createElement("p");
       empty.className = "dialog-empty";
-      empty.textContent = "Belum ada favorit. Cari sesuatu lalu simpan ke favorit.";
+      empty.textContent = "Belum ada favorit. Masukkan kata di kolom pencarian lalu simpan.";
       list.appendChild(empty);
       return;
     }
@@ -1076,8 +781,7 @@ footer a:hover{text-decoration:underline}
       remove.type = "button";
       remove.textContent = "Hapus";
       remove.addEventListener("click", () => {
-        writeStorage("oer_favorites",
-          getFavorites().filter(item => item !== query));
+        writeStorage("oer_favorites", getFavorites().filter(item => item !== query));
         renderFavorites();
       });
 
@@ -1095,32 +799,10 @@ footer a:hover{text-decoration:underline}
   $("favoritesButton").addEventListener("click", showFavorites);
   $("menuFavorites").addEventListener("click", showFavorites);
 
-  /* SIMPAN PENCARIAN TERAKHIR KE FAVORIT MELALUI TOMBOL BINTANG */
-  $("favoritesButton").title = "Lihat favorit";
-  $("favoritesButton").addEventListener("contextmenu", event => {
-    event.preventDefault();
-    const query = input.value.trim();
-
-    if (!query) {
-      notice.textContent = "Masukkan pencarian terlebih dahulu untuk menyimpan favorit.";
-      return;
-    }
-
-    const favorites = getFavorites();
-    if (!favorites.some(item => item.toLowerCase() === query.toLowerCase())) {
-      favorites.unshift(query);
-      writeStorage("oer_favorites", favorites.slice(0, 30));
-      notice.textContent = "Pencarian ditambahkan ke favorit.";
-    } else {
-      notice.textContent = "Pencarian ini sudah ada di favorit.";
-    }
-  });
-
-  /* TAMBAH PINTASAN KUSTOM */
+  /* PINTASAN KUSTOM */
   function getCustomShortcuts() {
     return readStorage("oer_custom_shortcuts").filter(item =>
-      item && typeof item.name === "string" &&
-      typeof item.url === "string"
+      item && typeof item.name === "string" && typeof item.url === "string"
     );
   }
 
@@ -1159,11 +841,11 @@ footer a:hover{text-decoration:underline}
     document.querySelectorAll(".custom-shortcut").forEach(el => el.remove());
 
     getCustomShortcuts().forEach(item => {
-      const button = document.createElement("a");
-      button.className = "shortcut custom-shortcut";
-      button.href = item.url;
-      button.target = "_blank";
-      button.rel = "noopener noreferrer";
+      const link = document.createElement("a");
+      link.className = "shortcut custom-shortcut";
+      link.href = item.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
 
       const icon = document.createElement("span");
       icon.className = "shortcut-icon add";
@@ -1173,8 +855,8 @@ footer a:hover{text-decoration:underline}
       label.className = "shortcut-label";
       label.textContent = item.name;
 
-      button.append(icon, label);
-      $("addShortcutButton").before(button);
+      link.append(icon, label);
+      $("addShortcutButton").before(link);
     });
   }
 
@@ -1190,7 +872,7 @@ footer a:hover{text-decoration:underline}
 
     try {
       url = new URL($("shortcutUrl").value.trim());
-      if (!["https:", "http:"].includes(url.protocol)) throw new Error();
+      if (!["https:", "http:"].includes(url.protocol)) throw new Error("Protokol tidak valid");
     } catch {
       notice.textContent = "Masukkan alamat situs HTTP atau HTTPS yang valid.";
       return;
@@ -1201,7 +883,6 @@ footer a:hover{text-decoration:underline}
     const shortcuts = getCustomShortcuts();
     shortcuts.push({name, url:url.href});
     writeStorage("oer_custom_shortcuts", shortcuts.slice(0, 10));
-
     $("shortcutForm").reset();
     renderCustomShortcuts();
     renderShortcutTiles();
@@ -1211,25 +892,26 @@ footer a:hover{text-decoration:underline}
 
   renderShortcutTiles();
 
-  /* PENGATURAN TAMPILAN */
+  /* TEMA */
   function applyTheme(dark) {
     document.body.classList.toggle("dark", dark);
+    document.querySelector('meta[name="theme-color"]').content = dark ? "#202124" : "#ffffff";
+
     try {
       localStorage.setItem("oer_dark_mode", dark ? "1" : "0");
     } catch {}
-    $("themeButton").textContent = dark ?
-      "Aktifkan mode terang" : "Aktifkan mode gelap";
+
+    $("themeButton").textContent = dark ? "Aktifkan mode terang" : "Aktifkan mode gelap";
   }
 
   let darkMode = false;
   try {
     darkMode = localStorage.getItem("oer_dark_mode") === "1";
   } catch {}
+
   applyTheme(darkMode);
 
-  $("settingsButton").addEventListener("click", () => {
-    openOverlay("settingsOverlay");
-  });
+  $("settingsButton").addEventListener("click", () => openOverlay("settingsOverlay"));
 
   $("themeButton").addEventListener("click", () => {
     applyTheme(!document.body.classList.contains("dark"));
@@ -1238,19 +920,20 @@ footer a:hover{text-decoration:underline}
   /* MENU AKUN */
   $("accountMenuButton").addEventListener("click", event => {
     event.stopPropagation();
-    accountMenu.classList.toggle("show");
+    const isOpen = accountMenu.classList.toggle("show");
+    $("accountMenuButton").setAttribute("aria-expanded", String(isOpen));
   });
 
   document.addEventListener("click", event => {
-    if (!accountMenu.contains(event.target) &&
-        !$("accountMenuButton").contains(event.target)) {
+    if (!accountMenu.contains(event.target) && !$("accountMenuButton").contains(event.target)) {
       accountMenu.classList.remove("show");
+      $("accountMenuButton").setAttribute("aria-expanded", "false");
     }
     if (!form.contains(event.target)) hideSuggestions();
   });
 
-  /* AI CHAT — MODE PENGEMBANGAN */
-  $("aiButton")?.addEventListener("click", () => {
+  /* AI CHAT: TAMPILAN PENGEMBANGAN */
+  $("aiButton").addEventListener("click", () => {
     aiPanel.classList.toggle("show");
     if (aiPanel.classList.contains("show")) {
       aiInput.focus();
@@ -1258,9 +941,7 @@ footer a:hover{text-decoration:underline}
     }
   });
 
-  $("aiClose").addEventListener("click", () => {
-    aiPanel.classList.remove("show");
-  });
+  $("aiClose").addEventListener("click", () => aiPanel.classList.remove("show"));
 
   $("aiForm").addEventListener("submit", event => {
     event.preventDefault();
@@ -1275,14 +956,12 @@ footer a:hover{text-decoration:underline}
 
     const botMessage = document.createElement("div");
     botMessage.className = "ai-message bot";
-    botMessage.textContent =
-      "AI Chat OoeR masih dalam tahap pengembangan. Fitur jawaban AI belum terhubung.";
-
+    botMessage.textContent = "AI Chat OoeR masih dalam tahap pengembangan. Fitur jawaban AI belum terhubung.";
     aiMessages.appendChild(botMessage);
     aiMessages.scrollTop = aiMessages.scrollHeight;
   });
 
-  /* OoeR BOLA — MEMBACA data/bola.json */
+  /* OoeR BOLA: data/bola.json */
   {
     const bolaList = $("bolaList");
     const bolaStatus = $("bolaStatus");
@@ -1294,19 +973,19 @@ footer a:hover{text-decoration:underline}
     function renderBola() {
       bolaList.replaceChildren();
 
-      const filtered = articles.filter(article => {
-        if (activeFilter === "semua") return true;
-        return String(article.category || "").toLowerCase() === activeFilter;
-      });
+      const filtered = articles.filter(article =>
+        activeFilter === "semua" ||
+        String(article.category || "").toLowerCase() === activeFilter
+      );
 
       const visible = filtered.slice(0, 2);
 
       if (!visible.length) {
         const empty = document.createElement("div");
         empty.className = "bola-empty";
-        empty.textContent = articles.length ?
-          "Belum ada berita dalam kategori ini." :
-          "Feed berita belum tersedia. Bagian ini siap menampilkan berita saat data tersedia.";
+        empty.textContent = articles.length
+          ? "Belum ada berita dalam kategori ini."
+          : "Feed berita belum tersedia. Bagian ini siap menampilkan berita saat data tersedia.";
         bolaList.appendChild(empty);
         return;
       }
@@ -1324,8 +1003,9 @@ footer a:hover{text-decoration:underline}
 
         const date = document.createElement("div");
         const published = article.published ? new Date(article.published) : null;
-        date.textContent = published && !Number.isNaN(published.getTime()) ?
-          published.toLocaleString("id-ID") : "Waktu terbit tidak tersedia";
+        date.textContent = published && !Number.isNaN(published.getTime())
+          ? published.toLocaleString("id-ID")
+          : "Waktu terbit tidak tersedia";
 
         meta.append(source, date);
 
@@ -1333,17 +1013,14 @@ footer a:hover{text-decoration:underline}
         title.textContent = article.title || "Berita sepak bola";
 
         const summary = document.createElement("p");
-        summary.textContent = article.summary ||
-          "Baca artikel asli untuk informasi selengkapnya.";
+        summary.textContent = article.summary || "Baca artikel asli untuk informasi selengkapnya.";
 
         card.append(meta, title, summary);
 
         let validUrl = "";
         try {
           const parsed = new URL(article.url);
-          if (parsed.protocol === "https:" || parsed.protocol === "http:") {
-            validUrl = parsed.href;
-          }
+          if (parsed.protocol === "https:" || parsed.protocol === "http:") validUrl = parsed.href;
         } catch {}
 
         if (validUrl) {
@@ -1363,9 +1040,7 @@ footer a:hover{text-decoration:underline}
     filters.forEach(button => {
       button.addEventListener("click", () => {
         activeFilter = button.dataset.bolaFilter;
-        filters.forEach(item =>
-          item.classList.toggle("active", item === button)
-        );
+        filters.forEach(item => item.classList.toggle("active", item === button));
         renderBola();
       });
     });
@@ -1375,36 +1050,30 @@ footer a:hover{text-decoration:underline}
       refreshInProgress = true;
 
       try {
-        const response = await fetch("./data/bola.json?updated=" + Date.now(), {
-          cache:"no-store"
-        });
-
+        const response = await fetch("./data/bola.json?updated=" + Date.now(), {cache:"no-store"});
         if (!response.ok) throw new Error("Feed belum tersedia");
 
         const data = await response.json();
         if (!Array.isArray(data.articles)) throw new Error("Format data tidak valid");
 
         articles = data.articles
-          .filter(article => article &&
-            typeof article.title === "string" &&
-            typeof article.url === "string")
-          .sort((a,b) =>
-            new Date(b.published || 0).getTime() -
-            new Date(a.published || 0).getTime()
-          );
+          .filter(article => article && typeof article.title === "string" && typeof article.url === "string")
+          .sort((a,b) => new Date(b.published || 0).getTime() - new Date(a.published || 0).getTime());
 
-        bolaStatus.textContent = data.updated ?
-          "Diperbarui " + new Date(data.updated).toLocaleTimeString("id-ID", {
-            hour:"2-digit",minute:"2-digit"
-          }) : "Berita terbaru";
+        bolaStatus.textContent = data.updated
+          ? "Diperbarui " + new Date(data.updated).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})
+          : "Berita terbaru";
 
         renderBola();
       } catch (error) {
         console.warn("OoeR Bola:", error);
         bolaStatus.textContent = "Feed belum tersedia";
         if (!articles.length) {
-          bolaList.innerHTML =
-            '<div class="bola-empty">Feed berita belum terhubung. Bagian OoeR Bola siap menampilkan berita setelah data tersedia.</div>';
+          bolaList.replaceChildren();
+          const empty = document.createElement("div");
+          empty.className = "bola-empty";
+          empty.textContent = "Feed berita belum terhubung. Bagian OoeR Bola siap menampilkan berita setelah data tersedia.";
+          bolaList.appendChild(empty);
         }
       } finally {
         refreshInProgress = false;
@@ -1416,8 +1085,12 @@ footer a:hover{text-decoration:underline}
   }
 
   /* LOGIN GOOGLE MELALUI SUPABASE */
-  async function signInWithGoogle(event) {
-    if (event) event.preventDefault();
+  async function signInWithGoogle() {
+    if (!supabaseClient) {
+      notice.textContent = "Layanan login belum siap. Periksa koneksi internet dan konfigurasi Supabase.";
+      return;
+    }
+
     notice.textContent = "Menghubungkan ke Google...";
 
     try {
@@ -1434,83 +1107,112 @@ footer a:hover{text-decoration:underline}
       }
     } catch (error) {
       console.error(error);
-      notice.textContent = "Terjadi kesalahan saat login.";
+      notice.textContent = "Terjadi kesalahan saat login Google.";
     }
   }
 
-  $("menuLogin").addEventListener("click", signInWithGoogle);
-  loginButton.addEventListener("click", signInWithGoogle);
-  $("menuORAccount").addEventListener("click", () => {
-  window.location.href = "https://oer-p.github.io/Oer/login.html";
-});
-  function updateProfile(user) {
-  loginButton.replaceChildren();
+  async function signOutGoogle() {
+    if (!supabaseClient) return;
 
-  const menuOR = $("menuORAccount");
-  const menuLogin = $("menuLogin");
-if (user) {
-  menuOR.textContent = "Keluar";
-  menuOR.style.display = "";
-  menuOR.onclick = async () => {
-    await supabaseClient.auth.signOut();
-    updateProfile(null);
-    notice.textContent = "Berhasil keluar.";
-  };
-} else {
-  menuOR.textContent = "Masuk dengan OR Account";
-  menuOR.onclick = () => {
-    window.location.href = "./login.html";
-  };
-  }
- 
-  const metadata = user.user_metadata || {};
-  const name = metadata.full_name || metadata.name || user.email || "Pengguna OoeR";
-  const avatar = metadata.avatar_url || metadata.picture;
-
-  if (avatar) {
-    const image = document.createElement("img");
-    image.src = avatar;
-    image.alt = "Profil";
-    loginButton.appendChild(image);
-  } else {
-    loginButton.textContent = name.charAt(0).toUpperCase();
-    // biar tidak keliatan "0", paksa warna lebih jelas
-    loginButton.style.background = "#34a853";
-    loginButton.style.color = "#fff";
-    loginButton.style.fontWeight = "700";
-  }
-
-  loginButton.title = name;
-  accountLabel.textContent = name.split(" ")[0];
-  menuLogin.textContent = "Akun: " + name;
-
-  // Sembunyikan tombol "Masuk dengan OR Account" karena sudah login
-  menuOR.style.display = "none";
-  }
-  
-  async function loadSession() {
     try {
-      const {data,error} = await supabaseClient.auth.getSession();
-      if (error) {
-        console.error(error);
-        return;
-      }
-      updateProfile(data.session ? data.session.user : null);
+      const {error} = await supabaseClient.auth.signOut();
+      if (error) throw error;
+      notice.textContent = "Berhasil keluar dari akun Google.";
+      updateProfile(null);
     } catch (error) {
       console.error(error);
+      notice.textContent = "Tidak dapat keluar: " + (error.message || "terjadi kesalahan");
+    }
+  }
+
+  $("menuLogin").addEventListener("click", () => {
+    accountMenu.classList.remove("show");
+    if (currentGoogleUser) {
+      signOutGoogle();
+    } else {
+      signInWithGoogle();
+    }
+  });
+
+  /* OR ACCOUNT TERPISAH DARI LOGIN GOOGLE */
+  $("menuORAccount").addEventListener("click", () => {
+    window.location.href = "https://oer-p.github.io/Oer/login.html";
+  });
+
+  function updateProfile(user) {
+    currentGoogleUser = user || null;
+    loginButton.replaceChildren();
+
+    const menuLogin = $("menuLogin");
+
+    if (user) {
+      const metadata = user.user_metadata || {};
+      const name = metadata.full_name || metadata.name || user.email || "Pengguna OoeR";
+      const avatar = metadata.avatar_url || metadata.picture;
+
+      if (avatar) {
+        const image = document.createElement("img");
+        image.src = avatar;
+        image.alt = "Foto profil";
+        image.referrerPolicy = "no-referrer";
+        image.onerror = () => {
+          loginButton.replaceChildren();
+          loginButton.textContent = name.charAt(0).toUpperCase();
+        };
+        loginButton.appendChild(image);
+      } else {
+        loginButton.textContent = name.charAt(0).toUpperCase();
+        loginButton.style.background = "#34a853";
+        loginButton.style.color = "#fff";
+        loginButton.style.fontWeight = "700";
+      }
+
+      loginButton.title = name;
+      accountLabel.textContent = name.split(" ")[0];
+      menuLogin.textContent = "Keluar dari Google";
+    } else {
+      loginButton.style.background = "";
+      loginButton.style.color = "";
+      loginButton.style.fontWeight = "";
+      loginButton.innerHTML =
+        '<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path></svg>';
+      loginButton.title = "Akun";
+      accountLabel.textContent = "Akun";
+      menuLogin.textContent = "Masuk dengan Google";
+    }
+
+    /* OR Account selalu tersedia dan tidak digabung dengan sesi Google. */
+    $("menuORAccount").textContent = "Masuk dengan OR Account";
+    $("menuORAccount").style.display = "";
+  }
+
+  async function loadSession() {
+    if (!supabaseClient) {
+      notice.textContent = "Login Google belum tersedia karena Supabase belum berhasil dimuat.";
+      return;
+    }
+
+    try {
+      const {data,error} = await supabaseClient.auth.getSession();
+      if (error) throw error;
+      updateProfile(data.session ? data.session.user : null);
+    } catch (error) {
+      console.error("Gagal memeriksa sesi:", error);
     }
   }
 
   loadSession();
 
-  supabaseClient.auth.onAuthStateChange((_event,session) => {
-    updateProfile(session ? session.user : null);
-    if (session) {
-      notice.textContent = "Selamat datang di OoeR, " +
-        (session.user.user_metadata?.full_name ||
-         session.user.email || "Pengguna") + ".";
-    }
-  });
+  if (supabaseClient) {
+    supabaseClient.auth.onAuthStateChange((_event,session) => {
+      updateProfile(session ? session.user : null);
+
+      if (session) {
+        notice.textContent = "Selamat datang di OoeR, " +
+          (session.user.user_metadata?.full_name || session.user.email || "Pengguna") + ".";
+      }
+    });
+  }
 
   $("footerAbout").addEventListener("click", event => {
     event.preventDefault();
@@ -1519,25 +1221,21 @@ if (user) {
 
   $("helpLink").addEventListener("click", event => {
     event.preventDefault();
-    notice.textContent =
-      "Bantuan OoeR: gunakan kolom pencarian untuk mencari melalui OoeR Search.";
+    notice.textContent = "Bantuan OoeR: gunakan kolom pencarian untuk mencari melalui OoeR Search.";
     window.scrollTo({top:0,behavior:"smooth"});
   });
 })();
-<link rel="manifest" href="/Media-oer/manifest.json">
-<meta name="theme-color" content="#202124">
-<meta name="mobile-web-app-capable" content="yes">
+</script>
 
 <script>
+/* PWA: SERVICE WORKER */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/Media-oer/sw.js")
       .then(() => console.log("OoeR PWA siap"))
-      .catch((error) => {
-        console.error("PWA gagal diaktifkan:", error);
-      });
+      .catch(error => console.error("PWA gagal diaktifkan:", error));
   });
 }
 </script>
-  </body>
+</body>
 </html>
