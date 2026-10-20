@@ -1443,46 +1443,47 @@ footer a:hover{text-decoration:underline}
   $("menuORAccount").addEventListener("click", () => {
   window.location.href = "https://oer-p.github.io/Oer/";
 });
-  
   function updateProfile(user) {
-    loginButton.replaceChildren();
+  loginButton.replaceChildren();
 
-    if (!user) {
-      const icon = document.createElementNS("http://www.w3.org/2000/svg","svg");
-      icon.setAttribute("viewBox","0 0 24 24");
-      icon.setAttribute("width","25");
-      icon.setAttribute("height","25");
-      icon.setAttribute("fill","none");
-      icon.setAttribute("stroke","currentColor");
-      icon.setAttribute("stroke-width","1.8");
-      icon.innerHTML =
-        '<circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path>';
-      loginButton.appendChild(icon);
-      loginButton.title = "Masuk dengan Google";
-      accountLabel.textContent = "Akun";
-      $("menuLogin").textContent = "Masuk dengan Google";
-      return;
-    }
+  const menuOR = $("menuORAccount");
+  const menuLogin = $("menuLogin");
 
-    const metadata = user.user_metadata || {};
-    const name = metadata.full_name || metadata.name ||
-      user.email || "Pengguna OoeR";
-    const avatar = metadata.avatar_url || metadata.picture;
-
-    if (avatar) {
-      const image = document.createElement("img");
-      image.src = avatar;
-      image.alt = "Profil";
-      loginButton.appendChild(image);
-    } else {
-      loginButton.textContent = name.charAt(0).toUpperCase();
-    }
-
-    loginButton.title = name;
-    accountLabel.textContent = name.split(" ")[0];
-    $("menuLogin").textContent = "Akun: " + name;
+  if (!user) {
+    // ... kode SVG avatar seperti sekarang ...
+    loginButton.title = "Masuk dengan Google";
+    accountLabel.textContent = "Akun";
+    menuLogin.textContent = "Masuk dengan Google";
+    menuOR.textContent = "Masuk dengan OR Account";
+    menuOR.style.display = "";          // tampilkan lagi
+    return;
   }
 
+  const metadata = user.user_metadata || {};
+  const name = metadata.full_name || metadata.name || user.email || "Pengguna OoeR";
+  const avatar = metadata.avatar_url || metadata.picture;
+
+  if (avatar) {
+    const image = document.createElement("img");
+    image.src = avatar;
+    image.alt = "Profil";
+    loginButton.appendChild(image);
+  } else {
+    loginButton.textContent = name.charAt(0).toUpperCase();
+    // biar tidak keliatan "0", paksa warna lebih jelas
+    loginButton.style.background = "#34a853";
+    loginButton.style.color = "#fff";
+    loginButton.style.fontWeight = "700";
+  }
+
+  loginButton.title = name;
+  accountLabel.textContent = name.split(" ")[0];
+  menuLogin.textContent = "Akun: " + name;
+
+  // Sembunyikan tombol "Masuk dengan OR Account" karena sudah login
+  menuOR.style.display = "none";
+  }
+  
   async function loadSession() {
     try {
       const {data,error} = await supabaseClient.auth.getSession();
