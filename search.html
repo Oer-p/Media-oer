@@ -442,5 +442,96 @@ const initialTab=params.get("tab")||"all";
 if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"].includes(initialTab)?initialTab:"all",false);
 })();
 </script>
+ 
+<!-- OeR Web Viewer: tampilkan situs eksternal di dalam OeR -->
+<section id="oerWebViewer" hidden
+  style="position:fixed;inset:0;z-index:99999;background:#fff;color:#222;">
+
+  <header style="display:flex;align-items:center;gap:10px;padding:12px;
+    border-bottom:1px solid #ddd;background:#f7f7f7;">
+    <button id="oerViewerBack" type="button"
+      style="padding:9px 13px;cursor:pointer;">← Kembali</button>
+
+    <strong id="oerViewerTitle" style="flex:1;">OeR Web</strong>
+
+    <button id="oerViewerNewTab" type="button"
+      style="padding:9px 13px;cursor:pointer;">Buka tab baru ↗</button>
+  </header>
+
+  <div id="oerViewerNotice"
+    style="padding:10px 14px;background:#fff8df;font-size:13px;">
+    Jika situs tidak dapat ditampilkan, gunakan tombol Buka tab baru.
+  </div>
+
+  <iframe id="oerViewerFrame"
+    title="Situs eksternal di OeR"
+    style="display:block;width:100%;height:calc(100% - 105px);border:0;"
+    referrerpolicy="strict-origin-when-cross-origin">
+  </iframe>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  const viewer = document.getElementById("oerWebViewer");
+  const frame = document.getElementById("oerViewerFrame");
+  const title = document.getElementById("oerViewerTitle");
+  const notice = document.getElementById("oerViewerNotice");
+  const back = document.getElementById("oerViewerBack");
+  const newTab = document.getElementById("oerViewerNewTab");
+
+  let currentUrl = "";
+
+  function openOerWebViewer(url) {
+    try {
+      const parsed = new URL(url);
+
+      // Hanya izinkan situs HTTPS dari daftar ini.
+      const allowedHosts = [
+        "apkpure.com",
+        "www.apkpure.com"
+      ];
+
+      if (
+        parsed.protocol !== "https:" ||
+        !allowedHosts.includes(parsed.hostname.toLowerCase())
+      ) {
+        return false;
+      }
+
+      currentUrl = parsed.href;
+      title.textContent = "APKPure";
+      notice.textContent =
+        "Situs sedang dimuat. Jika diblokir, pilih Buka tab baru.";
+
+      viewer.hidden = false;
+      frame.src = currentUrl;
+      document.body.style.overflow = "hidden";
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function closeOerWebViewer() {
+    viewer.hidden = true;
+    frame.src = "about:blank";
+    document.body.style.overflow = "";
+  }
+
+  back.addEventListener("click", closeOerWebViewer);
+
+  newTab.addEventListener("click", function () {
+    if (currentUrl) {
+      window.open(currentUrl, "_blank", "noopener,noreferrer");
+    }
+  });
+
+  // Fungsi ini bisa dipakai dari hasil pencarian OeR.
+  window.openOerWebViewer = openOerWebViewer;
+})();
+</script>
 </body>
 </html>
