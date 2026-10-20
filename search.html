@@ -2,1252 +2,1014 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="OeR Search membantu menemukan pengetahuan, gambar, berita, video, dan situs web.">
-  <title>OeR Search</title>
-
-  <style>
-    :root {
-      --green: #a3e635;
-      --green-dark: #65a30d;
-      --text: #202124;
-      --muted: #5f6368;
-      --border: #dadce0;
-      --bg: #fff;
-      --soft: #f8faf7;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      min-height: 100vh;
-    }
-
-    a { color: inherit; }
-    button, input { font: inherit; }
-
-    .topbar {
-      min-height: 76px;
-      padding: 16px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      color: #171717;
-      font-size: 35px;
-      font-weight: 900;
-      letter-spacing: -3px;
-      text-decoration: none;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .logo-letter {
-      display: inline-block;
-      animation: logoFloat 2.4s ease-in-out infinite;
-    }
-
-    .logo-letter.e {
-      color: var(--green-dark);
-      animation-delay: .18s;
-    }
-
-    .logo-letter:last-child { animation-delay: .36s; }
-
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-
-    .tagline {
-      color: var(--muted);
-      font-size: 13px;
-      text-align: right;
-    }
-
-    .search-area {
-      width: min(760px, 92%);
-      margin: 45px auto 26px;
-    }
-
-    .search-heading {
-      margin: 0 0 9px;
-      font-size: 30px;
-      letter-spacing: -1px;
-      text-align: center;
-    }
-
-    .search-subtitle {
-      margin: 0 0 25px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .search-form {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 8px 7px 17px;
-      min-height: 58px;
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      background: #fff;
-      box-shadow: 0 2px 8px #0000000f;
-      transition: box-shadow .2s, border-color .2s;
-    }
-
-    .search-form:focus-within {
-      border-color: #b5d879;
-      box-shadow: 0 3px 13px #65a30d26;
-    }
-
-    .colorful-o {
-      width: 25px;
-      height: 25px;
-      flex-shrink: 0;
-    }
-
-    #query {
-      flex: 1;
-      width: 100%;
-      min-width: 0;
-      padding: 9px 3px;
-      border: 0;
-      outline: none;
-      background: transparent;
-      color: var(--text);
-      font-size: 16px;
-    }
-
-    #query::placeholder { color: #888; }
-
-    .search-button {
-      flex-shrink: 0;
-      min-width: 70px;
-      padding: 12px 19px;
-      border: 0;
-      border-radius: 24px;
-      background: var(--green);
-      color: #171717;
-      font-weight: 800;
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    .search-button:hover {
-      background: #bef264;
-      transform: translateY(-1px);
-    }
-
-    .external-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .external-links a {
-      padding: 8px 13px;
-      border: 1px solid #e5e7eb;
-      border-radius: 20px;
-      color: #444;
-      font-size: 13px;
-      text-decoration: none;
-      background: #fff;
-    }
-
-    .external-links a:hover {
-      background: var(--soft);
-      border-color: #cbd5c0;
-    }
-
-    .content {
-      width: min(1000px, 92%);
-      margin: 0 auto;
-      padding-bottom: 55px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 0 14px;
-      border-bottom: 1px solid #e8eaed;
-      scrollbar-width: thin;
-    }
-
-    .tab {
-      flex-shrink: 0;
-      padding: 10px 16px;
-      border: 1px solid transparent;
-      border-radius: 22px;
-      background: #f5f6f5;
-      color: #444;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .tab:hover { background: #edf4e4; }
-
-    .tab.active {
-      background: #eaf6d7;
-      border-color: #c4e49b;
-      color: #365314;
-      font-weight: 700;
-    }
-
-    .result-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 0 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .results {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .result-card {
-      padding: 20px 0;
-      border-bottom: 1px solid #ececec;
-    }
-
-    .source-label {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .result-title {
-      display: inline-block;
-      margin: 0 0 8px;
-      color: #176b36;
-      font-size: 21px;
-      line-height: 1.35;
-      font-weight: 500;
-      text-decoration: none;
-      overflow-wrap: anywhere;
-    }
-
-    .result-title:hover { text-decoration: underline; }
-
-    .result-description {
-      margin: 0;
-      color: #454545;
-      font-size: 14px;
-      line-height: 1.75;
-      overflow-wrap: anywhere;
-    }
-
-    .result-url {
-      display: block;
-      margin-top: 8px;
-      color: #777;
-      font-size: 12px;
-      overflow-wrap: anywhere;
-    }
-
-    .result-layout {
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-    }
-
-    .result-copy { flex: 1; min-width: 0; }
-
-    .result-image {
-      width: 150px;
-      height: 110px;
-      flex-shrink: 0;
-      object-fit: cover;
-      border-radius: 10px;
-      background: #f3f4f6;
-    }
-
-    .site-badge {
-      display: inline-block;
-      margin: 0 0 8px;
-      padding: 4px 9px;
-      border-radius: 20px;
-      background: #eaf6d7;
-      color: #365314;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .site-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .site-actions a {
-      display: inline-block;
-      padding: 8px 12px;
-      border: 1px solid #d9e8c5;
-      border-radius: 20px;
-      color: #365314;
-      font-size: 12px;
-      text-decoration: none;
-      background: #fbfdf8;
-    }
-
-    .site-actions a:hover { background: #eaf6d7; }
-
-    .image-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 17px;
-      padding: 20px 0;
-    }
-
-    .image-card {
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      background: #fff;
-      text-decoration: none;
-    }
-
-    .image-card img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      background: #f3f4f6;
-    }
-
-    .image-caption {
-      padding: 11px;
-      font-size: 13px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .image-caption small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-    }
-
-    .message {
-      padding: 45px 18px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .message strong {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-size: 17px;
-    }
-
-    .external-panel {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 22px 0;
-    }
-
-    .external-card {
-      display: block;
-      padding: 20px;
-      border: 1px solid #e5e7eb;
-      border-radius: 13px;
-      text-decoration: none;
-      transition: .2s;
-    }
-
-    .external-card:hover {
-      border-color: #b8d78a;
-      background: #fbfdf8;
-      transform: translateY(-2px);
-    }
-
-    .external-card strong {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 16px;
-    }
-
-    .external-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .notice {
-      margin-top: 25px;
-      padding: 14px 16px;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      background: #fafafa;
-      color: #666;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .notice a, footer a {
-      color: #176b36;
-      text-decoration: none;
-    }
-
-    footer {
-      padding: 22px 5%;
-      border-top: 1px solid #eee;
-      color: #777;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    [hidden] { display: none !important; }
-
-    @media (max-width: 650px) {
-      .topbar { min-height: 65px; padding: 15px 5%; }
-      .brand { font-size: 31px; }
-      .tagline { max-width: 150px; font-size: 11px; }
-      .search-area { margin-top: 35px; }
-      .search-heading { font-size: 26px; }
-      .search-form { min-height: 53px; padding-left: 13px; }
-      .search-button { min-width: 61px; padding: 11px 14px; }
-      .tabs { gap: 5px; }
-      .tab { padding: 9px 13px; font-size: 13px; }
-      .result-title { font-size: 18px; }
-      .result-image { width: 100px; height: 90px; }
-      .image-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-      .external-panel { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 380px) {
-      .tagline { max-width: 115px; }
-      .result-layout { gap: 10px; }
-      .result-image { width: 82px; height: 78px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17191d">
+<meta name="description" content="OoeR Search — cari dan temukan informasi melalui OoeR.">
+<meta name="robots" content="index,follow">
+<title>OoeR Search</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#17191d;
+  --panel:#202329;
+  --panel2:#282b32;
+  --text:#f1f3f4;
+  --muted:#aeb4bf;
+  --border:#373b44;
+  --blue:#8ab4f8;
+  --green:#34a853;
+  --red:#ea4335;
+  --yellow:#fbbc05;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:145px}
+body{
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+button{color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--blue);outline-offset:3px
+}
+[hidden]{display:none!important}
+
+/* Bilah browser OoeR */
+.browser-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:10px;
+  min-height:58px;padding:8px 16px;
+  background:#111317;border-bottom:1px solid #30333a;
+}
+.browser-address{
+  display:flex;align-items:center;gap:9px;
+  flex:1;min-width:0;height:40px;padding:0 13px;
+  background:#282b31;border:1px solid #383b43;border-radius:24px;
+}
+.lock-icon{width:16px;height:16px;flex-shrink:0;color:#b8bec8}
+.address-text{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:#e5e7eb;font-size:13px;
+}
+.browser-button{
+  width:38px;height:38px;flex-shrink:0;
+  display:grid;place-items:center;border:0;border-radius:50%;
+  background:transparent;color:#e7e9ed;font-size:25px;
+}
+.browser-button:hover{background:#30333a}
+.browser-button svg{width:21px;height:21px}
+.browser-menu-wrap{position:relative}
+.browser-menu{
+  display:none;position:absolute;right:0;top:45px;width:205px;
+  padding:7px;border:1px solid var(--border);border-radius:13px;
+  background:#24272d;box-shadow:0 8px 28px #0008;z-index:100;
+}
+.browser-menu.show{display:block}
+.browser-menu button{
+  width:100%;padding:12px;border:0;border-radius:8px;
+  background:transparent;text-align:left;font-size:13px;
+}
+.browser-menu button:hover{background:#343841}
+
+/* Header logo dan akun */
+.main-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:14px 25px 12px;
+  border-bottom:1px solid #292c33;
+}
+.brand{
+  display:inline-flex;align-items:center;gap:1px;
+  font-size:31px;font-weight:800;letter-spacing:-2px;line-height:1;
+  white-space:nowrap;
+}
+.brand-o{
+  display:inline-grid;place-items:center;width:32px;height:32px;
+  margin-right:3px;border-radius:50%;
+  background:conic-gradient(var(--blue) 0 120deg,var(--yellow) 120deg 235deg,var(--red) 235deg 300deg,var(--blue) 300deg);
+  position:relative;
+}
+.brand-o:after{
+  content:"";position:absolute;inset:6px;border-radius:50%;background:var(--bg)
+}
+.brand-oe{color:var(--red)}
+.brand-r{color:var(--green)}
+.header-actions{display:flex;align-items:center;gap:7px}
+.icon-button{
+  width:39px;height:39px;display:grid;place-items:center;
+  border:0;border-radius:50%;background:transparent;color:#e8eaed;
+  position:relative;
+}
+.icon-button:hover{background:#30343b}
+.icon-button svg{width:22px;height:22px}
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;background:#3c78d8;color:white;
+  font-weight:700;font-size:15px;overflow:hidden;
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.header-action-wrap{position:relative}
+.pop-menu{
+  display:none;position:absolute;right:0;top:46px;z-index:60;
+  width:225px;padding:8px;border:1px solid var(--border);
+  border-radius:14px;background:#25282e;box-shadow:0 8px 25px #0007;
+}
+.pop-menu.show{display:block}
+.pop-menu button,.pop-menu a{
+  display:block;width:100%;padding:12px;border:0;border-radius:8px;
+  text-align:left;background:transparent;font-size:13px;
+}
+.pop-menu button:hover,.pop-menu a:hover{background:#343841}
+.notification-dot{
+  position:absolute;top:6px;right:6px;width:7px;height:7px;
+  border-radius:50%;background:var(--red)
+}
+
+/* Kolom pencarian */
+.search-area{
+  width:min(760px,calc(100% - 32px));margin:23px auto 0;
+}
+.search-form{
+  display:flex;align-items:center;gap:10px;
+  min-height:54px;padding:5px 9px 5px 17px;
+  border:1px solid #454952;border-radius:28px;background:#24272d;
+  box-shadow:0 2px 9px #0002;
+}
+.search-form:focus-within,.search-form:hover{
+  border-color:#666d78;box-shadow:0 3px 13px #0004
+}
+.search-symbol{width:21px;height:21px;flex-shrink:0;color:#bdc1c6}
+#query{
+  flex:1;min-width:0;width:100%;padding:11px 0;
+  border:0;outline:none;background:transparent;color:var(--text);
+  font-size:16px;
+}
+#query::placeholder{color:#aeb4bf}
+.search-submit,.clear-query{
+  display:grid;place-items:center;flex-shrink:0;
+  width:37px;height:37px;border:0;border-radius:50%;
+  background:transparent;color:#c7ccd4;
+}
+.search-submit:hover,.clear-query:hover{background:#383c44}
+.search-submit svg,.clear-query svg{width:20px;height:20px}
+.search-note{
+  min-height:17px;margin:8px 5px 0;color:var(--muted);
+  font-size:12px
+}
+
+/* Kategori */
+.content{width:min(900px,calc(100% - 32px));margin:12px auto 50px}
+.tabs{
+  display:flex;align-items:center;gap:6px;overflow-x:auto;
+  padding:11px 0 0;border-bottom:1px solid #343840;
+  scrollbar-width:thin;
+}
+.tab{
+  flex-shrink:0;padding:12px 15px 11px;border:0;
+  border-bottom:3px solid transparent;background:transparent;
+  color:#bdc1c6;font-size:13px;white-space:nowrap;
+}
+.tab:hover{color:white;background:#24272d}
+.tab.active{border-bottom-color:var(--blue);color:var(--blue);font-weight:700}
+.result-meta{
+  display:flex;justify-content:space-between;gap:12px;
+  padding:18px 0 6px;color:var(--muted);font-size:12px
+}
+.message{
+  padding:32px 12px;color:var(--muted);font-size:14px;
+  line-height:1.7
+}
+.message strong{
+  display:block;margin-bottom:7px;color:var(--text);font-size:16px
+}
+.results{display:flex;flex-direction:column}
+.result-card{padding:18px 0;border-bottom:1px solid #2e3239}
+.source-label{display:block;margin-bottom:6px;color:#bdc1c6;font-size:12px}
+.result-title{
+  display:inline-block;margin:0 0 7px;color:var(--blue);
+  font-size:19px;line-height:1.4;font-weight:500;overflow-wrap:anywhere
+}
+.result-title:hover{text-decoration:underline}
+.result-description{
+  margin:0;color:#d2d5da;font-size:13px;line-height:1.7;
+  overflow-wrap:anywhere
+}
+.result-url{
+  display:block;margin-top:7px;color:#aeb4bf;font-size:11px;
+  overflow-wrap:anywhere
+}
+.result-layout{display:flex;align-items:flex-start;gap:15px}
+.result-copy{flex:1;min-width:0}
+.result-image{
+  width:125px;height:95px;flex-shrink:0;object-fit:cover;
+  border-radius:9px;background:#2b2e34
+}
+.site-badge{
+  display:inline-block;margin-bottom:7px;padding:4px 8px;
+  border-radius:5px;background:#263b30;color:#a8e6b9;
+  font-size:10px;font-weight:700
+}
+.site-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.site-actions a{
+  padding:7px 10px;border:1px solid #414750;border-radius:8px;
+  color:#b5d0ff;font-size:12px
+}
+.site-actions a:hover{background:#292f39}
+.image-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;padding:18px 0
+}
+.image-card{
+  min-width:0;overflow:hidden;border:1px solid #373b44;
+  border-radius:11px;background:#22252b
+}
+.image-card img{
+  display:block;width:100%;aspect-ratio:4/3;object-fit:cover;
+  background:#2c3037
+}
+.image-caption{padding:10px;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.image-caption small{display:block;margin-top:5px;color:var(--muted)}
+.internal-card{
+  padding:16px;margin:8px 0;border:1px solid #383d46;
+  border-radius:12px;background:#202329
+}
+.internal-card strong{display:block;margin-bottom:6px;color:#e8eaed}
+.internal-card p{margin:0;color:#bdc1c6;font-size:13px;line-height:1.65}
+.internal-card a{display:inline-block;margin-top:10px;color:var(--blue);font-size:13px}
+footer{
+  padding:22px 16px;border-top:1px solid #2d3037;
+  color:#9298a2;text-align:center;font-size:11px;line-height:1.8
+}
+footer a{color:var(--blue)}
+[hidden]{display:none!important}
+
+@media(max-width:600px){
+  .browser-bar{min-height:53px;padding:6px 9px;gap:5px}
+  .browser-address{height:37px;padding:0 10px}
+  .browser-button{width:34px;height:36px}
+  .address-text{font-size:12px}
+  .main-header{padding:12px 14px}
+  .brand{font-size:28px}
+  .brand-o{width:29px;height:29px}
+  .brand-o:after{inset:5px}
+  .header-actions{gap:3px}
+  .icon-button{width:35px;height:35px}
+  .search-area{margin-top:17px}
+  .search-form{min-height:51px;padding-left:13px;gap:6px}
+  #query{font-size:15px}
+  .content{margin-top:10px}
+  .tab{padding:11px 12px;font-size:12px}
+  .result-title{font-size:17px}
+  .result-image{width:92px;height:82px}
+  .result-layout{gap:11px}
+  .image-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+}
+@media(max-width:360px){
+  .address-text{font-size:11px}
+  .brand{font-size:25px}
+  .brand-o{width:26px;height:26px}
+  .icon-button{width:31px}
+  .result-image{width:76px;height:72px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
 </head>
 
 <body>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="Beranda OeR">
-      <span class="logo-letter">O</span><span class="logo-letter e">e</span><span class="logo-letter">R</span>
-    </a>
-    <div class="tagline">Temukan sesuatu yang baru</div>
-  </header>
-
-  <main>
-    <section class="search-area" aria-label="Pencarian OeR">
-      <h1 class="search-heading">OeR Search</h1>
-      <p class="search-subtitle">Cari pengetahuan dan temukan hal baru.</p>
-
-      <form id="searchForm" class="search-form" role="search">
-        <svg class="colorful-o" viewBox="0 0 40 40" role="img" aria-label="O">
-          <defs>
-            <linearGradient id="oGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4285F4"/>
-              <stop offset="35%" stop-color="#34A853"/>
-              <stop offset="65%" stop-color="#FBBC05"/>
-              <stop offset="100%" stop-color="#EA4335"/>
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="14" fill="none" stroke="url(#oGradient)" stroke-width="7"/>
-        </svg>
-
-        <input id="query" name="q" type="search"
-          placeholder="Cari informasi..." autocomplete="off"
-          aria-label="Masukkan kata pencarian">
-
-        <button class="search-button" type="submit">OeR</button>
-      </form>
-
-      <div class="external-links">
-        <a id="googleLink" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">Google ↗</a>
-        <a id="bingLink" href="https://www.bing.com/" target="_blank" rel="noopener noreferrer">Bing ↗</a>
-      </div>
-    </section>
-
-    <section class="content" aria-label="Hasil pencarian">
-      <nav class="tabs" aria-label="Kategori pencarian">
-        <button class="tab active" type="button" data-tab="all" aria-selected="true">Semua</button>
-        <button class="tab" type="button" data-tab="knowledge" aria-selected="false">Pengetahuan</button>
-        <button class="tab" type="button" data-tab="images" aria-selected="false">Gambar</button>
-        <button class="tab" type="button" data-tab="news" aria-selected="false">Berita</button>
-        <button class="tab" type="button" data-tab="videos" aria-selected="false">Video</button>
-      </nav>
-
-      <div class="result-meta">
-        <span id="resultLabel">Pencarian OeR</span>
-        <span id="resultCount"></span>
-      </div>
-
-      <div id="status" class="message">
-        <strong>Selamat datang di OeR Search</strong>
-        Masukkan kata yang ingin kamu cari untuk mulai menjelajah.
-      </div>
-
-      <div id="results" class="results"></div>
-      <div id="imageResults" class="image-grid" hidden></div>
-      <div id="externalResults" class="external-panel" hidden></div>
-
-      <aside class="notice">
-        <strong>Informasi sumber:</strong>
-        Hasil pengetahuan diambil dari Wikipedia Indonesia dan gambar berasal dari Wikimedia Commons.
-        Pintasan situs mengarah ke layanan terkait. Berita dan video membuka pencarian pada layanan eksternal.
-        OeR belum memiliki indeks seluruh internet sendiri.
-      </aside>
-    </section>
-  </main>
-
-  <footer>
-    <div>© <span id="year"></span> OeR Platform</div>
-    <div>
-      <a href="./">Beranda OeR</a>
-      · Pengetahuan melalui Wikipedia
-      · Gambar melalui Wikimedia Commons
+<!-- Bilah browser -->
+<div class="browser-bar">
+  <a class="browser-button" href="./" aria-label="Kembali ke beranda" title="Beranda">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
+    </svg>
+  </a>
+  <div class="browser-address">
+    <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <rect x="4" y="10" width="16" height="11" rx="2"/>
+      <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+    </svg>
+    <span class="address-text">oer-p.github.io/Media-oer/search.html</span>
+  </div>
+  <button class="browser-button" id="newTabButton" type="button" aria-label="Buka tab baru" title="Tab baru">+</button>
+  <div class="browser-menu-wrap">
+    <button class="browser-button" id="browserMenuButton" type="button" aria-label="Menu lainnya" title="Menu">⋮</button>
+    <div class="browser-menu" id="browserMenu">
+      <button type="button" id="menuHome">Beranda OoeR</button>
+      <button type="button" id="menuReload">Muat ulang pencarian</button>
+      <button type="button" id="menuHistory">Riwayat pencarian</button>
+      <button type="button" id="menuSettings">Pengaturan tampilan</button>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <script>
-    (() => {
-      "use strict";
+<!-- Header OoeR -->
+<header class="main-header">
+  <a class="brand" href="./" aria-label="Beranda OoeR">
+    <span class="brand-o" aria-hidden="true"></span><span class="brand-oe">oe</span><span class="brand-r">R</span>
+  </a>
+  <div class="header-actions">
+    <div class="header-action-wrap">
+      <button class="icon-button" id="notificationButton" type="button" aria-label="Notifikasi" title="Notifikasi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+          <path d="M10 21h4"/>
+        </svg>
+        <span class="notification-dot" id="notificationDot"></span>
+      </button>
+      <div class="pop-menu" id="notificationMenu">
+        <button type="button">Belum ada notifikasi baru.</button>
+        <button type="button" id="dismissNotification">Tutup tanda notifikasi</button>
+      </div>
+    </div>
+    <div class="header-action-wrap">
+      <button class="icon-button" id="accountButton" type="button" aria-label="Akun" title="Akun">
+        <span class="avatar" id="avatar">O</span>
+      </button>
+      <div class="pop-menu" id="accountMenu">
+        <button type="button" id="accountStatus">Akun OoeR</button>
+        <button type="button" id="accountHistory">Riwayat pencarian</button>
+        <button type="button" id="accountClearHistory">Hapus riwayat lokal</button>
+      </div>
+    </div>
+  </div>
+</header>
 
-      const form = document.getElementById("searchForm");
-      const input = document.getElementById("query");
-      const statusBox = document.getElementById("status");
-      const resultsBox = document.getElementById("results");
-      const imageResultsBox = document.getElementById("imageResults");
-      const externalResultsBox = document.getElementById("externalResults");
-      const resultLabel = document.getElementById("resultLabel");
-      const resultCount = document.getElementById("resultCount");
-      const tabs = document.querySelectorAll(".tab");
+<section class="search-area" aria-label="Pencarian OoeR">
+  <form id="searchForm" class="search-form" role="search">
+    <svg class="search-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>
+    </svg>
+    <input id="query" name="q" type="search" placeholder="Cari di OoeR..." autocomplete="off" aria-label="Cari di OoeR">
+    <button class="clear-query" id="clearButton" type="button" aria-label="Hapus teks pencarian" title="Hapus">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m6 6 12 12M18 6 6 18"/>
+      </svg>
+    </button>
+    <button class="search-submit" type="submit" aria-label="Cari">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>
+      </svg>
+    </button>
+  </form>
+  <p class="search-note" id="searchNote" aria-live="polite">Pencarian melalui OoeR.</p>
+</section>
 
-      let activeTab = "all";
-      let currentQuery = "";
-      let requestId = 0;
+<main class="content">
+  <nav class="tabs" aria-label="Kategori hasil pencarian">
+    <button class="tab active" type="button" data-tab="all" aria-selected="true">Semua</button>
+    <button class="tab" type="button" data-tab="knowledge" aria-selected="false">Pengetahuan</button>
+    <button class="tab" type="button" data-tab="images" aria-selected="false">Gambar</button>
+    <button class="tab" type="button" data-tab="news" aria-selected="false">Berita</button>
+    <button class="tab" type="button" data-tab="videos" aria-selected="false">Video</button>
+  </nav>
 
-      document.getElementById("year").textContent = new Date().getFullYear();
+  <div class="result-meta">
+    <span id="resultLabel">Pencarian OoeR</span>
+    <span id="resultCount"></span>
+  </div>
 
-      function makeUrl(base, query) {
-        return base + encodeURIComponent(query);
-      }
+  <div id="status" class="message">
+    <strong>Selamat datang di OoeR</strong>
+    Ketik kata kunci untuk mencari halaman OoeR dan sumber pengetahuan yang tersedia.
+  </div>
+  <div id="results" class="results"></div>
+  <div id="imageResults" class="image-grid" hidden></div>
+</main>
 
-      function updateExternalLinks(query) {
-        const q = query.trim();
+<footer>
+  <div>© <span id="year"></span> OoeR</div>
+  <div>Pencarian web OoeR · <a href="./">Beranda OoeR</a> · <a href="./manfaat.html">OoeR Manfaat</a></div>
+</footer>
 
-        document.getElementById("googleLink").href = q
-          ? makeUrl("https://www.google.com/search?q=", q)
-          : "https://www.google.com/";
+<script>
+(() => {
+  "use strict";
 
-        document.getElementById("bingLink").href = q
-          ? makeUrl("https://www.bing.com/search?q=", q)
-          : "https://www.bing.com/";
-      }
+  const $ = id => document.getElementById(id);
+  const form = $("searchForm");
+  const input = $("query");
+  const statusBox = $("status");
+  const resultsBox = $("results");
+  const imageResultsBox = $("imageResults");
+  const resultLabel = $("resultLabel");
+  const resultCount = $("resultCount");
+  const searchNote = $("searchNote");
+  const tabs = [...document.querySelectorAll(".tab")];
 
-      function showStatus(title, description) {
-        statusBox.replaceChildren();
+  let activeTab = "all";
+  let currentQuery = "";
+  let requestId = 0;
 
-        const strong = document.createElement("strong");
-        strong.textContent = title;
+  $("year").textContent = new Date().getFullYear();
 
-        const message = document.createElement("div");
-        message.textContent = description;
+  function normalize(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/#/g, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
-        statusBox.append(strong, message);
-        statusBox.hidden = false;
-      }
+  function safeHttpUrl(value) {
+    try {
+      const url = new URL(value, location.href);
+      return ["https:", "http:"].includes(url.protocol) ? url.href : "";
+    } catch {
+      return "";
+    }
+  }
 
-      function clearResults() {
-        resultsBox.replaceChildren();
-        imageResultsBox.replaceChildren();
-        externalResultsBox.replaceChildren();
+  function showStatus(title, description) {
+    statusBox.replaceChildren();
+    const strong = document.createElement("strong");
+    strong.textContent = title;
+    const message = document.createElement("div");
+    message.textContent = description;
+    statusBox.append(strong, message);
+    statusBox.hidden = false;
+  }
 
-        resultsBox.hidden = true;
-        imageResultsBox.hidden = true;
-        externalResultsBox.hidden = true;
-        resultCount.textContent = "";
-      }
+  function clearResults() {
+    resultsBox.replaceChildren();
+    imageResultsBox.replaceChildren();
+    resultsBox.hidden = true;
+    imageResultsBox.hidden = true;
+    resultCount.textContent = "";
+  }
 
-      function setLoading(message) {
-        clearResults();
-        showStatus("Sedang mencari...", message || "Mohon tunggu sebentar.");
-      }
+  function setLoading(message) {
+    clearResults();
+    showStatus("Sedang mencari...", message);
+  }
 
-      function setActiveTab(tabName) {
-        activeTab = tabName;
+  function setActiveTab(tabName) {
+    activeTab = tabName;
+    tabs.forEach(tab => {
+      const active = tab.dataset.tab === tabName;
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+  }
 
-        tabs.forEach((tab) => {
-          const active = tab.dataset.tab === tabName;
-          tab.classList.toggle("active", active);
-          tab.setAttribute("aria-selected", String(active));
-        });
-      }
+  function createLink(url, text, className = "") {
+    const link = document.createElement("a");
+    link.href = url;
+    link.textContent = text;
+    if (className) link.className = className;
 
-      function createSourceLink(url, text) {
-        const link = document.createElement("a");
-        link.href = url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = text;
-        return link;
-      }
+    if (/^https?:\/\//i.test(url)) {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+    return link;
+  }
 
-      function safeHttpUrl(value) {
-        try {
-          const url = new URL(value);
-          if (url.protocol === "https:" || url.protocol === "http:") {
-            return url.href;
-          }
-        } catch (_) {}
-        return "";
-      }
-
-      // Daftar pintasan situs. Ini bukan indeks seluruh internet.
-      function getWebsiteResults(query) {
-  const q = query.trim().toLowerCase();
-
-  const sites = [
+  /* Indeks lokal: halaman OoeR yang dikelola sendiri. */
+  const localPages = [
     {
-  names: [
-    "manfaat", "manfaat buah", "manfaat sayur", "manfaat oer", "oer manfaat",
-    "manfaat makanan", "manfaat sehat", "buah", "sayur", "sayuran",
-    "kacang", "rempah", "makanan sehat", "gizi", "nutrisi",
-    "manfaat buah-buahan", "manfaat sayuran",
-    "pisang", "apel", "jeruk", "pepaya", "mangga", "alpukat", "semangka",
-    "nanas", "jambu", "stroberi", "anggur", "bayam", "wortel", "brokoli",
-    "kangkung", "tomat", "mentimun", "jahe", "kunyit", "cabai",
-    "tempe", "tahu", "kedelai", "kacang hijau", "serat", "protein",
-    "vitamin", "pola makan", "makan sehat", "hidrasi", "air putih"
-  ],
-  title: "OeR Manfaat — Buah, Sayur & Makanan Sehat",
-  url: "./manfaat.html",
-  displayUrl: "oer-p.github.io/manfaat",
-  description: "Temukan panduan manfaat buah, sayuran, kacang-kacangan, rempah, dan makanan bergizi. Pelajari kandungan gizi, cara konsumsi, serta tips hidup sehat bersama OeR."
-},
-    {
-  names: ["stres", "stress", "cara mengatasi stres", "mengatasi stres", "mengelola stres", "stres oer", "panduan stres"],
-  title: "Cara Mengatasi Stres: Panduan Lengkap | OeR",
-  url: "./stres.html",
-  displayUrl: "oer-p.github.io/stres",
-  description: "Panduan praktis mengatasi stres: latihan pernapasan, olahraga, tidur berkualitas, mengelola pikiran, prioritas, dan kapan harus mencari bantuan profesional."
-},
-    {
-      names: ["facebook", "fb"],
-      title: "Facebook",
-      url: "./facebook.html",
-      displayUrl: "facebook.com",
-      description: "Buka Facebook melalui halaman akses OeR. Jika pratinjau tidak dapat dimuat, buka situs resmi Facebook.",
-      officialUrl: "https://www.facebook.com/"
+      names: [
+        "manfaat","buah","manfaat buah","manfaatbuah","buah sehat",
+        "manfaat apel","apel","manfaat pisang","pisang","manfaat mangga",
+        "mangga","manfaat jeruk","jeruk","manfaat pepaya","pepaya",
+        "manfaat alpukat","alpukat","buah naga","semangka","nanas",
+        "anggur","stroberi","vitamin buah","nutrisi buah","kandungan buah",
+        "buah dan manfaat","sayur","sayuran","manfaat sayur",
+        "manfaat sayuran","vitamin","nutrisi","kesehatan","makanan sehat",
+        "khasiat buah","khasiat sayuran","gizi"
+      ],
+      title: "OoeR Manfaat — Informasi Buah dan Kesehatan",
+      url: "./manfaat.html",
+      displayUrl: "oer-p.github.io/Media-oer/manfaat.html",
+      description: "Temukan informasi manfaat buah, sayuran, nutrisi, kandungan gizi, dan panduan hidup sehat di halaman OoeR Manfaat."
     },
     {
-  names: ["capcut", "cap cut", "bey uye", "beyuye", "capcut bey uye", "akun capcut"],
-  title: "CapCut — Bey Uye",
-  url: "https://mobile.capcutshare.com/sv2/ZSgrLvdCr/",
-  displayUrl: "capcut.com · Bey Uye",
-  description: "Akun CapCut Bey Uye (ID: 9643266484). Lihat video, template, dan karya editan CapCut.",
-  image: "https://cdn.imagetourls.com/uploads/tyImg/oGzWhsuH.jpg",
-  badge: "Creator"
-},
-    {
-    names: [
-        "tutorial", "tutorial kode", "belajar coding", "html", "css", 
-        "javascript", "pemrograman", "web developer", "membuat web", 
-        "tutorial oer", "oer tutorial", "open api", "ui ux", "tampilan web"
-    ],
-    title: "Tutorial Kode Web Pemula — OeR Platform",
-    url: "tutorial-kode.html",
-    displayUrl: "oer-p.github.io/tutorial-kode",
-    description: "Panduan lengkap dari nol membuat halaman web interaktif OeR: struktur HTML/CSS/JS, fungsi sistem, integrasi Open API, hingga desain UI/UX responsif."
-},
-    {
-    names: ["youtube", "yt"],
-      title: "YouTube",
-      url: "https://www.youtube.com/",
-      displayUrl: "youtube.com",
-      description: "Buka YouTube untuk mencari dan menonton video."
+      names: ["beranda","home","oe r","oer","ooer"],
+      title: "Beranda OoeR",
+      url: "./",
+      displayUrl: "oer-p.github.io/Media-oer/",
+      description: "Kembali ke beranda OoeR untuk menjelajahi fitur dan layanan platform."
     },
     {
-      names: ["instagram", "ig"],
-      title: "Instagram",
-      url: "https://www.instagram.com/",
-      displayUrl: "instagram.com",
-      description: "Buka situs resmi Instagram."
-    },
-    {
-      names: ["tiktok", "tik tok"],
-      title: "TikTok",
-      url: "https://www.tiktok.com/",
-      displayUrl: "tiktok.com",
-      description: "Buka TikTok untuk menjelajahi video."
-    },
-    {
-      names: ["google"],
-      title: "Google",
-      url: "https://www.google.com/",
-      displayUrl: "google.com",
-      description: "Buka mesin pencari Google."
-    },
-    {
-      names: ["bing"],
-      title: "Bing",
-      url: "https://www.bing.com/",
-      displayUrl: "bing.com",
-      description: "Buka mesin pencari Bing."
-    },
-    {
-      names: ["wikipedia"],
-      title: "Wikipedia",
-      url: "https://id.wikipedia.org/",
-      displayUrl: "id.wikipedia.org",
-      description: "Buka ensiklopedia Wikipedia Indonesia."
+      names: ["ruang belajar","belajar","pendidikan","materi belajar"],
+      title: "Ruang Belajar OoeR",
+      url: "./search.html?q=ruang%20belajar",
+      displayUrl: "oer-p.github.io/Media-oer/search.html",
+      description: "Jelajahi pencarian materi belajar dan informasi pendidikan melalui OoeR."
     }
   ];
 
-  return sites.filter(site =>
-    site.names.some(name => q === name || q.includes(name))
-  );
-    }
-    
-    
-      function makeWebsiteResultCard(item) {
-        const article = document.createElement("article");
-        article.className = "result-card";
+  function getWebsiteResults(query) {
+    const q = normalize(query);
+    if (!q) return [];
 
-        const badge = document.createElement("span");
-        badge.className = "site-badge";
-        badge.textContent = "Situs web";
+    return localPages.map(page => {
+      const names = page.names.map(normalize);
+      let score = 0;
 
-        const title = createSourceLink(item.url, item.title);
-        title.className = "result-title";
-
-        const description = document.createElement("p");
-        description.className = "result-description";
-        description.textContent = item.description;
-
-        const url = document.createElement("span");
-        url.className = "result-url";
-        url.textContent = item.displayUrl;
-
-        article.append(badge, title, description, url);
-
-        if (item.officialUrl) {
-          const actions = document.createElement("div");
-          actions.className = "site-actions";
-
-          const official = createSourceLink(
-            item.officialUrl,
-            "Buka situs resmi Facebook ↗"
-          );
-
-          actions.append(official);
-          article.append(actions);
+      names.forEach(name => {
+        if (q === name) score = Math.max(score, 100);
+        else if (name.startsWith(q) || q.startsWith(name)) score = Math.max(score, 65);
+        else if (name.includes(q) || q.includes(name)) score = Math.max(score, 45);
+        else {
+          const terms = q.split(" ").filter(Boolean);
+          const hits = terms.filter(term =>
+            name.includes(term) || normalize(page.title).includes(term)
+          ).length;
+          if (terms.length && hits) {
+            score = Math.max(score, Math.round(25 * hits / terms.length));
+          }
         }
+      });
 
-        return article;
-      }
-
-      function appendWebsiteResults(query) {
-        const sites = getWebsiteResults(query);
-
-        // Situs yang cocok ditampilkan sebelum hasil pengetahuan.
-        sites.slice().reverse().forEach(site => {
-          resultsBox.prepend(makeWebsiteResultCard(site));
-        });
-
-        return sites.length;
-      }
-
-      function makeWebsiteResultCard(item) {
-  const article = document.createElement("article");
-  article.className = "result-card";
-
-  const layout = document.createElement("div");
-  layout.className = "result-layout";
-  layout.style.display = "flex";
-  layout.style.gap = "14px";
-  layout.style.alignItems = "flex-start";
-
-  // Foto profil
-  if (item.image) {
-    const img = document.createElement("img");
-    img.src = item.image;
-    img.alt = item.title;
-    img.loading = "lazy";
-    img.style.width = "56px";
-    img.style.height = "56px";
-    img.style.borderRadius = "50%";
-    img.style.objectFit = "cover";
-    img.style.flexShrink = "0";
-    img.style.border = "2px solid #e8f5e9";
-    layout.appendChild(img);
+      return {...page, score};
+    }).filter(page => page.score > 0)
+      .sort((a,b) => b.score - a.score);
   }
 
-  const copy = document.createElement("div");
-  copy.style.flex = "1";
-  copy.style.minWidth = "0";
+  function makeWebsiteCard(item) {
+    const article = document.createElement("article");
+    article.className = "result-card";
 
-  const badge = document.createElement("span");
-  badge.className = "site-badge";
-  badge.textContent = item.badge || "Situs web";
+    const badge = document.createElement("span");
+    badge.className = "site-badge";
+    badge.textContent = "Situs OoeR";
 
-  const title = createSourceLink(item.url, item.title);
-  title.className = "result-title";
+    const title = createLink(item.url, item.title, "result-title");
 
-  const description = document.createElement("p");
-  description.className = "result-description";
-  description.textContent = item.description || "";
+    const description = document.createElement("p");
+    description.className = "result-description";
+    description.textContent = item.description;
 
-  const url = document.createElement("span");
-  url.className = "result-url";
-  url.textContent = item.displayUrl || item.url;
+    const url = document.createElement("span");
+    url.className = "result-url";
+    url.textContent = item.displayUrl;
 
-  copy.append(badge, title, description, url);
-  layout.appendChild(copy);
-  article.appendChild(layout);
+    article.append(badge, document.createElement("br"), title, description, url);
+    return article;
+  }
 
-  return article;
+  function appendWebsiteResults(query) {
+    const sites = getWebsiteResults(query);
+    sites.forEach(site => resultsBox.append(makeWebsiteCard(site)));
+    return sites.length;
+  }
+
+  function makeWikipediaCard(item) {
+    const article = document.createElement("article");
+    article.className = "result-card";
+
+    const layout = document.createElement("div");
+    layout.className = "result-layout";
+    const copy = document.createElement("div");
+    copy.className = "result-copy";
+
+    const source = document.createElement("span");
+    source.className = "source-label";
+    source.textContent = "Sumber pengetahuan · Wikipedia Indonesia";
+
+    const title = createLink(item.url, item.title, "result-title");
+
+    const description = document.createElement("p");
+    description.className = "result-description";
+    description.textContent = item.description ||
+      "Buka halaman sumber untuk membaca informasi lebih lanjut.";
+
+    const url = document.createElement("span");
+    url.className = "result-url";
+    url.textContent = item.url;
+
+    copy.append(source, title, description, url);
+
+    const thumbnailUrl = safeHttpUrl(item.thumbnail || "");
+    if (thumbnailUrl) {
+      const image = document.createElement("img");
+      image.className = "result-image";
+      image.src = thumbnailUrl;
+      image.alt = "";
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+      image.addEventListener("error", () => image.remove(), {once:true});
+      layout.append(image);
     }
-      async function fetchWikipedia(query, id, includeWebsites = false) {
-        const searchUrl = new URL("https://id.wikipedia.org/w/api.php");
 
-        searchUrl.search = new URLSearchParams({
-          action: "query",
-          list: "search",
-          srsearch: query,
-          srnamespace: "0",
-          srlimit: "10",
-          utf8: "1",
-          format: "json",
-          origin: "*"
-        });
+    layout.append(copy);
+    article.append(layout);
+    return article;
+  }
 
-        const searchResponse = await fetch(searchUrl.toString());
+  async function fetchWikipedia(query, id) {
+    const searchUrl = new URL("https://id.wikipedia.org/w/api.php");
+    searchUrl.search = new URLSearchParams({
+      action:"query", list:"search", srsearch:query,
+      srnamespace:"0", srlimit:"10", utf8:"1",
+      format:"json", origin:"*"
+    });
 
-        if (!searchResponse.ok) {
-          throw new Error("Wikipedia tidak dapat diakses saat ini.");
-        }
+    const response = await fetch(searchUrl.toString());
+    if (!response.ok) throw new Error("Sumber pengetahuan tidak dapat diakses.");
+    const data = await response.json();
+    if (id !== requestId) return;
 
-        const searchData = await searchResponse.json();
-        if (id !== requestId) return;
+    const searchItems = data?.query?.search || [];
+    if (!searchItems.length) return [];
 
-        const searchItems = searchData?.query?.search || [];
+    const detailUrl = new URL("https://id.wikipedia.org/w/api.php");
+    detailUrl.search = new URLSearchParams({
+      action:"query",
+      prop:"pageimages|extracts|info",
+      pageids:searchItems.map(item => item.pageid).join("|"),
+      piprop:"thumbnail", pithumbsize:"320",
+      exintro:"1", explaintext:"1", exsentences:"3",
+      inprop:"url", format:"json", origin:"*"
+    });
 
-        if (!searchItems.length) {
-          clearResults();
+    let pages = {};
+    try {
+      const detailResponse = await fetch(detailUrl.toString());
+      if (detailResponse.ok) {
+        const detailData = await detailResponse.json();
+        pages = detailData?.query?.pages || {};
+      }
+    } catch {}
 
-          const websiteCount = includeWebsites
-            ? appendWebsiteResults(query)
-            : 0;
+    if (id !== requestId) return;
 
-          if (websiteCount) {
-            statusBox.hidden = true;
-            resultsBox.hidden = false;
-            resultLabel.textContent = "Situs web · " + query;
-            resultCount.textContent = websiteCount + " hasil";
-          } else {
-            showStatus(
-              "Belum ada hasil",
-              "Coba kata kunci lain atau gunakan Google atau Bing."
-            );
-            resultLabel.textContent = "Hasil pencarian";
-          }
-          return;
-        }
+    return searchItems.map(item => {
+      const detail = pages[String(item.pageid)] || {};
+      return {
+        title:item.title,
+        url:safeHttpUrl(detail.fullurl || "") ||
+          "https://id.wikipedia.org/wiki/" +
+          encodeURIComponent(item.title.replace(/ /g,"_")),
+        description:detail.extract ||
+          item.snippet?.replace(/<[^>]*>/g,"") || "",
+        thumbnail:detail.thumbnail?.source || ""
+      };
+    });
+  }
 
-        const pageIds = searchItems.map(item => item.pageid).join("|");
-        const detailUrl = new URL("https://id.wikipedia.org/w/api.php");
+  async function fetchCommonsImages(query, id) {
+    const url = new URL("https://commons.wikimedia.org/w/api.php");
+    url.search = new URLSearchParams({
+      action:"query", generator:"search",
+      gsrsearch:query, gsrnamespace:"6", gsrlimit:"18",
+      gsrwhat:"text", prop:"imageinfo", iiprop:"url",
+      iiurlwidth:"420", format:"json", origin:"*"
+    });
 
-        detailUrl.search = new URLSearchParams({
-          action: "query",
-          prop: "pageimages|extracts|info",
-          pageids: pageIds,
-          piprop: "thumbnail",
-          pithumbsize: "320",
-          exintro: "1",
-          explaintext: "1",
-          exsentences: "3",
-          inprop: "url",
-          format: "json",
-          origin: "*"
-        });
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error("Sumber gambar tidak dapat diakses.");
+    const data = await response.json();
+    if (id !== requestId) return [];
 
-        let pagesById = {};
+    return Object.values(data?.query?.pages || {})
+      .sort((a,b) => (a.index || 0) - (b.index || 0))
+      .map(page => {
+        const info = page.imageinfo?.[0] || {};
+        return {
+          title:page.title || "Gambar",
+          thumb:safeHttpUrl(info.thumburl || info.url || ""),
+          pageUrl:safeHttpUrl(info.descriptionurl || "") ||
+            "https://commons.wikimedia.org/wiki/" +
+            encodeURIComponent((page.title || "").replace(/ /g,"_"))
+        };
+      }).filter(item => item.thumb && item.pageUrl);
+  }
 
+  function renderImages(images, query) {
+    clearResults();
+    statusBox.hidden = true;
+
+    if (!images.length) {
+      showStatus("Belum ada gambar", "Belum ditemukan gambar untuk kata kunci ini. Coba kata lain.");
+      resultLabel.textContent = "Gambar · " + query;
+      resultCount.textContent = "0 hasil";
+      return;
+    }
+
+    imageResultsBox.hidden = false;
+    images.forEach(item => {
+      const card = createLink(item.pageUrl, "", "image-card");
+      const image = document.createElement("img");
+      image.src = item.thumb;
+      image.alt = item.title;
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+
+      const caption = document.createElement("div");
+      caption.className = "image-caption";
+      caption.textContent = item.title.replace(/^File:/, "");
+
+      const small = document.createElement("small");
+      small.textContent = "Lihat sumber gambar ↗";
+      caption.append(small);
+      card.append(image, caption);
+      image.addEventListener("error", () => card.remove(), {once:true});
+      imageResultsBox.append(card);
+    });
+
+    resultLabel.textContent = "Gambar · " + query;
+    resultCount.textContent = images.length + " hasil";
+  }
+
+  function showOoeRFeatureNotice(tabName, query) {
+    clearResults();
+    statusBox.hidden = true;
+    resultsBox.hidden = false;
+
+    const isNews = tabName === "news";
+    const title = isNews ? "Berita OoeR" : "Video OoeR";
+    const description = isNews
+      ? "Indeks berita milik OoeR sedang dikembangkan. Saat tersedia, hasil berita akan ditampilkan langsung di halaman ini."
+      : "Indeks video milik OoeR sedang dikembangkan. Saat tersedia, hasil video akan ditampilkan langsung di halaman ini.";
+
+    const card = document.createElement("div");
+    card.className = "internal-card";
+    const strong = document.createElement("strong");
+    strong.textContent = title;
+    const p = document.createElement("p");
+    p.textContent = description + " Kata kunci: " + query;
+    card.append(strong,p);
+    resultsBox.append(card);
+
+    resultLabel.textContent = title + " · " + query;
+    resultCount.textContent = "Fitur dikembangkan";
+  }
+
+  async function runSearch(query, tabName = activeTab, updateHistory = true) {
+    const cleaned = query.trim();
+
+    if (!cleaned) {
+      currentQuery = "";
+      clearResults();
+      showStatus("Mulai pencarian", "Masukkan kata yang ingin kamu cari.");
+      resultLabel.textContent = "Pencarian OoeR";
+      searchNote.textContent = "Pencarian melalui OoeR.";
+      return;
+    }
+
+    currentQuery = cleaned;
+    input.value = cleaned;
+    setActiveTab(tabName);
+    searchNote.textContent = "Mencari: " + cleaned;
+
+    if (updateHistory) {
+      saveHistory(cleaned);
+      const url = new URL(location.href);
+      url.searchParams.set("q", cleaned);
+      if (tabName !== "all") url.searchParams.set("tab", tabName);
+      else url.searchParams.delete("tab");
+      history.pushState({q:cleaned,tab:tabName},"",url);
+    }
+
+    const id = ++requestId;
+
+    if (tabName === "news" || tabName === "videos") {
+      showOoeRFeatureNotice(tabName, cleaned);
+      return;
+    }
+
+    setLoading(tabName === "images"
+      ? "Mencari gambar yang relevan..."
+      : "Memeriksa halaman OoeR dan sumber pengetahuan yang tersedia...");
+
+    resultLabel.textContent = "Hasil untuk: " + cleaned;
+
+    try {
+      if (tabName === "images") {
+        const images = await fetchCommonsImages(cleaned,id);
+        if (id !== requestId || !images) return;
+        renderImages(images,cleaned);
+        return;
+      }
+
+      clearResults();
+      statusBox.hidden = true;
+      resultsBox.hidden = false;
+
+      let localCount = 0;
+      if (tabName === "all" || tabName === "knowledge") {
+        localCount = appendWebsiteResults(cleaned);
+      }
+
+      let wikiItems = [];
+      if (tabName === "all" || tabName === "knowledge") {
         try {
-          const detailResponse = await fetch(detailUrl.toString());
-          if (detailResponse.ok) {
-            const detailData = await detailResponse.json();
-            pagesById = detailData?.query?.pages || {};
-          }
-        } catch (_) {
-          // Judul hasil tetap bisa ditampilkan tanpa detail tambahan.
+          wikiItems = await fetchWikipedia(cleaned,id) || [];
+        } catch (error) {
+          console.warn("Sumber pengetahuan:",error);
         }
+      }
 
-        if (id !== requestId) return;
+      if (id !== requestId) return;
+      wikiItems.forEach(item => resultsBox.append(makeWikipediaCard(item)));
 
-        const items = searchItems.map(item => {
-          const detail = pagesById[String(item.pageid)] || {};
-
-          return {
-            title: item.title,
-            url: safeHttpUrl(detail.fullurl || "") ||
-              "https://id.wikipedia.org/wiki/" +
-              encodeURIComponent(item.title.replace(/ /g, "_")),
-            description: detail.extract ||
-              item.snippet?.replace(/<[^>]*>/g, "") || "",
-            thumbnail: detail.thumbnail?.source || ""
-          };
-        });
-
+      const total = localCount + wikiItems.length;
+      if (!total) {
         clearResults();
-        statusBox.hidden = true;
-        resultsBox.hidden = false;
-
-        items.forEach(item => resultsBox.append(makeResultCard(item)));
-
-        const websiteCount = includeWebsites
-          ? appendWebsiteResults(query)
-          : 0;
-
-        resultLabel.textContent = includeWebsites
-          ? "Semua · " + query
-          : "Pengetahuan · " + query;
-
-        resultCount.textContent =
-          (items.length + websiteCount) + " hasil";
-      }
-
-      async function fetchCommonsImages(query, id) {
-        const url = new URL("https://commons.wikimedia.org/w/api.php");
-
-        url.search = new URLSearchParams({
-          action: "query",
-          generator: "search",
-          gsrsearch: query,
-          gsrnamespace: "6",
-          gsrlimit: "18",
-          gsrwhat: "text",
-          prop: "imageinfo",
-          iiprop: "url",
-          iiurlwidth: "420",
-          format: "json",
-          origin: "*"
-        });
-
-        const response = await fetch(url.toString());
-
-        if (!response.ok) {
-          throw new Error("Wikimedia Commons tidak dapat diakses saat ini.");
-        }
-
-        const data = await response.json();
-        if (id !== requestId) return;
-
-        const pages = Object.values(data?.query?.pages || {})
-          .sort((a, b) => (a.index || 0) - (b.index || 0));
-
-        const images = pages.map(page => {
-          const info = page.imageinfo?.[0] || {};
-
-          return {
-            title: page.title || "Gambar Wikimedia",
-            thumb: safeHttpUrl(info.thumburl || info.url || ""),
-            pageUrl: safeHttpUrl(info.descriptionurl || "") ||
-              "https://commons.wikimedia.org/wiki/" +
-              encodeURIComponent((page.title || "").replace(/ /g, "_"))
-          };
-        }).filter(item => item.thumb && item.pageUrl);
-
-        clearResults();
-        statusBox.hidden = true;
-        imageResultsBox.hidden = false;
-
-        if (!images.length) {
-          showStatus(
-            "Belum ada gambar",
-            "Coba kata kunci lain atau buka Wikimedia Commons untuk pencarian lebih luas."
-          );
-          resultLabel.textContent = "Gambar · " + query;
-          resultCount.textContent = "0 hasil";
-          return;
-        }
-
-        images.forEach(item => {
-          const card = document.createElement("a");
-          card.className = "image-card";
-          card.href = item.pageUrl;
-          card.target = "_blank";
-          card.rel = "noopener noreferrer";
-
-          const image = document.createElement("img");
-          image.src = item.thumb;
-          image.alt = item.title;
-          image.loading = "lazy";
-          image.referrerPolicy = "no-referrer";
-
-          const caption = document.createElement("div");
-          caption.className = "image-caption";
-          caption.textContent = item.title.replace(/^File:/, "");
-
-          const small = document.createElement("small");
-          small.textContent = "Lihat sumber ↗";
-
-          caption.append(small);
-          card.append(image, caption);
-
-          image.addEventListener("error", () => card.remove(), { once: true });
-          imageResultsBox.append(card);
-        });
-
-        resultLabel.textContent = "Gambar · " + query;
-        resultCount.textContent = images.length + " hasil";
-      }
-
-      function showExternalSearches(query, type) {
-        clearResults();
-        statusBox.hidden = true;
-        externalResultsBox.hidden = false;
-
-        const encoded = encodeURIComponent(query);
-        let cards = [];
-
-        if (type === "news") {
-          resultLabel.textContent = "Berita · " + query;
-
-          cards = [
-            {
-              title: "Google News",
-              description: "Cari berita terbaru dari berbagai penerbit.",
-              url: "https://news.google.com/search?q=" + encoded
-            },
-            {
-              title: "Bing News",
-              description: "Cari berita melalui layanan berita Bing.",
-              url: "https://www.bing.com/news/search?q=" + encoded
-            }
-          ];
-        } else {
-          resultLabel.textContent = "Video · " + query;
-
-          cards = [
-            {
-              title: "YouTube",
-              description: "Cari video dan YouTube Shorts.",
-              url: "https://www.youtube.com/results?search_query=" + encoded
-            },
-            {
-              title: "Bing Videos",
-              description: "Cari video melalui Bing.",
-              url: "https://www.bing.com/videos/search?q=" + encoded
-            }
-          ];
-        }
-
-        cards.forEach(item => {
-          const link = document.createElement("a");
-          link.className = "external-card";
-          link.href = item.url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-
-          const title = document.createElement("strong");
-          title.textContent = item.title + " ↗";
-
-          const description = document.createElement("span");
-          description.textContent = item.description;
-
-          link.append(title, description);
-          externalResultsBox.append(link);
-        });
-
-        const note = document.createElement("div");
-        note.className = "message";
-        note.style.gridColumn = "1 / -1";
-        note.textContent =
-          "Pencarian dibuka pada layanan eksternal. Hasil belum berasal dari indeks web OeR sendiri.";
-
-        externalResultsBox.append(note);
-        resultCount.textContent = cards.length + " layanan";
-      }
-
-      async function runSearch(query, tabName = activeTab, updateHistory = true) {
-        const cleaned = query.trim();
-
-        if (!cleaned) {
-          currentQuery = "";
-          clearResults();
-          showStatus("Mulai pencarian", "Masukkan kata yang ingin kamu cari.");
-          resultLabel.textContent = "Pencarian OeR";
-          updateExternalLinks("");
-          return;
-        }
-
-        currentQuery = cleaned;
-        input.value = cleaned;
-        setActiveTab(tabName);
-        updateExternalLinks(cleaned);
-
-        if (updateHistory) {
-          const url = new URL(window.location.href);
-          url.searchParams.set("q", cleaned);
-
-          if (tabName !== "all") {
-            url.searchParams.set("tab", tabName);
-          } else {
-            url.searchParams.delete("tab");
-          }
-
-          window.history.pushState(
-            { q: cleaned, tab: tabName },
-            "",
-            url
-          );
-        }
-
-        const id = ++requestId;
-
-        if (tabName === "news" || tabName === "videos") {
-          showExternalSearches(cleaned, tabName);
-          return;
-        }
-
-        setLoading(tabName === "images"
-          ? "Sedang mencari gambar di Wikimedia Commons."
-          : "Sedang mencari informasi dari Wikipedia dan situs web yang cocok.");
-
-        resultLabel.textContent = "Hasil untuk: " + cleaned;
-
-        try {
-          if (tabName === "images") {
-            await fetchCommonsImages(cleaned, id);
-          } else {
-            await fetchWikipedia(cleaned, id, tabName === "all");
-          }
-        } catch (_) {
-          if (id !== requestId) return;
-
-          clearResults();
-
-          // Jika Wikipedia gagal, hasil situs yang dikenal tetap bisa muncul.
-          const websiteCount = tabName === "all"
-            ? appendWebsiteResults(cleaned)
-            : 0;
-
-          if (websiteCount) {
-            statusBox.hidden = true;
-            resultsBox.hidden = false;
-            resultLabel.textContent = "Situs web · " + cleaned;
-            resultCount.textContent = websiteCount + " hasil";
-          } else {
-            showStatus(
-              "Pencarian belum berhasil",
-              "Koneksi ke sumber pencarian mungkin sedang bermasalah. Silakan coba lagi atau gunakan Google dan Bing."
-            );
-            resultLabel.textContent = "Hasil untuk: " + cleaned;
-          }
-        }
-      }
-
-      form.addEventListener("submit", event => {
-        event.preventDefault();
-        runSearch(input.value, activeTab, true);
-      });
-
-      tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-          const nextTab = tab.dataset.tab;
-          setActiveTab(nextTab);
-
-          if (!currentQuery) {
-            clearResults();
-            showStatus(
-              "Masukkan kata pencarian",
-              "Kategori " + tab.textContent +
-              " siap digunakan setelah kamu memasukkan kata kunci."
-            );
-            resultLabel.textContent = "Pencarian OeR";
-            return;
-          }
-
-          runSearch(currentQuery, nextTab, true);
-        });
-      });
-
-      window.addEventListener("popstate", () => {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get("q") || "";
-        const tab = params.get("tab") || "all";
-        const allowedTabs = ["all", "knowledge", "images", "news", "videos"];
-        const safeTab = allowedTabs.includes(tab) ? tab : "all";
-
-        input.value = query;
-
-        if (query.trim()) {
-          runSearch(query, safeTab, false);
-        } else {
-          currentQuery = "";
-          setActiveTab("all");
-          clearResults();
-          showStatus(
-            "Selamat datang di OeR Search",
-            "Masukkan kata yang ingin kamu cari untuk mulai menjelajah."
-          );
-          resultLabel.textContent = "Pencarian OeR";
-          updateExternalLinks("");
-        }
-      });
-
-      const params = new URLSearchParams(window.location.search);
-      const initialQuery = params.get("q") || "";
-      const initialTab = params.get("tab") || "all";
-      const allowedTabs = ["all", "knowledge", "images", "news", "videos"];
-
-      updateExternalLinks(initialQuery);
-
-      if (initialQuery.trim()) {
-        input.value = initialQuery;
-        runSearch(
-          initialQuery,
-          allowedTabs.includes(initialTab) ? initialTab : "all",
-          false
+        showStatus(
+          "Belum ditemukan hasil",
+          "OoeR belum menemukan halaman yang cocok pada indeks dan sumber yang tersedia. Coba kata kunci lain."
         );
       }
-    })();
-  </script>
+
+      resultLabel.textContent = (tabName === "knowledge" ? "Pengetahuan" : "Semua") +
+        " · " + cleaned;
+      resultCount.textContent = total + " hasil";
+      searchNote.textContent = "Hasil ditampilkan oleh OoeR dari halaman lokal dan sumber yang tersedia.";
+    } catch (error) {
+      if (id !== requestId) return;
+      console.error(error);
+
+      clearResults();
+      const localCount = (tabName === "all" || tabName === "knowledge")
+        ? appendWebsiteResults(cleaned) : 0;
+
+      if (localCount) {
+        statusBox.hidden = true;
+        resultsBox.hidden = false;
+        resultLabel.textContent = "Situs OoeR · " + cleaned;
+        resultCount.textContent = localCount + " hasil";
+      } else {
+        showStatus(
+          "Pencarian belum berhasil",
+          "Koneksi sumber data sedang bermasalah. Coba lagi beberapa saat lagi."
+        );
+        resultLabel.textContent = "Hasil untuk: " + cleaned;
+      }
+      searchNote.textContent = "Pencarian tetap berada di OoeR.";
+    }
+  }
+
+  function getHistory() {
+    try {
+      const data = JSON.parse(localStorage.getItem("ooer_search_history") || "[]");
+      return Array.isArray(data) ? data.filter(x => typeof x === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveHistory(query) {
+    const items = getHistory().filter(
+      item => item.toLowerCase() !== query.toLowerCase()
+    );
+    items.unshift(query);
+    try {
+      localStorage.setItem("ooer_search_history",JSON.stringify(items.slice(0,30)));
+    } catch {}
+  }
+
+  function showHistory() {
+    const items = getHistory();
+    clearResults();
+    statusBox.hidden = true;
+    resultsBox.hidden = false;
+
+    if (!items.length) {
+      showStatus("Riwayat pencarian", "Belum ada riwayat pencarian di perangkat ini.");
+      resultLabel.textContent = "Riwayat OoeR";
+      return;
+    }
+
+    items.forEach(item => {
+      const article = document.createElement("article");
+      article.className = "result-card";
+      const title = createLink("./search.html?q="+encodeURIComponent(item),item,"result-title");
+      const source = document.createElement("span");
+      source.className = "source-label";
+      source.textContent = "Riwayat pencarian lokal";
+      article.append(source,title);
+      resultsBox.append(article);
+    });
+
+    resultLabel.textContent = "Riwayat pencarian";
+    resultCount.textContent = items.length + " pencarian";
+  }
+
+  form.addEventListener("submit",event => {
+    event.preventDefault();
+    runSearch(input.value,activeTab,true);
+  });
+
+  $("clearButton").addEventListener("click",() => {
+    input.value = "";
+    input.focus();
+    searchNote.textContent = "Masukkan kata kunci untuk mencari di OoeR.";
+  });
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click",() => {
+      const nextTab = tab.dataset.tab;
+      setActiveTab(nextTab);
+
+      if (!currentQuery) {
+        clearResults();
+        showStatus("Masukkan kata pencarian","Kategori "+tab.textContent+" siap digunakan.");
+        resultLabel.textContent = "Pencarian OoeR";
+        return;
+      }
+      runSearch(currentQuery,nextTab,true);
+    });
+  });
+
+  function toggleMenu(id) {
+    const menu = $(id);
+    const wasOpen = menu.classList.contains("show");
+    document.querySelectorAll(".pop-menu,.browser-menu").forEach(item =>
+      item.classList.remove("show")
+    );
+    if (!wasOpen) menu.classList.add("show");
+  }
+
+  $("browserMenuButton").addEventListener("click",event => {
+    event.stopPropagation();
+    toggleMenu("browserMenu");
+  });
+  $("accountButton").addEventListener("click",event => {
+    event.stopPropagation();
+    toggleMenu("accountMenu");
+  });
+  $("notificationButton").addEventListener("click",event => {
+    event.stopPropagation();
+    toggleMenu("notificationMenu");
+  });
+
+  document.addEventListener("click",event => {
+    if (!event.target.closest(".browser-menu-wrap") &&
+        !event.target.closest(".header-action-wrap")) {
+      document.querySelectorAll(".pop-menu,.browser-menu").forEach(item =>
+        item.classList.remove("show")
+      );
+    }
+  });
+
+  $("newTabButton").addEventListener("click",() => {
+    window.location.href = "./search.html";
+  });
+  $("menuHome").addEventListener("click",() => {
+    window.location.href = "./";
+  });
+  $("menuReload").addEventListener("click",() => {
+    if (currentQuery) runSearch(currentQuery,activeTab,false);
+    else location.reload();
+  });
+  $("menuHistory").addEventListener("click",showHistory);
+  $("accountHistory").addEventListener("click",showHistory);
+  $("menuSettings").addEventListener("click",() => {
+    showStatus("Pengaturan OoeR","Tampilan OoeR menggunakan tema gelap. Pengaturan tambahan akan ditambahkan bertahap.");
+    resultLabel.textContent = "Pengaturan";
+    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  });
+  $("accountStatus").addEventListener("click",() => {
+    showStatus("Akun OoeR","Menu akun tersedia. Integrasi profil dan notifikasi akun akan dihubungkan pada tahap berikutnya.");
+    resultLabel.textContent = "Akun OoeR";
+  });
+  $("accountClearHistory").addEventListener("click",() => {
+    try { localStorage.removeItem("ooer_search_history"); } catch {}
+    showStatus("Riwayat dihapus","Riwayat pencarian lokal pada perangkat ini sudah dibersihkan.");
+    resultLabel.textContent = "Riwayat OoeR";
+  });
+  $("dismissNotification").addEventListener("click",() => {
+    $("notificationDot").hidden = true;
+    $("notificationMenu").classList.remove("show");
+  });
+
+  window.addEventListener("popstate",() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get("q") || "";
+    const tab = params.get("tab") || "all";
+    const allowed = ["all","knowledge","images","news","videos"];
+    input.value = query;
+    if (query.trim()) runSearch(query,allowed.includes(tab)?tab:"all",false);
+    else {
+      currentQuery = "";
+      setActiveTab("all");
+      clearResults();
+      showStatus("Selamat datang di OoeR","Ketik kata kunci untuk mencari.");
+      resultLabel.textContent = "Pencarian OoeR";
+    }
+  });
+
+  const params = new URLSearchParams(location.search);
+  const initialQuery = params.get("q") || "";
+  const initialTab = params.get("tab") || "all";
+  const allowedTabs = ["all","knowledge","images","news","videos"];
+
+  if (initialQuery.trim()) {
+    input.value = initialQuery;
+    runSearch(initialQuery,allowedTabs.includes(initialTab)?initialTab:"all",false);
+  } else {
+    setActiveTab("all");
+  }
+})();
+</script>
 </body>
 </html>
