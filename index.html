@@ -1441,24 +1441,28 @@ footer a:hover{text-decoration:underline}
   $("menuLogin").addEventListener("click", signInWithGoogle);
   loginButton.addEventListener("click", signInWithGoogle);
   $("menuORAccount").addEventListener("click", () => {
-  window.location.href = "https://oer-p.github.io/Oer/";
+  window.location.href = "https://oer-p.github.io/Oer/login.html";
 });
   function updateProfile(user) {
   loginButton.replaceChildren();
 
   const menuOR = $("menuORAccount");
   const menuLogin = $("menuLogin");
-
-  if (!user) {
-    // ... kode SVG avatar seperti sekarang ...
-    loginButton.title = "Masuk dengan Google";
-    accountLabel.textContent = "Akun";
-    menuLogin.textContent = "Masuk dengan Google";
-    menuOR.textContent = "Masuk dengan OR Account";
-    menuOR.style.display = "";          // tampilkan lagi
-    return;
+if (user) {
+  menuOR.textContent = "Keluar";
+  menuOR.style.display = "";
+  menuOR.onclick = async () => {
+    await supabaseClient.auth.signOut();
+    updateProfile(null);
+    notice.textContent = "Berhasil keluar.";
+  };
+} else {
+  menuOR.textContent = "Masuk dengan OR Account";
+  menuOR.onclick = () => {
+    window.location.href = "./login.html";
+  };
   }
-
+ 
   const metadata = user.user_metadata || {};
   const name = metadata.full_name || metadata.name || user.email || "Pengguna OoeR";
   const avatar = metadata.avatar_url || metadata.picture;
