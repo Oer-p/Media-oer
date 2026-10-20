@@ -1,0 +1,48 @@
+name: OoeR Crawler
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oeer-crawler
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Ambil kode repositori
+        uses: actions/checkout@v4
+
+      - name: Siapkan Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pasang kebutuhan crawler
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 python-dotenv
+
+      - name: Periksa file crawler
+        run: |
+          if [ ! -f crawler.py ]; then
+            echo "File crawler.py belum ada di repositori."
+            exit 1
+          fi
+
+      - name: Jalankan crawler OoeR
+        env:
+          SUPABASE_URL: https://jhopfzmyxuafdbwwkjbf.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          MAX_PAGES: "30"
+          MAX_DEPTH: "2"
+          CRAWL_DELAY: "2"
+        run: python crawler.py
