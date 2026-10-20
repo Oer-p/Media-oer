@@ -1,0 +1,25 @@
+
+{
+  "id": "/Media-oer/",
+  "name": "OoeR Browser",
+  "short_name": "OoeR",
+  "description": "Jelajahi web dengan OoeR",
+  "start_url": "/Media-oer/",
+  "scope": "/Media-oer/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#202124",
+  "background_color": "#202124",
+  "icons": [
+    {
+      "src": "/Media-oer/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Media-oer/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
