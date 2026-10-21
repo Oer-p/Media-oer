@@ -110,7 +110,7 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs text-gray-300 font-medium">Gemini 3.8 Flash</span>
+                <span class="text-xs text-gray-300 font-medium">Gemini AI</span>
             </div>
 
             <button onclick="clearChatHistory()" class="text-gray-400 hover:text-ooer-red p-2 rounded-lg hover:bg-ooer-input transition text-sm flex items-center gap-1.5" title="Hapus Riwayat Chat">
@@ -128,7 +128,7 @@
                 <i class="fa-solid fa-robot text-white text-2xl"></i>
             </div>
             <h2 class="text-xl font-bold mb-1">Selamat Datang di <span class="text-ooer-blue">OoeR</span> <span class="text-ooer-green">AI Chat</span></h2>
-            <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Didukung oleh model terbaru <b>Gemini 3.8 Flash</b>. Tanyakan apa saja dengan pemikiran yang cerdas dan respons instan.</p>
+            <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Asisten kecerdasan buatan serbaguna Anda. Tanyakan apa saja dengan respons yang cepat dan akurat.</p>
         </div>
 
         <!-- Initial AI Message -->
@@ -137,7 +137,7 @@
                 AI
             </div>
             <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
-                <p class="text-sm text-gray-200">Halo! Saya OoeR AI (Gemini 3.8 Flash). Ada yang bisa saya bantu untuk Anda hari ini?</p>
+                <p class="text-sm text-gray-200">Halo! Saya OoeR AI. Ada yang bisa saya bantu untuk Anda hari ini?</p>
                 <div class="mt-2 flex justify-end">
                     <button onclick="copyMessageText(this)" class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
                         <i class="fa-regular fa-copy"></i> Salin
@@ -196,7 +196,7 @@
                 </button>
             </div>
         </form>
-        <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini 3.8 Flash. Informasi dapat diperiksa kembali jika diperlukan.</p>
+        <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini. Informasi dapat diperiksa kembali jika diperlukan.</p>
     </footer>
 
     <!-- JavaScript Script -->
@@ -338,26 +338,21 @@
         }
 
         // ==========================================
-        // FUNGSI UTAMA GEMINI API (GEMINI 3.8 FLASH)
+        // FUNGSI UTAMA GEMINI API (MODEL 1.5 FLASH)
         // ==========================================
         async function fetchGeminiResponse(prompt) {
-            // ⚠️ TEMPELKAN KUNCI AIzaSy... ANDA DI BAWAH INI
+            // ⚠️ TEMPELKAN KUNCI ASLI ANDA BERAWALAN AIzaSy... DI BAWAH INI
             const apiKey = "AIzaSy_GANTI_DENGAN_KUNCI_AIzaSy_ANDA"; 
             
-            // Menggunakan Endpoint Resmi Model Gemini 3.8 Flash
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+            // Endpoint Resmi Model Gemini 1.5 Flash (Stabil & Kompatibel Browser)
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
             const systemInstruction = "Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. Anda ramah, responsif, informatif, dan sangat membantu. Jawablah selalu dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.";
 
             const payload = {
                 contents: [
                     { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
-                ],
-                config: {
-                    thinking_config: {
-                        thinking_level: "MEDIUM"
-                    }
-                }
+                ]
             };
 
             const response = await fetch(apiUrl, {
