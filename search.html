@@ -229,20 +229,9 @@ function link(url,text,cls){
  return a;
 }
 
-// FUNGSI PENYARING OTOMATIS: HANYA MELOLOSKAN ARTIKEL VALID (ANTI-SAMPAH / CANDA)
+// VALIDASI AMAN: MELOLOSKAN SEMUA ARTIKEL PUBLIKASI KREATOR TANPA FILTER KETAT
 function isValidArticle(w){
- if(!w || !w.title || !w.content) return false;
- const title = w.title.trim();
- const content = w.content.trim();
- 
- // Tolak jika judul atau isi terlalu pendek (kurang dari 5 karakter)
- if(title.length < 4 || content.length < 10) return false;
-
- // Tolak jika isinya hanya kata-kata uji coba atau canda yang tidak jelas
- const spamWords = ["test", "tes", "coba", "asdf", "123", "wkwk", "hahaha", "kosong", "anjing", "goblok"];
- const lowerTitle = title.toLowerCase();
- if(spamWords.includes(lowerTitle) || spamWords.some(word => lowerTitle === word)) return false;
-
+ if(!w || !w.title) return false;
  return true;
 }
 
@@ -252,7 +241,6 @@ function extractThumbnail(w){
  if(w.image) return w.image;
  if(w.gambar) return w.gambar;
  
- // Cari tag <img src="..."> atau format png/jpg/webp di dalam teks HTML artikel
  if(w.content){
   const imgMatch = w.content.match(/<img[^>]+src=["']([^"']+)["']/i);
   if(imgMatch && imgMatch[1]) return imgMatch[1];
@@ -265,14 +253,9 @@ function websiteResults(query){
  
  let creatorPages = [];
  try {
-  // Ambil data karya kreator dari localStorage
   const storedWorks = JSON.parse(localStorage.getItem("oer_user_websites") || localStorage.getItem("oer_creator_works") || "[]");
   if (Array.isArray(storedWorks)) {
-   // Hapus otomatis data sampah/canda yang tidak valid dari penyimpanan agar bersih
    const validWorks = storedWorks.filter(isValidArticle);
-   if(validWorks.length !== storedWorks.length){
-    localStorage.setItem("oer_user_websites", JSON.stringify(validWorks));
-   }
 
    creatorPages = validWorks.map(w => {
     const thumb = extractThumbnail(w);
@@ -530,30 +513,5 @@ if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"
 })();
 </script>
 
-<section id="oerWebViewer" hidden
-  style="position:fixed;inset:0;z-index:99999;background:#fff;color:#222;">
-
-  <header style="display:flex;align-items:center;gap:10px;padding:12px;
-    border-bottom:1px solid #ddd;background:#f7f7f7;">
-    <button id="oerViewerBack" type="button"
-      style="padding:9px 13px;cursor:pointer;">← Kembali</button>
-
-    <strong id="oerViewerTitle" style="flex:1;">OeR Web</strong>
-
-    <button id="oerViewerNewTab" type="button"
-      style="padding:9px 13px;cursor:pointer;">Buka tab baru ↗</button>
-  </header>
-
-  <div id="oerViewerNotice"
-    style="padding:10px 14px;background:#fff8df;font-size:13px;">
-    Jika situs tidak dapat ditampilkan, gunakan tombol Buka tab baru.
-  </div>
-
-  <iframe id="oerViewerFrame"
-    title="Situs eksternal di OeR"
-    style="display:block;width:100%;height:calc(100% - 105px);border:0;"
-    referrerpolicy="strict-origin-when-cross-origin">
-  </iframe>
-</section>
 </body>
 </html>
