@@ -89,7 +89,6 @@
     font-family: monospace;
   }
 
-  /* UPLOAD GAMBAR & PENGATURAN TEMA */
   .extra-settings {
     display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
   }
@@ -122,7 +121,7 @@
   }
   .btn-icon.danger { color: var(--danger); border-color: #fce8e6; }
 
-  /* EFEK NOTIFIKASI SUKSES */
+  /* MODAL SUKSES */
   #successModal {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;
   }
@@ -132,13 +131,10 @@
   }
   @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-  /* TEMA BACA ARTIKEL ALA BLOGGER */
-  .read-container { border-radius: 12px; padding: 30px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-  /* Tema 1: Clean White (Default) */
+  /* TEMA BACA ARTIKEL (FULL BERSIH) */
+  .read-container { border-radius: 12px; padding: 30px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
   .theme-clean { background: #ffffff; color: #202124; border: 1px solid var(--border); }
-  /* Tema 2: Dark Elegant */
   .theme-dark { background: #181a1f; color: #abb2bf; border: 1px solid #373b44; }
-  /* Tema 3: Warm Paper */
   .theme-warm { background: #fdfaf6; color: #5c4033; border: 1px solid #e3dcd2; }
 
   .read-title { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
@@ -150,7 +146,7 @@
 <body>
 
 <header>
-  <a href="website.html" class="brand-area">
+  <a href="search.html" class="brand-area">
     <div class="logo-o"></div>
     <span class="brand-title">OoeR Space</span>
   </a>
@@ -159,17 +155,15 @@
 
 <main class="container">
 
-  <!-- 1. LOGIN / DAFTAR -->
   <div id="authArea" class="auth-card" style="display:none;">
     <h2>Masuk OoeR Account</h2>
-    <p style="color:var(--muted); font-size:13px; margin:10px 0 20px;">Masukan nama kreator kamu untuk mulai mengelola artikel.</p>
+    <p style="color:var(--muted); font-size:13px; margin:10px 0 20px;">Masukkan nama kreator kamu untuk mulai mengelola artikel.</p>
     <form onsubmit="handleLogin(event)">
       <input type="text" id="usernameInput" class="auth-input" placeholder="Nama Kreator..." required autocomplete="off">
       <button type="submit" class="btn-auth">Masuk & Mulai Menulis 🚀</button>
     </form>
   </div>
 
-  <!-- 2. EDITOR UTAMA -->
   <div id="editorArea" style="display:none;">
     <div class="editor-card">
       <input type="hidden" id="editArticleId" value="">
@@ -191,10 +185,8 @@
         <button class="tool-btn" type="button" onclick="insertFormat('<div class=&quot;code-block&quot;>', '</div>')">💻 Blok Kode</button>
       </div>
 
-      <!-- LAYAR KETIK (HTML, CSS, JS LENGKAP) -->
       <textarea id="articleContent" class="editor-textarea" placeholder="Tulis artikel atau sisipkan kode HTML / CSS / JS lengkap di sini..."></textarea>
 
-      <!-- PENGATURAN TAMBAHAN (FOTO & HALAMAN SAMBUNG) -->
       <div class="extra-settings">
         <div class="setting-box">
           <h4>🖼️ Foto Sampul (Upload/URL PNG/JPG)</h4>
@@ -213,7 +205,6 @@
       </div>
     </div>
 
-    <!-- DAFTAR PUBLIKASI SAYA -->
     <section class="my-articles-section">
       <div class="section-title">
         <span>📚 Daftar Publikasi Saya</span>
@@ -223,12 +214,8 @@
     </section>
   </div>
 
-  <!-- 3. MODE BACA ARTIKEL (PRATINJAU / READER) -->
+  <!-- MODE BACA ARTIKEL (FULL BERSIH) -->
   <div id="readerArea" style="display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-      <a href="website.html" style="color:var(--primary); font-weight:bold; text-decoration:none;">⬅ Kembali ke Dashboard Kreator</a>
-      <a href="search.html" style="color:var(--primary); font-weight:bold; text-decoration:none;">🔍 Cari di OoeR Search</a>
-    </div>
     <div id="readerWrapper" class="read-container">
       <h1 id="readTitle" class="read-title"></h1>
       <div id="readMeta" class="read-meta"></div>
@@ -278,10 +265,11 @@
   }
 
   function checkAuthStatus() {
+    const params = new URLSearchParams(location.search);
+    if (params.get("view")) return; // Jangan jalankan auth jika sedang dalam mode baca (view)
+
     const user = localStorage.getItem("oer_logged_user");
     const header = document.getElementById("headerUserArea");
-    const params = new URLSearchParams(location.search);
-    if (params.get("view")) return;
 
     if (!user) {
       document.getElementById("authArea").style.display = "block";
@@ -422,10 +410,13 @@
       const target = all.find(a => a.id === viewId);
 
       if (target) {
+        // Sembunyikan area login & editor secara total
         document.getElementById("authArea").style.display = "none";
         document.getElementById("editorArea").style.display = "none";
         document.getElementById("readerArea").style.display = "block";
-        document.getElementById("headerUserArea").innerHTML = `<a href="search.html" class="btn-sm">🔍 OoeR Search</a><a href="website.html" class="btn-sm primary">✍️ Tulis Baru</a>`;
+        
+        // Header khusus mode baca: hanya logo yang mengarah kembali ke search.html
+        document.getElementById("headerUserArea").innerHTML = `<a href="search.html" class="btn-sm">🔍 OoeR Search</a>`;
 
         document.getElementById("readerWrapper").className = "read-container " + (target.theme || "theme-clean");
         document.getElementById("readTitle").innerText = target.title;
@@ -444,7 +435,7 @@
         }
       } else {
         alert("Artikel tidak ditemukan.");
-        location.href = "website.html";
+        location.href = "search.html";
       }
     } else {
       checkAuthStatus();
