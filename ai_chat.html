@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
@@ -331,7 +332,7 @@
                 removeElement(typingId);
                 appendAIBubble(aiResponse);
             } catch (error) {
-                console.error('Gemini API Error:', error);
+                console.error('OoeR AI Error:', error);
 
                 removeElement(typingId);
 
@@ -439,99 +440,43 @@
         }
 
         // ==========================================
-        // FUNGSI GEMINI API - SUDAH DIPERBAIKI
+        // KONEKSI OoeR AI MELALUI SUPABASE
+        // Gemini API Key hanya disimpan di server.
         // ==========================================
         async function fetchGeminiResponse(prompt) {
+            const endpoint =
+                'https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/smooth-handler';
 
-            // Buat API Key baru di Google AI Studio.
-            // Tempelkan kunci baru di antara tanda kutip di bawah.
-            const apiKey = "AQ.Ab8RN6KSk-klSYHPHijqr-ijA8JBA4WZAH5KOZA9r-ajEVVsqQ";
+            // Publishable key Supabase boleh digunakan di frontend.
+            // Jangan masukkan Gemini API Key ke file HTML ini.
+            const supabasePublishableKey =
+                'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
 
-            if (
-                !apiKey ||
-                apiKey === 'AQ.Ab8RN6KSk-klSYHPHijqr-ijA8JBA4WZAH5KOZA9r-ajEVVsqQ'
-            ) {
-                throw new Error(
-                    'API Key Gemini belum dipasang. Buat kunci baru di Google AI Studio.'
-                );
-            }
-
-            const apiUrl =
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
-
-            const systemInstruction =
-                'Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. ' +
-                'Anda ramah, responsif, informatif, dan membantu. ' +
-                'Jawablah dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.';
-
-            const payload = {
-                systemInstruction: {
-                    parts: [
-                        {
-                            text: systemInstruction
-                        }
-                    ]
-                },
-
-                contents: [
-                    {
-                        role: 'user',
-                        parts: [
-                            {
-                                text: prompt
-                            }
-                        ]
-                    }
-                ],
-
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 1024
-                }
-            };
-
-            const response = await fetch(apiUrl, {
+            const response = await fetch(endpoint, {
                 method: 'POST',
-
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'apikey': supabasePublishableKey
                 },
-
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ prompt })
             });
 
             const data = await response.json().catch(() => ({}));
 
             if (!response.ok) {
-                const message =
-                    data?.error?.message ||
-                    'Google Gemini API gagal memproses permintaan.';
-
                 throw new Error(
-                    `Google API Error (${response.status}): ${message}`
+                    data?.error ||
+                    `Permintaan ke OoeR AI gagal (HTTP ${response.status}).`
                 );
             }
 
-            const answer = data?.candidates?.[0]?.content?.parts
-                ?.map(part => part.text || '')
-                .join('')
-                .trim();
-
-            if (!answer) {
-                const reason = data?.promptFeedback?.blockReason;
-
-                if (reason) {
-                    throw new Error(
-                        `Permintaan tidak dapat dijawab oleh Gemini: ${reason}`
-                    );
-                }
-
+            if (!data.answer || typeof data.answer !== 'string') {
                 throw new Error(
-                    'Gemini tidak mengembalikan teks jawaban.'
+                    data?.error || 'OoeR AI belum memberikan jawaban.'
                 );
             }
 
-            return answer;
+            return data.answer;
         }
 
         function clearChatHistory() {
