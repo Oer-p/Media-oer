@@ -9,13 +9,17 @@
 :root{--bg:#17191d;--panel:#202329;--text:#f1f3f4;--muted:#aeb4bf;--border:#373b44;--blue:#8ab4f8}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:#111317}
-.brand{font-size:22px;font-weight:800;color:var(--blue);text-decoration:none}
+
+/* HEADER DIATUR AGAR TIDAK MENUMPUK DI HP */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:#111317;flex-wrap:nowrap;gap:10px;}
+.brand{font-size:18px;font-weight:800;color:var(--blue);text-decoration:none;white-space:nowrap;}
+.header-actions{display:flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap;}
+.header-actions a{color:var(--blue);text-decoration:none;}
+
 .container{max-width:900px;margin:20px auto;padding:0 16px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
 input,select{width:100%;padding:12px;margin-top:8px;margin-bottom:16px;background:#17191d;border:1px solid var(--border);color:var(--text);border-radius:8px;font:inherit}
 
-/* KOTAK EDITOR DIBUAT LEBIH LUAS, NYAMAN, DAN FULL TAMPILANNYA */
 textarea {
   width: 100%;
   min-height: 350px;
@@ -44,7 +48,7 @@ button:hover{opacity:0.9}
   width: 100%;
   max-width: 900px;
   margin: 20px auto;
-  padding: 35px 28px;
+  padding: 30px 20px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -52,25 +56,25 @@ button:hover{opacity:0.9}
   box-sizing: border-box;
 }
 .read-container h1, .read-title {
-  font-size: 32px;
+  font-size: 26px;
   line-height: 1.35;
   word-break: break-word;
   margin-bottom: 14px;
   color: var(--text);
 }
 .read-meta {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
   margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 14px;
+  padding-bottom: 12px;
 }
 .read-banner {
   width: 100%;
-  max-height: 400px;
+  max-height: 350px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 24px;
@@ -78,29 +82,24 @@ button:hover{opacity:0.9}
   display: none;
 }
 .read-content {
-  font-size: 17px;
-  line-height: 1.9;
+  font-size: 16px;
+  line-height: 1.8;
   color: #d2d5da;
   word-break: break-word;
 }
-.read-content h2 { font-size: 24px; color: var(--blue); margin-top: 36px; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-.read-content p { margin-bottom: 20px; text-align: justify; }
+.read-content h2 { font-size: 20px; color: var(--blue); margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.read-content p { margin-bottom: 18px; text-align: justify; }
 .read-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 14px 0; border: 1px solid var(--border); }
-.read-content blockquote { border-left: 4px solid var(--blue); padding: 14px 18px; margin: 24px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
-.read-content .code-box { background: #111317; color: #9cdcfe; padding: 18px; border-radius: 8px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 24px 0; border: 1px solid var(--border); }
+.read-content blockquote { border-left: 4px solid var(--blue); padding: 12px 16px; margin: 20px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
+.read-content .code-box { background: #111317; color: #9cdcfe; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); }
 
 .read-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 35px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
-}
-@media(max-width:600px){
-  .card{padding:16px}
-  .read-container{padding:16px}
-  .read-container h1{font-size:24px}
 }
 </style>
 </head>
@@ -108,7 +107,7 @@ button:hover{opacity:0.9}
 
 <header>
   <a class="brand" href="./">OoeR Space</a>
-  <div id="headerUserArea"></div>
+  <div id="headerUserArea" class="header-actions"></div>
 </header>
 
 <main class="container">
@@ -125,11 +124,11 @@ button:hover{opacity:0.9}
     <h2 id="editorHeading">Tulis Karya Baru</h2>
     <input type="hidden" id="editArticleId">
     
-    <label>Judul Artikel (Bebas, tanpa batasan kalimat):</label>
+    <label>Judul Artikel:</label>
     <input type="text" id="articleTitle" placeholder="Contoh: Ekosistem OoeR">
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:200px;">
+      <div style="flex:1;min-width:180px;">
         <label>Kategori:</label>
         <select id="articleCategory">
           <option value="📰 Berita & Umum">📰 Berita & Umum</option>
@@ -138,7 +137,7 @@ button:hover{opacity:0.9}
           <option value="🎨 Seni & Kreatif">🎨 Seni & Kreatif</option>
         </select>
       </div>
-      <div style="flex:1;min-width:200px;">
+      <div style="flex:1;min-width:180px;">
         <label>Tema Tampilan:</label>
         <select id="articleTheme">
           <option value="theme-dark">Dark Elegant</option>
@@ -154,8 +153,7 @@ button:hover{opacity:0.9}
     <label style="display:block;margin-top:10px;">Isi Konten Artikel (Pilih halaman atau tambah dengan tombol +):</label>
     <div class="tabs-editor" id="editorTabsContainer"></div>
     
-    <!-- Kotak Tulis Lebar & Luas -->
-    <textarea id="articleContentBox" placeholder="Tulis konten HTML atau teks di sini... (Kotak ini luas ke bawah dan ke samping)"></textarea>
+    <textarea id="articleContentBox" placeholder="Tulis konten HTML atau teks di sini..."></textarea>
 
     <div style="display:flex;gap:10px;margin-top:10px;">
       <button type="button" onclick="publishArticle()" style="background:#34a853;color:#fff;">Publikasikan Artikel ✨</button>
@@ -177,9 +175,9 @@ button:hover{opacity:0.9}
       <div id="readContent" class="read-content"></div>
       
       <div class="read-nav">
-        <button type="button" id="prevPageBtn" onclick="changeReaderPage(-1)" style="display:none;">← Halaman Sebelumnya</button>
-        <span id="pageIndicator" style="font-size:13px;color:var(--muted);"></span>
-        <button type="button" id="nextPageBtn" onclick="changeReaderPage(1)" style="display:none;">Halaman Selanjutnya →</button>
+        <button type="button" id="prevPageBtn" onclick="changeReaderPage(-1)" style="display:none;">← Halaman</button>
+        <span id="pageIndicator" style="font-size:12px;color:var(--muted);"></span>
+        <button type="button" id="nextPageBtn" onclick="changeReaderPage(1)" style="display:none;">Halaman →</button>
       </div>
     </div>
   </div>
@@ -203,11 +201,12 @@ function checkAuthStatus(){
   if(user){
     document.getElementById("authArea").style.display = "none";
     document.getElementById("editorArea").style.display = "block";
-    document.getElementById("headerUserArea").innerHTML = `<span>Halo, <b>${user}</b></span> <a href="search.html" style="color:var(--blue);margin-left:12px;text-decoration:none;">🔍 OoeR Search</a> <button onclick="logout()" style="margin-left:10px;padding:4px 10px;font-size:12px;">Keluar</button>`;
+    document.getElementById("headerUserArea").innerHTML = `<span><b>${user}</b></span> <a href="search.html">🔍 Search</a> <button onclick="logout()" style="padding:3px 8px;font-size:11px;background:#ea4335;color:#fff;border-radius:4px;">Keluar</button>`;
     renderMyArticles();
   } else {
     document.getElementById("authArea").style.display = "block";
     document.getElementById("editorArea").style.display = "none";
+    document.getElementById("headerUserArea").innerHTML = `<a href="search.html">🔍 Search</a>`;
   }
 }
 
@@ -221,9 +220,9 @@ function renderEditorTabs(){
   let html = "";
   articlePages.forEach((_, idx) => {
     let activeClass = idx === currentEditorIndex ? "tab-btn active" : "tab-btn";
-    html += `<button type="button" class="${activeClass}" onclick="switchEditorTab(${idx})">Halaman ${idx + 1}</button>`;
+    html += `<button type="button" class="${activeClass}" onclick="switchEditorTab(${idx})">Hal ${idx + 1}</button>`;
   });
-  html += `<button type="button" class="add-tab-btn" onclick="addNewPage()">+ Tambah Halaman</button>`;
+  html += `<button type="button" class="add-tab-btn" onclick="addNewPage()">+ Tambah</button>`;
   container.innerHTML = html;
 }
 
@@ -315,14 +314,14 @@ function renderMyArticles(){
   let html = "";
   userArticles.forEach(art => {
     html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
-      <div>
-        <a href="website.html?view=${art.id}" style="color:var(--blue);text-decoration:none;font-weight:bold;font-size:15px;">${art.title}</a>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px;">${art.date} • ${art.category}</div>
+      <div style="overflow:hidden;padding-right:8px;">
+        <a href="website.html?view=${art.id}" style="color:var(--blue);text-decoration:none;font-weight:bold;font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${art.title}</a>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${art.date} • ${art.category}</div>
       </div>
-      <div style="display:flex;gap:6px;">
-        <a href="website.html?view=${art.id}" style="padding:5px 10px;font-size:12px;background:var(--blue);color:#17191d;text-decoration:none;border-radius:6px;font-weight:bold;">Lihat</a>
-        <button onclick="editArticle('${art.id}')" style="padding:5px 10px;font-size:12px;background:#fbbc05;color:#000;">Edit</button>
-        <button onclick="deleteArticle('${art.id}')" style="padding:5px 10px;font-size:12px;background:#ea4335;color:#fff;">Hapus</button>
+      <div style="display:flex;gap:4px;flex-shrink:0;">
+        <a href="website.html?view=${art.id}" style="padding:4px 8px;font-size:11px;background:var(--blue);color:#17191d;text-decoration:none;border-radius:4px;font-weight:bold;">Lihat</a>
+        <button onclick="editArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#fbbc05;color:#000;">Edit</button>
+        <button onclick="deleteArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#ea4335;color:#fff;">Hapus</button>
       </div>
     </div>`;
   });
@@ -358,7 +357,7 @@ function deleteArticle(id){
 
 function updateReaderView(){
   document.getElementById("readContent").innerHTML = currentReaderPages[currentReaderIndex] || "";
-  document.getElementById("pageIndicator").innerText = `Halaman ${currentReaderIndex + 1} dari ${currentReaderPages.length}`;
+  document.getElementById("pageIndicator").innerText = `Hal ${currentReaderIndex + 1} / ${currentReaderPages.length}`;
   document.getElementById("prevPageBtn").style.display = currentReaderIndex > 0 ? "block" : "none";
   document.getElementById("nextPageBtn").style.display = currentReaderIndex < currentReaderPages.length - 1 ? "block" : "none";
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -383,7 +382,7 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("authArea").style.display = "none";
       document.getElementById("editorArea").style.display = "none";
       document.getElementById("readerArea").style.display = "block";
-      document.getElementById("headerUserArea").innerHTML = `<a href="website.html" style="color:var(--muted);text-decoration:none;font-size:13px;margin-right:12px;">← Kembali ke Portal</a><a href="search.html" style="color:var(--blue);text-decoration:none;font-weight:bold;">🔍 OoeR Search</a>`;
+      document.getElementById("headerUserArea").innerHTML = `<a href="website.html">← Portal</a> <a href="search.html">🔍 Search</a>`;
 
       document.getElementById("readTitle").innerText = target.title;
       document.getElementById("readMeta").innerHTML = `<span>Kategori: <b>${target.category}</b></span> • <span>Penulis: <b>${target.author}</b></span> • <span>${target.date}</span>`;
