@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OoeR AI Chat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Marked.js for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ooer: {
+                            bg: '#121212',
+                            card: '#1e1e1e',
+                            input: '#282828',
+                            border: '#333333',
+                            blue: '#4285F4',
+                            red: '#EA4335',
+                            yellow: '#FBBC05',
+                            green: '#34A853'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444444;
+        }
+
+        /* Typing Dot Pulse Animation */
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.4; }
+            50% { transform: translateY(-4px); opacity: 1; }
+        }
+        .dot-1 { animation: typing 1.2s infinite 0s; }
+        .dot-2 { animation: typing 1.2s infinite 0.2s; }
+        .dot-3 { animation: typing 1.2s infinite 0.4s; }
+
+        /* Hide Scrollbar for Quick Prompts */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Markdown Custom Styling inside Chat Bubbles */
+        .markdown-body p { margin-bottom: 0.5rem; }
+        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
+        .markdown-body ol { list-style-type: decimal; padding-left: 1.2rem; margin-bottom: 0.5rem; }
+        .markdown-body code:not(pre code) { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-size: 0.85em; 
+            font-family: monospace;
+        }
+        .markdown-body pre {
+            background-color: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 8px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        .markdown-body pre code {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #e6e6e6;
+        }
+    </style>
+</head>
+<body class="bg-ooer-bg text-gray-100 font-sans flex flex-col h-screen overflow-hidden select-none">
+
+    <!-- Header Navigation -->
+    <header class="bg-ooer-card border-b border-ooer-border px-4 py-3 flex items-center justify-between shadow-md z-20 flex-shrink-0">
+        <div class="flex items-center space-x-3">
+            <!-- Back Button to Home -->
+            <a href="index.html" class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-ooer-input transition flex items-center justify-center" title="Kembali ke Home">
+                <i class="fa-solid fa-arrow-left text-lg"></i>
+            </a>
+            
+            <!-- Logo OoeR AI -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center text-2xl font-black tracking-tight">
+                    <span class="text-ooer-blue">o</span>
+                    <span class="text-ooer-red">o</span>
+                    <span class="text-ooer-yellow">e</span>
+                    <span class="text-ooer-green">R</span>
+                </div>
+                <span class="bg-ooer-input text-[10px] font-bold px-2 py-0.5 rounded-full text-ooer-blue border border-ooer-blue/30 tracking-wider">AI CHAT</span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <!-- Online Indicator -->
+            <div class="hidden sm:flex items-center space-x-2 bg-ooer-input px-3 py-1 rounded-full border border-ooer-border">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs text-gray-300 font-medium">Aktif</span>
+            </div>
+
+            <!-- Clear Chat Button -->
+            <button onclick="clearChatHistory()" class="text-gray-400 hover:text-ooer-red p-2 rounded-lg hover:bg-ooer-input transition text-sm flex items-center gap-1.5" title="Hapus Riwayat Chat">
+                <i class="fa-regular fa-trash-can"></i>
+                <span class="hidden sm:inline text-xs">Hapus</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Chat Area -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 max-w-3xl mx-auto w-full">
+        <!-- Welcome Card -->
+        <div id="welcome-card" class="bg-ooer-card border border-ooer-border rounded-2xl p-5 text-center my-4 shadow-lg transition">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-ooer-blue via-ooer-red to-ooer-yellow flex items-center justify-center mx-auto mb-3 shadow-md">
+                <i class="fa-solid fa-robot text-white text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold mb-1">Selamat Datang di <span class="text-ooer-blue">OoeR</span> <span class="text-ooer-green">AI Chat</span></h2>
+            <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Asisten kecerdasan buatan serbaguna Anda. Tanyakan apa saja, minta rangkuman artikel, solusi belajar, hingga ide kreatif secara instan.</p>
+        </div>
+
+        <!-- Initial AI Message -->
+        <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
+                AI
+            </div>
+            <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
+                <p class="text-sm text-gray-200">Halo! Saya OoeR AI. Ada yang bisa saya bantu untuk Anda hari ini?</p>
+                <div class="mt-2 flex justify-end">
+                    <button onclick="copyMessageText(this)" class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
+                        <i class="fa-regular fa-copy"></i> Salin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Input & Quick Prompts Section -->
+    <footer class="bg-ooer-bg border-t border-ooer-border p-3 sm:p-4 max-w-3xl mx-auto w-full flex-shrink-0">
+        
+        <!-- Quick Prompts (Horizontal Scrollable Chips) -->
+        <div id="quick-prompts" class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
+            <button onclick="useQuickPrompt('Rangkum artikel berita ini dengan poin-poin utama:')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
+                <i class="fa-solid fa-file-lines text-ooer-blue"></i> Rangkum artikel berita
+            </button>
+            <button onclick="useQuickPrompt('Bantu saya belajar dan jelaskan konsep ini secara sederhana:')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
+                <i class="fa-solid fa-graduation-cap text-ooer-green"></i> Bantu belajar konsep
+            </button>
+            <button onclick="useQuickPrompt('Buatkan jadwal belajar harian yang teratur untuk siswa/mahasiswa')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar-days text-ooer-yellow"></i> Buat jadwal belajar
+            </button>
+            <button onclick="useQuickPrompt('Tuliskan beberapa ide konten menarik atau puisi singkat')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
+                <i class="fa-solid fa-lightbulb text-ooer-red"></i> Ide konten / Puisi
+            </button>
+        </div>
+
+        <!-- Chat Input Form -->
+        <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-end bg-ooer-card border border-ooer-border rounded-2xl p-1.5 focus-within:border-ooer-blue transition">
+            
+            <!-- Textarea -->
+            <textarea 
+                id="user-input" 
+                rows="1" 
+                placeholder="Ketik pesan untuk OoeR AI..." 
+                class="w-full bg-transparent text-gray-100 text-sm px-3 py-2 focus:outline-none resize-none max-h-32"
+                oninput="adjustTextareaHeight(this); checkInputStatus();"
+                onkeydown="handleKeyDown(event)"
+            ></textarea>
+
+            <div class="flex items-center space-x-1 pb-1 pr-1">
+                <!-- Voice Input Button -->
+                <button 
+                    type="button" 
+                    id="mic-btn"
+                    onclick="toggleSpeechRecognition()" 
+                    class="p-2 text-gray-400 hover:text-ooer-red rounded-xl hover:bg-ooer-input transition"
+                    title="Input Suara">
+                    <i class="fa-solid fa-microphone text-base"></i>
+                </button>
+
+                <!-- Send Button -->
+                <button 
+                    type="submit" 
+                    id="send-btn" 
+                    disabled
+                    class="p-2.5 bg-ooer-blue text-white rounded-xl shadow transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-600 flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+        </form>
+        <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini. Informasi dapat diperiksa kembali jika diperlukan.</p>
+    </footer>
+
+    <!-- JavaScript Handler -->
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const micBtn = document.getElementById('mic-btn');
+        const welcomeCard = document.getElementById('welcome-card');
+
+        let isGenerating = false;
+        let recognition = null;
+
+        // Auto adjust height for textarea
+        function adjustTextareaHeight(el) {
+            el.style.height = 'auto';
+            el.style.height = (el.scrollHeight) + 'px';
+        }
+
+        // Enable/Disable Send button based on text
+        function checkInputStatus() {
+            const text = userInput.value.trim();
+            sendBtn.disabled = text === '' || isGenerating;
+        }
+
+        // Handle Enter Keypress (Shift+Enter for new line)
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) {
+                    handleSubmit(e);
+                }
+            }
+        }
+
+        // Quick Prompts Click Action
+        function useQuickPrompt(text) {
+            if (isGenerating) return;
+            userInput.value = text;
+            adjustTextareaHeight(userInput);
+            checkInputStatus();
+            userInput.focus();
+        }
+
+        // Form Submit Handler
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text || isGenerating) return;
+
+            // Hide Welcome Card after first message
+            if (welcomeCard) welcomeCard.style.display = 'none';
+
+            // Reset Input
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            checkInputStatus();
+
+            // Append User Message
+            appendUserBubble(text);
+
+            // Append Typing Indicator
+            const typingId = appendTypingIndicator();
+
+            isGenerating = true;
+            sendBtn.disabled = true;
+
+            try {
+                // Call Gemini API
+                const aiResponse = await fetchGeminiResponse(text);
+                removeElement(typingId);
+                appendAIBubble(aiResponse);
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                removeElement(typingId);
+                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan coba lagi nanti.");
+            } finally {
+                isGenerating = false;
+                checkInputStatus();
+            }
+        }
+
+        // Append User Message Bubble
+        function appendUserBubble(text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start justify-end space-x-3';
+            msgDiv.innerHTML = `
+                <div class="bg-ooer-blue text-white rounded-2xl rounded-tr-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
+                    <p class="text-sm leading-relaxed whitespace-pre-wrap select-text">${escapeHTML(text)}</p>
+                </div>
+            `;
+            chatContainer.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        // Append AI Response Bubble with Markdown & Copy Code support
+        function appendAIBubble(text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start space-x-3';
+            
+            // Render markdown HTML
+            const formattedText = marked.parse(text);
+
+            msgDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
+                    AI
+                </div>
+                <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
+                    <div class="markdown-body text-sm text-gray-200 leading-relaxed select-text">${formattedText}</div>
+                    <div class="mt-2.5 pt-1.5 border-t border-ooer-border/50 flex justify-end">
+                        <button onclick="copyMessageText(this)" class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
+                            <i class="fa-regular fa-copy"></i> Salin
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Add Copy Code Buttons for Code Blocks
+            msgDiv.querySelectorAll('pre').forEach(pre => {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'absolute top-2 right-2 bg-ooer-input text-gray-400 hover:text-white px-2 py-1 rounded text-[10px] border border-ooer-border transition';
+                copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Code';
+                copyBtn.onclick = () => {
+                    const codeText = pre.querySelector('code').innerText;
+                    copyToClipboard(codeText);
+                    copyBtn.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> Copied!';
+                    setTimeout(() => copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Code', 2000);
+                };
+                pre.appendChild(copyBtn);
+            });
+
+            chatContainer.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        // Append Typing Indicator
+        function appendTypingIndicator() {
+            const id = 'typing-' + Date.now();
+            const typingDiv = document.createElement('div');
+            typingDiv.id = id;
+            typingDiv.className = 'flex items-start space-x-3';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
+                    AI
+                </div>
+                <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-4 shadow flex items-center space-x-1.5">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full dot-1"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full dot-2"></span>
+                    <span class="w-2 h-2 bg-gray-400 rounded-full dot-3"></span>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            scrollToBottom();
+            return id;
+        }
+
+        // Gemini API Fetch Function
+        async function fetchGeminiResponse(prompt) {
+            const apiKey = ""; // API Key dikelola otomatis saat runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const systemInstruction = "Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. Anda ramah, responsif, informatif, dan sangat membantu. Jawablah selalu dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.";
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemInstruction }]
+                }
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Request Failed with status ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, OoeR AI tidak menemukan balasan yang cocok.";
+        }
+
+        // Clear Chat History
+        function clearChatHistory() {
+            if (confirm("Apakah Anda yakin ingin menghapus seluruh riwayat chat ini?")) {
+                chatContainer.innerHTML = '';
+                if (welcomeCard) {
+                    welcomeCard.style.display = 'block';
+                    chatContainer.appendChild(welcomeCard);
+                }
+            }
+        }
+
+        // Copy Text Helper
+        function copyMessageText(btn) {
+            const container = btn.closest('.bg-ooer-card').querySelector('.markdown-body, p');
+            if (container) {
+                copyToClipboard(container.innerText);
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Tersalin!`;
+                setTimeout(() => btn.innerHTML = originalHTML, 2000);
+            }
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+
+        // Voice Recognition (Speech to Text)
+        function toggleSpeechRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("Pengenalan suara tidak didukung oleh browser Anda.");
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!recognition) {
+                recognition = new SpeechRecognition();
+                recognition.lang = 'id-ID';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onstart = function() {
+                    micBtn.classList.add('text-ooer-red', 'animate-pulse');
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    userInput.value += (userInput.value ? ' ' : '') + transcript;
+                    adjustTextareaHeight(userInput);
+                    checkInputStatus();
+                };
+
+                recognition.onerror = function() {
+                    micBtn.classList.remove('text-ooer-red', 'animate-pulse');
+                };
+
+                recognition.onend = function() {
+                    micBtn.classList.remove('text-ooer-red', 'animate-pulse');
+                };
+            }
+
+            recognition.start();
+        }
+
+        // Utilities
+        function removeElement(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
