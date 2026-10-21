@@ -100,7 +100,7 @@ footer a{color:var(--blue)}
 <button class="tab" data-tab="videos" type="button">Video</button>
 </nav>
 <div class="result-meta"><span id="resultLabel">Pencarian OeR</span><span id="resultCount"></span></div>
-<div id="status" class="message"><strong>Selamat datang di OeR</strong>Ketik kata kunci untuk mencari halaman OeR dan sumber pengetahuan yang tersedia.</div>
+<div id="status" class="message"><strong>Selamat datang di OeR</strong>Ketik kata kunci untuk mencari halaman OeR, karya kreator, dan sumber pengetahuan yang tersedia.</div>
 <div id="results"></div>
 <div id="imageResults" class="image-grid" hidden></div>
 <section id="externalSources" hidden>
@@ -152,7 +152,6 @@ let requestId = 0;
 
 $("year").textContent = new Date().getFullYear();
 
-/* Daftar kata terkait agar halaman manfaat OeR mudah ditemukan. */
 const localPages = [
  {
   names:[
@@ -177,8 +176,14 @@ const localPages = [
  {
   names:["ruang belajar","belajar","pendidikan","materi belajar"],
   title:"Ruang Belajar OeR",
-  url:"./search.html?q=ruang%20belajar",
-  description:"Jelajahi materi belajar dan informasi pendidikan melalui OeR."
+  url:"./ruang_belajar_tingkat.html",
+  description:"Jelajahi materi belajar bertingkat dan informasi pendidikan melalui OeR."
+ },
+ {
+  names:["website","oer website","portal kreator","karya kreator","upload"],
+  title:"OoeR Website — Portal Kreator & Publikasi Karya",
+  url:"./website.html",
+  description:"Tempat para kreator dan pelajar membagikan artikel, modul belajar, aplikasi, dan karya seni."
  }
 ];
 
@@ -223,14 +228,34 @@ function link(url,text,cls){
  if(/^https?:\/\//i.test(url)){a.target="_blank";a.rel="noopener noreferrer";}
  return a;
 }
+
 function websiteResults(query){
  const q=normalize(query);
- return localPages.map(p=>{
+ 
+ // Ambil karya kreator dari localStorage website.html
+ let creatorPages = [];
+ try {
+  const storedWorks = JSON.parse(localStorage.getItem("oer_creator_works") || "[]");
+  if (Array.isArray(storedWorks)) {
+   creatorPages = storedWorks.map(w => ({
+    names: [w.title, w.category, w.creator, w.desc],
+    title: w.title,
+    url: w.link && w.link !== "#" ? w.link : "./website.html",
+    description: `[Karya Kreator • ${w.category}] Oleh ${w.creator} — ${w.desc}`
+   }));
+  }
+ } catch (e) {
+  console.warn("Gagal memuat karya kreator:", e);
+ }
+
+ const allLocalPages = [...localPages, ...creatorPages];
+
+ return allLocalPages.map(p=>{
   let score=0;
   p.names.map(normalize).forEach(n=>{
    if(q===n)score=Math.max(score,100);
    else if(n.startsWith(q)||q.startsWith(n))score=Math.max(score,65);
-   else if(n.includes(q)||q.includes(n))score=Math.max(score,45);
+   else if(n.includes(q)||q.includes(q))score=Math.max(score,45);
    else{
     const terms=q.split(" ").filter(Boolean);
     const hits=terms.filter(term=>n.includes(term)||normalize(p.title).includes(term)).length;
@@ -241,7 +266,6 @@ function websiteResults(query){
  }).filter(p=>p.score>0).sort((a,b)=>b.score-a.score);
 }
 
-/* Integrasi pencarian indeks OeR melalui Supabase RPC. */
 const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 
@@ -371,7 +395,7 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
  if(updateHistory){saveHistory(q);const u=new URL(location.href);u.searchParams.set("q",q);if(tab==="all")u.searchParams.delete("tab");else u.searchParams.set("tab",tab);history.pushState({q,tab},"",u);}
  const id=++requestId;
  note.textContent="Mencari: "+q;
- loading("Memeriksa halaman OeR, indeks Supabase, dan sumber pencarian yang tersedia...");
+ loading("Memeriksa halaman OeR, karya kreator, indeks Supabase, dan sumber pencarian...");
  resultLabel.textContent="Hasil untuk: "+q;
  let total=0,errors=0;
 
@@ -389,11 +413,9 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
   clearResults();statusBox.hidden=true;
 
   if(tab==="all"||tab==="knowledge"){
-   // Hasil halaman OeR lokal ditampilkan lebih dahulu.
    const localMatches=websiteResults(q);
-   localMatches.forEach(x=>{resultsBox.append(resultCard(x,"Situs OeR"));total++;});
+   localMatches.forEach(x=>{resultsBox.append(resultCard(x,x.url.includes("website.html") ? "OoeR Website (Karya Kreator)" : "Situs OeR"));total++;});
 
-   // Cari indeks Supabase. URL yang sudah ditampilkan tidak diulang.
    try{
     const indexed=await searchOeRIndex(q,id);
     if(id!==requestId)return;
@@ -434,7 +456,7 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
   resultLabel.textContent=(tab==="knowledge"?"Pengetahuan":tab==="books"?"Buku & Arsip":tab==="news"?"Berita":tab==="videos"?"Video":"Semua")+" · "+q;
   resultCount.textContent=total+" hasil";
   addExternalSources(q,tab==="all"?"all":tab);
-  note.textContent=errors?"Sebagian sumber tidak merespons. Sumber lainnya tetap bisa dibuka di bawah.":"Hasil pencarian OeR dari halaman lokal, Supabase, dan sumber yang tersedia.";
+  note.textContent=errors?"Sebagian sumber tidak merespons. Sumber lainnya tetap bisa dibuka di bawah.":"Hasil pencarian OeR dari halaman lokal, karya kreator, Supabase, dan sumber yang tersedia.";
  }catch(err){
   if(id!==requestId)return;
   console.error(err);
@@ -448,7 +470,7 @@ async function runSearch(query,tab=activeTab,updateHistory=true){
 $("searchForm").addEventListener("submit",e=>{e.preventDefault();runSearch(input.value,activeTab,true);});
 $("clearButton").addEventListener("click",()=>{input.value="";input.focus();});
 $("historyButton").addEventListener("click",showHistory);
-$("aboutButton").addEventListener("click",()=>{clearResults();showStatus("Tentang OeR Search","OeR menghubungkan pencarian halaman OeR dengan indeks Supabase dan sumber pengetahuan serta media yang tersedia.");});
+$("aboutButton").addEventListener("click",()=>{clearResults();showStatus("Tentang OeR Search","OeR menghubungkan pencarian halaman OeR dengan karya kreator, indeks Supabase, dan sumber pengetahuan yang tersedia.");});
 $("newTabButton").addEventListener("click",()=>{location.href="./search.html";});
 $("reloadButton").addEventListener("click",()=>{if(currentQuery)runSearch(currentQuery,activeTab,false);else location.reload();});
 tabs.forEach(t=>t.addEventListener("click",()=>{const tab=t.dataset.tab;setTab(tab);if(currentQuery)runSearch(currentQuery,tab,true);else{clearResults();showStatus("Kategori siap digunakan","Masukkan kata pencarian untuk melihat hasil.");}}));
@@ -459,8 +481,7 @@ const initialTab=params.get("tab")||"all";
 if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"].includes(initialTab)?initialTab:"all",false);
 })();
 </script>
- 
-<!-- OeR Web Viewer: tampilkan situs eksternal di dalam OeR -->
+
 <section id="oerWebViewer" hidden
   style="position:fixed;inset:0;z-index:99999;background:#fff;color:#222;">
 
@@ -486,23 +507,5 @@ if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"
     referrerpolicy="strict-origin-when-cross-origin">
   </iframe>
 </section>
-
-<script>
-(function () {
-  "use strict";
-
-  const viewer = document.getElementById("oerWebViewer");
-  const frame = document.getElementById("oerViewerFrame");
-  const title = document.getElementById("oerViewerTitle");
-  const notice = document.getElementById("oerViewerNotice");
-  const back = document.getElementById("oerViewerBack");
-  const newTab = document.getElementById("oerViewerNewTab");
-
-  let currentUrl = "";
-
-  function openOerWebViewer(url) {
-    try {
-      const parsed = new URL(url);
-</script>
 </body>
 </html>
