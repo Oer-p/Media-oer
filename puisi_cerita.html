@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR Creator Studio — Puisi, Cerita Bergambar & Profil</title>
+<title>OoeR — Puisi & Cerita Bergambar</title>
 <style>
   :root {
     --bg: #ffffff; --text: #1a1a1a; --muted: #5f6368; --border: #dadce0;
@@ -18,7 +18,6 @@
   *{box-sizing:border-box}
   html, body {margin:0;padding:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Roboto, Arial, sans-serif;}
   
-  /* Layout Full Screen Tanpa Sisa */
   .app-container { display: flex; flex-direction: column; width: 100vw; height: 100vh; overflow: hidden; }
   
   header{
@@ -39,13 +38,11 @@
   .btn-primary{background:var(--primary);color:#fff;border-color:transparent;}
   .btn-primary:hover{opacity:0.9;}
 
-  /* Area Konten Utama Full */
   .main-content { flex: 1; overflow-y: auto; width: 100%; padding: 24px; }
   
   .views { display: none; width: 100%; height: 100%; }
   .views.active { display: flex; flex-direction: column; }
 
-  /* Tampilan Feed Beranda */
   .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
   .filter-chip { padding: 6px 14px; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; }
@@ -64,7 +61,6 @@
   .work-snippet { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .work-footer { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; color: var(--primary); }
 
-  /* Tampilan Editor Full Screen */
   .editor-wrapper { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 14px; }
   .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 14px; }
   .editor-toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; align-items: center; }
@@ -74,11 +70,9 @@
   .editable-area { min-height: 350px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; outline: none; overflow-y: auto; }
   .editable-area img { max-width: 100%; border-radius: 8px; margin: 8px 0; }
 
-  /* Tampilan Profil Kreator */
   .profile-header { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; }
   .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; }
 
-  /* Tampilan Detail Baca */
   .detail-wrapper { max-width: 800px; margin: 0 auto; width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 30px; box-shadow: var(--shadow); }
   .detail-img { width: 100%; max-height: 450px; object-fit: contain; border-radius: 8px; margin-bottom: 20px; background: #0001; }
   .detail-content { font-size: 16px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
@@ -88,13 +82,14 @@
 
 <div class="app-container">
   <header>
-    <a class="brand" onclick="switchView('feedView')">
+    <a class="brand" href="index.html">
       <span class="brand-dot"></span>
-      <span>OoeR Creator Studio</span>
+      <span>OoeR — Puisi & Cerita</span>
     </a>
     <div class="nav-btns">
+      <button class="btn" onclick="location.href='index.html'">🏠 Beranda</button>
       <button class="btn" onclick="openProfile()">👤 Profil Saya</button>
-      <button class="btn btn-primary" onclick="openEditor()">✍️ Buat Karya Baru</button>
+      <button class="btn btn-primary" onclick="openEditor()">✍️ Buat Karya</button>
     </div>
   </header>
 
@@ -104,12 +99,12 @@
     <div id="feedView" class="views active">
       <div class="feed-header">
         <div>
-          <h2 style="margin:0 0 4px;font-size:22px;">Jelajahi Karya & Sastra</h2>
-          <p style="margin:0;font-size:13px;color:var(--muted);">Puisi indah, naskah cerita bergambar, dan karya kreatif komunitas.</p>
+          <h2 style="margin:0 0 4px;font-size:22px;">Puisi & Cerita Bergambar</h2>
+          <p style="margin:0;font-size:13px;color:var(--muted);">Koleksi sastra, puisi indah, dan naskah cerita bergambar format JPG.</p>
         </div>
         <div class="filters">
           <button class="filter-chip active" onclick="filterWorks('semua', this)">Semua</button>
-          <button class="filter-chip" onclick="filterWorks('Puisi', this)">📜 Puisi & Sastra</button>
+          <button class="filter-chip" onclick="filterWorks('Puisi', this)">📜 Puisi</button>
           <button class="filter-chip" onclick="filterWorks('Cerita Bergambar', this)">🖼️ Cerita Bergambar</button>
         </div>
       </div>
@@ -120,22 +115,21 @@
     <div id="editorView" class="views">
       <div class="editor-wrapper">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <h2 style="margin:0;font-size:20px;">Studio Pembuatan Karya</h2>
+          <h2 style="margin:0;font-size:20px;">Studio Puisi & Cerita</h2>
           <button class="btn" onclick="switchView('feedView')">Batal</button>
         </div>
 
         <input type="text" id="creatorName" class="form-control" placeholder="Nama Profil Penulis / Kreator">
-        <input type="text" id="workTitle" class="form-control" placeholder="Judul Karya (Contoh: Malam Purnama atau Petualangan Sang Kancil)">
+        <input type="text" id="workTitle" class="form-control" placeholder="Judul Puisi / Cerita Bergambar">
 
         <div style="display:flex; gap:10px;">
           <select id="workCategory" class="form-control">
-            <option value="Puisi">📜 Puisi & Sastra</option>
-            <option value="Cerita Bergambar">🖼️ Cerita Bergambar (.jpg / Gambar)</option>
+            <option value="Puisi">📜 Puisi</option>
+            <option value="Cerita Bergambar">🖼️ Cerita Bergambar (.jpg)</option>
           </select>
-          <input type="url" id="workImage" class="form-control" placeholder="URL Foto Sampul / Ilustrasi (.jpg / .png)">
+          <input type="url" id="workImage" class="form-control" placeholder="URL Foto Sampul (.jpg / .png)">
         </div>
 
-        <!-- Toolbar Teks Lengkap -->
         <div class="editor-toolbar">
           <select onchange="execCmd('fontName', this.value); this.selectedIndex=0;">
             <option value="">Jenis Huruf</option>
@@ -157,7 +151,7 @@
           <button type="button" onclick="insertImageJPG()">🖼️ Sisipkan Foto JPG</button>
         </div>
 
-        <div id="workContent" class="editable-area" contenteditable="true" placeholder="Tulis bait puisi atau naskah cerita bergambar kamu di sini..."></div>
+        <div id="workContent" class="editable-area" contenteditable="true" placeholder="Tulis bait puisi atau naskah cerita bergambar di sini..."></div>
 
         <div style="display:flex;justify-content:flex-end;">
           <button class="btn btn-primary" onclick="publishWork()" style="padding:10px 24px;">Publikasikan Sekarang 🚀</button>
@@ -170,11 +164,11 @@
       <div class="profile-header">
         <div class="profile-avatar" id="profileInitial">A</div>
         <div>
-          <h2 id="profileDisplayName" style="margin:0 0 6px;font-size:22px;">Arip Rahman</h2>
-          <p style="margin:0;font-size:13px;color:var(--muted);">Kreator Aktif • Terdaftar di OoeR Studio</p>
+          <h2 id="profileDisplayName" style="margin:0 0 6px;font-size:22px;">Penulis</h2>
+          <p style="margin:0;font-size:13px;color:var(--muted);">Kreator Aktif • Puisi & Cerita</p>
         </div>
       </div>
-      <h3 style="margin:0 0 15px;font-size:16px;">Karya yang Telah Kamu Terbitkan:</h3>
+      <h3 style="margin:0 0 15px;font-size:16px;">Karya Saya:</h3>
       <div class="works-grid" id="myWorksGrid"></div>
     </div>
 
@@ -199,30 +193,21 @@
   const defaultWorks = [
     {
       id: "w1",
-      title: "Nyanyian Malam di Bawah Langit Biru",
+      title: "Cahaya Rembulan di Ujung Malam",
       category: "Puisi",
       author: "Arip Rahman",
       date: "21 Oktober 2026",
       image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop",
       content: "Bintang bersinar menyapa sepi,\nMengantar angin malam yang bernyanyi.\nDi dalam sunyi hati berduri,\nMenanti fajar membawa arti."
-    },
-    {
-      id: "w2",
-      title: "Kisah Sang Petualang Cilik (Cerita Bergambar)",
-      category: "Cerita Bergambar",
-      author: "Leilani",
-      date: "21 Oktober 2026",
-      image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=700&auto=format&fit=crop",
-      content: "Bab 1: Pagi yang cerah di desa.\nSang petualang menyiapkan ransel kecilnya untuk menjelajahi lembah misterius di balik bukit hijau."
     }
   ];
 
   function getWorks() {
     try {
-      const stored = JSON.parse(localStorage.getItem("oer_creator_works") || "null");
+      const stored = JSON.parse(localStorage.getItem("oer_puisi_cerita_works") || "null");
       if (Array.isArray(stored) && stored.length > 0) return stored;
     } catch {}
-    localStorage.setItem("oer_creator_works", JSON.stringify(defaultWorks));
+    localStorage.setItem("oer_puisi_cerita_works", JSON.stringify(defaultWorks));
     return defaultWorks;
   }
 
@@ -374,7 +359,7 @@
 
     const works = getWorks();
     works.unshift(newWork);
-    localStorage.setItem("oer_creator_works", JSON.stringify(works));
+    localStorage.setItem("oer_puisi_cerita_works", JSON.stringify(works));
 
     // Sinkronisasi otomatis ke search.html
     try {
@@ -385,7 +370,7 @@
       }
     } catch {}
 
-    alert("🎉 Berhasil! Karya puisi atau cerita bergambar kamu telah diterbitkan dan langsung terindeks di OoeR Search.");
+    alert("🎉 Berhasil! Puisi atau cerita bergambar kamu telah diterbitkan dan langsung terindeks di OoeR Search.");
     switchView('feedView');
   };
 
