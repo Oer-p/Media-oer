@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
@@ -39,22 +38,11 @@
         }
     </script>
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #121212;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #444444;
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444444; }
 
-        /* Typing Dot Pulse Animation */
         @keyframes typing {
             0%, 100% { transform: translateY(0); opacity: 0.4; }
             50% { transform: translateY(-4px); opacity: 1; }
@@ -63,16 +51,9 @@
         .dot-2 { animation: typing 1.2s infinite 0.2s; }
         .dot-3 { animation: typing 1.2s infinite 0.4s; }
 
-        /* Hide Scrollbar for Quick Prompts */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Markdown Custom Styling inside Chat Bubbles */
         .markdown-body p { margin-bottom: 0.5rem; }
         .markdown-body p:last-child { margin-bottom: 0; }
         .markdown-body ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
@@ -105,12 +86,9 @@
     <!-- Header Navigation -->
     <header class="bg-ooer-card border-b border-ooer-border px-4 py-3 flex items-center justify-between shadow-md z-20 flex-shrink-0">
         <div class="flex items-center space-x-3">
-            <!-- Back Button to Home -->
             <a href="index.html" class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-ooer-input transition flex items-center justify-center" title="Kembali ke Home">
                 <i class="fa-solid fa-arrow-left text-lg"></i>
             </a>
-            
-            <!-- Logo OoeR AI -->
             <div class="flex items-center space-x-2">
                 <div class="flex items-center text-2xl font-black tracking-tight">
                     <span class="text-ooer-blue">o</span>
@@ -123,7 +101,6 @@
         </div>
 
         <div class="flex items-center space-x-2">
-            <!-- Online Indicator -->
             <div class="hidden sm:flex items-center space-x-2 bg-ooer-input px-3 py-1 rounded-full border border-ooer-border">
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -132,7 +109,6 @@
                 <span class="text-xs text-gray-300 font-medium">Aktif</span>
             </div>
 
-            <!-- Clear Chat Button -->
             <button onclick="clearChatHistory()" class="text-gray-400 hover:text-ooer-red p-2 rounded-lg hover:bg-ooer-input transition text-sm flex items-center gap-1.5" title="Hapus Riwayat Chat">
                 <i class="fa-regular fa-trash-can"></i>
                 <span class="hidden sm:inline text-xs">Hapus</span>
@@ -142,7 +118,6 @@
 
     <!-- Main Chat Area -->
     <main id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 max-w-3xl mx-auto w-full">
-        <!-- Welcome Card -->
         <div id="welcome-card" class="bg-ooer-card border border-ooer-border rounded-2xl p-5 text-center my-4 shadow-lg transition">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-ooer-blue via-ooer-red to-ooer-yellow flex items-center justify-center mx-auto mb-3 shadow-md">
                 <i class="fa-solid fa-robot text-white text-2xl"></i>
@@ -151,7 +126,6 @@
             <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Asisten kecerdasan buatan serbaguna Anda. Tanyakan apa saja, minta rangkuman artikel, solusi belajar, hingga ide kreatif secara instan.</p>
         </div>
 
-        <!-- Initial AI Message -->
         <div class="flex items-start space-x-3">
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
                 AI
@@ -170,7 +144,6 @@
     <!-- Bottom Input & Quick Prompts Section -->
     <footer class="bg-ooer-bg border-t border-ooer-border p-3 sm:p-4 max-w-3xl mx-auto w-full flex-shrink-0">
         
-        <!-- Quick Prompts (Horizontal Scrollable Chips) -->
         <div id="quick-prompts" class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
             <button onclick="useQuickPrompt('Rangkum artikel berita ini dengan poin-poin utama:')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-file-lines text-ooer-blue"></i> Rangkum artikel berita
@@ -186,10 +159,7 @@
             </button>
         </div>
 
-        <!-- Chat Input Form -->
         <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-end bg-ooer-card border border-ooer-border rounded-2xl p-1.5 focus-within:border-ooer-blue transition">
-            
-            <!-- Textarea -->
             <textarea 
                 id="user-input" 
                 rows="1" 
@@ -200,7 +170,6 @@
             ></textarea>
 
             <div class="flex items-center space-x-1 pb-1 pr-1">
-                <!-- Voice Input Button -->
                 <button 
                     type="button" 
                     id="mic-btn"
@@ -210,7 +179,6 @@
                     <i class="fa-solid fa-microphone text-base"></i>
                 </button>
 
-                <!-- Send Button -->
                 <button 
                     type="submit" 
                     id="send-btn" 
@@ -234,19 +202,16 @@
         let isGenerating = false;
         let recognition = null;
 
-        // Auto adjust height for textarea
         function adjustTextareaHeight(el) {
             el.style.height = 'auto';
             el.style.height = (el.scrollHeight) + 'px';
         }
 
-        // Enable/Disable Send button based on text
         function checkInputStatus() {
             const text = userInput.value.trim();
             sendBtn.disabled = text === '' || isGenerating;
         }
 
-        // Handle Enter Keypress (Shift+Enter for new line)
         function handleKeyDown(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -256,7 +221,6 @@
             }
         }
 
-        // Quick Prompts Click Action
         function useQuickPrompt(text) {
             if (isGenerating) return;
             userInput.value = text;
@@ -265,45 +229,37 @@
             userInput.focus();
         }
 
-        // Form Submit Handler
         async function handleSubmit(e) {
             e.preventDefault();
             const text = userInput.value.trim();
             if (!text || isGenerating) return;
 
-            // Hide Welcome Card after first message
             if (welcomeCard) welcomeCard.style.display = 'none';
 
-            // Reset Input
             userInput.value = '';
             userInput.style.height = 'auto';
             checkInputStatus();
 
-            // Append User Message
             appendUserBubble(text);
-
-            // Append Typing Indicator
             const typingId = appendTypingIndicator();
 
             isGenerating = true;
             sendBtn.disabled = true;
 
             try {
-                // Call Gemini API
                 const aiResponse = await fetchGeminiResponse(text);
                 removeElement(typingId);
                 appendAIBubble(aiResponse);
             } catch (error) {
                 console.error("Gemini API Error:", error);
                 removeElement(typingId);
-                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan coba lagi nanti.");
+                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan periksa kembali API Key Anda di Google AI Studio.");
             } finally {
                 isGenerating = false;
                 checkInputStatus();
             }
         }
 
-        // Append User Message Bubble
         function appendUserBubble(text) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'flex items-start justify-end space-x-3';
@@ -316,12 +272,10 @@
             scrollToBottom();
         }
 
-        // Append AI Response Bubble with Markdown & Copy Code support
         function appendAIBubble(text) {
             const msgDiv = document.createElement('div');
             msgDiv.className = 'flex items-start space-x-3';
             
-            // Render markdown HTML
             const formattedText = marked.parse(text);
 
             msgDiv.innerHTML = `
@@ -338,7 +292,6 @@
                 </div>
             `;
 
-            // Add Copy Code Buttons for Code Blocks
             msgDiv.querySelectorAll('pre').forEach(pre => {
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'absolute top-2 right-2 bg-ooer-input text-gray-400 hover:text-white px-2 py-1 rounded text-[10px] border border-ooer-border transition';
@@ -356,7 +309,6 @@
             scrollToBottom();
         }
 
-        // Append Typing Indicator
         function appendTypingIndicator() {
             const id = 'typing-' + Date.now();
             const typingDiv = document.createElement('div');
@@ -377,18 +329,19 @@
             return id;
         }
 
-        // Gemini API Fetch Function
+        // Gemini API Fetch Function (Menggunakan model stabil gemini-1.5-flash)
         async function fetchGeminiResponse(prompt) {
-            const apiKey = "AQ.Ab8RN6K9xwwI4r06JZhKdXBG5YGmB2D3ad8F03vR2appFsyG3A"
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            // Ganti teks di bawah ini dengan API Key asli Anda dari Google AI Studio (berawalan AIzaSy...)
+            const apiKey = "AQ.Ab8RN6K9xwwI4r06JZhKdXBG5YGmB2D3ad8F03vR2appFsyG3A";
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
             const systemInstruction = "Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. Anda ramah, responsif, informatif, dan sangat membantu. Jawablah selalu dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.";
 
             const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: {
-                    parts: [{ text: systemInstruction }]
-                }
+                contents: [
+                    { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
+                ]
             };
 
             const response = await fetch(apiUrl, {
@@ -405,7 +358,6 @@
             return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, OoeR AI tidak menemukan balasan yang cocok.";
         }
 
-        // Clear Chat History
         function clearChatHistory() {
             if (confirm("Apakah Anda yakin ingin menghapus seluruh riwayat chat ini?")) {
                 chatContainer.innerHTML = '';
@@ -416,7 +368,6 @@
             }
         }
 
-        // Copy Text Helper
         function copyMessageText(btn) {
             const container = btn.closest('.bg-ooer-card').querySelector('.markdown-body, p');
             if (container) {
@@ -436,7 +387,6 @@
             document.body.removeChild(textArea);
         }
 
-        // Voice Recognition (Speech to Text)
         function toggleSpeechRecognition() {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 alert("Pengenalan suara tidak didukung oleh browser Anda.");
@@ -474,7 +424,6 @@
             recognition.start();
         }
 
-        // Utilities
         function removeElement(id) {
             const el = document.getElementById(id);
             if (el) el.remove();
