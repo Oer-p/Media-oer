@@ -1366,7 +1366,6 @@ if (gameKeywords.includes(normalizedQuery)) {
     window.scrollTo({top:0,behavior:"smooth"});
   });
 })();
-</script>
 
 <script>
 /* PWA: SERVICE WORKER */
@@ -1377,7 +1376,7 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.error("PWA gagal diaktifkan:", error));
   });
 }
-  
+ <script>
 /* URL layanan OoeR.
    Isi URL setelah setiap layanan benar-benar tersedia. */
 const OER_SERVICE_URLS = {
@@ -1406,10 +1405,11 @@ document.getElementById("oerAdsButton")?.addEventListener("click", () => {
 document.getElementById("marketOerButton")?.addEventListener("click", () => {
   openOerService(OER_SERVICE_URLS.market, "Market OeR");
 });
-  <script>
-  document.getElementById('aiButton').addEventListener('click', function() {
-    window.location.href = 'ai_chat.html';
-  });
+
+// Perintah untuk mengarahkan tombol AI Chat langsung ke halaman ai_chat.html
+document.getElementById('aiButton')?.addEventListener('click', function() {
+  window.location.href = 'ai_chat.html';
+});
 </script>
 </body>
 </html>
