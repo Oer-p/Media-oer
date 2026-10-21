@@ -3,385 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR — Puisi & Cerita Bergambar</title>
+<meta name="theme-color" content="#17191d">
+<title>OoeR — Puisi & Cerita</title>
 <style>
-  :root {
-    --bg: #ffffff; --text: #1a1a1a; --muted: #5f6368; --border: #dadce0;
-    --card-bg: #f8f9fa; --primary: #1a73e8; --primary-hover: #1557b0;
-    --shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  body.dark {
-    --bg: #121212; --text: #e8eaed; --muted: #9aa0a6; --border: #383a3f;
-    --card-bg: #1e1e1e; --primary: #8ab4f8; --primary-hover: #aecbfa;
-    --shadow: 0 1px 3px rgba(0,0,0,0.5);
-  }
-  *{box-sizing:border-box}
-  html, body {margin:0;padding:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Roboto, Arial, sans-serif;}
-  
-  .app-container { display: flex; flex-direction: column; width: 100vw; height: 100vh; overflow: hidden; }
-  
-  header{
-    display:flex;align-items:center;justify-content:space-between;padding:12px 24px;
-    border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;z-index:100;
-  }
-  .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:500;cursor:pointer;text-decoration:none;color:var(--text);}
-  .brand-dot{
-    width:26px;height:26px;border-radius:50%;display:inline-block;
-    background:conic-gradient(#ea4335 0deg 90deg, #fbbc05 90deg 180deg, #34a853 180deg 270deg, #4285f4 270deg 360deg);
-  }
-  .nav-btns{display:flex;gap:10px;align-items:center;}
-  .btn{
-    padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--bg);
-    color:var(--text);font-weight:500;font-size:13px;cursor:pointer;text-decoration:none;transition:0.2s;display:inline-flex;align-items:center;gap:6px;
-  }
-  .btn:hover{background:var(--card-bg);}
-  .btn-primary{background:var(--primary);color:#fff;border-color:transparent;}
-  .btn-primary:hover{opacity:0.9;}
+:root{--bg:#17191d;--panel:#202329;--text:#f1f3f4;--muted:#aeb4bf;--border:#373b44;--blue:#8ab4f8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
 
-  .main-content { flex: 1; overflow-y: auto; width: 100%; padding: 24px; }
-  
-  .views { display: none; width: 100%; height: 100%; }
-  .views.active { display: flex; flex-direction: column; }
+/* HEADER SATU BARIS RAPI DI HP */
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:#111317;flex-wrap:nowrap;gap:10px;}
+.brand{font-size:18px;font-weight:800;color:var(--blue);text-decoration:none;white-space:nowrap;}
+.header-actions{display:flex;align-items:center;gap:10px;font-size:13px;white-space:nowrap;}
+.header-actions a{color:var(--blue);text-decoration:none;}
 
-  .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-  .filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
-  .filter-chip { padding: 6px 14px; border-radius: 16px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; }
-  .filter-chip.active { background: var(--primary); color: white; border-color: transparent; }
+/* FULL LAYAR TANPA KOTAK KAKU */
+.container{width:100%;max-width:900px;margin:0 auto;padding:24px 16px;}
+h1{font-size:28px;margin-bottom:8px;color:var(--text);}
+p.subtitle{color:var(--muted);font-size:14px;margin-bottom:24px;}
 
-  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding-bottom: 40px; }
-  .work-card {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.1s;
-  }
-  .work-card:hover { transform: translateY(-2px); border-color: var(--primary); }
-  .work-img { width: 100%; height: 200px; object-fit: cover; background: var(--border); }
-  .work-body { padding: 16px; }
-  .work-meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
-  .work-card h3 { margin: 0 0 8px; font-size: 18px; color: var(--text); }
-  .work-snippet { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .work-footer { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; color: var(--primary); }
+input,select{width:100%;padding:14px;margin-top:6px;margin-bottom:16px;background:#202329;border:1px solid var(--border);color:var(--text);border-radius:8px;font:inherit}
 
-  .editor-wrapper { max-width: 900px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 14px; }
-  .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 14px; }
-  .editor-toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; align-items: center; }
-  .editor-toolbar select, .editor-toolbar input[type="color"] { padding: 5px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); color: var(--text); font-size: 12px; cursor: pointer; }
-  .editor-toolbar button { padding: 6px 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-  .editor-toolbar button:hover { background: var(--card-bg); }
-  .editable-area { min-height: 350px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; outline: none; overflow-y: auto; }
-  .editable-area img { max-width: 100%; border-radius: 8px; margin: 8px 0; }
+/* AREA EDITOR FULL LAYAR TANPA KOTAK */
+textarea.full-editor {
+  width: 100%;
+  min-height: 400px;
+  padding: 18px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  background: #202329;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.8;
+  resize: vertical;
+}
 
-  .profile-header { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; }
-  .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; }
+/* TOMBOL BULAT KECIL TAMBAH HALAMAN DI BAWAH */
+.add-page-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.btn-round-add {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #17191d;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+.btn-round-add:hover { transform: scale(1.08); }
 
-  .detail-wrapper { max-width: 800px; margin: 0 auto; width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 30px; box-shadow: var(--shadow); }
-  .detail-img { width: 100%; max-height: 450px; object-fit: contain; border-radius: 8px; margin-bottom: 20px; background: #0001; }
-  .detail-content { font-size: 16px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
+.page-indicator-label {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.btn-action {
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 8px;
+  background: #34a853;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+.btn-action:hover { opacity: 0.9; }
+
+/* TAMPILAN KARTU KARYA DI BERANDA */
+.feed-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.feed-title { font-size: 18px; font-weight: bold; color: var(--blue); text-decoration: none; display: block; margin-bottom: 6px; }
+.feed-meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  <header>
-    <a class="brand" href="index.html">
-      <span class="brand-dot"></span>
-      <span>OoeR — Puisi & Cerita</span>
-    </a>
-    <div class="nav-btns">
-      <button class="btn" onclick="location.href='index.html'">🏠 Beranda</button>
-      <button class="btn" onclick="openProfile()">👤 Profil Saya</button>
-      <button class="btn btn-primary" onclick="openEditor()">✍️ Buat Karya</button>
-    </div>
-  </header>
-
-  <div class="main-content">
-    
-    <!-- 1. HALAMAN BERANDA / FEED -->
-    <div id="feedView" class="views active">
-      <div class="feed-header">
-        <div>
-          <h2 style="margin:0 0 4px;font-size:22px;">Puisi & Cerita Bergambar</h2>
-          <p style="margin:0;font-size:13px;color:var(--muted);">Koleksi sastra, puisi indah, dan naskah cerita bergambar format JPG.</p>
-        </div>
-        <div class="filters">
-          <button class="filter-chip active" onclick="filterWorks('semua', this)">Semua</button>
-          <button class="filter-chip" onclick="filterWorks('Puisi', this)">📜 Puisi</button>
-          <button class="filter-chip" onclick="filterWorks('Cerita Bergambar', this)">🖼️ Cerita Bergambar</button>
-        </div>
-      </div>
-      <div class="works-grid" id="worksGrid"></div>
-    </div>
-
-    <!-- 2. HALAMAN EDITOR FULL-SCREEN -->
-    <div id="editorView" class="views">
-      <div class="editor-wrapper">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <h2 style="margin:0;font-size:20px;">Studio Puisi & Cerita</h2>
-          <button class="btn" onclick="switchView('feedView')">Batal</button>
-        </div>
-
-        <input type="text" id="creatorName" class="form-control" placeholder="Ketik Nama Profil / Penulis Kamu di Sini">
-        <input type="text" id="workTitle" class="form-control" placeholder="Judul Puisi / Cerita Bergambar">
-
-        <div style="display:flex; gap:10px;">
-          <select id="workCategory" class="form-control">
-            <option value="Puisi">📜 Puisi</option>
-            <option value="Cerita Bergambar">🖼️ Cerita Bergambar (.jpg)</option>
-          </select>
-          <input type="url" id="workImage" class="form-control" placeholder="URL Foto Sampul (.jpg / .png)">
-        </div>
-
-        <div class="editor-toolbar">
-          <select onchange="execCmd('fontName', this.value); this.selectedIndex=0;">
-            <option value="">Jenis Huruf</option>
-            <option value="Arial">Arial</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Courier New">Courier New</option>
-          </select>
-          <select onchange="execCmd('fontSize', this.value); this.selectedIndex=0;">
-            <option value="">Ukuran</option>
-            <option value="3">Normal</option>
-            <option value="4">Sedang</option>
-            <option value="5">Besar</option>
-          </select>
-          <input type="color" title="Warna Teks" onchange="execCmd('foreColor', this.value)">
-          <button type="button" onclick="execCmd('bold')">B</button>
-          <button type="button" onclick="execCmd('italic')">I</button>
-          <button type="button" onclick="execCmd('underline')">U</button>
-          <button type="button" onclick="execCmd('insertUnorderedList')">• List</button>
-          <button type="button" onclick="insertImageJPG()">🖼️ Sisipkan Foto JPG</button>
-        </div>
-
-        <div id="workContent" class="editable-area" contenteditable="true" placeholder="Tulis bait puisi atau naskah cerita bergambar di sini..."></div>
-
-        <div style="display:flex;justify-content:flex-end;">
-          <button class="btn btn-primary" onclick="publishWork()" style="padding:10px 24px;">Publikasikan Sekarang 🚀</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. HALAMAN PROFIL KREATOR -->
-    <div id="profileView" class="views">
-      <div class="profile-header">
-        <div class="profile-avatar" id="profileInitial">K</div>
-        <div>
-          <h2 id="profileDisplayName" style="margin:0 0 6px;font-size:22px;">Kreator</h2>
-          <p style="margin:0;font-size:13px;color:var(--muted);">Kreator Aktif • Puisi & Cerita</p>
-        </div>
-      </div>
-      <h3 style="margin:0 0 15px;font-size:16px;">Karya Saya:</h3>
-      <div class="works-grid" id="myWorksGrid"></div>
-    </div>
-
-    <!-- 4. HALAMAN BACA DETAIL -->
-    <div id="detailView" class="views">
-      <div class="detail-wrapper">
-        <button class="btn" onclick="switchView('feedView')" style="margin-bottom:15px;">← Kembali</button>
-        <div id="detailMeta" style="font-size:12px;color:var(--muted);margin-bottom:8px;"></div>
-        <h1 id="detailTitle" style="margin-top:0;font-size:26px;"></h1>
-        <img id="detailImg" class="detail-img" src="" alt="Ilustrasi JPG" style="display:none;" onerror="this.style.display='none'">
-        <div class="detail-content" id="detailBody"></div>
-      </div>
-    </div>
-
+<header>
+  <a class="brand" href="./">OoeR — Puisi & Cerita</a>
+  <div class="header-actions">
+    <a href="#" onclick="showHome()">Beranda</a>
+    <a href="search.html">🔍 Search</a>
+    <a href="#" onclick="showCreatorForm()" style="font-weight:bold;">+ Buat Karya</a>
   </div>
-</div>
+</header>
+
+<main class="container">
+  <!-- HALAMAN BERANDA / DAFTAR KARYA -->
+  <div id="homeView">
+    <h1>Kumpulan Puisi & Cerita</h1>
+    <p class="subtitle">Ruang bebas bagi pengunjung untuk merangkai kata dan berbagi kisah.</p>
+    <div id="publicWorksFeed"></div>
+  </div>
+
+  <!-- HALAMAN FORMULIR TULIS KARYA (FULL LAYAR TANPA KOTAK) -->
+  <div id="creatorView" style="display:none;">
+    <h1>Tulis Karya Baru</h1>
+    <p class="subtitle">Unggah puisi atau cerita kamu agar langsung tampil di beranda dan pencarian.</p>
+
+    <label>Nama Penulis / Kreator:</label>
+    <input type="text" id="authorName" placeholder="Contoh: Leilani">
+
+    <label>Judul Karya:</label>
+    <input type="text" id="workTitle" placeholder="Contoh: Malam di Ujung Batas">
+
+    <label>Kategori:</label>
+    <select id="workCategory">
+      <option value="📜 Puisi">📜 Puisi</option>
+      <option value="📖 Cerita Pendek">📖 Cerita Pendek</option>
+      <option value="🎨 Cerita Bergambar">🎨 Cerita Bergambar</option>
+    </select>
+
+    <label>URL Foto Sampul (Opsional):</label>
+    <input type="text" id="workImage" placeholder="https://images.unsplash.com/...">
+
+    <div id="pageIndicatorLabel" class="page-indicator-label">Halaman 1</div>
+    <textarea id="workContentBox" class="full-editor" placeholder="Tulis isi puisi atau cerita kamu di sini secara leluasa..."></textarea>
+
+    <!-- TOMBOL BULAT KECIL TAMBAH HALAMAN DI BAWAH -->
+    <div class="add-page-wrapper">
+      <button type="button" class="btn-round-add" onclick="addNewPage()" title="Tambah Halaman Baru">+</button>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button type="button" class="btn-action" onclick="publishWork()">Publikasikan Karya ✨</button>
+      <button type="button" onclick="showHome()" style="background:transparent;color:var(--muted);border:none;cursor:pointer;">Batal</button>
+    </div>
+  </div>
+</main>
 
 <script>
-(() => {
-  "use strict";
+let workPages = [""];
+let currentPageIndex = 0;
 
-  const defaultWorks = [
-    {
-      id: "w1",
-      title: "Cahaya Rembulan di Ujung Malam",
-      category: "Puisi",
-      author: "Komunitas OoeR",
-      date: "21 Oktober 2026",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop",
-      content: "Bintang bersinar menyapa sepi,\nMengantar angin malam yang bernyanyi.\nDi dalam sunyi hati berduri,\nMenanti fajar membawa arti."
-    }
-  ];
+function showHome(){
+  document.getElementById("homeView").style.display = "block";
+  document.getElementById("creatorView").style.display = "none";
+  renderPublicFeed();
+}
 
-  function getWorks() {
-    try {
-      const stored = JSON.parse(localStorage.getItem("oer_puisi_cerita_works") || "null");
-      if (Array.isArray(stored) && stored.length > 0) return stored;
-    } catch {}
-    localStorage.setItem("oer_puisi_cerita_works", JSON.stringify(defaultWorks));
-    return defaultWorks;
+function showCreatorForm(){
+  document.getElementById("homeView").style.display = "none";
+  document.getElementById("creatorView").style.display = "block";
+  workPages = [""];
+  currentPageIndex = 0;
+  document.getElementById("workContentBox").value = "";
+  document.getElementById("pageIndicatorLabel").innerText = "Halaman 1";
+}
+
+function saveCurrentPage(){
+  workPages[currentPageIndex] = document.getElementById("workContentBox").value;
+}
+
+function addNewPage(){
+  saveCurrentPage();
+  workPages.push("");
+  currentPageIndex = workPages.length - 1;
+  document.getElementById("workContentBox").value = "";
+  document.getElementById("pageIndicatorLabel").innerText = `Halaman ${currentPageIndex + 1}`;
+  window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+}
+
+function publishWork(){
+  saveCurrentPage();
+  const author = document.getElementById("authorName").value.trim();
+  const title = document.getElementById("workTitle").value.trim();
+  const category = document.getElementById("workCategory").value;
+  const image = document.getElementById("workImage").value.trim();
+
+  if(!author || !title){
+    alert("Nama penulis dan judul wajib diisi!");
+    return;
   }
 
-  let activeFilter = "semua";
-
-  window.switchView = (viewId) => {
-    document.querySelectorAll(".views").forEach(v => v.classList.remove("active"));
-    document.getElementById(viewId).classList.add("active");
-    if (viewId === "feedView") renderFeed();
-    if (viewId === "profileView") renderProfile();
-    window.scrollTo(0,0);
-  };
-
-  window.openEditor = () => {
-    switchView('editorView');
-    // Otomatis mengambil nama dari memori lokal perangkat masing-masing pengguna, jika kosong diset netral
-    const savedName = localStorage.getItem("oer_current_author") || "";
-    document.getElementById("creatorName").value = savedName;
-    document.getElementById("workTitle").value = "";
-    document.getElementById("workImage").value = "";
-    document.getElementById("workContent").innerHTML = "";
-  };
-
-  window.openProfile = () => {
-    const author = localStorage.getItem("oer_current_author") || "Pengunjung / Kreator Baru";
-    document.getElementById("profileDisplayName").textContent = author;
-    document.getElementById("profileInitial").textContent = author.charAt(0).toUpperCase();
-    switchView('profileView');
-  };
-
-  window.execCmd = (cmd, val = null) => document.execCommand(cmd, false, val);
-
-  window.insertImageJPG = () => {
-    const url = prompt("Masukkan URL foto JPG ilustrasi:");
-    if (url) execCmd('insertImage', url);
-  };
-
-  window.filterWorks = (cat, btn) => {
-    activeFilter = cat;
-    document.querySelectorAll(".filter-chip").forEach(c => c.classList.toggle("active", c === btn));
-    renderFeed();
-  };
-
-  function renderFeed() {
-    const grid = document.getElementById("worksGrid");
-    const works = getWorks();
-    const filtered = works.filter(w => activeFilter === "semua" || w.category === activeFilter);
-    grid.replaceChildren();
-
-    if (!filtered.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">Belum ada karya ditemukan.</div>`;
-      return;
-    }
-
-    filtered.forEach(w => {
-      const card = document.createElement("div");
-      card.className = "work-card";
-      card.onclick = () => openDetail(w.id);
-      card.innerHTML = `
-        <div>
-          ${w.image ? `<img src="${w.image}" class="work-img" alt="JPG" onerror="this.style.display='none'">` : ''}
-          <div class="work-body">
-            <div class="work-meta"><span><b>${w.category}</b></span><span>${w.date}</span></div>
-            <h3>${w.title}</h3>
-            <p class="work-snippet">${w.content.replace(/<[^>]*>?/gm, '')}</p>
-          </div>
-        </div>
-        <div class="work-footer">
-          <span>👤 ${w.author}</span>
-          <span>Baca →</span>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
+  const hasContent = workPages.some(p => p.trim() !== "");
+  if(!hasContent){
+    alert("Minimal isi salah satu halaman tulisan!");
+    return;
   }
 
-  function renderProfile() {
-    const author = localStorage.getItem("oer_current_author") || "Kreator";
-    document.getElementById("profileDisplayName").textContent = author;
-    document.getElementById("profileInitial").textContent = author.charAt(0).toUpperCase();
+  const uniqueId = "work_" + Date.now();
+  const newWork = {
+    id: uniqueId,
+    title, author, category, pages: workPages, image,
+    date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' }),
+    url: `website.html?view=${uniqueId}`
+  };
 
-    const grid = document.getElementById("myWorksGrid");
-    const works = getWorks().filter(w => w.author.toLowerCase() === author.toLowerCase());
-    grid.replaceChildren();
+  // Disimpan ke penyimpanan lokal agar langsung muncul di Pencarian (Search)
+  let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+  list.unshift(newWork);
+  localStorage.setItem("oer_user_websites", JSON.stringify(list));
 
-    if (!works.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;">Belum ada karya yang kamu terbitkan di perangkat ini. Yuk buat karya pertamamu!</div>`;
-      return;
-    }
+  alert("Karya berhasil dipublikasikan!");
+  showHome();
+}
 
-    works.forEach(w => {
-      const card = document.createElement("div");
-      card.className = "work-card";
-      card.onclick = () => openDetail(w.id);
-      card.innerHTML = `
-        <div>
-          ${w.image ? `<img src="${w.image}" class="work-img" alt="JPG" onerror="this.style.display='none'">` : ''}
-          <div class="work-body">
-            <div class="work-meta"><span><b>${w.category}</b></span><span>${w.date}</span></div>
-            <h3>${w.title}</h3>
-            <p class="work-snippet">${w.content.replace(/<[^>]*>?/gm, '')}</p>
-          </div>
-        </div>
-        <div class="work-footer"><span>Publikasi Mandiri</span><span>Lihat →</span></div>
-      `;
-      grid.appendChild(card);
-    });
+function renderPublicFeed(){
+  let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+  const feed = document.getElementById("publicWorksFeed");
+
+  if(!list.length){
+    feed.innerHTML = `<p style="color:var(--muted);">Belum ada karya yang dibagikan. Jadilah yang pertama menulis!</p>`;
+    return;
   }
 
-  window.openDetail = (id) => {
-    const works = getWorks();
-    const w = works.find(item => item.id === id);
-    if (!w) return;
+  let html = "";
+  list.forEach(item => {
+    html += `<div class="feed-card">
+      <a href="website.html?view=${item.id}" class="feed-title">${item.title}</a>
+      <div class="feed-meta">Oleh <b>${item.author || "Anonim"}</b> • ${item.date} • ${item.category || "Puisi & Cerita"}</div>
+    </div>`;
+  });
+  feed.innerHTML = html;
+}
 
-    document.getElementById("detailMeta").textContent = `${w.category} • ${w.date} • Oleh ${w.author}`;
-    document.getElementById("detailTitle").textContent = w.title;
-    
-    const imgEl = document.getElementById("detailImg");
-    if (w.image) {
-      imgEl.src = w.image;
-      imgEl.style.display = "block";
-    } else {
-      imgEl.style.display = "none";
-    }
-
-    document.getElementById("detailBody").innerHTML = w.content;
-    switchView('detailView');
-  };
-
-  window.publishWork = () => {
-    const author = document.getElementById("creatorName").value.trim();
-    const title = document.getElementById("workTitle").value.trim();
-    const category = document.getElementById("workCategory").value;
-    const image = document.getElementById("workImage").value.trim();
-    const content = document.getElementById("workContent").innerHTML.trim();
-
-    if (!author || !title || !content || content === "<br>") {
-      alert("Harap lengkapi nama penulis, judul, dan isi karya!");
-      return;
-    }
-
-    // Menyimpan nama penulis ke perangkat pengguna yang sedang aktif
-    localStorage.setItem("oer_current_author", author);
-
-    const newWork = {
-      id: "work_" + Date.now(),
-      title,
-      category,
-      author,
-      image,
-      date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' }),
-      content
-    };
-
-    const works = getWorks();
-    works.unshift(newWork);
-    localStorage.setItem("oer_puisi_cerita_works", JSON.stringify(works));
-
-    // Sinkronisasi otomatis ke pencarian
-    try {
-      const history = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
-      if (!history.includes(title)) {
-        history.unshift(title);
-        localStorage.setItem("oer_search_history", JSON.stringify(history));
-      }
-    } catch {}
-
-    alert("🎉 Berhasil! Puisi atau cerita bergambar kamu telah diterbitkan.");
-    switchView('feedView');
-  };
-
-  renderFeed();
-})();
+window.addEventListener("DOMContentLoaded", () => {
+  renderPublicFeed();
+});
 </script>
-
 </body>
 </html>
