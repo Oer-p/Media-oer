@@ -446,8 +446,8 @@ body.dark .service-market {
     <div class="search-buttons">
   <button type="submit" form="searchForm">Cari OoeR</button>
   <button type="button" id="luckyButton">Jelajahi OoeR</button>
-  <a href="ai_chat.html" class="button" id="aiButton">AI Chat</a>
-    </div>
+  <button type="button" id="aiButton">AI Chat</button>
+          </div>
     
     <p id="notice" aria-live="polite"></p>
 
@@ -1406,7 +1406,10 @@ document.getElementById("oerAdsButton")?.addEventListener("click", () => {
 document.getElementById("marketOerButton")?.addEventListener("click", () => {
   openOerService(OER_SERVICE_URLS.market, "Market OeR");
 });
-  
+  <script>
+  document.getElementById('aiButton').addEventListener('click', function() {
+    window.location.href = 'ai_chat.html';
+  });
 </script>
 </body>
 </html>
