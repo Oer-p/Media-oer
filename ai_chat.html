@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
@@ -440,15 +439,12 @@
         }
 
         // ==========================================
-        // KONEKSI OoeR AI MELALUI SUPABASE
-        // Gemini API Key hanya disimpan di server.
+        // KONEKSI OoeR AI MELALUI SUPABASE (URL DIPERBAIKI)
         // ==========================================
         async function fetchGeminiResponse(prompt) {
             const endpoint =
-                'https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/smooth-handler';
+                'https://jhopfzmyxuafdbwvkjbf.supabase.co/functions/v1/smooth-handler';
 
-            // Publishable key Supabase boleh digunakan di frontend.
-            // Jangan masukkan Gemini API Key ke file HTML ini.
             const supabasePublishableKey =
                 'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
 
