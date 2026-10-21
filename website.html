@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OoeR Space — Editor & Portal Publikasi</title>
+<title>OoeR Space — Portal Kreator & Publikasi Resmi</title>
 <style>
   :root {
     --primary: #1a73e8;
@@ -16,9 +16,9 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-  body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 60px; }
 
-  /* HEADER RINGKAS & LOGO MINI KIRI */
+  /* HEADER RINGKAS & LOGO DI KIRI */
   header {
     background: var(--card);
     border-bottom: 1px solid var(--border);
@@ -48,37 +48,49 @@
   }
   .btn-sm.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-  /* CONTAINER EDITOR & BACA */
+  /* CONTAINER UTAMA */
   .container { max-width: 900px; margin: 16px auto; padding: 0 12px; }
 
+  /* HALAMAN LOGIN / DAFTAR AKUN OOEAH */
+  .auth-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px; max-width: 420px; margin: 40px auto; text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .auth-card h2 { margin-bottom: 8px; font-size: 22px; color: var(--text); }
+  .auth-card p { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .auth-input {
+    width: 100%; padding: 12px; font-size: 14px; border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 12px; outline: none;
+  }
+  .btn-auth {
+    width: 100%; padding: 12px; background: var(--primary); color: #fff;
+    border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer;
+  }
+
+  /* EDITOR ARTIKEL */
   .editor-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
   }
-
   .input-title {
     width: 100%; padding: 12px; font-size: 18px; font-weight: bold;
     border: 1px solid var(--border); border-radius: 8px; outline: none;
   }
-
   .editor-tools {
     display: flex; flex-wrap: wrap; gap: 6px; padding: 8px;
     background: #f1f3f4; border-radius: 8px; align-items: center;
   }
-
   .tool-btn {
     padding: 6px 10px; font-size: 12px; border: 1px solid var(--border);
     border-radius: 6px; background: #fff; cursor: pointer;
   }
   .tool-btn.active { background: var(--primary); color: #fff; }
-
-  /* LAYAR KETIK DIBUAT LUAS */
   .editor-textarea {
-    width: 100%; min-height: 380px; padding: 14px; font-size: 15px; line-height: 1.6;
+    width: 100%; min-height: 400px; padding: 14px; font-size: 15px; line-height: 1.6;
     border: 1px solid var(--border); border-radius: 8px; outline: none; resize: vertical;
   }
 
-  /* PENGATURAN MULTI-HALAMAN (PAGE LINK) */
   .page-settings {
     border: 1px dashed var(--border); border-radius: 8px; padding: 12px; background: #fafafa;
   }
@@ -91,9 +103,9 @@
   .btn-cancel { background: #e8eaed; color: var(--text); }
   .btn-publish { background: var(--primary); color: #fff; }
 
-  /* DAFTAR ARTIKEL YANG SUDAH DIPUBLIKASIKAN */
+  /* DAFTAR PUBLIKASI SAYA */
   .my-articles-section { margin-top: 30px; }
-  .section-title { font-size: 18px; margin-bottom: 12px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+  .section-title { font-size: 18px; margin-bottom: 12px; font-weight: bold; display: flex; align-items: center; justify-content: space-between; }
   .article-list { display: flex; flex-direction: column; gap: 10px; }
   .article-item {
     background: var(--card); border: 1px solid var(--border); border-radius: 10px;
@@ -108,12 +120,12 @@
   }
   .btn-icon.danger { color: var(--danger); border-color: #fce8e6; }
 
-  /* TAMPILAN MODE BACA ARTIKEL (JIKA DIKLIK DARI SEARCH) */
-  .read-container { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 20px; }
-  .read-header { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 14px; }
-  .read-title { font-size: 26px; font-weight: bold; margin-bottom: 8px; }
-  .read-meta { font-size: 13px; color: var(--muted); }
-  .read-content { font-size: 16px; line-height: 1.7; overflow-wrap: anywhere; }
+  /* MODE BACA ARTIKEL (UNTUK PENGGUNA / PEMBACA) */
+  .read-container { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-top: 20px; }
+  .read-title { font-size: 28px; font-weight: bold; margin-bottom: 8px; color: var(--text); }
+  .read-meta { font-size: 13px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .author-badge { background: #e8f0fe; color: var(--primary); padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+  .read-content { font-size: 16px; line-height: 1.8; overflow-wrap: anywhere; color: #202124; }
 </style>
 </head>
 <body>
@@ -123,18 +135,27 @@
     <div class="logo-o"></div>
     <span class="brand-title">OoeR Space</span>
   </a>
-  <div class="header-btns">
-    <a href="search.html" class="btn-sm">🔍 OoeR Search</a>
-    <a href="index.html" class="btn-sm">🏠 Beranda</a>
+  <div class="header-btns" id="headerUserArea">
+    <!-- Konten diisi otomatis oleh skrip akun -->
   </div>
 </header>
 
 <main class="container">
 
-  <!-- AREA EDITOR (UNTUK MENULIS & EDIT) -->
-  <div id="editorArea">
+  <!-- 1. FORM LOGIN / PENDAFTARAN AKUN OOEAH -->
+  <div id="authArea" class="auth-card" style="display:none;">
+    <h2>Masuk OoeR Account</h2>
+    <p>Masukkan nama atau ID kreator kamu untuk mulai menulis, mengelola, dan mempublikasikan artikel.</p>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <input type="text" id="usernameInput" class="auth-input" placeholder="Nama Kreator (contoh: Ahmad / Budi)..." required autocomplete="off">
+      <button type="submit" class="btn-auth">Masuk / Daftar Sekarang 🚀</button>
+    </form>
+  </div>
+
+  <!-- 2. AREA EDITOR UTAMA (HANYA MUNCUL JIKA SUDAH LOGIN) -->
+  <div id="editorArea" style="display:none;">
     <div class="editor-card">
-      <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama..." value="Panduan Praktis Membangun Ekosistem Web di OoeR">
+      <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama...">
       
       <div class="editor-tools">
         <select id="articleCategory" class="tool-btn">
@@ -148,14 +169,13 @@
         <button class="tool-btn" type="button" id="btnCodeMode" onclick="toggleCodeMode()">💻 Mode Kode HTML</button>
       </div>
 
-      <!-- LAYAR KETIK DIBUAT LUAS -->
-      <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau kode HTML di sini..."><h2>Selamat Datang di OoeR Space!</h2><p>Platform ini dirancang agar setiap kreator bisa menerbitkan artikel, modul edukasi, hingga halaman web interaktif secara mandiri dan gratis.</p><h3>Fitur Unggulan:</h3><ul><li><b>Live Render HTML:</b> Tulis tag web dan langsung tampilkan hasilnya.</li><li><b>Multi-Halaman:</b> Hubungkan antar artikel menggunakan slug link.</li></ul></textarea>
+      <!-- LAYAR KETIK LUAS -->
+      <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau sisipkan kode HTML lengkap di sini..."></textarea>
 
-      <!-- PENGATURAN MULTI-HALAMAN (PAGE LINK) -->
       <div class="page-settings">
         <h4>📑 Pengaturan Halaman (Page Link)</h4>
         <div class="page-inputs">
-          <input type="text" id="pageSlug" class="input-sub" value="panduan-oer" placeholder="Slug URL (contoh: page-1)">
+          <input type="text" id="pageSlug" class="input-sub" placeholder="Slug URL (contoh: artikel-1)">
           <input type="text" id="nextPageUrl" class="input-sub" placeholder="Tautan Halaman Selanjutnya (Optional)">
         </div>
       </div>
@@ -166,23 +186,28 @@
       </div>
     </div>
 
-    <!-- DAFTAR KARYA / PUBLIKASI SAYA -->
     <section class="my-articles-section">
-      <h3 class="section-title">📚 Daftar Publikasi Saya</h3>
+      <div class="section-title">
+        <span>📚 Daftar Publikasi Saya</span>
+        <span id="creatorInfoTag" style="font-size:12px; color:var(--muted); font-weight:normal;"></span>
+      </div>
       <div id="myArticlesList" class="article-list"></div>
     </section>
   </div>
 
-  <!-- AREA BACA ARTIKEL (OTOMATIS TAMPIL JIKA DIKLIK DARI SEARCH) -->
+  <!-- 3. MODE BACA ARTIKEL (SIAPA PEMILIK & TAMPILAN BERSIH UNTUK PENGUNJUNG) -->
   <div id="readerArea" style="display:none;">
     <a href="search.html" style="display:inline-block; margin-bottom:15px; color:var(--primary); font-weight:bold; text-decoration:none;">⬅ Kembali ke OoeR Search</a>
     <div class="read-container">
-      <div class="read-header">
-        <h1 id="readTitle" class="read-title"></h1>
-        <div id="readMeta" class="read-meta"></div>
+      <h1 id="readTitle" class="read-title"></h1>
+      <div id="readMeta" class="read-meta">
+        <span>Kategori: <strong id="readCategory"></strong></span>
+        <span>• Ditulis oleh: <span id="readAuthor" class="author-badge"></span></span>
+        <span>• Tanggal: <strong id="readDate"></strong></span>
       </div>
+      <hr style="border:0; border-top:1px solid #eee; margin-bottom:24px;">
       <div id="readContent" class="read-content"></div>
-      <div id="readNextPage" style="margin-top:30px;"></div>
+      <div id="readNextPage" style="margin-top:35px;"></div>
     </div>
   </div>
 
@@ -202,19 +227,56 @@
 
   function toggleCodeMode() {
     isCodeMode = !isCodeMode;
-    const btn = document.getElementById("btnCodeMode");
-    btn.classList.toggle("active", isCodeMode);
+    document.getElementById("btnCodeMode").classList.toggle("active", isCodeMode);
   }
 
+  // --- SISTEM AKUN & OTENTIKASI KREATOR ---
+  function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById("usernameInput").value.trim();
+    if (!username) return;
+    localStorage.setItem("oer_logged_user", username);
+    checkAuthStatus();
+  }
+
+  function logout() {
+    if (confirm("Keluar dari akun OoeR?")) {
+      localStorage.removeItem("oer_logged_user");
+      checkAuthStatus();
+    }
+  }
+
+  function checkAuthStatus() {
+    const user = localStorage.getItem("oer_logged_user");
+    const headerArea = document.getElementById("headerUserArea");
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get("view")) return; // Jika sedang mode baca, biarkan fungsi reader menangani
+
+    if (!user) {
+      document.getElementById("authArea").style.display = "block";
+      document.getElementById("editorArea").style.display = "none";
+      headerArea.innerHTML = `<a href="search.html" class="btn-sm">🔍 Search</a><a href="index.html" class="btn-sm">🏠 Beranda</a>`;
+    } else {
+      document.getElementById("authArea").style.display = "none";
+      document.getElementById("editorArea").style.display = "block";
+      headerArea.innerHTML = `<span style="font-size:13px; font-weight:bold;">👤 ${user}</span><button onclick="logout()" class="btn-sm" style="color:var(--danger)">Keluar</button><a href="search.html" class="btn-sm">🔍 Search</a>`;
+      document.getElementById("creatorInfoTag").textContent = `Masuk sebagai: ${user}`;
+      renderMyArticles();
+    }
+  }
+
+  // --- PUBLIKASI ARTIKEL OLEH PEMILIK ---
   function publishArticle() {
     const title = document.getElementById("articleTitle").value.trim();
     const content = document.getElementById("articleContent").value.trim();
     const category = document.getElementById("articleCategory").value;
-    const slug = document.getElementById("pageSlug").value.trim() || "page-1";
+    const slug = document.getElementById("pageSlug").value.trim() || "halaman-1";
     const nextPage = document.getElementById("nextPageUrl").value.trim();
+    const author = localStorage.getItem("oer_logged_user") || "Kreator OoeR";
 
     if (!title || !content) {
-      alert("Harap isi Judul dan Isi Artikel terlebih dahulu!");
+      alert("Judul dan isi artikel wajib diisi!");
       return;
     }
 
@@ -226,6 +288,7 @@
       content: content,
       slug: slug,
       nextPage: nextPage,
+      author: author, // Menyimpan siapa pemilik/penulis asli artikel ini[span_3](start_span)[span_3](end_span)
       url: `website.html?view=${uniqueId}`,
       date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
@@ -236,7 +299,7 @@
 
     clearEditor();
     renderMyArticles();
-    alert("Artikel berhasil dipublikasikan dan otomatis terhubung ke OoeR Search!");
+    alert("Artikel berhasil dipublikasikan atas nama akun kamu dan terhubung ke OoeR Search!");
   }
 
   function clearEditor() {
@@ -246,17 +309,22 @@
     document.getElementById("nextPageUrl").value = "";
   }
 
+  // --- DAFTAR PUBLIKASI KHUSUS PEMILIK AKUN ---
   function renderMyArticles() {
     const listContainer = document.getElementById("myArticlesList");
+    const currentUser = localStorage.getItem("oer_logged_user");
     const articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+    
+    // Hanya menampilkan artikel yang dibuat oleh user yang sedang login saat ini
+    const myArticles = articles.filter(art => art.author === currentUser);
 
-    if (articles.length === 0) {
-      listContainer.innerHTML = `<div style="padding:20px; text-align:center; color:var(--muted); background:#fff; border:1px dashed var(--border); border-radius:10px;">Belum ada artikel yang dipublikasikan. Tulis artikel pertama kamu di atas!</div>`;
+    if (myArticles.length === 0) {
+      listContainer.innerHTML = `<div style="padding:20px; text-align:center; color:var(--muted); background:#fff; border:1px dashed var(--border); border-radius:10px;">Belum ada publikasi atas nama akunmu. Buat artikel pertamamu di atas!</div>`;
       return;
     }
 
     listContainer.innerHTML = "";
-    articles.forEach(item => {
+    myArticles.forEach(item => {
       const card = document.createElement("div");
       card.className = "article-item";
       card.innerHTML = `
@@ -274,7 +342,7 @@
   }
 
   function deleteArticle(id) {
-    if (confirm("Apakah kamu yakin ingin menghapus artikel ini?")) {
+    if (confirm("Apakah kamu yakin ingin menghapus artikel ini dari publikasi?")) {
       let articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
       articles = articles.filter(art => art.id !== id);
       localStorage.setItem("oer_user_websites", JSON.stringify(articles));
@@ -282,6 +350,7 @@
     }
   }
 
+  // --- PENANGANAN MODE BACA & SIAPA PEMILIKNYA (UNTUK PENGGUNA LAIN) ---
   window.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get("view");
@@ -291,22 +360,27 @@
       const target = articles.find(art => String(art.id) === String(viewId));
 
       if (target) {
+        // Tampilkan Tampilan Baca Bersih, Sembunyikan Editor & Form Login
+        document.getElementById("authArea").style.display = "none";
         document.getElementById("editorArea").style.display = "none";
         document.getElementById("readerArea").style.display = "block";
+        document.getElementById("headerUserArea").innerHTML = `<a href="search.html" class="btn-sm">🔍 OoeR Search</a><a href="website.html" class="btn-sm primary">✍️ Tulis Artikel</a>`;
 
         document.getElementById("readTitle").innerText = target.title;
-        document.getElementById("readMeta").innerHTML = `<b>${target.category || 'Artikel'}</b> • Dipublikasikan pada ${target.date || 'Baru saja'}`;
-        document.getElementById("readContent").innerHTML = target.content;
+        document.getElementById("readCategory").innerText = target.category || "Artikel Umum";
+        document.getElementById("readAuthor").innerText = target.author || "Kreator OoeR"; // Menampilkan siapa pemilik artikel
+        document.getElementById("readDate").innerText = target.date || "Baru saja";
+        document.getElementById("readContent").innerHTML = target.content; // Render kode / konten artikel
 
         if (target.nextPage) {
-          document.getElementById("readNextPage").innerHTML = `<a href="${target.nextPage}" style="display:inline-block; padding:10px 18px; background:var(--primary); color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
+          document.getElementById("readNextPage").innerHTML = `<a href="${target.nextPage}" style="display:inline-block; padding:12px 22px; background:var(--primary); color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
         }
       } else {
-        alert("Artikel tidak ditemukan atau telah dihapus.");
+        alert("Artikel tidak ditemukan atau sudah dihapus oleh pemiliknya.");
         window.location.href = "website.html";
       }
     } else {
-      renderMyArticles();
+      checkAuthStatus();
     }
   });
 </script>
