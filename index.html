@@ -708,19 +708,42 @@ body.dark .service-market {
     hideSuggestions();
 
     const normalizedQuery = query.toLowerCase();
-    const gameKeywords = [
-      "game", "games", "oer game", "oer games",
-      "mobile legends", "pubg mobile", "free fire",
-      "genshin impact", "minecraft", "roblox", "valorant",
-      "tekken", "god of war", "need for speed",
-      "gran turismo", "stardew valley", "among us"
-    ];
+   const gameKeywords = [
+  "game", "games", "oer game", "oer games",
+  "pubg mobile", "free fire",
+  "genshin impact", "minecraft", "roblox", "valorant",
+  "tekken", "god of war", "need for speed",
+  "gran turismo", "stardew valley", "among us"
+];
 
-    if (gameKeywords.includes(normalizedQuery)) {
-      window.location.href = new URL("./games.html", location.href).href;
-      return;
-    }
+// === Tambahan untuk Meta MLBB ===
+const mlbbMetaKeywords = [
+  "meta mlbb",
+  "mlbb meta",
+  "meta mobile legends",
+  "mobile legends meta",
+  "tier list mlbb",
+  "mlbb 2026",
+  "meta 2026",
+  "mlbb tier list",
+  "hero meta mlbb",
+  "mlbb_ooer",
+  "mlbb ooer"
+];
 
+// Cek dulu apakah pencarian tentang Meta MLBB
+if (mlbbMetaKeywords.some(keyword => normalizedQuery.includes(keyword)) || 
+    normalizedQuery === "mlbb" || 
+    normalizedQuery === "mobile legends") {
+  window.location.href = new URL("./Mlbb_ooer.html", location.href).href;
+  return;
+}
+
+// Baru cek game biasa
+if (gameKeywords.includes(normalizedQuery)) {
+  window.location.href = new URL("./games.html", location.href).href;
+  return;
+  }
     const searchUrl = new URL("./search.html", location.href);
     searchUrl.searchParams.set("q", query);
     window.location.href = searchUrl.href;
