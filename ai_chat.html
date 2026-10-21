@@ -38,11 +38,13 @@
         }
     </script>
     <style>
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #121212; }
         ::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #444444; }
 
+        /* Typing Dot Animation */
         @keyframes typing {
             0%, 100% { transform: translateY(0); opacity: 0.4; }
             50% { transform: translateY(-4px); opacity: 1; }
@@ -51,9 +53,11 @@
         .dot-2 { animation: typing 1.2s infinite 0.2s; }
         .dot-3 { animation: typing 1.2s infinite 0.4s; }
 
+        /* Hide Scrollbar for Quick Prompts */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* Markdown Custom Styling inside Chat Bubbles */
         .markdown-body p { margin-bottom: 0.5rem; }
         .markdown-body p:last-child { margin-bottom: 0; }
         .markdown-body ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
@@ -118,6 +122,7 @@
 
     <!-- Main Chat Area -->
     <main id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 max-w-3xl mx-auto w-full">
+        <!-- Welcome Card -->
         <div id="welcome-card" class="bg-ooer-card border border-ooer-border rounded-2xl p-5 text-center my-4 shadow-lg transition">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-ooer-blue via-ooer-red to-ooer-yellow flex items-center justify-center mx-auto mb-3 shadow-md">
                 <i class="fa-solid fa-robot text-white text-2xl"></i>
@@ -126,6 +131,7 @@
             <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Asisten kecerdasan buatan serbaguna Anda. Tanyakan apa saja, minta rangkuman artikel, solusi belajar, hingga ide kreatif secara instan.</p>
         </div>
 
+        <!-- Initial AI Message -->
         <div class="flex items-start space-x-3">
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
                 AI
@@ -144,6 +150,7 @@
     <!-- Bottom Input & Quick Prompts Section -->
     <footer class="bg-ooer-bg border-t border-ooer-border p-3 sm:p-4 max-w-3xl mx-auto w-full flex-shrink-0">
         
+        <!-- Quick Prompts Chips -->
         <div id="quick-prompts" class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
             <button onclick="useQuickPrompt('Rangkum artikel berita ini dengan poin-poin utama:')" class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-file-lines text-ooer-blue"></i> Rangkum artikel berita
@@ -159,6 +166,7 @@
             </button>
         </div>
 
+        <!-- Input Form -->
         <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-end bg-ooer-card border border-ooer-border rounded-2xl p-1.5 focus-within:border-ooer-blue transition">
             <textarea 
                 id="user-input" 
@@ -191,7 +199,7 @@
         <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini. Informasi dapat diperiksa kembali jika diperlukan.</p>
     </footer>
 
-    <!-- JavaScript Handler -->
+    <!-- JavaScript Script -->
     <script>
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
@@ -253,7 +261,7 @@
             } catch (error) {
                 console.error("Gemini API Error:", error);
                 removeElement(typingId);
-                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan periksa kembali API Key Anda di Google AI Studio.");
+                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan periksa jaringan Anda.");
             } finally {
                 isGenerating = false;
                 checkInputStatus();
@@ -329,28 +337,34 @@
             return id;
         }
 
-        // Gemini API Fetch Function (Menggunakan model stabil gemini-1.5-flash)
+        // ==========================================
+        // FUNGSI UTAMA CALL GEMINI API (UPDATED KEY)
+        // ==========================================
         async function fetchGeminiResponse(prompt) {
-            // Ganti teks di bawah ini dengan API Key asli Anda dari Google AI Studio (berawalan AIzaSy...)
-            const apiKey = "AQ.Ab8RN6K9xwwI4r06JZhKdXBG5YGmB2D3ad8F03vR2appFsyG3A";
+            // API Key Baru Anda dari Google AI Studio
+            const apiKey = "AQ.Ab8RN6JiRKuaSAFzVUOH6h0E2t36lbwX73rIT_q_qje8-itqvg"; 
             
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            // Endpoint Gemini 1.5 Flash (Gratis & Stabil)
+            const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
             const systemInstruction = "Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. Anda ramah, responsif, informatif, dan sangat membantu. Jawablah selalu dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.";
 
-            const payload = {
-                contents: [
-                    { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
-                ]
-            };
-
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-goog-api-key': apiKey
+                },
+                body: JSON.stringify({
+                    contents: [
+                        { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
+                    ]
+                })
             });
 
             if (!response.ok) {
+                const errData = await response.json();
+                console.error("API Response Error:", errData);
                 throw new Error(`API Request Failed with status ${response.status}`);
             }
 
