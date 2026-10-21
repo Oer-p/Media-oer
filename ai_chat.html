@@ -57,7 +57,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Markdown Custom Styling inside Chat Bubbles */
+        /* Markdown Styling inside Chat Bubbles */
         .markdown-body p { margin-bottom: 0.5rem; }
         .markdown-body p:last-child { margin-bottom: 0; }
         .markdown-body ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
@@ -110,7 +110,7 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-xs text-gray-300 font-medium">Aktif</span>
+                <span class="text-xs text-gray-300 font-medium">Gemini 3.8 Flash</span>
             </div>
 
             <button onclick="clearChatHistory()" class="text-gray-400 hover:text-ooer-red p-2 rounded-lg hover:bg-ooer-input transition text-sm flex items-center gap-1.5" title="Hapus Riwayat Chat">
@@ -128,7 +128,7 @@
                 <i class="fa-solid fa-robot text-white text-2xl"></i>
             </div>
             <h2 class="text-xl font-bold mb-1">Selamat Datang di <span class="text-ooer-blue">OoeR</span> <span class="text-ooer-green">AI Chat</span></h2>
-            <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Asisten kecerdasan buatan serbaguna Anda. Tanyakan apa saja, minta rangkuman artikel, solusi belajar, hingga ide kreatif secara instan.</p>
+            <p class="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">Didukung oleh model terbaru <b>Gemini 3.8 Flash</b>. Tanyakan apa saja dengan pemikiran yang cerdas dan respons instan.</p>
         </div>
 
         <!-- Initial AI Message -->
@@ -137,7 +137,7 @@
                 AI
             </div>
             <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
-                <p class="text-sm text-gray-200">Halo! Saya OoeR AI. Ada yang bisa saya bantu untuk Anda hari ini?</p>
+                <p class="text-sm text-gray-200">Halo! Saya OoeR AI (Gemini 3.8 Flash). Ada yang bisa saya bantu untuk Anda hari ini?</p>
                 <div class="mt-2 flex justify-end">
                     <button onclick="copyMessageText(this)" class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
                         <i class="fa-regular fa-copy"></i> Salin
@@ -196,7 +196,7 @@
                 </button>
             </div>
         </form>
-        <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini. Informasi dapat diperiksa kembali jika diperlukan.</p>
+        <p class="text-[10px] text-gray-500 text-center mt-2">OoeR AI didukung oleh Gemini 3.8 Flash. Informasi dapat diperiksa kembali jika diperlukan.</p>
     </footer>
 
     <!-- JavaScript Script -->
@@ -261,7 +261,7 @@
             } catch (error) {
                 console.error("Gemini API Error:", error);
                 removeElement(typingId);
-                appendAIBubble("Maaf, terjadi masalah koneksi saat merespon. Silakan periksa jaringan Anda.");
+                appendAIBubble(`Maaf, gagal memproses respons (${error.message}). Pastikan API Key format AIzaSy... dari Google AI Studio sudah terpasang dengan benar.`);
             } finally {
                 isGenerating = false;
                 checkInputStatus();
@@ -338,34 +338,40 @@
         }
 
         // ==========================================
-        // FUNGSI UTAMA CALL GEMINI API (UPDATED KEY)
+        // FUNGSI UTAMA GEMINI API (GEMINI 3.8 FLASH)
         // ==========================================
         async function fetchGeminiResponse(prompt) {
-            // API Key Baru Anda dari Google AI Studio
-            const apiKey = "AQ.Ab8RN6JiRKuaSAFzVUOH6h0E2t36lbwX73rIT_q_qje8-itqvg"; 
+            // ⚠️ TEMPELKAN KUNCI AIzaSy... ANDA DI BAWAH INI
+            const apiKey = "AIzaSy_GANTI_DENGAN_KUNCI_AIzaSy_ANDA"; 
             
-            // Endpoint Gemini 1.5 Flash (Gratis & Stabil)
-            const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+            // Menggunakan Endpoint Resmi Model Gemini 3.8 Flash
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
 
             const systemInstruction = "Anda adalah OoeR AI, asisten virtual resmi dari browser OoeR. Anda ramah, responsif, informatif, dan sangat membantu. Jawablah selalu dalam bahasa Indonesia yang ringkas, tepat sasaran, dan rapi.";
+
+            const payload = {
+                contents: [
+                    { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
+                ],
+                config: {
+                    thinking_config: {
+                        thinking_level: "MEDIUM"
+                    }
+                }
+            };
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json',
-                    'X-goog-api-key': apiKey
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    contents: [
-                        { parts: [{ text: systemInstruction + "\n\nPertanyaan Pengguna: " + prompt }] }
-                    ]
-                })
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
                 const errData = await response.json();
-                console.error("API Response Error:", errData);
-                throw new Error(`API Request Failed with status ${response.status}`);
+                console.error("API Error Detail:", errData);
+                throw new Error(`Google API Error (${response.status}): ${errData.error?.message || 'Gagal memproses'}`);
             }
 
             const data = await response.json();
