@@ -20,22 +20,23 @@ button:hover{opacity:0.9}
 .tab-btn{background:#2e3239;color:var(--text);flex:1}
 .tab-btn.active{background:var(--blue);color:#17191d}
 
-/* PERBAIKAN TAMPILAN PEMBACA ARTIKEL (READER VIEW) AGAR TIDAK BERANTAKAN DI HP */
+/* TAMPILAN PEMBACA ARTIKEL (READER VIEW) DENGAN BANNER GAMBAR & GAYA ELEGAN */
 .read-container {
   width: 100%;
   max-width: 800px;
   margin: 20px auto;
-  padding: 24px 20px;
+  padding: 30px 24px;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   box-sizing: border-box;
 }
 .read-container h1, .read-title {
-  font-size: 26px;
-  line-height: 1.4;
+  font-size: 30px;
+  line-height: 1.35;
   word-break: break-word;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   color: var(--text);
 }
 .read-meta {
@@ -44,33 +45,42 @@ button:hover{opacity:0.9}
   margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 12px;
+  padding-bottom: 14px;
 }
 .read-banner {
   width: 100%;
-  max-height: 320px;
+  max-height: 380px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
   display: none;
 }
 .read-content {
   font-size: 16px;
-  line-height: 1.8;
+  line-height: 1.9;
   color: #d2d5da;
   word-break: break-word;
 }
-.read-content h2 { font-size: 20px; color: var(--blue); margin-top: 24px; margin-bottom: 10px; }
-.read-content p { margin-bottom: 16px; }
-.read-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0; }
+.read-content h2 { font-size: 22px; color: var(--blue); margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.read-content p { margin-bottom: 18px; text-align: justify; }
+.read-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 14px 0; border: 1px solid var(--border); }
+.read-content blockquote { border-left: 4px solid var(--blue); padding: 12px 16px; margin: 20px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
+.read-content .code-box { background: #111317; color: #9cdcfe; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); }
+
 .read-nav {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
-  padding-top: 16px;
+  align-items: center;
+  margin-top: 35px;
+  padding-top: 20px;
   border-top: 1px solid var(--border);
+}
+@media(max-width:600px){
+  .read-container{padding:16px}
+  .read-container h1{font-size:24px}
 }
 </style>
 </head>
@@ -118,7 +128,7 @@ button:hover{opacity:0.9}
       </div>
     </div>
 
-    <label>URL Foto Sampul (Banner):</label>
+    <label>URL Foto Sampul (Banner Utama):</label>
     <input type="text" id="articleImage" placeholder="https://images.unsplash.com/...">
 
     <label>Isi Konten Artikel (Dibagi Menjadi 2 Halaman):</label>
@@ -144,12 +154,12 @@ button:hover{opacity:0.9}
     <div id="readerWrapper" class="read-container">
       <h1 id="readTitle" class="read-title"></h1>
       <div id="readMeta" class="read-meta"></div>
-      <img id="readBanner" class="read-banner" alt="Banner">
+      <img id="readBanner" class="read-banner" alt="Foto Sampul Artikel">
       <div id="readContent" class="read-content"></div>
       
       <div class="read-nav">
         <button type="button" id="prevPageBtn" onclick="changeReaderPage(-1)" style="display:none;">← Halaman Sebelumnya</button>
-        <span id="pageIndicator" style="align-self:center;font-size:13px;color:var(--muted);"></span>
+        <span id="pageIndicator" style="font-size:13px;color:var(--muted);"></span>
         <button type="button" id="nextPageBtn" onclick="changeReaderPage(1)" style="display:none;">Halaman Selanjutnya →</button>
       </div>
     </div>
@@ -244,8 +254,9 @@ function publishArticle(){
 
   localStorage.setItem("oer_user_websites", JSON.stringify(list));
   alert("Artikel berhasil dipublikasikan!");
-  resetEditor();
-  renderMyArticles();
+  
+  // LANGSUNG BUKA PRATINJAU ARTIKEL YANG BARU DIBUAT
+  location.href = `website.html?view=${uniqueId}`;
 }
 
 function resetEditor(){
@@ -269,11 +280,15 @@ function renderMyArticles(){
 
   let html = "";
   userArticles.forEach(art => {
-    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
-      <div><a href="website.html?view=${art.id}" style="color:var(--blue);text-decoration:none;font-weight:bold;">${art.title}</a><div style="font-size:12px;color:var(--muted);">${art.date} •${art.category}</div></div>
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
       <div>
-        <button onclick="editArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#fbbc05;color:#000;">Edit</button>
-        <button onclick="deleteArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#ea4335;color:#fff;margin-left:4px;">Hapus</button>
+        <a href="website.html?view=${art.id}" style="color:var(--blue);text-decoration:none;font-weight:bold;font-size:15px;">${art.title}</a>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">${art.date} • ${art.category}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <a href="website.html?view=${art.id}" style="padding:5px 10px;font-size:12px;background:var(--blue);color:#17191d;text-decoration:none;border-radius:6px;font-weight:bold;">Lihat</a>
+        <button onclick="editArticle('${art.id}')" style="padding:5px 10px;font-size:12px;background:#fbbc05;color:#000;">Edit</button>
+        <button onclick="deleteArticle('${art.id}')" style="padding:5px 10px;font-size:12px;background:#ea4335;color:#fff;">Hapus</button>
       </div>
     </div>`;
   });
@@ -308,7 +323,7 @@ function deleteArticle(id){
 
 function updateReaderView(){
   document.getElementById("readContent").innerHTML = currentReaderPages[currentReaderIndex] || "";
-  document.getElementById("pageIndicator").innerText = `Halaman ${currentReaderIndex + 1} dari${currentReaderPages.length}`;
+  document.getElementById("pageIndicator").innerText = `Halaman ${currentReaderIndex + 1} dari ${currentReaderPages.length}`;
   document.getElementById("prevPageBtn").style.display = currentReaderIndex > 0 ? "block" : "none";
   document.getElementById("nextPageBtn").style.display = currentReaderIndex < currentReaderPages.length - 1 ? "block" : "none";
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -333,4 +348,30 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("authArea").style.display = "none";
       document.getElementById("editorArea").style.display = "none";
       document.getElementById("readerArea").style.display = "block";
-      document.getElementById("headerUserArea").innerHTML = `<a href="search.html" style="color:var(--blue);text-decoration:none;font-weight:bold;">🔍 OoeR Search
+      document.getElementById("headerUserArea").innerHTML = `<a href="website.html" style="color:var(--muted);text-decoration:none;font-size:13px;margin-right:12px;">← Kembali ke Portal</a><a href="search.html" style="color:var(--blue);text-decoration:none;font-weight:bold;">🔍 OoeR Search</a>`;
+
+      document.getElementById("readTitle").innerText = target.title;
+      document.getElementById("readMeta").innerHTML = `<span>Kategori: <b>${target.category}</b></span> • <span>Penulis: <b>${target.author}</b></span> • <span>${target.date}</span>`;
+      
+      // MENGATUR GAMBAR BANNER UTAMA AGAR MUNCUL DAN TIDAK POLOS
+      if(target.image){
+        const img = document.getElementById("readBanner");
+        img.src = target.image;
+        img.style.display = "block";
+      }
+
+      currentReaderPages = target.pages && target.pages.length >= 2 ? target.pages : [target.pages?.[0] || target.content || "", ""];
+      currentReaderIndex = 0;
+      updateReaderView();
+    } else {
+      alert("Artikel tidak ditemukan.");
+      location.href = "website.html";
+    }
+  } else {
+    checkAuthStatus();
+    renderEditorPagesTabs();
+  }
+});
+</script>
+</body>
+</html>
