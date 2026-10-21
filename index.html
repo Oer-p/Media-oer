@@ -283,7 +283,7 @@ footer a:hover{text-decoration:underline}
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
   
-/* Pintasan layanan baru OoeR (Puisi & Cerita) */
+/* Pintasan layanan OoeR (Website & Puisi Cerita berdampingan) */
 .service-shortcut {
   display: flex;
   flex-direction: column;
@@ -326,11 +326,13 @@ footer a:hover{text-decoration:underline}
 }
 
 .service-website { background: #e0f2fe; color: #0369a1; }
+.service-puisi { background: #fce7f3; color: #be185d; }
 .service-ads { background: #fef3c7; color: #92400e; }
 .service-market { background: #dcfce7; color: #166534; }
 
 body.dark .service-shortcut .service-logo { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22); }
 body.dark .service-website { background: #0c4a6e; color: #bae6fd; }
+body.dark .service-puisi { background: #831843; color: #fbcfe8; }
 body.dark .service-ads { background: #78350f; color: #fde68a; }
 body.dark .service-market { background: #14532d; color: #bbf7d0; }
 </style>
@@ -422,9 +424,15 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
         <span class="shortcut-label">Sosial</span>
       </a>
       
-      <!-- Puisi & Cerita (Hubungkan ke puisi_cerita.html dengan ikon keren) -->
-      <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="Puisi & Cerita">
-        <span class="service-logo service-website" aria-hidden="true">📜</span>
+      <!-- 1. OoeR Website (Halaman Utama/Website Asli) -->
+      <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="OoeR Website">
+        <span class="service-logo service-website" aria-hidden="true">W</span>
+        <span class="service-name">OoeR Website</span>
+      </button>
+
+      <!-- 2. Puisi & Cerita (Halaman Sastra Khusus yang Baru) -->
+      <button class="service-shortcut" id="oerPuisiButton" type="button" aria-label="Puisi & Cerita">
+        <span class="service-logo service-puisi" aria-hidden="true">📜</span>
         <span class="service-name">Puisi&cerita</span>
       </button>
 
@@ -1248,9 +1256,10 @@ if ("serviceWorker" in navigator) {
   });
 }
   
-/* URL LAYANAN OOER (Puisi & Cerita) */
+/* URL LAYANAN OOER (Website Utama & Puisi Cerita Berdampingan) */
 const OER_SERVICE_URLS = {
-  website: "puisi_cerita.html",
+  website: "website.html",
+  puisi: "puisi_cerita.html",
   ads: "",
   market: ""
 };
@@ -1264,7 +1273,11 @@ function openOerService(url, serviceName) {
 }
 
 document.getElementById("oerWebsiteButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.website, "Puisi & Cerita");
+  openOerService(OER_SERVICE_URLS.website, "OoeR Website");
+});
+
+document.getElementById("oerPuisiButton")?.addEventListener("click", () => {
+  openOerService(OER_SERVICE_URLS.puisi, "Puisi & Cerita");
 });
 
 document.getElementById("oerAdsButton")?.addEventListener("click", () => {
