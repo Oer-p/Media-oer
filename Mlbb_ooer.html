@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meta MLBB 2026 | Season 42 Starward Decade</title>
+<title>Meta MLBB 2026 Lengkap | Season 42 Starward Decade</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-  
   :root {
     --bg: #0a0e17;
     --card: #121826;
@@ -16,83 +15,13 @@
     --text: #e0e6f0;
     --muted: #8b9bb4;
   }
-  
   * { margin:0; padding:0; box-sizing:border-box; }
-  
   body {
     font-family: 'Poppins', sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.7;
-    overflow-x: hidden;
+    line-height: 1.75;
   }
-  
-  /* ===== IKLAN OOER ===== */
-  .ooer-ad {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(94%, 420px);
-    background: linear-gradient(135deg, #1a2332, #0d1321);
-    border: 2px solid var(--accent);
-    border-radius: 16px;
-    padding: 14px 16px;
-    z-index: 9999;
-    box-shadow: 0 10px 40px rgba(0,240,255,0.25);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    animation: slideUp 0.5s ease;
-  }
-  
-  .ooer-ad.hidden {
-    display: none;
-  }
-  
-  @keyframes slideUp {
-    from { transform: translateX(-50%) translateY(100px); opacity: 0; }
-    to { transform: translateX(-50%) translateY(0); opacity: 1; }
-  }
-  
-  .ooer-ad-content {
-    flex: 1;
-    cursor: pointer;
-  }
-  
-  .ooer-ad-title {
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--accent);
-    margin-bottom: 2px;
-  }
-  
-  .ooer-ad-desc {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  
-  .ooer-ad-close {
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: var(--text);
-    border-radius: 50%;
-    font-size: 18px;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    transition: 0.2s;
-  }
-  
-  .ooer-ad-close:hover {
-    background: var(--accent2);
-    color: white;
-  }
-  
-  /* HEADER */
   header {
     background: linear-gradient(135deg, #0d1321, #1a2332);
     padding: 12px 16px;
@@ -100,39 +29,30 @@
     top: 0;
     z-index: 100;
     border-bottom: 2px solid var(--accent);
-    box-shadow: 0 4px 20px rgba(0,240,255,0.15);
   }
-  
   .header-inner {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
-  
   .logo {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--accent);
-    text-shadow: 0 0 12px rgba(0,240,255,0.5);
   }
-  
   nav {
     display: flex;
-    flex-wrap: nowrap;
     gap: 8px;
     overflow-x: auto;
     width: 100%;
     padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
-  
   nav::-webkit-scrollbar { display: none; }
-  
   nav a {
     color: var(--text);
     text-decoration: none;
@@ -140,110 +60,63 @@
     padding: 7px 14px;
     border-radius: 20px;
     background: rgba(0,240,255,0.08);
-    border: 1px solid transparent;
-    transition: all 0.25s;
     white-space: nowrap;
     flex-shrink: 0;
   }
-  
-  nav a:hover, nav a:active, nav a.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-  }
-  
-  /* BANNER */
+  nav a:hover { background: var(--accent); color: #000; }
   .banner {
-    background: linear-gradient(rgba(10,14,23,0.75), rgba(10,14,23,0.9)), 
-                url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600') center/cover;
+    background: linear-gradient(rgba(10,14,23,0.8), rgba(10,14,23,0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600') center/cover;
     padding: 3.5rem 1.2rem;
     text-align: center;
   }
-  
   .banner h1 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
     color: var(--accent);
     margin-bottom: 0.8rem;
-    text-shadow: 0 0 20px rgba(0,240,255,0.4);
   }
-  
-  .banner p {
-    max-width: 650px;
-    margin: 0 auto 1.2rem;
-    color: var(--muted);
-    font-size: 1rem;
-  }
-  
+  .banner p { color: var(--muted); max-width: 650px; margin: 0 auto 1rem; }
   .badge {
     display: inline-block;
     background: var(--accent2);
     color: white;
     padding: 0.35rem 1.1rem;
     border-radius: 30px;
-    font-weight: 600;
     font-size: 0.85rem;
+    font-weight: 600;
   }
-  
-  /* MAIN */
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem 4rem;
-  }
-  
+  main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
   section {
     background: var(--card);
     border-radius: 16px;
-    padding: 1.8rem 1.4rem;
+    padding: 1.8rem 1.5rem;
     margin-bottom: 2rem;
     border: 1px solid rgba(0,240,255,0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     scroll-margin-top: 130px;
   }
-  
   section h2 {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     color: var(--accent);
     margin-bottom: 1.2rem;
-    padding-bottom: 0.7rem;
+    padding-bottom: 0.6rem;
     border-bottom: 2px solid rgba(0,240,255,0.25);
   }
-  
-  section h3 {
-    color: var(--gold);
-    margin: 1.5rem 0 0.7rem;
-    font-size: 1.15rem;
-  }
-  
+  section h3 { color: var(--gold); margin: 1.6rem 0 0.7rem; font-size: 1.15rem; }
   p { margin-bottom: 1rem; }
-  
   .hero-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
     margin: 1.3rem 0;
   }
-  
   .hero-card {
     background: linear-gradient(145deg, #1a2332, #0f1623);
     border-radius: 12px;
     padding: 1.2rem;
     border: 1px solid rgba(0,240,255,0.12);
-    transition: transform 0.25s;
   }
-  
-  .hero-card:hover {
-    transform: translateY(-4px);
-  }
-  
-  .hero-card h4 {
-    color: var(--accent);
-    margin-bottom: 0.4rem;
-    font-size: 1.1rem;
-  }
-  
+  .hero-card h4 { color: var(--accent); margin-bottom: 0.4rem; }
   .tier {
     display: inline-block;
     font-size: 0.72rem;
@@ -252,14 +125,11 @@
     border-radius: 6px;
     margin-bottom: 0.5rem;
   }
-  
   .s-plus { background: #ff2a6d; color: white; }
   .s { background: #ffd700; color: #000; }
   .a { background: #00c853; color: white; }
-  
   ul { margin: 0.8rem 0 0.8rem 1.3rem; }
-  li { margin-bottom: 0.4rem; }
-  
+  li { margin-bottom: 0.45rem; }
   .highlight {
     background: rgba(0,240,255,0.07);
     border-left: 4px solid var(--accent);
@@ -267,20 +137,41 @@
     margin: 1.3rem 0;
     border-radius: 0 8px 8px 0;
   }
-  
   footer {
     text-align: center;
     padding: 2rem 1rem;
     background: #0d1321;
     color: var(--muted);
     font-size: 0.88rem;
-    border-top: 1px solid rgba(0,240,255,0.1);
   }
-  
-  @media (max-width: 600px) {
-    .logo { font-size: 1.25rem; }
-    section { padding: 1.4rem 1.1rem; }
-    .banner { padding: 2.8rem 1rem; }
+  .ooer-ad {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(94%, 420px);
+    background: linear-gradient(135deg, #1a2332, #0d1321);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    padding: 13px 15px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 30px rgba(0,240,255,0.2);
+  }
+  .ooer-ad.hidden { display: none; }
+  .ooer-ad-content { flex: 1; cursor: pointer; }
+  .ooer-ad-title { font-weight: 700; font-size: 14px; color: var(--accent); }
+  .ooer-ad-desc { font-size: 12px; color: var(--muted); }
+  .ooer-ad-close {
+    width: 30px; height: 30px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: var(--text);
+    border-radius: 50%;
+    font-size: 17px;
+    cursor: pointer;
   }
 </style>
 </head>
@@ -290,9 +181,9 @@
 <div class="ooer-ad" id="ooerAd">
   <div class="ooer-ad-content" onclick="window.location.href='https://oer-p.github.io/Media-oer/'">
     <div class="ooer-ad-title">🔍 OoeR — Cari Apa Saja Lebih Cepat</div>
-    <div class="ooer-ad-desc">Mesin pencari + AI Chat + Berita Bola. Klik untuk mencoba sekarang!</div>
+    <div class="ooer-ad-desc">Mesin pencari + AI Chat + Berita Bola. Klik untuk mencoba!</div>
   </div>
-  <button class="ooer-ad-close" id="closeAd" aria-label="Tutup iklan">×</button>
+  <button class="ooer-ad-close" id="closeAd">×</button>
 </div>
 
 <header>
@@ -323,153 +214,181 @@
 
 <section id="intro">
   <h2>1. Pengenalan Meta MLBB 2026</h2>
-  <p>Season 42 Mobile Legends: Bang Bang yang bertajuk <strong>Starward Decade</strong> resmi dimulai pada 16 September 2026. Ini adalah musim perayaan 10 tahun MLBB. Meta saat ini sangat didominasi oleh hero yang punya sustain tinggi dan kemampuan solo carry.</p>
-  
-  <p>Hero dengan win rate tertinggi saat ini adalah <strong>Masha</strong> (±60.8%), diikuti Argus, Rafaela, Gloo, dan Obsidia. Hero paling sering dibanned adalah <strong>Hirara</strong> (ban rate 67%+).</p>
-  
+  <p>Season 42 Mobile Legends: Bang Bang yang diberi nama <strong>Starward Decade</strong> resmi dimulai pada 16 September 2026. Season ini menjadi perayaan 10 tahun perjalanan MLBB, dan Moonton mengeluarkan banyak penyesuaian besar, termasuk revamp beberapa hero penting. Salah satu yang paling terasa dampaknya adalah Masha yang mendapatkan perubahan kit signifikan, sehingga mengubah total cara bermain di EXP Lane.</p>
+  <p>Berdasarkan data ranked per Oktober 2026 (Patch 2.2.16a), meta saat ini sangat menguntungkan hero yang memiliki sustain tinggi, kemampuan untuk bertahan lama di lane, serta impact yang besar meskipun bermain solo. Hero dengan win rate tertinggi saat ini dipegang oleh <strong>Masha</strong> dengan angka sekitar 60.8%, diikuti oleh beberapa nama seperti Argus, Rafaela, Gloo, Obsidia, dan Aulus.</p>
+  <p>Sementara itu, hero yang paling ditakuti dan sering dibanned adalah <strong>Hirara</strong> dengan ban rate mencapai lebih dari 67%. Ini menunjukkan bahwa player di rank Mythic ke atas sangat menghormati potensi hero tersebut.</p>
   <div class="highlight">
-    <strong>Ciri meta 2026:</strong> EXP lane sangat decisive karena Masha. Jungle agresif (Aulus & Hirara). Mid mengandalkan Valir. Gold lane dikuasai Obsidia. Roam fleksibel antara tank dan support heal.
+    <strong>Ringkasan ciri meta Season 42:</strong><br>
+    • EXP Lane menjadi sangat decisive karena keberadaan Masha<br>
+    • Jungle cenderung agresif dengan Aulus dan Hirara<br>
+    • Mid Lane mengandalkan mage yang punya clear wave cepat seperti Valir<br>
+    • Gold Lane masih dikuasai marksman aman dan berdamage tinggi seperti Obsidia<br>
+    • Roam lebih fleksibel antara tank hard engage dan support heal/speed
   </div>
+  <p>Patch 2.2.16a yang rilis pada 14 Oktober 2026 membawa beberapa penyesuaian, termasuk nerf terhadap Aulus, Hirara, Eudora, dan Rafaela, serta buff untuk Kalea. Meski ada perubahan tersebut, arah meta secara keseluruhan belum bergeser terlalu jauh. Player yang ingin naik rank di season ini disarankan fokus pada hero yang self-sufficient dan bisa memberikan impact besar meski tim kurang solid.</p>
 </section>
 
 <section id="exp">
-  <h2>2. Hero Terbaik EXP Lane</h2>
+  <h2>2. Hero Terbaik EXP Lane 2026</h2>
+  <p>EXP Lane di Season 42 menjadi salah satu lane paling menentukan. Dengan kehadiran Masha yang sangat sulit dihabisi, pertarungan di lane ini seringkali berlangsung lama dan penuh perhitungan. Hero EXP yang bagus harus memiliki sustain yang kuat, kemampuan 1v1 yang baik, serta opsi untuk split push atau ikut teamfight dengan cepat.</p>
   <div class="hero-grid">
     <div class="hero-card">
       <span class="tier s-plus">S+</span>
       <h4>Masha</h4>
-      <p>Win rate \~60.8%. Tiga bar HP + Wound mechanic. Paling kuat di solo rank.</p>
+      <p>Win rate tertinggi di meta saat ini (±60.8%). Memiliki tiga bar HP, mekanik Wound, dan kemampuan reset skill. Sangat sulit dibunuh dan sangat cocok untuk solo rank karena mandiri.</p>
     </div>
     <div class="hero-card">
       <span class="tier s-plus">S+</span>
       <h4>Argus</h4>
-      <p>Win rate 56%+. Ultimate immortality. Ban rate rendah, sering free pick.</p>
+      <p>Win rate sekitar 56%. Ultimate memberikan immortality yang sangat kuat di late game. Ban rate rendah sehingga sering menjadi free pick yang menguntungkan.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Aulus</h4>
-      <p>Masih sangat kuat meski sudah dinerf. Sustain dan early pressure bagus.</p>
+      <p>Meski sudah menerima nerf, Aulus masih sangat kuat di fase early hingga mid game. Sustain dan tekanan yang diberikan masih terasa berat bagi lawan.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Gloo / Lukas / Sun</h4>
-      <p>Gloo engage kuat, Lukas fleksibel, Sun clone pressure tinggi.</p>
+      <p>Gloo unggul di engage, Lukas fleksibel antara EXP dan Jungle, sedangkan Sun memberikan tekanan tinggi melalui clone-nya.</p>
     </div>
   </div>
+  <h3>Cara Bermain EXP di Meta Ini</h3>
+  <p>Prioritas utama adalah memenangkan lane atau setidaknya tidak kalah far terlalu parah. Hindari trade yang terlalu agresif melawan Masha atau Argus di early game. Fokus pada farming hingga level 4, kemudian mulai cari peluang untuk menekan. Item core yang sering dipakai antara lain Warrior Boots, Blade of the Heptaseas atau Bloodlust Axe, Hunter Strike, Queen’s Wings, dan Immortality.</p>
+  <p>Untuk solo rank, lebih disarankan memilih hero yang bisa menciptakan tekanan sendiri (split push) seperti Masha, Argus, atau Sun, daripada hero yang sangat bergantung pada setup teamfight.</p>
 </section>
 
 <section id="jungle">
-  <h2>3. Hero Terbaik Jungle</h2>
+  <h2>3. Hero Terbaik Jungle 2026</h2>
+  <p>Jungle di Season 42 cenderung dimainkan secara agresif. Hero dengan clear speed cepat dan potensi gank tinggi lebih diunggulkan. Hirara menjadi ancaman terbesar dengan ban rate sangat tinggi, sementara Aulus tetap menjadi pilihan solid meskipun sudah dinerf.</p>
   <div class="hero-grid">
     <div class="hero-card">
       <span class="tier s-plus">S+</span>
       <h4>Hirara</h4>
-      <p>Ban rate 67%+. Burst tinggi + invincibility. Hampir selalu diban di Mythic+.</p>
+      <p>Ban rate mencapai 67%+. Memiliki burst damage tinggi dan invincibility yang membuatnya sangat berbahaya di fase early hingga mid game.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Aulus</h4>
-      <p>Clear cepat, sustain bagus, scale ke late game.</p>
+      <p>Masih sangat layak dimainkan. Clear jungle cepat, sustain bagus, dan scaling ke late game masih solid.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Sun / Lukas</h4>
-      <p>Sun efektif ambil objective. Lukas bisa jungle & EXP.</p>
+      <p>Sun sangat efektif untuk mengontrol objective. Lukas bisa diisi ke Jungle maupun EXP Lane sesuai kebutuhan draft.</p>
     </div>
   </div>
+  <p>Pathing yang umum digunakan adalah memulai dari buff (merah atau biru tergantung matchup), kemudian langsung menuju Turtle di menit ke-2. Gank early sangat penting karena banyak hero EXP yang masih lemah di level 1-3.</p>
 </section>
 
 <section id="mid">
-  <h2>4. Hero Terbaik Mid Lane</h2>
+  <h2>4. Hero Terbaik Mid Lane 2026</h2>
+  <p>Mid Lane di meta ini mengutamakan kemampuan clear wave yang cepat dan rotasi yang baik. Valir menjadi pilihan terbaik karena win rate tinggi sekaligus jarang dibanned. Eudora masih sangat kuat namun sering menjadi target ban.</p>
   <div class="hero-grid">
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Valir</h4>
-      <p>Win rate 54.5%+. Poke + slow + burst. Jarang dibanned.</p>
+      <p>Win rate sekitar 54.5%. Memiliki kombinasi poke, slow, dan burst yang sangat efektif untuk mengontrol teamfight.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Eudora</h4>
-      <p>Burst sangat tinggi, tapi ban rate juga tinggi.</p>
+      <p>Burst damage sangat tinggi, terutama di early-mid game. Namun ban rate-nya juga tinggi.</p>
     </div>
     <div class="hero-card">
       <span class="tier a">A</span>
       <h4>Gord / Zhask</h4>
-      <p>Gord sustained damage, Zhask zone control.</p>
+      <p>Gord unggul di sustained damage, sementara Zhask kuat dalam zone control.</p>
     </div>
   </div>
+  <p>Strategi umum di Mid adalah menyelesaikan wave secepat mungkin, kemudian melakukan rotasi ke side lane atau membantu Jungle mengambil Turtle. Hindari posisi yang terlalu maju karena banyak assassin yang masih kuat di meta ini.</p>
 </section>
 
 <section id="gold">
-  <h2>5. Hero Terbaik Gold Lane</h2>
+  <h2>5. Hero Terbaik Gold Lane 2026</h2>
+  <p>Gold Lane masih didominasi oleh marksman yang relatif aman sekaligus memiliki damage tinggi. <strong>Obsidia</strong> menjadi pilihan utama di hampir semua rank, terutama Mythical Glory ke atas.</p>
   <div class="hero-grid">
     <div class="hero-card">
       <span class="tier s-plus">S+</span>
       <h4>Obsidia</h4>
-      <p>Most picked di Mythical Glory+. Damage tinggi + cukup aman.</p>
+      <p>Paling sering dipick di rank tinggi. Damage tinggi dengan mobilitas yang cukup baik sehingga tidak terlalu rawan.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Bruno / Popol & Kupa</h4>
-      <p>Bruno classic carry. Popol aman dan bagus objective.</p>
+      <p>Bruno tetap menjadi classic carry yang solid. Popol & Kupa lebih aman dan bagus dalam mengontrol objective.</p>
     </div>
   </div>
+  <p>Fokus utama di Gold Lane adalah farming hingga item kedua selesai, kemudian baru aktif ikut teamfight dari jarak yang aman. Core item yang umum digunakan antara lain Swift Boots, Corrosion Scythe, Berserker’s Fury, Windtalker, dan Malefic Roar.</p>
 </section>
 
 <section id="roam">
-  <h2>6. Hero Terbaik Roam</h2>
+  <h2>6. Hero Terbaik Roam 2026</h2>
+  <p>Roam di Season 42 cukup fleksibel. Support dengan kemampuan heal dan speed seperti Rafaela dan Floryn sangat kuat, begitu juga tank dengan engage yang baik seperti Gloo, Minotaur, dan Carmilla.</p>
   <div class="hero-grid">
     <div class="hero-card">
       <span class="tier s-plus">S+</span>
       <h4>Rafaela / Carmilla / Gloo</h4>
-      <p>Rafaela speed+heal, Carmilla link, Gloo engage terbaik.</p>
+      <p>Rafaela memberikan speed dan heal, Carmilla kuat dengan link damage, sedangkan Gloo unggul di engage.</p>
     </div>
     <div class="hero-card">
       <span class="tier s">S</span>
       <h4>Minotaur / Floryn / Khufra</h4>
-      <p>Minotaur teamfight god, Floryn global heal, Khufra anti-dash.</p>
+      <p>Minotaur sangat kuat di teamfight, Floryn memiliki heal global, dan Khufra efektif sebagai anti-dash.</p>
     </div>
   </div>
+  <p>Seorang Roam yang baik harus selalu hadir di setiap fight penting, memberikan vision, serta melindungi carry. Emblem Support dengan talent Focusing Mark atau Favor Aegis masih menjadi pilihan utama.</p>
 </section>
 
 <section id="solo">
-  <h2>7. Strategi Solo Rank</h2>
-  <p>Pilih hero yang self-sufficient:</p>
+  <h2>7. Strategi Solo Rank Meta 2026</h2>
+  <p>Bermain solo rank di Season 42 membutuhkan pemilihan hero yang tepat. Prioritaskan hero yang memiliki ciri-ciri berikut:</p>
   <ul>
-    <li>Sustain tinggi (Masha, Argus, Aulus)</li>
-    <li>Punya escape / mobility</li>
-    <li>Bisa create pressure sendiri (split push)</li>
-    <li>Tidak terlalu bergantung pada team</li>
+    <li>Sustain tinggi (contoh: Masha, Argus, Aulus)</li>
+    <li>Memiliki escape atau mobilitas yang baik</li>
+    <li>Bisa menciptakan tekanan sendiri melalui split push</li>
+    <li>Tidak terlalu bergantung pada combo atau setup tim</li>
   </ul>
-  <p>Fokus macro: ambil Turtle, jaga Lord, jangan overextend. Mental penting — jangan tilt.</p>
+  <p>Hindari hero yang sangat membutuhkan koordinasi sempurna, terutama jika kamu sering mendapatkan tim yang kurang solid. Fokuslah pada macro game: ambil Turtle, kontrol Lord, dan jangan mudah overextend. Komunikasi minimal namun efektif (ping objective dan missing) sudah cukup membantu.</p>
+  <p>Selain pemilihan hero, mental juga sangat penting. Hindari tilt setelah kalah beruntun. Lebih baik menguasai 3-5 hero per role secara mendalam daripada memiliki banyak hero namun semuanya biasa saja.</p>
 </section>
 
 <section id="tier">
-  <h2>8. Tier List Ringkas</h2>
-  <p><strong>S+ :</strong> Masha, Hirara, Obsidia, Aulus, Rafaela, Gloo, Argus</p>
-  <p><strong>S :</strong> Valir, Carmilla, Minotaur, Sun, Lukas, Floryn, Marcel, Paquito</p>
-  <p><strong>A :</strong> Bruno, Gord, Zhask, Popol & Kupa, Khufra, Benedetta, Guinevere</p>
+  <h2>8. Tier List Ringkas Oktober 2026</h2>
+  <p><strong>S+ (Must Ban / Priority Pick):</strong> Masha, Hirara, Obsidia, Aulus, Rafaela, Gloo, Argus</p>
+  <p><strong>S (Sangat Kuat):</strong> Valir, Carmilla, Minotaur, Sun, Lukas, Floryn, Marcel, Paquito</p>
+  <p><strong>A (Layak Dimainkan):</strong> Bruno, Gord, Zhask, Popol & Kupa, Khufra, Benedetta, Guinevere, Ling</p>
+  <p>Tier list di atas disusun berdasarkan kombinasi win rate, ban rate, dan performa di ranked (all rank & Mythic) per Oktober 2026.</p>
 </section>
 
 <section id="build">
-  <h2>9. Build Item & Emblem</h2>
-  <p><strong>EXP:</strong> Warrior Boots → Blade of the Heptaseas → Hunter Strike → Queen’s Wings → Immortality</p>
+  <h2>9. Build Item & Emblem Meta</h2>
+  <p><strong>EXP Fighter:</strong> Warrior Boots → Blade of the Heptaseas → Hunter Strike → Queen’s Wings → Immortality / Athena’s Shield</p>
   <p><strong>Jungle:</strong> Swift Boots → Hunter Strike → Blade of Despair → Malefic Roar → Immortality</p>
   <p><strong>Mage:</strong> Arcane Boots → Lightning Truncheon → Holy Crystal → Divine Glaive → Blood Wings</p>
   <p><strong>Marksman:</strong> Swift Boots → Corrosion Scythe → Berserker’s Fury → Windtalker → Malefic Roar</p>
-  <p><strong>Emblem:</strong> Fighter (Festival of Blood), Assassin (High and Dry), Mage (Lethal Ignition), Marksman (Weakness Finder), Support (Focusing Mark)</p>
+  <p><strong>Emblem yang direkomendasikan:</strong></p>
+  <ul>
+    <li>Fighter → Festival of Blood</li>
+    <li>Assassin → High and Dry</li>
+    <li>Mage → Lethal Ignition</li>
+    <li>Marksman → Weakness Finder</li>
+    <li>Support → Focusing Mark</li>
+  </ul>
 </section>
 
 <section id="tips">
-  <h2>10. Tips Naik Rank</h2>
-  <p>1. Main hero yang kamu kuasai, bukan hanya yang meta.</p>
-  <p>2. Selalu perhatikan ban/pick lawan.</p>
-  <p>3. Prioritaskan objective, bukan kill.</p>
-  <p>4. Jaga map awareness (lihat minimap tiap 3 detik).</p>
-  <p>5. Review replay setelah kalah.</p>
-  
+  <h2>10. Tips Naik Rank & Kesimpulan</h2>
+  <p>Berikut beberapa tips praktis yang bisa langsung diterapkan:</p>
+  <ol>
+    <li>Mainkan hero yang memang sudah dikuasai, bukan hanya karena sedang meta.</li>
+    <li>Perhatikan ban dan pick lawan sebelum mengunci hero.</li>
+    <li>Prioritaskan objective (Turtle & Lord) dibandingkan sekadar mengejar kill.</li>
+    <li>Biasakan melihat minimap setiap beberapa detik.</li>
+    <li>Lakukan review replay setelah kalah untuk menemukan kesalahan.</li>
+  </ol>
   <div class="highlight">
-    <strong>Kesimpulan:</strong> Meta 2026 menguntungkan hero sustain & pressure. Masha dan Obsidia sedang sangat kuat. Kuasai 3–5 hero per role + pemahaman macro yang baik = mudah naik rank.
+    <strong>Kesimpulan:</strong> Meta Season 42 sangat menguntungkan hero yang memiliki sustain dan kemampuan menciptakan tekanan. Masha dan Obsidia saat ini berada di posisi sangat kuat. Dengan pemilihan hero yang tepat, pemahaman macro yang baik, serta mental yang stabil, naik ke Mythical Glory maupun Immortal sangat mungkin dicapai.
   </div>
 </section>
 
@@ -477,19 +396,15 @@
 
 <footer>
   <p>Meta MLBB 2026 • Season 42 Starward Decade</p>
-  <p style="margin-top:6px;">Update: 21 Oktober 2026</p>
+  <p style="margin-top:6px;">Update: 21 Oktober 2026 • Powered by OoeR</p>
 </footer>
 
 <script>
-  // Tutup iklan OoeR
   const ad = document.getElementById('ooerAd');
   const closeBtn = document.getElementById('closeAd');
-
-  // Cek apakah sudah pernah ditutup
   if (localStorage.getItem('ooerAdClosed') === 'true') {
     ad.classList.add('hidden');
   }
-
   closeBtn.addEventListener('click', () => {
     ad.classList.add('hidden');
     localStorage.setItem('ooerAdClosed', 'true');
