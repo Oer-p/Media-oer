@@ -16,7 +16,7 @@
     --success: #188038;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
   body { background: var(--bg); color: var(--text); padding-bottom: 60px; }
 
   header {
@@ -48,7 +48,7 @@
   }
   .btn-sm.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-  .container { max-width: 900px; margin: 16px auto; padding: 0 12px; }
+  .container { max-width: 850px; margin: 16px auto; padding: 0 12px; }
 
   /* AUTH */
   .auth-card {
@@ -84,19 +84,27 @@
   .tool-btn.active { background: var(--primary); color: #fff; }
 
   .editor-textarea {
-    width: 100%; min-height: 380px; padding: 14px; font-size: 15px; line-height: 1.6;
+    width: 100%; min-height: 320px; padding: 14px; font-size: 15px; line-height: 1.6;
     border: 1px solid var(--border); border-radius: 8px; outline: none; resize: vertical;
     font-family: monospace;
   }
 
-  .extra-settings {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  /* TABS HALAMAN MULTI-PAGE DI EDITOR */
+  .pages-tab-bar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+  .page-tab-btn {
+    padding: 6px 14px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border);
+    background: #f1f3f4; cursor: pointer; font-weight: bold; color: var(--muted);
   }
-  @media(max-width: 600px) { .extra-settings { grid-template-columns: 1fr; } }
-  
+  .page-tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .btn-add-page {
+    padding: 6px 12px; font-size: 13px; border-radius: 6px; border: 1px dashed var(--primary);
+    background: #e8f0fe; color: var(--primary); cursor: pointer; font-weight: bold;
+  }
+
+  .extra-settings { display: grid; grid-template-columns: 1fr; gap: 10px; }
   .setting-box { border: 1px dashed var(--border); border-radius: 8px; padding: 10px; background: #fafafa; }
   .setting-box h4 { font-size: 12px; margin-bottom: 6px; color: var(--muted); }
-  .setting-box input, .setting-box select { width: 100%; padding: 8px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px; }
+  .setting-box input { width: 100%; padding: 8px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px; }
 
   .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
   .btn-action { padding: 10px 20px; font-size: 14px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold; }
@@ -131,16 +139,48 @@
   }
   @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-  /* TEMA BACA ARTIKEL (FULL BERSIH) */
-  .read-container { border-radius: 12px; padding: 30px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-  .theme-clean { background: #ffffff; color: #202124; border: 1px solid var(--border); }
-  .theme-dark { background: #181a1f; color: #abb2bf; border: 1px solid #373b44; }
-  .theme-warm { background: #fdfaf6; color: #5c4033; border: 1px solid #e3dcd2; }
+  /* ========================================================
+     3 TEMA PREMIUM PEMBACA ARTIKEL (GAYA BLOGGER / MEDIUM)
+     ======================================================== */
+  .read-container { border-radius: 16px; padding: 36px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
 
-  .read-title { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+  /* 1. TEMA: Clean White (Modern Minimalist) */
+  .theme-clean { background: #ffffff; color: #292929; border: 1px solid #e6e6e6; }
+  .theme-clean h1.read-title { font-size: 32px; font-weight: 800; color: #111; letter-spacing: -0.5px; }
+  .theme-clean h2 { font-size: 22px; font-weight: 700; color: #1a73e8; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #f1f3f4; padding-bottom: 6px; }
+  .theme-clean h3 { font-size: 18px; font-weight: 600; color: #333; margin-top: 20px; margin-bottom: 8px; }
+  .theme-clean p { font-size: 16px; line-height: 1.8; margin-bottom: 16px; color: #333; }
+  .theme-clean blockquote { border-left: 4px solid #1a73e8; padding-left: 16px; margin: 20px 0; font-style: italic; color: #555; background: #f8f9fa; padding: 12px 16px; border-radius: 0 8px 8px 0; }
+  .theme-clean pre, .theme-clean .code-block { background: #1e1e1e; color: #9cdcfe; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+
+  /* 2. TEMA: Dark Elegant (Cyber Developer Dark Mode) */
+  .theme-dark { background: #13151a; color: #c9d1d9; border: 1px solid #30363d; }
+  .theme-dark h1.read-title { font-size: 32px; font-weight: 800; color: #f0f6fc; letter-spacing: -0.5px; }
+  .theme-dark h2 { font-size: 22px; font-weight: 700; color: #58a6ff; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #21262d; padding-bottom: 6px; }
+  .theme-dark h3 { font-size: 18px; font-weight: 600; color: #c9d1d9; margin-top: 20px; margin-bottom: 8px; }
+  .theme-dark p { font-size: 16px; line-height: 1.8; margin-bottom: 16px; color: #b1bac4; }
+  .theme-dark blockquote { border-left: 4px solid #58a6ff; padding: 12px 16px; margin: 20px 0; font-style: italic; color: #8b949e; background: #161b22; border-radius: 0 8px 8px 0; }
+  .theme-dark pre, .theme-dark .code-block { background: #0d1117; color: #7ee787; border: 1px solid #30363d; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+
+  /* 3. TEMA: Warm Paper (Classic Author / Novel Style) */
+  .theme-warm { background: #fcf8f2; color: #4a3b32; border: 1px solid #e8decf; }
+  .theme-warm h1.read-title { font-size: 32px; font-weight: 800; color: #2c221e; font-family: Georgia, serif; letter-spacing: -0.5px; }
+  .theme-warm h2 { font-size: 22px; font-weight: 700; color: #8c5830; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #eadfd4; padding-bottom: 6px; font-family: Georgia, serif; }
+  .theme-warm h3 { font-size: 18px; font-weight: 600; color: #5c4033; margin-top: 20px; margin-bottom: 8px; font-family: Georgia, serif; }
+  .theme-warm p { font-size: 17px; line-height: 1.9; margin-bottom: 16px; color: #4a3b32; font-family: Georgia, serif; }
+  .theme-warm blockquote { border-left: 4px solid #b38257; padding: 12px 16px; margin: 20px 0; font-style: italic; color: #6b5344; background: #f4ede3; border-radius: 0 8px 8px 0; font-family: Georgia, serif; }
+  .theme-warm pre, .theme-warm .code-block { background: #f0e6d8; color: #332211; border: 1px solid #e0d0bc; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+
+  /* KOMPONEN UMUM PEMBACA */
   .read-meta { font-size: 13px; opacity: 0.8; margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .read-banner { width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
-  .read-content { font-size: 16px; line-height: 1.8; overflow-wrap: anywhere; }
+  .read-banner { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .read-content { font-size: 16px; overflow-wrap: anywhere; min-height: 240px; }
+  
+  .pagination-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1); }
+  .page-nav-btn { padding: 10px 20px; background: var(--primary); color: #fff; border: 0; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+  .page-nav-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .page-nav-btn:disabled { background: #ccc; cursor: not-allowed; opacity: 0.5; transform: none; }
+  .page-indicator { font-weight: bold; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -182,20 +222,23 @@
         </select>
         <button class="tool-btn" type="button" onclick="insertFormat('<b>', '</b>')"><b>B</b></button>
         <button class="tool-btn" type="button" onclick="insertFormat('<i>', '</i>')"><i>I</i></button>
+        <button class="tool-btn" type="button" onclick="insertFormat('<blockquote>', '</blockquote>')">💬 Kutipan</button>
         <button class="tool-btn" type="button" onclick="insertFormat('<div class=&quot;code-block&quot;>', '</div>')">💻 Blok Kode</button>
       </div>
 
-      <textarea id="articleContent" class="editor-textarea" placeholder="Tulis artikel atau sisipkan kode HTML / CSS / JS lengkap di sini..."></textarea>
+      <!-- TAB NAVIGASI HALAMAN / BAB DI EDITOR -->
+      <div>
+        <label style="font-size: 12px; font-weight: bold; color: var(--muted); display: block; margin-bottom: 6px;">📑 Halaman / Bab Artikel (Multi-Page):</label>
+        <div id="editorPagesTabs" class="pages-tab-bar"></div>
+      </div>
+
+      <textarea id="articleContent" class="editor-textarea" placeholder="Tulis isi halaman/bab ini di sini..." oninput="saveCurrentPageContent()"></textarea>
 
       <div class="extra-settings">
         <div class="setting-box">
           <h4>🖼️ Foto Sampul (Upload/URL PNG/JPG)</h4>
           <input type="file" id="imageUploadInput" accept="image/*" onchange="handleImageUpload(event)" style="margin-bottom:6px;">
           <input type="text" id="articleImage" placeholder="Atau ketik URL Gambar...">
-        </div>
-        <div class="setting-box">
-          <h4>📑 Pengaturan Halaman Sambung</h4>
-          <input type="text" id="nextPageUrl" placeholder="Tautan Halaman Berikutnya (Opsional)">
         </div>
       </div>
 
@@ -214,14 +257,20 @@
     </section>
   </div>
 
-  <!-- MODE BACA ARTIKEL (FULL BERSIH) -->
+  <!-- MODE BACA ARTIKEL -->
   <div id="readerArea" style="display:none;">
     <div id="readerWrapper" class="read-container">
       <h1 id="readTitle" class="read-title"></h1>
       <div id="readMeta" class="read-meta"></div>
       <img id="readBanner" class="read-banner" src="" alt="" style="display:none;">
       <div id="readContent" class="read-content"></div>
-      <div id="readNextPage" style="margin-top:35px;"></div>
+      
+      <!-- NAVIGASI HALAMAN (SEBELUMNYA / SELANJUTNYA) -->
+      <div class="pagination-bar" id="paginationBar">
+        <button class="page-nav-btn" id="prevPageBtn" onclick="changeReaderPage(-1)">⬅ Sebelumnya</button>
+        <span id="pageIndicator" class="page-indicator">Halaman 1 dari 1</span>
+        <button class="page-nav-btn" id="nextPageBtn" onclick="changeReaderPage(1)">Selanjutnya ➡</button>
+      </div>
     </div>
   </div>
 
@@ -229,11 +278,56 @@
 
 <script>
   let uploadedImageBase64 = "";
+  let articlePages = [""]; 
+  let activePageIndex = 0; 
+  let currentReaderPages = []; 
+  let currentReaderIndex = 0;
+
+  function renderEditorPagesTabs() {
+    const bar = document.getElementById("editorPagesTabs");
+    bar.innerHTML = "";
+    articlePages.forEach((pg, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "page-tab-btn " + (idx === activePageIndex ? "active" : "");
+      btn.textContent = `Halaman ${idx + 1}`;
+      btn.onclick = () => switchEditorPage(idx);
+      bar.appendChild(btn);
+    });
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "btn-add-page";
+    addBtn.textContent = "➕ Tambah Halaman";
+    addBtn.onclick = addNewEditorPage;
+    bar.appendChild(addBtn);
+
+    document.getElementById("articleContent").value = articlePages[activePageIndex];
+  }
+
+  function saveCurrentPageContent() {
+    const ta = document.getElementById("articleContent");
+    articlePages[activePageIndex] = ta.value;
+  }
+
+  function switchEditorPage(index) {
+    saveCurrentPageContent();
+    activePageIndex = index;
+    renderEditorPagesTabs();
+  }
+
+  function addNewEditorPage() {
+    saveCurrentPageContent();
+    articlePages.push("");
+    activePageIndex = articlePages.length - 1;
+    renderEditorPagesTabs();
+  }
 
   function insertFormat(start, end) {
     const ta = document.getElementById("articleContent");
     const s = ta.selectionStart, e = ta.selectionEnd;
     ta.value = ta.value.substring(0, s) + start + ta.value.substring(s, e) + end + ta.value.substring(e);
+    articlePages[activePageIndex] = ta.value;
     ta.focus();
   }
 
@@ -266,7 +360,7 @@
 
   function checkAuthStatus() {
     const params = new URLSearchParams(location.search);
-    if (params.get("view")) return; // Jangan jalankan auth jika sedang dalam mode baca (view)
+    if (params.get("view")) return;
 
     const user = localStorage.getItem("oer_logged_user");
     const header = document.getElementById("headerUserArea");
@@ -285,24 +379,23 @@
   }
 
   function publishArticle() {
+    saveCurrentPageContent();
     const idField = document.getElementById("editArticleId").value;
     const title = document.getElementById("articleTitle").value.trim();
-    const content = document.getElementById("articleContent").value.trim();
     const category = document.getElementById("articleCategory").value;
     const theme = document.getElementById("articleTheme").value;
     const image = document.getElementById("articleImage").value.trim() || uploadedImageBase64;
-    const nextPage = document.getElementById("nextPageUrl").value.trim();
     const author = localStorage.getItem("oer_logged_user") || "Kreator";
 
-    if (!title || !content) {
-      alert("Judul dan isi artikel wajib diisi!");
+    if (!title || articlePages.every(p => !p.trim())) {
+      alert("Judul dan minimal isi halaman pertama wajib diisi!");
       return;
     }
 
     const uniqueId = idField || ("art_" + Date.now());
     const articleObj = {
       id: uniqueId,
-      title, category, content, theme, image, nextPage, author,
+      title, category, pages: articlePages, theme, image, author,
       url: `website.html?view=${uniqueId}`,
       date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
@@ -324,7 +417,7 @@
     modal.innerHTML = `
       <div class="modal-content">
         <h3 style="color:var(--success); margin-bottom:8px;">✨ Berhasil Dipublikasikan!</h3>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel kamu tersimpan dan terhubung ke OoeR Search.</p>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel multi-halaman kamu tersimpan dan terhubung ke OoeR Search.</p>
         <button onclick="closeModalAndRedirect()" style="padding:8px 16px; background:var(--primary); color:#fff; border:0; border-radius:6px; font-weight:bold; cursor:pointer;">Lihat Daftar Publikasi</button>
       </div>
     `;
@@ -341,9 +434,10 @@
   function resetEditor() {
     document.getElementById("editArticleId").value = "";
     document.getElementById("articleTitle").value = "";
-    document.getElementById("articleContent").value = "";
     document.getElementById("articleImage").value = "";
-    document.getElementById("nextPageUrl").value = "";
+    articlePages = [""];
+    activePageIndex = 0;
+    renderEditorPagesTabs();
     uploadedImageBase64 = "";
   }
 
@@ -365,7 +459,7 @@
       card.innerHTML = `
         <div class="article-info">
           <h4>${item.title}</h4>
-          <p><span>${item.category}</span> • ${item.date}</p>
+          <p><span>${item.category}</span> • ${item.pages ? item.pages.length : 1} Halaman • ${item.date}</p>
         </div>
         <div class="article-item-btns">
           <a href="website.html?view=${item.id}" class="btn-icon">👁️ Pratinjau</a>
@@ -385,9 +479,11 @@
       document.getElementById("articleTitle").value = target.title;
       document.getElementById("articleCategory").value = target.category || "💻 Teknologi & Kode";
       document.getElementById("articleTheme").value = target.theme || "theme-clean";
-      document.getElementById("articleContent").value = target.content;
       document.getElementById("articleImage").value = target.image || "";
-      document.getElementById("nextPageUrl").value = target.nextPage || "";
+      
+      articlePages = target.pages || [target.content || ""];
+      activePageIndex = 0;
+      renderEditorPagesTabs();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -401,6 +497,21 @@
     }
   }
 
+  function updateReaderView() {
+    document.getElementById("readContent").innerHTML = currentReaderPages[currentReaderIndex] || "";
+    document.getElementById("pageIndicator").textContent = `Halaman ${currentReaderIndex + 1} dari ${currentReaderPages.length}`;
+    document.getElementById("prevPageBtn").disabled = currentReaderIndex === 0;
+    document.getElementById("nextPageBtn").disabled = currentReaderIndex === currentReaderPages.length - 1;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function changeReaderPage(direction) {
+    currentReaderIndex += direction;
+    if (currentReaderIndex < 0) currentReaderIndex = 0;
+    if (currentReaderIndex >= currentReaderPages.length) currentReaderIndex = currentReaderPages.length - 1;
+    updateReaderView();
+  }
+
   window.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(location.search);
     const viewId = params.get("view");
@@ -410,12 +521,9 @@
       const target = all.find(a => a.id === viewId);
 
       if (target) {
-        // Sembunyikan area login & editor secara total
         document.getElementById("authArea").style.display = "none";
         document.getElementById("editorArea").style.display = "none";
         document.getElementById("readerArea").style.display = "block";
-        
-        // Header khusus mode baca: hanya logo yang mengarah kembali ke search.html
         document.getElementById("headerUserArea").innerHTML = `<a href="search.html" class="btn-sm">🔍 OoeR Search</a>`;
 
         document.getElementById("readerWrapper").className = "read-container " + (target.theme || "theme-clean");
@@ -428,17 +536,22 @@
           img.style.display = "block";
         }
 
-        document.getElementById("readContent").innerHTML = target.content;
+        currentReaderPages = target.pages || [target.content || ""];
+        currentReaderIndex = 0;
+        updateReaderView();
 
-        if (target.nextPage) {
-          document.getElementById("readNextPage").innerHTML = `<a href="${target.nextPage}" style="display:inline-block; padding:10px 20px; background:var(--primary); color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
+        // Jika hanya ada 1 halaman, sembunyikan baris pagination bawah
+        if (currentReaderPages.length <= 1) {
+          document.getElementById("paginationBar").style.display = "none";
         }
+
       } else {
         alert("Artikel tidak ditemukan.");
         location.href = "search.html";
       }
     } else {
       checkAuthStatus();
+      renderEditorPagesTabs();
     }
   });
 </script>
