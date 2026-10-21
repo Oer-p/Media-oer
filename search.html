@@ -3,149 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Hasil Pencarian OoeR Search — Cari web, berita bergambar, dan konten menarik.">
 <title>OoeR Search — Hasil Pencarian</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='37' fill='none' stroke='%234285F4' stroke-width='15'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-  :root {
-    --bg: #ffffff; --text: #202124; --muted: #5f6368; --border: #dfe1e5;
-    --card-bg: #ffffff; --blue: #1a0dab; --green: #006621; --shadow: 0 1px 6px rgba(32,33,36,0.1);
-  }
-  body.dark {
-    --bg: #202124; --text: #e8eaed; --muted: #9aa0a6; --border: #3c4043;
-    --card-bg: #303134; --blue: #8ab4f8; --green: #81c995; --shadow: 0 2px 8px rgba(0,0,0,0.4);
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: Arial, sans-serif; background: var(--bg); color: var(--text); }
-  
-  header { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid var(--border); }
-  .logo { font-size: 22px; font-weight: bold; text-decoration: none; color: var(--text); }
-  .search-box { flex: 1; max-width: 600px; display: flex; align-items: center; border: 1px solid var(--border); border-radius: 24px; padding: 8px 16px; }
-  .search-box input { width: 100%; border: none; outline: none; background: transparent; color: var(--text); font-size: 15px; }
+:root{
+  --text:#202124;--muted:#5f6368;--border:#dfe1e5;
+  --bg:#fff;--soft:#f8f9fa;--blue:#1a0dab;--green:#006621;
+  --shadow:0 1px 6px #20212430;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column
+}
+body.dark{
+  --text:#e8eaed;--muted:#aeb4bc;--border:#41454c;
+  --bg:#202124;--soft:#303134;--blue:#8ab4f8;--green:#81c995;--shadow:0 2px 10px #0005
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--blue);outline-offset:3px
+}
 
-  main { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-  .search-info { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+/* HEADER LENGKAP */
+header{
+  width:100%;padding:14px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+  background:var(--bg);position:sticky;top:0;z-index:100
+}
+.header-left{display:flex;align-items:center;gap:18px;flex:1;max-width:720px}
+.logo-mini{
+  font-size:22px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:2px;
+  user-select:none;flex-shrink:0
+}
+.logo-mini .blue{color:#4285f4}.logo-mini .red{color:#ea4335}
+.logo-mini .yellow{color:#fbbc05}.logo-mini .green{color:#34a853}
 
-  /* KARTU HASIL PENCARIAN BERGAMBAR (RICH CARD) */
-  .result-card {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
-    padding: 16px; margin-bottom: 16px; display: flex; gap: 16px; align-items: flex-start;
-    box-shadow: var(--shadow); transition: transform 0.1s ease;
-  }
-  .result-card:hover { transform: translateY(-2px); }
-  
-  .result-thumb {
-    width: 120px; height: 90px; border-radius: 8px; object-fit: cover;
-    background: var(--border); flex-shrink: 0;
-  }
-  
-  .result-content { flex: 1; min-width: 0; }
-  .result-meta { font-size: 12px; color: var(--green); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .result-title { font-size: 18px; color: var(--blue); text-decoration: none; font-weight: bold; display: block; margin-bottom: 6px; line-height: 1.3; }
-  .result-title:hover { text-decoration: underline; }
-  .result-snippet { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.search-wrap{position:relative;width:100%}
+.search-box{
+  width:100%;height:46px;display:flex;align-items:center;gap:10px;
+  padding:0 16px;border:1px solid var(--border);border-radius:24px;
+  background:var(--bg);transition:box-shadow .18s,border-color .18s
+}
+.search-box:hover,.search-box:focus-within{
+  border-color:transparent;box-shadow:var(--shadow)
+}
+.search-icon{width:20px;height:20px;color:var(--muted);flex-shrink:0}
+#searchInput{
+  width:100%;padding:10px 0;border:0;outline:none;
+  color:var(--text);background:transparent;font-size:15px
+}
+.search-action{
+  border:0;background:transparent;color:#4285f4;
+  cursor:pointer;display:grid;place-items:center;padding:4px;flex-shrink:0
+}
+.search-action svg{width:20px;height:20px}
 
-  @media (max-width: 500px) {
-    .result-card { flex-direction: column-reverse; }
-    .result-thumb { width: 100%; height: 160px; }
-  }
+.header-tools{display:flex;align-items:center;gap:6px}
+.icon-button{
+  width:38px;height:38px;display:grid;place-items:center;border:0;
+  border-radius:50%;background:transparent;color:var(--text);cursor:pointer
+}
+.icon-button:hover{background:var(--soft)}
+.icon-button svg{width:20px;height:20px}
+
+/* AKUN MENU */
+.account-area{position:relative}
+.avatar{
+  width:36px;height:36px;border-radius:50%;display:grid;
+  place-items:center;overflow:hidden;background:#e8f0fe;
+  color:#174ea6;font-weight:700;font-size:15px;cursor:pointer
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.account-menu{
+  display:none;position:absolute;top:46px;right:0;min-width:210px;
+  padding:8px;border:1px solid var(--border);border-radius:14px;
+  background:var(--bg);box-shadow:var(--shadow);z-index:110
+}
+.account-menu.show{display:block}
+.account-menu button{
+  width:100%;padding:10px;border:0;border-radius:8px;
+  background:transparent;text-align:left;cursor:pointer;font-size:13px
+}
+.account-menu button:hover{background:var(--soft)}
+
+/* KONTEN UTAMA HASIL PENCARIAN */
+main{
+  width:min(100%,820px);margin:0 auto;padding:20px 20px 60px;flex:1
+}
+.search-info{font-size:13px;color:var(--muted);margin-bottom:18px}
+
+/* KARTU HASIL PENCARIAN DENGAN GAMBAR AUTOMATIS */
+.results-container{display:flex;flex-direction:column;gap:18px}
+.result-card{
+  padding:16px;border:1px solid var(--border);border-radius:14px;
+  background:var(--bg);display:flex;gap:16px;align-items:flex-start;
+  transition:box-shadow .18s, transform .18s
+}
+.result-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.result-content{flex:1;min-width:0}
+.result-meta{font-size:12px;color:var(--green);margin-bottom:5px;font-weight:700;display:flex;align-items:center;gap:6px}
+.result-title{
+  font-size:18px;color:var(--blue);text-decoration:none;font-weight:700;
+  display:block;margin-bottom:6px;line-height:1.3;overflow-wrap:anywhere
+}
+.result-title:hover{text-decoration:underline}
+.result-snippet{
+  font-size:13px;color:var(--muted);line-height:1.6;margin:0;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.result-thumb{
+  width:120px;height:85px;border-radius:10px;object-fit:cover;
+  background:var(--soft);border:1px solid var(--border);flex-shrink:0
+}
+
+/* DIALOG OVERLAYS */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:200;align-items:center;
+  justify-content:center;padding:18px;background:#0005
+}
+.overlay.show{display:flex}
+.dialog{
+  width:min(100%,450px);max-height:85vh;overflow:auto;padding:20px;
+  border:1px solid var(--border);border-radius:18px;
+  background:var(--bg);box-shadow:var(--shadow)
+}
+.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.dialog-head h2{font-size:18px;margin:0}
+.close-button{border:0;background:var(--soft);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:18px}
+.dialog-list{display:grid;gap:8px}
+.dialog-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:var(--soft)}
+.primary-button{padding:10px 15px;border:0;border-radius:8px;background:#4285f4;color:#fff;cursor:pointer}
+
+footer{
+  padding:20px;border-top:1px solid var(--border);background:var(--soft);
+  color:var(--muted);font-size:12px;text-align:center
+}
+
+@media(max-width:600px){
+  header{padding:10px 14px}
+  .result-card{flex-direction:column-reverse}
+  .result-thumb{width:100%;height:150px}
+}
 </style>
 </head>
-<body>
 
+<body>
 <header>
-  <a href="index.html" class="logo">OoeR</a>
-  <div class="search-box">
-    <input type="search" id="searchInput" placeholder="Cari berita atau web di OoeR...">
+  <div class="header-left">
+    <a href="index.html" class="logo-mini" title="Beranda OoeR">
+      <span class="blue">O</span><span class="red">o</span><span class="yellow">e</span><span class="green">R</span>
+    </a>
+    <form class="search-wrap" id="searchForm">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+        <input id="searchInput" type="search" placeholder="Cari di OoeR..." autocomplete="off">
+        <button class="search-action" type="button" id="voiceButton" title="Pencarian suara">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path></svg>
+        </button>
+      </div>
+    </form>
   </div>
+
+  <nav class="header-tools">
+    <button class="icon-button" type="button" id="historyButton" title="Riwayat pencarian">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+    </button>
+    <button class="icon-button" type="button" id="settingsButton" title="Pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </button>
+    <div class="account-area">
+      <button class="avatar" id="accountMenuButton" title="Menu Akun">O</button>
+      <div class="account-menu" id="accountMenu">
+        <button type="button" id="menuLogin">Masuk dengan Google</button>
+        <button type="button" id="menuORAccount">Masuk dengan OR Account</button>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <main>
-  <div class="search-info" id="searchInfo">Menampilkan hasil pencarian...</div>
-  <div id="resultsList"></div>
+  <div class="search-info" id="searchInfo">Mencari hasil...</div>
+  <div class="results-container" id="resultsList"></div>
 </main>
+
+<footer>
+  © <span id="year"></span> OoeR Search — Selalu Terhubung & Ditingkatkan
+</footer>
+
+<!-- DIALOG RIWAYAT -->
+<div class="overlay" id="historyOverlay">
+  <div class="dialog">
+    <div class="dialog-head"><h2>Riwayat Pencarian</h2><button class="close-button" onclick="closeOverlay('historyOverlay')">×</button></div>
+    <div class="dialog-list" id="historyList"></div>
+  </div>
+</div>
+
+<!-- DIALOG PENGATURAN -->
+<div class="overlay" id="settingsOverlay">
+  <div class="dialog">
+    <div class="dialog-head"><h2>Pengaturan Tampilan</h2><button class="close-button" onclick="closeOverlay('settingsOverlay')">×</button></div>
+    <button class="primary-button" id="themeButton" type="button" style="width:100%">Ganti Mode Gelap/Terang</button>
+  </div>
+</div>
 
 <script>
 (() => {
   "use strict";
 
-  // Membaca kata kunci pencarian dari URL (?q=...)
+  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  const $ = id => document.getElementById(id);
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Membaca Kata Kunci dari URL
   const urlParams = new URLSearchParams(window.location.search);
-  const query = urlParams.get("q") || "";
-  document.getElementById("searchInput").value = query;
+  const currentQuery = urlParams.get("q") || "";
+  $("searchInput").value = currentQuery;
 
-  function loadSearchResults() {
-    const list = document.getElementById("resultsList");
-    const info = document.getElementById("searchInfo");
-    list.innerHTML = "";
+  // Supabase Init
+  let supabaseClient = null;
+  if (window.supabase?.createClient) {
+    try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) {}
+  }
 
-    if (!query.trim()) {
-      info.textContent = "Ketik kata kunci untuk mulai mencari di OoeR.";
+  // TEMA (DARK MODE)
+  function applyTheme(dark) {
+    document.body.classList.toggle("dark", dark);
+    try { localStorage.setItem("oer_dark_mode", dark ? "1" : "0"); } catch {}
+  }
+  applyTheme(localStorage.getItem("oer_dark_mode") === "1");
+  $("settingsButton").addEventListener("click", () => $("settingsOverlay").classList.add("show"));
+  $("themeButton").addEventListener("click", () => applyTheme(!document.body.classList.contains("dark")));
+
+  window.closeOverlay = id => $(id).classList.remove("show");
+
+  // RIWAYAT PENCARIAN
+  function saveHistory(q) {
+    if (!q.trim()) return;
+    let h = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
+    h = h.filter(x => x.toLowerCase() !== q.toLowerCase());
+    h.unshift(q);
+    localStorage.setItem("oer_search_history", JSON.stringify(h.slice(0, 20)));
+  }
+
+  $("historyButton").addEventListener("click", () => {
+    const list = $("historyList");
+    list.replaceChildren();
+    const h = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
+    if(!h.length) { list.innerHTML = "<p>Belum ada riwayat pencarian.</p>"; }
+    else {
+      h.forEach(item => {
+        const d = document.createElement("div");
+        d.className = "dialog-item";
+        d.innerHTML = `<a href="search.html?q=${encodeURIComponent(item)}" style="flex:1">◷ ${item}</a>`;
+        list.appendChild(d);
+      });
+    }
+    $("historyOverlay").classList.add("show");
+  });
+
+  // SUBMIT PENCARIAN
+  $("searchForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const q = $("searchInput").value.trim();
+    if(q) {
+      saveHistory(q);
+      window.location.href = `search.html?q=${encodeURIComponent(q)}`;
+    }
+  });
+
+  // VOICE SEARCH
+  $("voiceButton").addEventListener("click", () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) return alert("Pencarian suara belum didukung di browser ini.");
+    const rec = new SR();
+    rec.lang = "id-ID";
+    rec.onresult = e => {
+      $("searchInput").value = e.results[0][0].transcript;
+      saveHistory($("searchInput").value);
+      window.location.href = `search.html?q=${encodeURIComponent($("searchInput").value)}`;
+    };
+    rec.start();
+  });
+
+  // UTAMA: PENCARIAN KONTEN (LENGKAP DENGAN GAMBAR AUTOMATIS)
+  function renderSearch() {
+    const list = $("resultsList");
+    const info = $("searchInfo");
+    list.replaceChildren();
+
+    if(!currentQuery.trim()) {
+      info.textContent = "Ketik kata kunci di atas untuk mencari di OoeR.";
       return;
     }
 
-    // 1. Ambil data berita/karya dari Puisi & Cerita
+    // Ambil Data dari Semua Modul OoeR
     const works = JSON.parse(localStorage.getItem("oer_puisi_cerita_works") || "[]");
-    
-    // 2. Ambil data postingan/web yang dibuat pengguna
     const userWebs = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+    const allItems = [...works, ...userWebs];
 
-    // Gabungkan semua data konten
-    const allContent = [...works, ...userWebs];
-
-    // Filter berdasarkan kata kunci pencarian
-    const results = allContent.filter(item => {
-      const q = query.toLowerCase();
-      const titleMatch = (item.title || item.nama || "").toLowerCase().includes(q);
-      const contentMatch = (item.content || item.deskripsi || "").toLowerCase().includes(q);
-      const catMatch = (item.category || item.kategori || "").toLowerCase().includes(q);
-      return titleMatch || contentMatch || catMatch;
+    const q = currentQuery.toLowerCase();
+    const results = allItems.filter(item => {
+      const title = (item.title || item.nama || "").toLowerCase();
+      const content = (item.content || item.deskripsi || "").toLowerCase();
+      const category = (item.category || item.kategori || "").toLowerCase();
+      return title.includes(q) || content.includes(q) || category.includes(q);
     });
 
-    info.textContent = `Menemukan ${results.length} hasil untuk "${query}"`;
+    info.textContent = `Menemukan ${results.length} hasil untuk "${currentQuery}"`;
 
-    if (results.length === 0) {
-      list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);">
-        Tidak ada berita atau postingan yang cocok dengan "<b>${query}</b>".
-      </div>`;
+    if(!results.length) {
+      list.innerHTML = `
+        <div style="padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:14px">
+          Tidak ada berita, karya, atau web yang cocok dengan "<b>${currentQuery}</b>".
+          <br><br><small>Coba buat karya/postingan baru di modul OoeR agar dapat ditemukan di sini.</small>
+        </div>
+      `;
       return;
     }
 
-    // Tampilkan hasil dengan gambar otomatis
     results.forEach(item => {
       const card = document.createElement("div");
       card.className = "result-card";
 
-      const titleText = item.title || item.nama || "Postingan Tanpa Judul";
-      const snippetText = (item.content || item.deskripsi || "").replace(/<[^>]*>?/gm, '');
-      const imageSrc = item.image || item.gambar || "";
-      const categoryText = item.category || item.kategori || "Berita / Web";
-      const authorText = item.author || item.pembuat || "Kreator OoeR";
+      const title = item.title || item.nama || "Postingan OoeR";
+      const snippet = (item.content || item.deskripsi || "").replace(/<[^>]*>?/gm, '');
+      const image = item.image || item.gambar || "";
+      const category = item.category || item.kategori || "Berita & Konten";
+      const author = item.author || item.pembuat || "Kreator OoeR";
+      const targetUrl = item.url || "puisi_cerita.html";
 
       card.innerHTML = `
         <div class="result-content">
-          <div class="result-meta">
-            <span><b>${categoryText}</b></span> • 
-            <span>Oleh ${authorText}</span>
-          </div>
-          <a href="${item.url || 'puisi_cerita.html'}" class="result-title">${titleText}</a>
-          <p class="result-snippet">${snippetText}</p>
+          <div class="result-meta"><span>${category}</span> • <span>Oleh ${author}</span></div>
+          <a href="${targetUrl}" class="result-title">${title}</a>
+          <p class="result-snippet">${snippet}</p>
         </div>
-        ${imageSrc ? `<img src="${imageSrc}" class="result-thumb" alt="Thumbnail" onerror="this.style.display='none'">` : ''}
+        ${image ? `<img src="${image}" class="result-thumb" alt="Foto" onerror="this.style.display='none'">` : ''}
       `;
-
       list.appendChild(card);
     });
   }
 
-  document.getElementById("searchInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      const q = e.target.value.trim();
-      if (q) window.location.href = `search.html?q=${encodeURIComponent(q)}`;
-    }
+  // MENU AKUN & LOGIN GOOGLE
+  $("accountMenuButton").addEventListener("click", () => $("accountMenu").classList.toggle("show"));
+  document.addEventListener("click", e => {
+    if(!e.target.closest(".account-area")) $("accountMenu").classList.remove("show");
   });
 
-  loadSearchResults();
+  if(currentQuery) saveHistory(currentQuery);
+  renderSearch();
 })();
 </script>
-
 </body>
 </html>
