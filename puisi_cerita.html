@@ -119,7 +119,7 @@
           <button class="btn" onclick="switchView('feedView')">Batal</button>
         </div>
 
-        <input type="text" id="creatorName" class="form-control" placeholder="Nama Profil Penulis / Kreator">
+        <input type="text" id="creatorName" class="form-control" placeholder="Ketik Nama Profil / Penulis Kamu di Sini">
         <input type="text" id="workTitle" class="form-control" placeholder="Judul Puisi / Cerita Bergambar">
 
         <div style="display:flex; gap:10px;">
@@ -162,9 +162,9 @@
     <!-- 3. HALAMAN PROFIL KREATOR -->
     <div id="profileView" class="views">
       <div class="profile-header">
-        <div class="profile-avatar" id="profileInitial">A</div>
+        <div class="profile-avatar" id="profileInitial">K</div>
         <div>
-          <h2 id="profileDisplayName" style="margin:0 0 6px;font-size:22px;">Penulis</h2>
+          <h2 id="profileDisplayName" style="margin:0 0 6px;font-size:22px;">Kreator</h2>
           <p style="margin:0;font-size:13px;color:var(--muted);">Kreator Aktif • Puisi & Cerita</p>
         </div>
       </div>
@@ -195,7 +195,7 @@
       id: "w1",
       title: "Cahaya Rembulan di Ujung Malam",
       category: "Puisi",
-      author: "Arip Rahman",
+      author: "Komunitas OoeR",
       date: "21 Oktober 2026",
       image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop",
       content: "Bintang bersinar menyapa sepi,\nMengantar angin malam yang bernyanyi.\nDi dalam sunyi hati berduri,\nMenanti fajar membawa arti."
@@ -223,7 +223,8 @@
 
   window.openEditor = () => {
     switchView('editorView');
-    const savedName = localStorage.getItem("oer_current_author") || "Arip Rahman";
+    // Otomatis mengambil nama dari memori lokal perangkat masing-masing pengguna, jika kosong diset netral
+    const savedName = localStorage.getItem("oer_current_author") || "";
     document.getElementById("creatorName").value = savedName;
     document.getElementById("workTitle").value = "";
     document.getElementById("workImage").value = "";
@@ -231,7 +232,7 @@
   };
 
   window.openProfile = () => {
-    const author = document.getElementById("creatorName").value.trim() || localStorage.getItem("oer_current_author") || "Arip Rahman";
+    const author = localStorage.getItem("oer_current_author") || "Pengunjung / Kreator Baru";
     document.getElementById("profileDisplayName").textContent = author;
     document.getElementById("profileInitial").textContent = author.charAt(0).toUpperCase();
     switchView('profileView');
@@ -284,13 +285,16 @@
   }
 
   function renderProfile() {
-    const author = document.getElementById("profileDisplayName").textContent;
+    const author = localStorage.getItem("oer_current_author") || "Kreator";
+    document.getElementById("profileDisplayName").textContent = author;
+    document.getElementById("profileInitial").textContent = author.charAt(0).toUpperCase();
+
     const grid = document.getElementById("myWorksGrid");
     const works = getWorks().filter(w => w.author.toLowerCase() === author.toLowerCase());
     grid.replaceChildren();
 
     if (!works.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;">Belum ada karya yang kamu terbitkan.</div>`;
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;">Belum ada karya yang kamu terbitkan di perangkat ini. Yuk buat karya pertamamu!</div>`;
       return;
     }
 
@@ -345,6 +349,7 @@
       return;
     }
 
+    // Menyimpan nama penulis ke perangkat pengguna yang sedang aktif
     localStorage.setItem("oer_current_author", author);
 
     const newWork = {
@@ -361,7 +366,7 @@
     works.unshift(newWork);
     localStorage.setItem("oer_puisi_cerita_works", JSON.stringify(works));
 
-    // Sinkronisasi otomatis ke search.html
+    // Sinkronisasi otomatis ke pencarian
     try {
       const history = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
       if (!history.includes(title)) {
@@ -370,7 +375,7 @@
       }
     } catch {}
 
-    alert("🎉 Berhasil! Puisi atau cerita bergambar kamu telah diterbitkan dan langsung terindeks di OoeR Search.");
+    alert("🎉 Berhasil! Puisi atau cerita bergambar kamu telah diterbitkan.");
     switchView('feedView');
   };
 
