@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OoeR Blog Space — Editor Artikel & Website</title>
+<title>OoeR Space — Editor & Portal Publikasi</title>
 <style>
   :root {
     --primary: #1a73e8;
@@ -12,12 +12,13 @@
     --text: #202124;
     --border: #dadce0;
     --muted: #5f6368;
+    --danger: #d93025;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-  body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
+  body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
 
-  /* HEADER RINGKAS & LOGO DI KIRI */
+  /* HEADER RINGKAS & LOGO MINI KIRI */
   header {
     background: var(--card);
     border-bottom: 1px solid var(--border);
@@ -30,235 +31,163 @@
     z-index: 100;
   }
 
-  .brand-area {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
+  .brand-area { display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .logo-o {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
+    width: 24px; height: 24px; border-radius: 50%;
     background: conic-gradient(#4285f4 0 120deg, #fbbc05 120deg 235deg, #ea4335 235deg 300deg, #34a853 300deg);
-    position: relative;
-    flex-shrink: 0;
+    position: relative; flex-shrink: 0;
   }
-  .logo-o::after {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    background: var(--card);
-    border-radius: 50%;
-  }
+  .logo-o::after { content: ""; position: absolute; inset: 5px; background: var(--card); border-radius: 50%; }
+  .brand-title { font-size: 16px; font-weight: bold; color: var(--text); }
 
-  .brand-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--text);
-  }
-
-  .header-btns {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  /* TOMBOL ATAS DIKECILKAN */
+  .header-btns { display: flex; align-items: center; gap: 6px; }
   .btn-sm {
-    padding: 6px 12px;
-    font-size: 12px;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: #fff;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 500;
+    padding: 6px 12px; font-size: 12px; border-radius: 18px; border: 1px solid var(--border);
+    background: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    text-decoration: none; color: var(--text); font-weight: 500;
   }
-  .btn-sm.primary {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
+  .btn-sm.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-  /* CONTAINER UTAMA EDITOR LEBIH LUAS */
-  .editor-container {
-    max-width: 900px;
-    margin: 16px auto;
-    padding: 0 12px;
-  }
+  /* CONTAINER EDITOR & BACA */
+  .container { max-width: 900px; margin: 16px auto; padding: 0 12px; }
 
   .editor-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
   }
 
   .input-title {
-    width: 100%;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    outline: none;
+    width: 100%; padding: 12px; font-size: 18px; font-weight: bold;
+    border: 1px solid var(--border); border-radius: 8px; outline: none;
   }
 
   .editor-tools {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 8px;
-    background: #f1f3f4;
-    border-radius: 8px;
-    align-items: center;
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 8px;
+    background: #f1f3f4; border-radius: 8px; align-items: center;
   }
 
   .tool-btn {
-    padding: 6px 10px;
-    font-size: 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: #fff;
-    cursor: pointer;
+    padding: 6px 10px; font-size: 12px; border: 1px solid var(--border);
+    border-radius: 6px; background: #fff; cursor: pointer;
   }
-  .tool-btn.active {
-    background: var(--primary);
-    color: #fff;
-  }
+  .tool-btn.active { background: var(--primary); color: #fff; }
 
-  /* LAYAR KETIK DIBUAT SANGAT GEDEH / LEGA */
+  /* LAYAR KETIK DIBUAT GEDEH/LUAS */
   .editor-textarea {
-    width: 100%;
-    min-height: 380px;
-    padding: 14px;
-    font-size: 15px;
-    line-height: 1.6;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    outline: none;
-    resize: vertical;
+    width: 100%; min-height: 380px; padding: 14px; font-size: 15px; line-height: 1.6;
+    border: 1px solid var(--border); border-radius: 8px; outline: none; resize: vertical;
   }
 
-  /* PENGATURAN MULTI-HALAMAN (PAGINATION / PAGES) */
+  /* PENGATURAN MULTI-HALAMAN (PAGE LINK) */
   .page-settings {
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    background: #fafafa;
+    border: 1px dashed var(--border); border-radius: 8px; padding: 12px; background: #fafafa;
   }
+  .page-settings h4 { font-size: 13px; margin-bottom: 8px; color: var(--muted); }
+  .page-inputs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .input-sub { flex: 1; min-width: 140px; padding: 8px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px; }
 
-  .page-settings h4 {
-    font-size: 13px;
-    margin-bottom: 8px;
-    color: var(--muted);
-  }
-
-  .page-inputs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .input-sub {
-    flex: 1;
-    min-width: 140px;
-    padding: 8px;
-    font-size: 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .btn-action {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-  }
+  .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+  .btn-action { padding: 10px 20px; font-size: 14px; border-radius: 20px; border: none; cursor: pointer; font-weight: bold; }
   .btn-cancel { background: #e8eaed; color: var(--text); }
   .btn-publish { background: var(--primary); color: #fff; }
 
-  /* TAMPILAN PRATINJAU HASIL KODE (LIVE RENDER) */
-  .preview-box {
-    margin-top: 20px;
-    padding: 16px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
+  /* DAFTAR ARTIKEL YANG SUDAH DIPUBLIKASIKAN */
+  .my-articles-section { margin-top: 30px; }
+  .section-title { font-size: 18px; margin-bottom: 12px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+  .article-list { display: flex; flex-direction: column; gap: 10px; }
+  .article-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
+  .article-info h4 { font-size: 15px; margin-bottom: 4px; color: var(--text); }
+  .article-info p { font-size: 12px; color: var(--muted); }
+  .article-item-btns { display: flex; gap: 6px; }
+  .btn-icon {
+    padding: 6px 10px; font-size: 12px; border: 1px solid var(--border);
+    border-radius: 6px; background: #fff; cursor: pointer; text-decoration: none; color: var(--text);
+  }
+  .btn-icon.danger { color: var(--danger); border-color: #fce8e6; }
+
+  /* TAMPILAN MODE BACA ARTIKEL (JIKA DIKLIK DARI SEARCH) */
+  .read-container { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 20px; }
+  .read-header { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 14px; }
+  .read-title { font-size: 26px; font-weight: bold; margin-bottom: 8px; }
+  .read-meta { font-size: 13px; color: var(--muted); }
+  .read-content { font-size: 16px; line-height: 1.7; overflow-wrap: anywhere; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand-area">
+  <a href="website.html" class="brand-area">
     <div class="logo-o"></div>
     <span class="brand-title">OoeR Space</span>
-  </div>
+  </a>
   <div class="header-btns">
+    <a href="search.html" class="btn-sm">🔍 OoeR Search</a>
     <a href="index.html" class="btn-sm">🏠 Beranda</a>
-    <button class="btn-sm primary" id="btnNewArticle">✍️ Tulis</button>
   </div>
 </header>
 
-<main class="editor-container">
-  <div class="editor-card">
-    <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama...">
-    
-    <div class="editor-tools">
-      <select id="articleCategory" class="tool-btn">
-        <option>💻 Teknologi & Kode</option>
-        <option>📖 Sastra & Puisi</option>
-        <option>📰 Berita & Umum</option>
-      </select>
-      <button class="tool-btn" type="button" onclick="insertFormat('<b>', '</b>')"><b>B</b></button>
-      <button class="tool-btn" type="button" onclick="insertFormat('<i>', '</i>')"><i>I</i></button>
-      <button class="tool-btn" type="button" onclick="insertFormat('<u>', '</u>')"><u>U</u></button>
-      <button class="tool-btn" type="button" id="btnCodeMode" onclick="toggleCodeMode()">💻 Mode Kode HTML</button>
-    </div>
+<main class="container">
 
-    <!-- LAYAR KETIK DIBUAT LEBIH GEDEH -->
-    <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau kode HTML di sini..."></textarea>
+  <!-- AREA EDITOR (UNTUK MENULIS & EDIT) -->
+  <div id="editorArea">
+    <div class="editor-card">
+      <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama...">
+      
+      <div class="editor-tools">
+        <select id="articleCategory" class="tool-btn">
+          <option>💻 Teknologi & Kode</option>
+          <option>📖 Sastra & Puisi</option>
+          <option>📰 Berita & Umum</option>
+        </select>
+        <button class="tool-btn" type="button" onclick="insertFormat('<b>', '</b>')"><b>B</b></button>
+        <button class="tool-btn" type="button" onclick="insertFormat('<i>', '</i>')"><i>I</i></button>
+        <button class="tool-btn" type="button" onclick="insertFormat('<u>', '</u>')"><u>U</u></button>
+        <button class="tool-btn" type="button" id="btnCodeMode" onclick="toggleCodeMode()">💻 Mode Kode HTML</button>
+      </div>
 
-    <!-- PENGATURAN HALAMAN (PAGES) UNTUK MENYAMBUNGKAN MULTI-HALAMAN -->
-    <div class="page-settings">
-      <h4>📑 Pengaturan Halaman (Page Link)</h4>
-      <div class="page-inputs">
-        <input type="text" id="pageSlug" class="input-sub" placeholder="Slug URL (contoh: page-1 / tentang)">
-        <input type="text" id="nextPageUrl" class="input-sub" placeholder="Tautan Halaman Selanjutnya (Optional)">
+      <!-- LAYAR KETIK DIBUAT LUAS -->
+      <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau kode HTML di sini..."></textarea>
+
+      <!-- PENGATURAN MULTI-HALAMAN (PAGE LINK) -->
+      <div class="page-settings">
+        <h4>📑 Pengaturan Halaman (Page Link)</h4>
+        <div class="page-inputs">
+          <input type="text" id="pageSlug" class="input-sub" placeholder="Slug URL (contoh: page-1 / tentang)">
+          <input type="text" id="nextPageUrl" class="input-sub" placeholder="Tautan Halaman Selanjutnya (Optional)">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-action btn-cancel" type="button" onclick="clearEditor()">Batal</button>
+        <button class="btn-action btn-publish" type="button" onclick="publishArticle()">Publikasikan Artikel 🚀</button>
       </div>
     </div>
 
-    <div class="actions">
-      <button class="btn-action btn-cancel" type="button" onclick="clearEditor()">Batal</button>
-      <button class="btn-action btn-publish" type="button" onclick="publishArticle()">Publikasikan Artikel 🚀</button>
+    <!-- DAFTAR KARYA / PUBLIKASI SAYA (TIDAK AKAN HILANG) -->
+    <section class="my-articles-section">
+      <h3 class="section-title">📚 Daftar Publikasi Saya</h3>
+      <div id="myArticlesList" class="article-list">
+        <!-- Artikel yang pernah dipublikasi akan dirender di sini -->
+      </div>
+    </section>
+  </div>
+
+  <!-- AREA BACA ARTIKEL (OTOMATIS TAMPIL JIKA DIKLIK DARI SEARCH) -->
+  <div id="readerArea" style="display:none;">
+    <a href="search.html" style="display:inline-block; margin-bottom:15px; color:var(--primary); font-weight:bold; text-decoration:none;">⬅ Kembali ke OoeR Search</a>
+    <div class="read-container">
+      <div class="read-header">
+        <h1 id="readTitle" class="read-title"></h1>
+        <div id="readMeta" class="read-meta"></div>
+      </div>
+      <div id="readContent" class="read-content"></div>
+      <div id="readNextPage" style="margin-top:30px;"></div>
     </div>
   </div>
 
-  <!-- BUKTI HASIL RENDER ARTIKEL BISA DILIHAT DI SINI -->
-  <div id="previewContainer" class="preview-box" style="display:none;">
-    <h3 id="previewTitle"></h3>
-    <hr style="margin: 10px 0; border: 0; border-top: 1px solid #eee;">
-    <div id="previewBody"></div>
-    <div id="previewPageNav" style="margin-top: 15px;"></div>
-  </div>
 </main>
 
 <script>
@@ -277,55 +206,119 @@
     isCodeMode = !isCodeMode;
     const btn = document.getElementById("btnCodeMode");
     btn.classList.toggle("active", isCodeMode);
-    alert(isCodeMode ? "Mode Kode HTML Aktif: Kode HTML yang ditulis akan dirender langsung saat dipublikasikan." : "Mode Teks Biasa Aktif.");
   }
 
+  // PUBLIKASIKAN ARTIKEL DENGAN AMAN TANPA MENGHAPUS DATA LAMA
   function publishArticle() {
     const title = document.getElementById("articleTitle").value.trim();
-    const content = document.getElementById("articleContent").value;
+    const content = document.getElementById("articleContent").value.trim();
     const category = document.getElementById("articleCategory").value;
-    const slug = document.getElementById("pageSlug").value.trim() || "halaman-1";
+    const slug = document.getElementById("pageSlug").value.trim() || "page-1";
     const nextPage = document.getElementById("nextPageUrl").value.trim();
 
     if (!title || !content) {
-      alert("Harap isi Judul dan Isi Artikel!");
+      alert("Harap isi Judul dan Isi Artikel terlebih dahulu!");
       return;
     }
 
-    // SIMPAN DATA KE LOCALSTORAGE DENGAN GAMBAR & FORMAT KODE
     const newArticle = {
-      id: Date.now(),
+      id: "art_" + Date.now(),
       title: title,
       category: category,
       content: content,
       slug: slug,
       nextPage: nextPage,
-      date: new Date().toLocaleDateString("id-ID")
+      url: `website.html?view=art_${Date.now()}`,
+      date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
 
+    // Ambil data lama dari LocalStorage
     let existingWorks = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
-    existingWorks.unshift(newArticle);
+    existingWorks.unshift(newArticle); // Tambahkan ke paling atas
+    
+    // Simpan kembali ke kunci LocalStorage yang sinkron dengan OoeR Search
     localStorage.setItem("oer_user_websites", JSON.stringify(existingWorks));
 
-    // TAMPILKAN LANGSUNG KE HASIL ARTIKEL (LIVE RENDER KODE)
-    document.getElementById("previewTitle").innerText = title;
-    document.getElementById("previewBody").innerHTML = content; // Menderetkan kode HTML langsung
-    
-    if (nextPage) {
-      document.getElementById("previewPageNav").innerHTML = `<a href="${nextPage}" style="color:#1a73e8; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
-    } else {
-      document.getElementById("previewPageNav").innerHTML = "";
-    }
-
-    document.getElementById("previewContainer").style.display = "block";
-    alert("Artikel berhasil dipublikasikan dan tersambung ke sistem pencarian OoeR!");
+    clearEditor();
+    renderMyArticles();
+    alert("Artikel berhasil dipublikasikan dan otomatis terhubung ke OoeR Search!");
   }
 
   function clearEditor() {
     document.getElementById("articleTitle").value = "";
     document.getElementById("articleContent").value = "";
-    document.getElementById("previewContainer").style.display = "none";
+    document.getElementById("pageSlug").value = "";
+    document.getElementById("nextPageUrl").value = "";
   }
+
+  // MENAMPILKAN DAFTAR ARTIKEL SAYA
+  function renderMyArticles() {
+    const listContainer = document.getElementById("myArticlesList");
+    const articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+
+    if (articles.length === 0) {
+      listContainer.innerHTML = `<div style="padding:20px; text-align:center; color:var(--muted); background:#fff; border:1px dashed var(--border); border-radius:10px;">Belum ada artikel yang dipublikasikan. Tulis artikel pertama kamu di atas!</div>`;
+      return;
+    }
+
+    listContainer.innerHTML = "";
+    articles.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "article-item";
+      card.innerHTML = `
+        <div class="article-info">
+          <h4>${item.title}</h4>
+          <p><span>${item.category || 'Artikel'}</span> • Dipublikasikan: ${item.date || '-'}</p>
+        </div>
+        <div class="article-item-btns">
+          <a href="website.html?view=${item.id}" class="btn-icon">👁️ Baca</a>
+          <button class="btn-icon danger" onclick="deleteArticle('${item.id}')">🗑️ Hapus</button>
+        </div>
+      `;
+      listContainer.appendChild(card);
+    });
+  }
+
+  // HAPUS ARTIKEL DARI DAFTAR
+  function deleteArticle(id) {
+    if (confirm("Apakah kamu yakin ingin menghapus artikel ini?")) {
+      let articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+      articles = articles.filter(art => art.id !== id);
+      localStorage.setItem("oer_user_websites", JSON.stringify(articles));
+      renderMyArticles();
+    }
+  }
+
+  // PENANGANAN OTOMATIS: MODE EDITOR VS MODE BACA ARTIKEL
+  window.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewId = urlParams.get("view");
+
+    if (viewId) {
+      // BERPINDAH KE MODE BACA ARTIKEL
+      const articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+      const target = articles.find(art => String(art.id) === String(viewId));
+
+      if (target) {
+        document.getElementById("editorArea").style.display = "none";
+        document.getElementById("readerArea").style.display = "block";
+
+        document.getElementById("readTitle").innerText = target.title;
+        document.getElementById("readMeta").innerHTML = `<b>${target.category || 'Artikel'}</b> • Dipublikasikan pada ${target.date || 'Baru saja'}`;
+        document.getElementById("readContent").innerHTML = target.content; // Render langsung HTML/Kode
+
+        if (target.nextPage) {
+          document.getElementById("readNextPage").innerHTML = `<a href="${target.nextPage}" style="display:inline-block; padding:10px 18px; background:var(--primary); color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
+        }
+      } else {
+        alert("Artikel tidak ditemukan atau telah dihapus.");
+        window.location.href = "website.html";
+      }
+    } else {
+      // TAMPILKAN EDITOR DAN DAFTAR PUBLIKASI SAYA
+      renderMyArticles();
+    }
+  });
 </script>
 
 </body>
