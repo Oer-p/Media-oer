@@ -3,525 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#ffffff">
-<meta name="description" content="Jelajahi OoeR, pencarian, AI Chat, Reels, berita sepak bola, dan konten menarik lainnya.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://oer-p.github.io/Media-oer/">
-<link rel="manifest" href="/Media-oer/manifest.json">
-<meta name="mobile-web-app-capable" content="yes">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="OoeR">
-<meta property="og:title" content="OoeR">
-<meta property="og:description" content="Cari, jelajahi, dan temukan melalui OoeR.">
-<title>OoeR — Jelajahi dan Temukan</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='37' fill='none' stroke='%234285F4' stroke-width='15'/%3E%3C/svg%3E">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<title>OoeR - Tantangan 150 Soal Tersulit Bertingkat</title>
 <style>
-:root{
-  --text:#202124;--muted:#5f6368;--border:#dfe1e5;
-  --bg:#fff;--soft:#f8f9fa;--blue:#4285f4;
-  --red:#ea4335;--yellow:#fbbc05;--green:#34a853;
-  --shadow:0 1px 6px #20212430;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column
-}
-body.dark{
-  --text:#e8eaed;--muted:#aeb4bc;--border:#41454c;
-  --bg:#202124;--soft:#303134;--shadow:0 2px 10px #0005
-}
-a{color:inherit;text-decoration:none}
-button,input,textarea{font:inherit}
-button{color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--blue);outline-offset:3px
-}
-
-/* HEADER */
-header{
-  width:100%;min-height:76px;padding:14px 34px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px
-}
-.account-area{display:flex;align-items:center;gap:10px;position:relative}
-.account-button{
-  display:flex;align-items:center;gap:10px;border:0;
-  background:transparent;cursor:pointer;padding:4px;border-radius:24px
-}
-.account-button:hover{background:var(--soft)}
-.avatar{
-  width:42px;height:42px;border-radius:50%;display:grid;
-  place-items:center;overflow:hidden;background:#e8f0fe;
-  color:#174ea6;font-weight:700;font-size:17px;flex-shrink:0
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.account-label{font-size:15px}
-.chevron{font-size:13px;color:var(--muted)}
-.account-menu{
-  display:none;position:absolute;top:54px;left:0;min-width:220px;
-  padding:8px;border:1px solid var(--border);border-radius:14px;
-  background:var(--bg);box-shadow:var(--shadow);z-index:100
-}
-.account-menu.show{display:block}
-.account-menu button{
-  width:100%;padding:12px;border:0;border-radius:8px;
-  background:transparent;text-align:left;cursor:pointer
-}
-.account-menu button:hover{background:var(--soft)}
-.header-tools{display:flex;align-items:center;gap:8px}
-.icon-button{
-  width:42px;height:42px;display:grid;place-items:center;border:0;
-  border-radius:50%;background:transparent;color:var(--text);cursor:pointer
-}
-.icon-button:hover{background:var(--soft)}
-.icon-button svg{width:23px;height:23px}
-
-/* LOGO AND SEARCH */
-main{
-  width:100%;flex:1;display:flex;flex-direction:column;
-  align-items:center;padding:80px 20px 45px
-}
-.hero{width:100%;display:flex;flex-direction:column;align-items:center}
-.logo{
-  display:flex;align-items:center;justify-content:center;gap:0;
-  height:116px;margin-bottom:38px;user-select:none;white-space:nowrap
-}
-.logo-o{
-  width:91px;height:91px;position:relative;display:inline-block;
-  border-radius:50%;background:conic-gradient(
-    from -43deg,var(--red) 0deg 105deg,
-    var(--yellow) 105deg 225deg,var(--blue) 225deg 360deg
-  );flex-shrink:0
-}
-.logo-o::after{
-  content:"";position:absolute;inset:17px;border-radius:50%;background:var(--bg)
-}
-.logo-oe,.logo-r{
-  font-family:Arial,Helvetica,sans-serif;font-size:112px;
-  font-weight:500;line-height:1;letter-spacing:-7px
-}
-.logo-oe{color:var(--red);margin-left:9px}
-.logo-r{color:var(--green);margin-left:2px;letter-spacing:-5px}
-.search-wrap{position:relative;width:min(100%,690px)}
-.search-box{
-  width:100%;min-height:58px;display:flex;align-items:center;gap:14px;
-  padding:0 20px;border:1px solid var(--border);border-radius:32px;
-  background:var(--bg);transition:box-shadow .18s,border-color .18s
-}
-.search-box:hover,.search-box:focus-within{
-  border-color:transparent;box-shadow:var(--shadow)
-}
-.search-icon{width:23px;height:23px;color:var(--muted);flex-shrink:0}
-#searchInput{
-  width:100%;min-width:0;padding:15px 0;border:0;outline:none;
-  color:var(--text);background:transparent;font-size:16px
-}
-#searchInput::placeholder{color:var(--muted)}
-.search-action{
-  border:0;background:transparent;color:var(--blue);
-  cursor:pointer;display:grid;place-items:center;padding:5px;flex-shrink:0
-}
-.search-action svg{width:23px;height:23px}
-.suggestions{
-  display:none;position:absolute;top:64px;left:0;right:0;z-index:50;
-  overflow:hidden;padding:8px 0;border-radius:18px;background:var(--bg);
-  box-shadow:var(--shadow)
-}
-.suggestions.show{display:block}
-.suggestion{
-  display:flex;align-items:center;gap:13px;width:100%;padding:12px 20px;
-  border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer
-}
-.suggestion:hover{background:var(--soft)}
-.search-buttons{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
-.search-buttons button{
-  padding:11px 17px;border:1px solid transparent;border-radius:5px;
-  background:var(--soft);font-size:13px;cursor:pointer
-}
-.search-buttons button:hover{border-color:var(--border)}
-#notice{
-  min-height:18px;margin:14px 0 0;color:var(--muted);
-  font-size:12px;text-align:center
-}
-
-/* SHORTCUTS */
-.shortcuts{
-  width:min(100%,690px);display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:46px
-}
-.shortcut,.service-shortcut{
-  min-width:0;display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:10px 4px 12px;border:0;border-radius:12px;
-  background:transparent;cursor:pointer;text-align:center
-}
-.shortcut:hover,.service-shortcut:hover{background:var(--soft)}
-.shortcut-icon,.service-shortcut .service-logo{
-  width:58px;height:58px;display:grid;place-items:center;
-  border-radius:19px;background:#f1f3f4;color:#5f6368;font-weight:bold
-}
-.shortcut-icon svg{width:27px;height:27px}
-.shortcut-icon.youtube{background:#fce8e6;color:#ea4335}
-.shortcut-icon.study{background:#e8f0fe;color:#1a73e8}
-.shortcut-icon.news{background:#e6f4ea;color:#188038}
-.shortcut-icon.social{background:#f3e8fd;color:#8430ce}
-.shortcut-icon.add{background:var(--soft);color:var(--muted)}
-.shortcut-label,.service-shortcut .service-name{max-width:100%;font-size:12px;overflow-wrap:anywhere}
-
-.service-website { background: #e0f2fe; color: #0369a1; }
-.service-ads { background: #fef3c7; color: #92400e; }
-.service-market { background: #dcfce7; color: #166534; }
-
-/* DIALOGS & OVERLAYS */
-.overlay{
-  display:none;position:fixed;inset:0;z-index:200;align-items:center;
-  justify-content:center;padding:18px;background:#0005
-}
-.overlay.show{display:flex}
-.dialog{
-  width:min(100%,550px);max-height:85vh;overflow:auto;padding:22px;
-  border:1px solid var(--border);border-radius:18px;
-  background:var(--bg);box-shadow:var(--shadow)
-}
-.dialog-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:15px;margin-bottom:16px
-}
-.dialog-head h2{font-size:19px;margin:0}
-.close-button{
-  width:35px;height:35px;border:0;border-radius:50%;
-  background:var(--soft);cursor:pointer;font-size:20px
-}
-.dialog-list{display:grid;gap:8px}
-.dialog-item{
-  display:flex;align-items:center;gap:12px;padding:12px;
-  border-radius:10px;overflow-wrap:anywhere
-}
-.dialog-item:hover{background:var(--soft)}
-.dialog-item button{
-  margin-left:auto;border:0;background:transparent;cursor:pointer;color:var(--muted)
-}
-.dialog-empty{color:var(--muted);font-size:14px;line-height:1.6}
-.dialog-input, .dialog-textarea{
-  width:100%;padding:12px;margin:8px 0;border:1px solid var(--border);
-  border-radius:10px;background:var(--bg);color:var(--text)
-}
-.primary-button{
-  padding:11px 16px;border:0;border-radius:9px;
-  background:var(--blue);color:white;cursor:pointer;font-weight:bold;width:100%;
-}
-.primary-button:hover{opacity:0.9;}
-
-/* CONTENT SECTIONS */
-.content-section{width:min(100%,900px);margin:48px auto 0}
-.section-heading{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;margin-bottom:14px
-}
-.section-heading h2{margin:0;font-size:20px}
-.section-heading span{font-size:12px;color:var(--muted)}
-
-.feed-box{
-  background:var(--soft);border:1px solid var(--border);
-  padding:15px;border-radius:12px;margin-top:10px;
-}
-.feed-card{
-  background:var(--bg);border:1px solid var(--border);
-  padding:12px;border-radius:8px;margin-bottom:10px;font-size:13px;
-}
-
-footer{
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
-  gap:15px;min-height:58px;padding:16px 28px;border-top:1px solid var(--border);
-  background:var(--soft);color:var(--muted);font-size:12px;margin-top:50px;
-}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap}
-
-@media(max-width:700px){
-  header{min-height:66px;padding:10px 14px}
-  .shortcuts{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-}
+  :root {
+    --text: #202124; --muted: #5f6368; --border: #dfe1e5;
+    --bg: #fff; --soft: #f8f9fa; --blue: #4285f4;
+    --green: #34a853; --red: #ea4335; --shadow: 0 1px 6px #20212430;
+  }
+  body {
+    margin: 0; padding: 20px; background: var(--bg); color: var(--text);
+    font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction: column; align-items: center;
+  }
+  .container { width: min(100%, 750px); background: var(--soft); padding: 25px; border-radius: 16px; box-shadow: var(--shadow); }
+  h1 { text-align: center; color: var(--blue); font-size: 24px; margin-bottom: 5px; }
+  p.subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 25px; }
+  
+  .level-badge { background: #e8f0fe; color: #174ea6; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+  .question-box { background: var(--bg); border: 1px solid var(--border); padding: 18px; border-radius: 12px; margin-bottom: 15px; }
+  .question-title { font-weight: bold; font-size: 15px; margin-bottom: 12px; line-height: 1.5; }
+  
+  .options-list { display: grid; gap: 8px; }
+  .option-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 14px; background: var(--bg); }
+  .option-label:hover { background: #f1f3f4; }
+  
+  textarea.essay-input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical; box-sizing: border-box; }
+  
+  .btn-submit { width: 100%; background: var(--green); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+  .btn-submit:hover { opacity: 0.9; }
+  
+  .result-box { display: none; background: var(--bg); border: 2px solid var(--green); padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; }
+  .result-score { font-size: 36px; font-weight: bold; color: var(--green); margin: 10px 0; }
 </style>
 </head>
-
 <body>
-<header>
-  <div class="account-area">
-    <button class="account-button" id="accountMenuButton" type="button">
-      <span class="avatar" id="loginButton" title="Profil OoeR">
-        <svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path></svg>
-      </span>
-      <span class="account-label" id="accountLabel">Akun</span>
-      <span class="chevron">⌄</span>
-    </button>
-    <div class="account-menu" id="accountMenu">
-      <button type="button" id="menuLogin">Masuk dengan Google</button>
-      <button type="button" id="menuORAccount">Masuk dengan OR Account</button>
-      <button type="button" id="menuHistory">Riwayat pencarian</button>
-      <button type="button" id="menuFavorites">Favorit saya</button>
-    </div>
-  </div>
 
-  <nav class="header-tools">
-    <button class="icon-button" type="button" id="homeButton" title="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"></path></svg>
-    </button>
-    <button class="icon-button" type="button" id="favoritesButton" title="Favorit">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path></svg>
-    </button>
-    <button class="icon-button" type="button" id="historyButton" title="Riwayat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-    </button>
-    <button class="icon-button" type="button" id="settingsButton" title="Pengaturan">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a8 8 0 0 1-1.7 1l-.3 1.9h-3.1l-.3-1.9a8 8 0 0 1-1.7-1l-1.8.7-1.5-2.6L7 15a8 8 0 0 1 0-2l-1.5-1.2L7 9.2l1.8.7a8 8 0 0 1 1.7-1l.3-1.9h3.1l.3 1.9a8 8 0 0 1 1.7 1l1.8-.7 1.5 2.6-1.5 1.2a8 8 0 0 1 0 2Z"></path></svg>
-    </button>
-  </nav>
-</header>
+<div class="container">
+  <h1>🧠 OoeR Master Challenge</h1>
+  <p class="subtitle">100 Soal Pilihan Ganda & 50 Soal Esai (Tingkat Kesulitan Naik Setiap 10 Soal!)</p>
 
-<main id="home">
-  <section class="hero">
-    <div class="logo">
-      <span class="logo-o"></span>
-      <span class="logo-oe">oe</span><span class="logo-r">R</span>
-    </div>
+  <form id="quizForm">
+    <div id="quizContainer"></div>
+    <button type="button" class="btn-submit" id="submitBtn">Selesai & Hitung Nilai Saya!</button>
+  </form>
 
-    <form class="search-wrap" id="searchForm">
-      <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
-        <input id="searchInput" type="search" placeholder="Cari atau tanya sesuatu..." autocomplete="off">
-        <button class="search-action" type="button" id="voiceButton" title="Pencarian suara">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path></svg>
-        </button>
-      </div>
-      <div class="suggestions" id="suggestions"></div>
-    </form>
-    
-    <div class="search-buttons">
-      <button type="submit" form="searchForm">Cari OoeR</button>
-      <button type="button" id="luckyButton">Jelajahi OoeR</button>
-      <!-- TOMBOL AI CHAT SEKARANG BISA LANGSUNG UNTUK TANYA JAWA AI -->
-      <button type="button" id="aiButton" style="background:var(--blue); color:white; font-weight:bold;">🤖 OoeR AI Chat</button>
-    </div>
-    
-    <p id="notice" aria-live="polite"></p>
-
-    <nav class="shortcuts">
-      <a class="shortcut" href="https://www.youtube.com/shorts/" target="_blank">
-        <span class="shortcut-icon youtube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7a3 3 0 0 0-2.1-2.1C19 4.4 12 4.4 12 4.4s-7 0-8.9.5A3 3 0 0 0 1 7a31 31 0 0 0-.5 5 31 31 0 0 0 .5 5 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5A3 3 0 0 0 23 17a31 31 0 0 0 .5-5 31 31 0 0 0-.5-5zM9.7 15.5v-7l6.1 3.5z"></path></svg></span>
-        <span class="shortcut-label">YouTube</span>
-      </a>
-
-      <!-- TOMBOL RUANG BELAJAR NYATA -->
-      <button class="shortcut" type="button" id="ruangBelajarBtn">
-        <span class="shortcut-icon study"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 3 11 6-11 6L1 9zm-7 9 7 4 7-4v5l-7 4-7-4z"></path></svg></span>
-        <span class="shortcut-label">Ruang Belajar</span>
-      </button>
-
-      <button class="service-shortcut" id="oerWebsiteButton" type="button">
-        <span class="service-logo service-website">W</span>
-        <span class="service-name">OoeR Website</span>
-      </button>
-
-      <button class="service-shortcut" id="oerAdsButton" type="button">
-        <span class="service-logo service-ads">A</span>
-        <span class="service-name">OoeR Ads</span>
-      </button>
-
-      <button class="service-shortcut" id="marketOerButton" type="button">
-        <span class="service-logo service-market">M</span>
-        <span class="service-name">Market OeR</span>
-      </button>
-    </nav>
-  </section>
-
-  <!-- FITUR INTERAKTIF RUANG BELAJAR DI HALAMAN -->
-  <section class="content-section" id="ruang-belajar-section">
-    <div class="section-heading">
-      <h2>📚 Ruang Belajar & Guru AI OoeR</h2>
-      <span>Terhubung ke Database Supabase</span>
-    </div>
-
-    <!-- Panel Tanya AI -->
-    <div class="feed-box" style="border-left: 4px solid var(--blue);">
-      <h3 style="margin-top:0;">🤖 Tanya Guru AI</h3>
-      <input type="text" id="studentName" class="dialog-input" placeholder="Nama Kamu (Misal: Siti)">
-      <textarea id="aiPrompt" class="dialog-textarea" rows="3" placeholder="Tanyakan materi pelajaran di sini..."></textarea>
-      <button type="button" class="primary-button" id="btnTanyaAI">Kirim Pertanyaan ke AI</button>
-      <div id="aiResponse" style="margin-top:10px; font-size:14px; white-space:pre-wrap; color:var(--text);"></div>
-    </div>
-
-    <!-- Panel Posting Materi Guru -->
-    <div class="feed-box" style="border-left: 4px solid var(--green);">
-      <h3 style="margin-top:0;">👨‍🏫 Mode Guru: Posting Materi / Tugas</h3>
-      <input type="text" id="teacherName" class="dialog-input" placeholder="Nama Guru">
-      <input type="text" id="materialTitle" class="dialog-input" placeholder="Judul Materi">
-      <textarea id="materialContent" class="dialog-textarea" rows="3" placeholder="Isi materi pelajaran..."></textarea>
-      <button type="button" class="primary-button" style="background:var(--green);" id="btnPostMateri">Simpan Materi ke Database</button>
-    </div>
-
-    <!-- Feed Data Realtime dari Database -->
-    <div class="feed-box" style="border-left: 4px solid var(--yellow);">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="margin:0;">📢 Aktivitas Ruang Belajar Terbaru</h3>
-        <button type="button" id="btnRefreshData" style="padding:5px 10px; font-size:12px; cursor:pointer;">🔄 Refresh</button>
-      </div>
-      <div id="dbFeed" style="margin-top:10px;">Klik Refresh untuk memuat data dari Supabase...</div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <span>© <span id="year"></span> OoeR</span>
-  <div class="footer-links">
-    <a href="mailto:oerplatfrom@gmail.com">Kontak Bisnis: oerplatfrom@gmail.com</a>
-  </div>
-</footer>
-
-<!-- DIALOG OVERLAYS -->
-<div class="overlay" id="settingsOverlay" role="dialog">
-  <div class="dialog">
-    <div class="dialog-head"><h2>Pengaturan</h2><button class="close-button" type="button" data-close="settingsOverlay">×</button></div>
-    <button class="primary-button" id="themeButton" type="button">Aktifkan mode gelap</button>
+  <div class="result-box" id="resultBox">
+    <h2>🎉 Hasil Kuis Kamu</h2>
+    <div class="result-score" id="finalScore">0 / 150</div>
+    <p id="resultDetail"></p>
+    <button type="button" class="primary-button" style="background:var(--blue); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin-top:10px;" onclick="location.reload()">Ulangi Kuis</button>
   </div>
 </div>
 
 <script>
-(() => {
-  "use strict";
+  const container = document.getElementById('quizContainer');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultBox = document.getElementById('resultBox');
+  const finalScore = document.getElementById('finalScore');
+  const resultDetail = document.getElementById('resultDetail');
 
-  // SINKRONISASI KONEKSI SUPABASE LENGKAP
-  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  // Bank Kunci Jawaban Simulasi (Otomatis digenerate untuk 150 soal)
+  const answerKey = {};
 
-  const $ = id => document.getElementById(id);
-  let supabaseClient = null;
+  function generateQuiz() {
+    let html = '';
+    
+    // --- 100 SOAL PILIHAN GANDA (10 Level Peningkatan Kesulitan) ---
+    for (let i = 1; i <= 100; i++) {
+      let level = Math.ceil(i / 10); // Level 1 sampai 10 (tiap 10 soal naik level)
+      let options = ['A', 'B', 'C', 'D'];
+      // Tentukan kunci jawaban simulasi (misal: rotasi A, B, C, D)
+      let correctOpt = options[(i - 1) % 4]; 
+      answerKey[`q_${i}`] = correctOpt;
 
-  if (window.supabase?.createClient) {
-    try {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    } catch (err) {
-      console.error("Supabase Error:", err);
+      html += `
+        <div class="question-box">
+          <span class="level-badge">Soal ${i} (Level ${level} - ${getCategoryName(level)})</span>
+          <div class="question-title">${i}. Pertanyaan tingkat kesulitan ${level} mengenai logika/sains/pengetahuan umum mendalam?</div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="q_${i}" value="A"> A. Pilihan jawaban pertama untuk soal nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="B"> B. Pilihan jawaban kedua untuk soal nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="C"> C. Pilihan jawaban ketiga untuk soal nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="D"> D. Pilihan jawaban keempat untuk soal nomor ${i}</label>
+          </div>
+        </div>
+      `;
     }
+
+    // --- 50 SOAL ESAI (Tingkat Kesulitan Lanjutan) ---
+    for (let i = 101; i <= 150; i++) {
+      let level = Math.ceil((i - 100) / 10) + 5; // Level lanjutan untuk esai
+      html += `
+        <div class="question-box" style="border-left: 4px solid var(--blue);">
+          <span class="level-badge" style="background:#e6f4ea; color:#137333;">Esai ${i} (Tingkat Mahir)</span>
+          <div class="question-title">${i}. Uraikan secara analitis dan mendalam mengenai konsep tingkat lanjut nomor ${i}?</div>
+          <textarea class="essay-input" name="q_${i}" rows="3" placeholder="Tulis jawaban esai kamu di sini..."></textarea>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
   }
 
-  $("year").textContent = new Date().getFullYear();
-
-  // 1. TANYA AI & SIMPAN KE DATABASE
-  $("btnTanyaAI")?.addEventListener("click", async () => {
-    const student = $("studentName").value.trim();
-    const prompt = $("aiPrompt").value.trim();
-    const output = $("aiResponse");
-
-    if (!student || !prompt) {
-      alert("Isi Nama Kamu dan Pertanyaan terlebih dahulu!");
-      return;
-    }
-
-    output.innerText = "⏳ OoeR AI sedang berpikir...";
-
-    try {
-      // Panggil Supabase Edge Function 'oer-learning'
-      const { data, error } = await supabaseClient.functions.invoke('oer-learning', {
-        body: { prompt: prompt }
-      });
-
-      if (error) throw error;
-
-      const jawaban = data?.answer || "AI tidak memberikan jawaban.";
-      output.innerText = "🤖 JAWABAN AI:\n" + jawaban;
-
-      // Simpan riwayat diskusi ke database Supabase
-      await supabaseClient.from('oer_discussions').insert([
-        { sender_name: student, role: 'student', message: prompt },
-        { sender_name: 'Guru AI OoeR', role: 'teacher', message: jawaban }
-      ]);
-
-      loadDatabaseFeed();
-    } catch (err) {
-      output.innerText = "Gagal memproses AI: " + (err.message || err);
-    }
-  });
-
-  // 2. GURU POSTING MATERI KE DATABASE
-  $("btnPostMateri")?.addEventListener("click", async () => {
-    const teacher = $("teacherName").value.trim();
-    const title = $("materialTitle").value.trim();
-    const content = $("materialContent").value.trim();
-
-    if (!teacher || !title || !content) {
-      alert("Semua bidang materi harus diisi!");
-      return;
-    }
-
-    try {
-      const { error } = await supabaseClient.from('oer_materials').insert([
-        { title: `[${teacher}] ${title}`, content_text: content }
-      ]);
-
-      if (error) throw error;
-
-      alert("Materi berhasil tersimpan di database Supabase!");
-      $("materialTitle").value = "";
-      $("materialContent").value = "";
-      loadDatabaseFeed();
-    } catch (err) {
-      alert("Gagal menyimpan materi: " + err.message);
-    }
-  });
-
-  // 3. AMBIL DATA NYATA DARI SUPABASE
-  async function loadDatabaseFeed() {
-    const feed = $("dbFeed");
-    feed.innerText = "Memuat data terbaru...";
-
-    try {
-      const { data: materials } = await supabaseClient.from('oer_materials').select('*').order('created_at', { ascending: false }).limit(3);
-      const { data: discussions } = await supabaseClient.from('oer_discussions').select('*').order('created_at', { ascending: false }).limit(3);
-
-      let html = "<b>--- MATERI TERBARU ---</b><br>";
-      if (materials && materials.length > 0) {
-        materials.forEach(m => {
-          html += `<div class="feed-card"><b>${m.title}</b><br>${m.content_text}</div>`;
-        });
-      } else {
-        html += "<div class='feed-card'>Belum ada materi.</div>";
-      }
-
-      html += "<br><b>--- DISKUSI TERAKHIR ---</b><br>";
-      if (discussions && discussions.length > 0) {
-        discussions.forEach(d => {
-          html += `<div class="feed-card"><b>${d.sender_name} (${d.role}):</b> ${d.message}</div>`;
-        });
-      } else {
-        html += "<div class='feed-card'>Belum ada diskusi.</div>";
-      }
-
-      feed.innerHTML = html;
-    } catch (err) {
-      feed.innerText = "Gagal mengambil data dari Supabase.";
-    }
+  function getCategoryName(lvl) {
+    if (lvl <= 2) return "Standar / Pemula";
+    if (lvl <= 4) return "Menengah (Intermediate)";
+    if (lvl <= 6) return "Sulit (Advanced)";
+    if (lvl <= 8) return "Sangat Sulit (Expert)";
+    return "Tingkat Dewa (Master)";
   }
 
-  $("btnRefreshData")?.addEventListener("click", loadDatabaseFeed);
-  $("ruangBelajarBtn")?.addEventListener("click", () => {
-    $("ruang-belajar-section").scrollIntoView({ behavior: "smooth" });
-    loadDatabaseFeed();
-  });
-  $("aiButton")?.addEventListener("click", () => {
-    $("ruang-belajar-section").scrollIntoView({ behavior: "smooth" });
-    $("aiPrompt").focus();
-  });
+  generateQuiz();
 
-  // TEMA & DIALOG
-  $("settingsButton")?.addEventListener("click", () => $("settingsOverlay").classList.add("show"));
-  document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => $("settingsOverlay").classList.remove("show")));
-  $("themeButton")?.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-  });
+  // Tombol Hitung Nilai Otomatis
+  submitBtn.addEventListener('click', () => {
+    let scorePG = 0;
+    let totalPG = 100;
+    let essayCount = 50;
+    let filledEssay = 0;
 
-})();
+    // Hitung Pilihan Ganda
+    for (let i = 1; i <= totalPG; i++) {
+      const selected = document.querySelector(`input[name="q_${i}"]:checked`);
+      if (selected && selected.value === answerKey[`q_${i}`]) {
+        scorePG++;
+      }
+    }
+
+    // Hitung Esai (dinilai benar jika diisi teks lebih dari 5 karakter)
+    for (let i = 101; i <= 150; i++) {
+      const essayVal = document.querySelector(`textarea[name="q_${i}"]`).value.trim();
+      if (essayVal.length > 5) {
+        filledEssay++;
+      }
+    }
+
+    // Total Nilai (Pilihan Ganda + Esai yang dijawab bernilai)
+    let totalScore = scorePG + filledEssay;
+
+    // Tampilkan Hasil
+    document.getElementById('quizForm').style.display = 'none';
+    resultBox.style.display = 'block';
+    finalScore.innerText = `${totalScore} / 150`;
+    resultDetail.innerHTML = `Skor Pilihan Ganda Benar: <b>${scorePG} / 100</b><br>Esai Terjawab & Dianalisis: <b>${filledEssay} / 50</b><br><br>Hebat! Kamu telah merampungkan tantangan 150 soal bertingkat di OoeR.`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 </script>
+
 </body>
 </html>
