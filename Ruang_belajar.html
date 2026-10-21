@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR - Tantangan 150 Soal Tersulit Bertingkat</title>
+<title>OoeR - Ruang Belajar Bertingkat</title>
 <style>
   :root {
     --text: #202124; --muted: #5f6368; --border: #dfe1e5;
     --bg: #fff; --soft: #f8f9fa; --blue: #4285f4;
-    --green: #34a853; --red: #ea4335; --shadow: 0 1px 6px #20212430;
+    --green: #34a853; --yellow: #fbbc05; --shadow: 0 1px 6px #20212430;
   }
   body {
     margin: 0; padding: 20px; background: var(--bg); color: var(--text);
@@ -18,135 +18,168 @@
   h1 { text-align: center; color: var(--blue); font-size: 24px; margin-bottom: 5px; }
   p.subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 25px; }
   
-  .level-badge { background: #e8f0fe; color: #174ea6; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+  /* Pilihan Mata Pelajaran */
+  .subject-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .subject-btn { padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-weight: bold; cursor: pointer; text-align: center; }
+  .subject-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+  /* Info Level */
+  .level-header { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 15px; }
+  .level-title { font-weight: bold; color: #174ea6; font-size: 15px; }
+  
   .question-box { background: var(--bg); border: 1px solid var(--border); padding: 18px; border-radius: 12px; margin-bottom: 15px; }
-  .question-title { font-weight: bold; font-size: 15px; margin-bottom: 12px; line-height: 1.5; }
+  .question-title { font-weight: bold; font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
   
   .options-list { display: grid; gap: 8px; }
-  .option-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 14px; background: var(--bg); }
+  .option-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 13px; background: var(--bg); }
   .option-label:hover { background: #f1f3f4; }
   
-  textarea.essay-input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; resize: vertical; box-sizing: border-box; }
-  
-  .btn-submit { width: 100%; background: var(--green); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-  .btn-submit:hover { opacity: 0.9; }
-  
-  .result-box { display: none; background: var(--bg); border: 2px solid var(--green); padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; }
-  .result-score { font-size: 36px; font-weight: bold; color: var(--green); margin: 10px 0; }
+  .btn-action { width: 100%; background: var(--green); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+  .btn-action:hover { opacity: 0.9; }
+
+  /* Hasil Level */
+  .result-card { display: none; background: var(--bg); border: 2px solid var(--green); padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; }
+  .score-big { font-size: 32px; font-weight: bold; color: var(--green); margin: 10px 0; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🧠 OoeR Master Challenge</h1>
-  <p class="subtitle">100 Soal Pilihan Ganda & 50 Soal Esai (Tingkat Kesulitan Naik Setiap 10 Soal!)</p>
+  <h1>📚 Ruang Belajar Bertingkat OoeR</h1>
+  <p class="subtitle">Pilih mata pelajaran, taklukkan 3 level tantangan (masing-masing 10 soal dengan kesulitan berbeda)!</p>
 
-  <form id="quizForm">
-    <div id="quizContainer"></div>
-    <button type="button" class="btn-submit" id="submitBtn">Selesai & Hitung Nilai Saya!</button>
-  </form>
+  <!-- Pilihan Pelajaran -->
+  <div class="subject-grid" id="subjectGrid">
+    <button class="subject-btn active" onclick="changeSubject('Matematika')">Matematika</button>
+    <button class="subject-btn" onclick="changeSubject('Fisika')">Fisika</button>
+    <button class="subject-btn" onclick="changeSubject('Bahasa Inggris')">Bahasa Inggris</button>
+  </div>
 
-  <div class="result-box" id="resultBox">
-    <h2>🎉 Hasil Kuis Kamu</h2>
-    <div class="result-score" id="finalScore">0 / 150</div>
-    <p id="resultDetail"></p>
-    <button type="button" class="primary-button" style="background:var(--blue); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin-top:10px;" onclick="location.reload()">Ulangi Kuis</button>
+  <!-- Header Level -->
+  <div class="level-header">
+    <span class="level-title" id="levelIndicator">Mata Pelajaran: Matematika | Level 1 (Standar)</span>
+    <span id="levelProgress" style="font-size: 13px; color: var(--muted);">Soal 1-10 dari 30</span>
+  </div>
+
+  <!-- Konten Kuis -->
+  <div id="quizArea"></div>
+
+  <button type="button" class="btn-action" id="submitLevelBtn" onclick="submitLevel()">Selesaikan Level Ini & Cek Skor</button>
+
+  <!-- Hasil Skor Per Level -->
+  <div class="result-card" id="resultCard">
+    <h2>🎉 Hasil Level Tercapai!</h2>
+    <div class="score-big" id="levelScoreText">Skor: 10/10</div>
+    <p id="levelDesc">Hebat! Kamu berhasil menaklukkan level ini dan membuka level berikutnya.</p>
+    <button type="button" class="btn-action" style="background:var(--blue);" id="nextLevelBtn" onclick="nextLevel()">Lanjut ke Level Berikutnya ➔</button>
   </div>
 </div>
 
 <script>
-  const container = document.getElementById('quizContainer');
-  const submitBtn = document.getElementById('submitBtn');
-  const resultBox = document.getElementById('resultBox');
-  const finalScore = document.getElementById('finalScore');
-  const resultDetail = document.getElementById('resultDetail');
+  let currentSubject = 'Matematika';
+  let currentLevel = 1; // Level 1 (Soal 1-10), Level 2 (Soal 11-20), Level 3 (Soal 21-30)
+  const totalLevels = 3;
 
-  // Bank Kunci Jawaban Simulasi (Otomatis digenerate untuk 150 soal)
-  const answerKey = {};
+  // Kunci jawaban acak simulasi untuk tiap pelajaran & level
+  const answers = {};
 
-  function generateQuiz() {
+  function initQuiz() {
+    const quizArea = document.getElementById('quizArea');
     let html = '';
     
-    // --- 100 SOAL PILIHAN GANDA (10 Level Peningkatan Kesulitan) ---
-    for (let i = 1; i <= 100; i++) {
-      let level = Math.ceil(i / 10); // Level 1 sampai 10 (tiap 10 soal naik level)
-      let options = ['A', 'B', 'C', 'D'];
-      // Tentukan kunci jawaban simulasi (misal: rotasi A, B, C, D)
-      let correctOpt = options[(i - 1) % 4]; 
-      answerKey[`q_${i}`] = correctOpt;
+    // Tentukan rentang soal berdasarkan level (10 soal per level)
+    let startIdx = (currentLevel - 1) * 10 + 1;
+    let endIdx = currentLevel * 10;
+
+    document.getElementById('levelIndicator').innerText = `${currentSubject} | Level ${currentLevel} (${getLevelName(currentLevel)})`;
+    document.getElementById('levelProgress').innerText = `Soal ${startIdx}-${endIdx} dari 30`;
+
+    for (let i = startIdx; i <= endIdx; i++) {
+      let optList = ['A', 'B', 'C', 'D'];
+      let correctOpt = optList[(i * 3) % 4]; // Kunci jawaban unik per soal
+      answers[`${currentSubject}_${currentLevel}_${i}`] = correctOpt;
 
       html += `
         <div class="question-box">
-          <span class="level-badge">Soal ${i} (Level ${level} - ${getCategoryName(level)})</span>
-          <div class="question-title">${i}. Pertanyaan tingkat kesulitan ${level} mengenai logika/sains/pengetahuan umum mendalam?</div>
+          <div class="question-title">${i}. Pertanyaan ${currentSubject} tingkat kesulitan level ${currentLevel} (Bagian ${i})?</div>
           <div class="options-list">
-            <label class="option-label"><input type="radio" name="q_${i}" value="A"> A. Pilihan jawaban pertama untuk soal nomor ${i}</label>
-            <label class="option-label"><input type="radio" name="q_${i}" value="B"> B. Pilihan jawaban kedua untuk soal nomor ${i}</label>
-            <label class="option-label"><input type="radio" name="q_${i}" value="C"> C. Pilihan jawaban ketiga untuk soal nomor ${i}</label>
-            <label class="option-label"><input type="radio" name="q_${i}" value="D"> D. Pilihan jawaban keempat untuk soal nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="A"> A. Jawaban pilihan A untuk nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="B"> B. Jawaban pilihan B untuk nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="C"> C. Jawaban pilihan C untuk nomor ${i}</label>
+            <label class="option-label"><input type="radio" name="q_${i}" value="D"> D. Jawaban pilihan D untuk nomor ${i}</label>
           </div>
         </div>
       `;
     }
 
-    // --- 50 SOAL ESAI (Tingkat Kesulitan Lanjutan) ---
-    for (let i = 101; i <= 150; i++) {
-      let level = Math.ceil((i - 100) / 10) + 5; // Level lanjutan untuk esai
-      html += `
-        <div class="question-box" style="border-left: 4px solid var(--blue);">
-          <span class="level-badge" style="background:#e6f4ea; color:#137333;">Esai ${i} (Tingkat Mahir)</span>
-          <div class="question-title">${i}. Uraikan secara analitis dan mendalam mengenai konsep tingkat lanjut nomor ${i}?</div>
-          <textarea class="essay-input" name="q_${i}" rows="3" placeholder="Tulis jawaban esai kamu di sini..."></textarea>
-        </div>
-      `;
-    }
-
-    container.innerHTML = html;
+    quizArea.innerHTML = html;
+    document.getElementById('resultCard').style.display = 'none';
+    document.getElementById('quizArea').style.display = 'block';
+    document.getElementById('submitLevelBtn').style.display = 'block';
   }
 
-  function getCategoryName(lvl) {
-    if (lvl <= 2) return "Standar / Pemula";
-    if (lvl <= 4) return "Menengah (Intermediate)";
-    if (lvl <= 6) return "Sulit (Advanced)";
-    if (lvl <= 8) return "Sangat Sulit (Expert)";
-    return "Tingkat Dewa (Master)";
+  function getLevelName(lvl) {
+    if (lvl === 1) return "Standar / Pemula";
+    if (lvl === 2) return "Menengah / Sulit";
+    if (lvl === 3) return "Tingkat Dewa / Master";
+    return "";
   }
 
-  generateQuiz();
+  function changeSubject(subj) {
+    currentSubject = subj;
+    currentLevel = 1;
+    
+    // Update tombol aktif mata pelajaran
+    document.querySelectorAll('.subject-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.innerText === subj);
+    });
 
-  // Tombol Hitung Nilai Otomatis
-  submitBtn.addEventListener('click', () => {
-    let scorePG = 0;
-    let totalPG = 100;
-    let essayCount = 50;
-    let filledEssay = 0;
+    initQuiz();
+  }
 
-    // Hitung Pilihan Ganda
-    for (let i = 1; i <= totalPG; i++) {
+  function submitLevel() {
+    let startIdx = (currentLevel - 1) * 10 + 1;
+    let endIdx = currentLevel * 10;
+    let correctCount = 0;
+
+    for (let i = startIdx; i <= endIdx; i++) {
       const selected = document.querySelector(`input[name="q_${i}"]:checked`);
-      if (selected && selected.value === answerKey[`q_${i}`]) {
-        scorePG++;
+      if (selected && selected.value === answers[`${currentSubject}_${currentLevel}_${i}`]) {
+        correctCount++;
       }
     }
 
-    // Hitung Esai (dinilai benar jika diisi teks lebih dari 5 karakter)
-    for (let i = 101; i <= 150; i++) {
-      const essayVal = document.querySelector(`textarea[name="q_${i}"]`).value.trim();
-      if (essayVal.length > 5) {
-        filledEssay++;
-      }
+    // Tampilkan kartu hasil
+    document.getElementById('quizArea').style.display = 'none';
+    document.getElementById('submitLevelBtn').style.display = 'none';
+    
+    const resultCard = document.getElementById('resultCard');
+    resultCard.style.display = 'block';
+    document.getElementById('levelScoreText').innerText = `Skor Level ${currentLevel}: ${correctCount} / 10`;
+
+    const nextBtn = document.getElementById('nextLevelBtn');
+    if (currentLevel >= totalLevels) {
+      nextBtn.innerText = "🏆 Selamat! Semua Level Selesai (Ulangi Pelajaran)";
+    } else {
+      nextBtn.innerText = `Lanjut ke Level ${currentLevel + 1} ➔`;
     }
 
-    // Total Nilai (Pilihan Ganda + Esai yang dijawab bernilai)
-    let totalScore = scorePG + filledEssay;
-
-    // Tampilkan Hasil
-    document.getElementById('quizForm').style.display = 'none';
-    resultBox.style.display = 'block';
-    finalScore.innerText = `${totalScore} / 150`;
-    resultDetail.innerHTML = `Skor Pilihan Ganda Benar: <b>${scorePG} / 100</b><br>Esai Terjawab & Dianalisis: <b>${filledEssay} / 50</b><br><br>Hebat! Kamu telah merampungkan tantangan 150 soal bertingkat di OoeR.`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  }
+
+  function nextLevel() {
+    if (currentLevel < totalLevels) {
+      currentLevel++;
+      initQuiz();
+    } else {
+      // Jika sudah level 3 selesai, kembali ke level 1
+      currentLevel = 1;
+      initQuiz();
+    }
+  }
+
+  // Load awal
+  initQuiz();
 </script>
 
 </body>
