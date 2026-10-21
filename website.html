@@ -3,169 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR Website — Portal Kreator & Publikasi Lengkap</title>
+<title>OoeR Blog & Creator Space</title>
 <style>
   :root {
-    --text: #202124; --muted: #5f6368; --border: #dfe1e5;
-    --bg: #fff; --soft: #f8f9fa; --blue: #4285f4;
-    --red: #ea4335; --yellow: #fbbc05; --green: #34a853;
-    --shadow: 0 1px 6px #20212430;
+    --bg: #ffffff; --text: #1a1a1a; --muted: #666666; --border: #e0e0e0;
+    --card-bg: #f9f9f9; --primary: #1a73e8; --primary-hover: #1557b0;
+    --shadow: 0 4px 12px rgba(0,0,0,0.05);
   }
   body.dark {
-    --text: #e8eaed; --muted: #aeb4bc; --border: #41454c;
-    --bg: #202124; --soft: #303134; --shadow: 0 2px 10px #0005;
+    --bg: #18191a; --text: #e4e6eb; --muted: #b0b3b8; --border: #383a3f;
+    --card-bg: #242526; --primary: #4dabf7; --primary-hover: #3b82f6;
+    --shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
   *{box-sizing:border-box}
   body{
     margin:0;min-height:100vh;background:var(--bg);color:var(--text);
-    font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display:flex;flex-direction:column;
   }
+  /* Navigasi Atas */
   header{
-    width:100%;min-height:70px;padding:12px 30px;border-bottom:1px solid var(--border);
-    display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
+    border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;
   }
-  .logo-area{display:flex;align-items:center;gap:12px;font-weight:bold;font-size:20px;cursor:pointer;}
-  .logo-o{
-    width:35px;height:35px;border-radius:50%;display:inline-block;
-    background:conic-gradient(from -43deg,var(--red) 0deg 105deg,var(--yellow) 105deg 225deg,var(--blue) 225deg 360deg);
+  .brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;cursor:pointer;text-decoration:none;color:var(--text);}
+  .brand-dot{
+    width:28px;height:28px;border-radius:50%;display:inline-block;
+    background:conic-gradient(#ea4335 0deg 90deg, #fbbc05 90deg 180deg, #34a853 180deg 270deg, #4285f4 270deg 360deg);
   }
-  .nav-actions{display:flex;gap:10px;align-items:center;}
-  button,input,select,textarea{font:inherit;}
-  .btn{padding:9px 16px;border:0;border-radius:8px;cursor:pointer;font-weight:bold;font-size:13px;}
-  .btn-primary{background:var(--blue);color:white;}
-  .btn-primary:hover{opacity:0.9;}
-  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
-  .btn-outline:hover{background:var(--soft);}
+  .nav-btns{display:flex;gap:10px;align-items:center;}
+  .btn{
+    padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--bg);
+    color:var(--text);font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;transition:0.2s;
+  }
+  .btn:hover{background:var(--card-bg);}
+  .btn-primary{background:var(--primary);color:white;border-color:transparent;}
+  .btn-primary:hover{background:var(--primary-hover);}
 
-  main{width:min(100%, 1100px);margin:30px auto;flex:1;padding:0 20px;}
-  .hero-banner{
-    background:linear-gradient(135deg, #e8f0fe, #fce8e6);padding:30px;border-radius:18px;
-    margin-bottom:25px;border:1px solid var(--border);
-  }
-  body.dark .hero-banner{background:linear-gradient(135deg, #1e3a8a33, #7f1d1d33);}
-  .hero-banner h1{margin:0 0 10px;color:var(--blue);font-size:26px;}
-  .hero-banner p{margin:0 0 15px;color:var(--muted);font-size:14px;line-height:1.5;}
+  main{width:min(100%, 800px);margin:30px auto;flex:1;padding:0 20px;}
 
-  /* Tab Filter */
-  .filter-bar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px;}
-  .categories{display:flex;gap:8px;flex-wrap:wrap;}
-  .cat-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:12px;}
-  .cat-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
+  /* Header Blog */
+  .blog-intro{text-align:center;margin-bottom:35px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+  .blog-intro h1{margin:0 0 10px;font-size:32px;font-weight:800;}
+  .blog-intro p{margin:0;color:var(--muted);font-size:15px;}
 
-  /* Grid Karya */
-  .works-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:20px;}
-  .work-card{
-    background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;
-    display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);overflow:hidden;
+  /* Tab Kategori Blog */
+  .categories{display:flex;gap:8px;justify-content:center;margin-bottom:30px;flex-wrap:wrap;}
+  .cat-tab{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-size:13px;cursor:pointer;}
+  .cat-tab.active{background:var(--primary);color:white;border-color:transparent;}
+
+  /* Daftar Postingan Blog (Feed) */
+  .feed{display:flex;flex-direction:column;gap:24px;}
+  .post-card{
+    background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:24px;
+    box-shadow:var(--shadow);transition:transform 0.2s;
   }
-  .work-image{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:12px;background:var(--soft);}
-  .work-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:8px;}
-  .work-badge{background:#e6f4ea;color:#137333;padding:3px 8px;border-radius:6px;font-weight:bold;}
-  .work-card h3{margin:0 0 8px;font-size:17px;line-height:1.4;}
-  .work-card p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.6;white-space:pre-line;}
+  .post-card:hover{transform:translateY(-2px);}
+  .post-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:10px;}
+  .tag{background:rgba(26,115,232,0.1);color:var(--primary);padding:3px 8px;border-radius:6px;font-weight:bold;}
+  .post-card h2{margin:0 0 10px;font-size:22px;line-height:1.3;cursor:pointer;}
+  .post-card h2:hover{color:var(--primary);}
+  .post-snippet{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
   
-  /* Kotak Kode di Kartu */
-  .code-preview{background:#1e1e1e;color:#d4d4d4;padding:12px;border-radius:8px;font-family:monospace;font-size:12px;overflow-x:auto;margin-bottom:12px;max-height:120px;}
-
-  .work-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px;}
-  .creator-info{font-size:12px;font-weight:bold;}
-  
-  /* Modal Upload Komplit */
-  .overlay{display:none;position:fixed;inset:0;background:#0006;z-index:200;align-items:center;justify-content:center;padding:20px;}
+  /* Modal Tulis Artikel / Blog Baru */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:20px;}
   .overlay.show{display:flex;}
-  .modal{width:min(100%, 650px);background:var(--bg);padding:25px;border-radius:16px;border:1px solid var(--border);max-height:90vh;overflow:auto;}
-  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
-  .form-control{width:100%;padding:10px 12px;margin:6px 0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);}
-  
-  /* Toolbar Editor */
-  .editor-toolbar{display:flex;gap:5px;margin-bottom:5px;}
-  .editor-toolbar button{padding:4px 8px;background:var(--soft);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;}
-  .editor-toolbar button:hover{background:var(--border);}
+  .modal{
+    width:min(100%, 700px);background:var(--bg);color:var(--text);padding:30px;border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;border:1px solid var(--border);
+  }
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .form-control{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:14px;}
+  .form-control:focus{border-color:var(--primary);outline:none;}
 
-  footer{text-align:center;padding:20px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;margin-top:40px;}
+  footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;margin-top:50px;}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo-area" onclick="location.href='index.html'">
-    <span class="logo-o"></span>
-    <span>OoeR Website</span>
-  </div>
-  <div class="nav-actions">
-    <button class="btn btn-outline" onclick="location.href='index.html'">🏠 Beranda OoeR</button>
-    <button class="btn btn-primary" onclick="openUploadModal()">➕ Terbitkan Karya</button>
+  <a class="brand" href="index.html">
+    <span class="brand-dot"></span>
+    <span>OoeR Blog</span>
+  </a>
+  <div class="nav-btns">
+    <button class="btn" onclick="location.href='index.html'">Beranda</button>
+    <button class="btn btn-primary" onclick="openEditor()">✍️ Tulis Artikel</button>
   </div>
 </header>
 
 <main>
-  <div class="hero-banner">
-    <h1>🚀 Pusat Kreator & Publikasi Karya OoeR</h1>
-    <p>Unggah karya lengkap dengan foto/gambar, file dokumen, editor teks penuh, hingga blok kode pemrograman. Semua otomatis terindeks di mesin pencari OoeR!</p>
-    <button class="btn btn-primary" onclick="openUploadModal()">Mulai Unggah Karya Kamu</button>
+  <div class="blog-intro">
+    <h1>Ruang Publikasi & Artikel OoeR</h1>
+    <p>Baca catatan, tutorial, cerita, dan bagikan karya tulisanmu sendiri ke komunitas.</p>
   </div>
 
-  <div class="filter-bar">
-    <div class="categories">
-      <button class="cat-btn active" onclick="filterCategory('semua', this)">Semua Karya</button>
-      <button class="cat-btn" onclick="filterCategory('Edukasi', this)">📚 Edukasi & Soal</button>
-      <button class="cat-btn" onclick="filterCategory('Artikel', this)">📝 Artikel & Catatan</button>
-      <button class="cat-btn" onclick="filterCategory('Aplikasi', this)">💻 Kode & Aplikasi</button>
-      <button class="cat-btn" onclick="filterCategory('Seni', this)">🎨 Foto & Desain</button>
-    </div>
-    <span id="totalWorks" style="font-size:13px; color:var(--muted);">Memuat karya...</span>
+  <!-- Filter Kategori -->
+  <div class="categories">
+    <button class="cat-tab active" onclick="filterBlog('semua', this)">Semua Tulisan</button>
+    <button class="cat-tab" onclick="filterBlog('Teknologi', this)">💻 Teknologi & Kode</button>
+    <button class="cat-tab" onclick="filterBlog('Edukasi', this)">📚 Edukasi & Belajar</button>
+    <button class="cat-tab" onclick="filterBlog('Opini', this)">💡 Opini & Catatan</button>
   </div>
 
-  <!-- Daftar Karya -->
-  <div class="works-grid" id="worksGrid"></div>
+  <!-- Feed Artikel -->
+  <div class="feed" id="blogFeed"></div>
 </main>
 
 <footer>
-  <p>© 2026 OoeR Platform. Terintegrasi penuh dengan OoeR Search.</p>
+  <p>© 2026 OoeR Blog Platform · Terintegrasi dengan OoeR Search</p>
 </footer>
 
-<!-- MODAL UPLOAD KOMPLIT -->
-<div class="overlay" id="uploadModal">
+<!-- MODAL EDITOR BLOG (Blogger / Medium Style) -->
+<div class="overlay" id="editorModal">
   <div class="modal">
-    <div class="modal-head">
-      <h2 style="margin:0; font-size:18px;">✨ Terbitkan Karya Komplit ke OoeR</h2>
-      <button class="btn btn-outline" style="padding:4px 10px;" onclick="closeUploadModal()">✕</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h2 style="margin:0;font-size:20px;">Tulis Artikel / Blog Baru</h2>
+      <button class="btn" style="padding:4px 10px;" onclick="closeEditor()">✕</button>
     </div>
-    <form id="uploadForm">
-      <label>Nama Kreator:</label>
-      <input type="text" id="creatorName" class="form-control" required placeholder="Contoh: Arip Rahman">
-
-      <label>Judul Karya:</label>
-      <input type="text" id="workTitle" class="form-control" required placeholder="Contoh: Modul & Source Code Game Sederhana">
-
-      <label>Kategori:</label>
-      <select id="workCategory" class="form-control">
-        <option value="Edukasi">📚 Edukasi & Soal</option>
-        <option value="Artikel">📝 Artikel & Catatan</option>
-        <option value="Aplikasi">💻 Kode & Aplikasi</option>
-        <option value="Seni">🎨 Foto & Desain</option>
-      </select>
-
-      <label>URL / Link Foto Preview (Opsional):</label>
-      <input type="url" id="workImage" class="form-control" placeholder="https://contoh.com/gambar.jpg (untuk kartu visual)">
-
-      <label>Isi / Catatan Lengkap:</label>
-      <div class="editor-toolbar">
-        <button type="button" onclick="formatText('<b>', '</b>')"><b>B</b></button>
-        <button type="button" onclick="formatText('<i>', '</i>')"><i>I</i></button>
-        <button type="button" onclick="formatText('<u>', '</u>')"><u>U</u></button>
-        <button type="button" onclick="formatText('<h3>', '</h3>')">H3</button>
-        <button type="button" onclick="formatText('\n• ', '')">• List</button>
+    <form id="blogForm">
+      <div class="form-group">
+        <label>Nama Penulis / Kreator</label>
+        <input type="text" id="authorName" class="form-control" required placeholder="Contoh: Arip Rahman">
       </div>
-      <textarea id="workDesc" class="form-control" rows="5" required placeholder="Tulis penjelasan, deskripsi, atau artikel lengkap di sini..."></textarea>
-
-      <label>Blok Kode Pemrograman / Source Code (Opsional):</label>
-      <textarea id="workCode" class="form-control" rows="4" placeholder="// Tulis kode HTML/JS/Python di sini jika ada..." style="font-family:monospace; background:#1e1e1e; color:#d4d4d4;"></textarea>
-
-      <label>Link File / Tautan Download Eksternal (Opsional):</label>
-      <input type="url" id="workLink" class="form-control" placeholder="https://github.com/... atau link file download">
-
-      <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Publikasikan Sekarang 🚀</button>
+      <div class="form-group">
+        <label>Judul Artikel</label>
+        <input type="text" id="blogTitle" class="form-control" required placeholder="Contoh: Cara Mudah Memahami Logika Pemrograman Web">
+      </div>
+      <div class="form-group">
+        <label>Kategori</label>
+        <select id="blogCategory" class="form-control">
+          <option value="Teknologi">💻 Teknologi & Kode</option>
+          <option value="Edukasi">📚 Edukasi & Belajar</option>
+          <option value="Opini">💡 Opini & Catatan</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>URL Foto Sampul (Opsional)</label>
+        <input type="url" id="blogImage" class="form-control" placeholder="https://images.unsplash.com/...">
+      </div>
+      <div class="form-group">
+        <label>Isi Artikel Lengkap</label>
+        <textarea id="blogContent" class="form-control" rows="8" required placeholder="Tulis isi artikel kamu di sini secara lengkap..."></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;">
+        <button type="button" class="btn" onclick="closeEditor()">Batal</button>
+        <button type="submit" class="btn btn-primary">Terbitkan Sekarang 🚀</button>
+      </div>
     </form>
   </div>
 </div>
@@ -174,141 +159,101 @@
 (() => {
   "use strict";
 
-  const defaultWorks = [
+  const defaultPosts = [
     {
-      id: "work_1",
-      title: "Contoh Website Portfolio & Kode HTML",
-      category: "Aplikasi",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop",
-      desc: "Template portfolio bersih menggunakan HTML dan CSS modern yang siap pakai untuk pelajar.",
-      code: "<div class=\"card\">\n  <h1>Halo OoeR</h1>\n  <p>Selamat datang di platform kreator.</p>\n</div>",
-      creator: "Arip Rahman",
-      link: "#",
-      date: "2026-10-21"
+      id: "p1",
+      title: "Membangun Ekosistem Browser Web Sendiri di GitHub Pages",
+      category: "Teknologi",
+      author: "Arip Rahman",
+      date: "21 Oktober 2026",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=700&auto=format&fit=crop",
+      content: "Membuat platform web sendiri memberikan kebebasan penuh dalam mengatur fitur, penyimpanan lokal, hingga sistem pencarian. Dengan memanfaatkan HTML, CSS, dan JavaScript murni, kita bisa menciptakan browser mini yang fungsional tanpa server yang rumit."
     }
   ];
 
-  function getWorks() {
+  function getPosts() {
     try {
-      const stored = JSON.parse(localStorage.getItem("oer_creator_works") || "null");
+      const stored = JSON.parse(localStorage.getItem("oer_blog_posts") || "null");
       if (Array.isArray(stored) && stored.length > 0) return stored;
     } catch {}
-    localStorage.setItem("oer_creator_works", JSON.stringify(defaultWorks));
-    return defaultWorks;
+    localStorage.setItem("oer_blog_posts", JSON.stringify(defaultPosts));
+    return defaultPosts;
   }
 
-  let activeFilter = "semua";
+  let currentCategory = "semua";
 
-  function renderWorks() {
-    const grid = document.getElementById("worksGrid");
-    const totalSpan = document.getElementById("totalWorks");
-    const works = getWorks();
+  function renderFeed() {
+    const feed = document.getElementById("blogFeed");
+    const posts = getPosts();
+    const filtered = posts.filter(p => currentCategory === "semua" || p.category === currentCategory);
 
-    const filtered = works.filter(w => activeFilter === "semua" || w.category === activeFilter);
-    totalSpan.textContent = `Menampilkan ${filtered.length} dari ${works.length} karya`;
-
-    grid.replaceChildren();
+    feed.replaceChildren();
 
     if (!filtered.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--muted);">Belum ada karya dalam kategori ini.</div>`;
+      feed.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);">Belum ada tulisan di kategori ini.</div>`;
       return;
     }
 
-    filtered.forEach(work => {
-      const card = document.createElement("div");
-      card.className = "work-card";
-
-      let imgHtml = work.image ? `<img src="${work.image}" class="work-image" alt="Preview" onerror="this.style.display='none'">` : '';
-      let codeHtml = work.code ? `<div class="code-preview"><code>${escapeHtml(work.code)}</code></div>` : '';
-
+    filtered.forEach(p => {
+      const card = document.createElement("article");
+      card.className = "post-card";
       card.innerHTML = `
-        <div>
-          ${imgHtml}
-          <div class="work-meta">
-            <span class="work-badge">${work.category}</span>
-            <span>${work.date}</span>
-          </div>
-          <h3>${work.title}</h3>
-          <p>${work.desc}</p>
-          ${codeHtml}
+        <div class="post-meta">
+          <span class="tag">${p.category}</span>
+          <span>${p.date} • Oleh <b>${p.author}</b></span>
         </div>
-        <div class="work-footer">
-          <span class="creator-info">👤 ${work.creator}</span>
-          ${work.link && work.link !== "#" ? `<a href="${work.link}" class="btn btn-outline" style="padding:5px 10px; font-size:12px;" target="_blank">Buka File ↗</a>` : `<span style="font-size:11px; color:var(--muted);">Publikasi OoeR</span>`}
+        <h2>${p.title}</h2>
+        ${p.image ? `<img src="${p.image}" alt="Cover" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px;" onerror="this.style.display='none'">` : ""}
+        <p class="post-snippet">${p.content}</p>
+        <div style="display:flex;justify-content:flex-end;">
+          <span style="font-size:13px;color:var(--primary);font-weight:600;cursor:pointer;" onclick="alert('${p.content.replace(/'/g, "\\'")}')">Baca Selengkapnya →</span>
         </div>
       `;
-      grid.appendChild(card);
+      feed.appendChild(card);
     });
   }
 
-  function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  }
-
-  window.formatText = function(tagOpen, tagClose) {
-    const textarea = document.getElementById("workDesc");
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = textarea.value.substring(start, end);
-    textarea.value = textarea.value.substring(0, start) + tagOpen + selectedText + tagClose + textarea.value.substring(end);
-    textarea.focus();
+  window.filterBlog = (cat, btn) => {
+    currentCategory = cat;
+    document.querySelectorAll(".cat-tab").forEach(t => t.classList.toggle("active", t === btn));
+    renderFeed();
   };
 
-  window.filterCategory = function(cat, btn) {
-    activeFilter = cat;
-    document.querySelectorAll(".cat-btn").forEach(b => b.classList.toggle("active", b === btn));
-    renderWorks();
-  };
+  window.openEditor = () => document.getElementById("editorModal").classList.add("show");
+  window.closeEditor = () => document.getElementById("editorModal").classList.remove("show");
 
-  window.openUploadModal = function() {
-    document.getElementById("uploadModal").classList.add("show");
-  };
-
-  window.closeUploadModal = function() {
-    document.getElementById("uploadModal").classList.remove("show");
-  };
-
-  document.getElementById("uploadForm").addEventListener("submit", (e) => {
+  document.getElementById("blogForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const creator = document.getElementById("creatorName").value.trim();
-    const title = document.getElementById("workTitle").value.trim();
-    const category = document.getElementById("workCategory").value;
-    const image = document.getElementById("workImage").value.trim();
-    const desc = document.getElementById("workDesc").value.trim();
-    const code = document.getElementById("workCode").value.trim();
-    const link = document.getElementById("workLink").value.trim() || "#";
-
-    const newWork = {
-      id: "work_" + Date.now(),
-      title,
-      category,
-      image,
-      desc,
-      code,
-      creator,
-      link,
-      date: new Date().toISOString().split('T')[0]
+    const newPost = {
+      id: "post_" + Date.now(),
+      title: document.getElementById("blogTitle").value.trim(),
+      category: document.getElementById("blogCategory").value,
+      author: document.getElementById("authorName").value.trim(),
+      date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' }),
+      image: document.getElementById("blogImage").value.trim(),
+      content: document.getElementById("blogContent").value.trim()
     };
 
-    const works = getWorks();
-    works.unshift(newWork);
-    localStorage.setItem("oer_creator_works", JSON.stringify(works));
+    const posts = getPosts();
+    posts.unshift(newPost);
+    localStorage.setItem("oer_blog_posts", JSON.stringify(posts));
 
+    // Sinkronisasi otomatis ke search.html
     try {
-      const searchHistory = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
-      if (!searchHistory.includes(title)) {
-        searchHistory.unshift(title);
-        localStorage.setItem("oer_search_history", JSON.stringify(searchHistory));
+      const history = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
+      if (!history.includes(newPost.title)) {
+        history.unshift(newPost.title);
+        localStorage.setItem("oer_search_history", JSON.stringify(history));
       }
     } catch {}
 
-    alert("🎉 Berhasil! Karya komplit kamu telah diterbitkan dan otomatis terindeks di pencarian OoeR.");
-    document.getElementById("uploadForm").reset();
-    closeUploadModal();
-    renderWorks();
+    alert("🎉 Berhasil! Artikel blog kamu telah diterbitkan.");
+    document.getElementById("blogForm").reset();
+    closeEditor();
+    renderFeed();
   });
 
-  renderWorks();
+  renderFeed();
 })();
 </script>
 
