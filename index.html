@@ -283,7 +283,7 @@ footer a:hover{text-decoration:underline}
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
   
-/* Pintasan layanan baru OoeR */
+/* Pintasan layanan baru OoeR (Puisi & Cerita) */
 .service-shortcut {
   display: flex;
   flex-direction: column;
@@ -308,8 +308,7 @@ footer a:hover{text-decoration:underline}
   width: 48px;
   height: 48px;
   border-radius: 17px;
-  font-size: 23px;
-  font-weight: 800;
+  font-size: 22px;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
   transition: transform 0.18s ease;
 }
@@ -423,20 +422,20 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
         <span class="shortcut-label">Sosial</span>
       </a>
       
-      <!-- OoeR Website -->
-      <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="OoeR Website">
-        <span class="service-logo service-website" aria-hidden="true">W</span>
-        <span class="service-name">OoeR Website</span>
+      <!-- Puisi & Cerita (Hubungkan ke puisi_cerita.html dengan ikon keren) -->
+      <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="Puisi & Cerita">
+        <span class="service-logo service-website" aria-hidden="true">📜</span>
+        <span class="service-name">Puisi&cerita</span>
       </button>
 
       <!-- OoeR Ads -->
-      <button class="service-shortcut" id="oerAdsButton" type="button" aria-label="OoeR Ads">
+      <button class="service-shortcut" id="oerAdsButton" type="button" aria-label="OoeR Ads" style="display:none;">
         <span class="service-logo service-ads" aria-hidden="true">A</span>
         <span class="service-name">OoeR Ads</span>
       </button>
 
       <!-- Market OeR -->
-      <button class="service-shortcut" id="marketOerButton" type="button" aria-label="Market OeR">
+      <button class="service-shortcut" id="marketOerButton" type="button" aria-label="Market OeR" style="display:none;">
         <span class="service-logo service-market" aria-hidden="true">M</span>
         <span class="service-name">Market OeR</span>
       </button>
@@ -1249,9 +1248,9 @@ if ("serviceWorker" in navigator) {
   });
 }
   
-/* URL LAYANAN OOER */
+/* URL LAYANAN OOER (Puisi & Cerita) */
 const OER_SERVICE_URLS = {
-  website: "https://oer-p.github.io/Media-oer/website.html",
+  website: "puisi_cerita.html",
   ads: "",
   market: ""
 };
@@ -1265,7 +1264,7 @@ function openOerService(url, serviceName) {
 }
 
 document.getElementById("oerWebsiteButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.website, "OoeR Website");
+  openOerService(OER_SERVICE_URLS.website, "Puisi & Cerita");
 });
 
 document.getElementById("oerAdsButton")?.addEventListener("click", () => {
