@@ -11,21 +11,40 @@
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:#111317}
 .brand{font-size:22px;font-weight:800;color:var(--blue);text-decoration:none}
-.container{max-width:800px;margin:20px auto;padding:0 16px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
-input,textarea,select{width:100%;padding:12px;margin-top:8px;margin-bottom:16px;background:#17191d;border:1px solid var(--border);color:var(--text);border-radius:8px;font:inherit}
+.container{max-width:900px;margin:20px auto;padding:0 16px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+input,select{width:100%;padding:12px;margin-top:8px;margin-bottom:16px;background:#17191d;border:1px solid var(--border);color:var(--text);border-radius:8px;font:inherit}
+
+/* KOTAK EDITOR DIBUAT LEBIH LUAS, NYAMAN, DAN FULL TAMPILANNYA */
+textarea {
+  width: 100%;
+  min-height: 350px;
+  padding: 16px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  background: #111317;
+  border: 1px solid var(--border);
+  color: #9cdcfe;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
 button{padding:10px 18px;border:0;border-radius:8px;background:var(--blue);color:#17191d;font-weight:bold;cursor:pointer}
 button:hover{opacity:0.9}
-.tabs-editor{display:flex;gap:8px;margin-bottom:12px}
-.tab-btn{background:#2e3239;color:var(--text);flex:1}
-.tab-btn.active{background:var(--blue);color:#17191d}
 
-/* TAMPILAN PEMBACA ARTIKEL (READER VIEW) DENGAN BANNER GAMBAR & GAYA ELEGAN */
+.tabs-editor{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+.tab-btn{background:#2e3239;color:var(--text);padding:8px 14px;font-size:13px;border-radius:6px;cursor:pointer;}
+.tab-btn.active{background:var(--blue);color:#17191d;font-weight:bold;}
+.add-tab-btn{background:#34a853;color:#fff;padding:8px 12px;font-size:13px;border-radius:6px;}
+
 .read-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   margin: 20px auto;
-  padding: 30px 24px;
+  padding: 35px 28px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -33,7 +52,7 @@ button:hover{opacity:0.9}
   box-sizing: border-box;
 }
 .read-container h1, .read-title {
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1.35;
   word-break: break-word;
   margin-bottom: 14px;
@@ -51,7 +70,7 @@ button:hover{opacity:0.9}
 }
 .read-banner {
   width: 100%;
-  max-height: 380px;
+  max-height: 400px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 24px;
@@ -59,26 +78,27 @@ button:hover{opacity:0.9}
   display: none;
 }
 .read-content {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.9;
   color: #d2d5da;
   word-break: break-word;
 }
-.read-content h2 { font-size: 22px; color: var(--blue); margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-.read-content p { margin-bottom: 18px; text-align: justify; }
+.read-content h2 { font-size: 24px; color: var(--blue); margin-top: 36px; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.read-content p { margin-bottom: 20px; text-align: justify; }
 .read-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 14px 0; border: 1px solid var(--border); }
-.read-content blockquote { border-left: 4px solid var(--blue); padding: 12px 16px; margin: 20px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
-.read-content .code-box { background: #111317; color: #9cdcfe; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); }
+.read-content blockquote { border-left: 4px solid var(--blue); padding: 14px 18px; margin: 24px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
+.read-content .code-box { background: #111317; color: #9cdcfe; padding: 18px; border-radius: 8px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 24px 0; border: 1px solid var(--border); }
 
 .read-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 35px;
+  margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
 }
 @media(max-width:600px){
+  .card{padding:16px}
   .read-container{padding:16px}
   .read-container h1{font-size:24px}
 }
@@ -105,11 +125,11 @@ button:hover{opacity:0.9}
     <h2 id="editorHeading">Tulis Karya Baru</h2>
     <input type="hidden" id="editArticleId">
     
-    <label>Judul Artikel (Wajib minimal 2 kalimat):</label>
-    <input type="text" id="articleTitle" placeholder="Contoh: Mengenal Ekosistem OoeR. Inilah Solusi Portal Kreator Mandiri!">
+    <label>Judul Artikel (Bebas, tanpa batasan kalimat):</label>
+    <input type="text" id="articleTitle" placeholder="Contoh: Ekosistem OoeR">
 
-    <div style="display:flex;gap:12px;">
-      <div style="flex:1;">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
         <label>Kategori:</label>
         <select id="articleCategory">
           <option value="📰 Berita & Umum">📰 Berita & Umum</option>
@@ -118,7 +138,7 @@ button:hover{opacity:0.9}
           <option value="🎨 Seni & Kreatif">🎨 Seni & Kreatif</option>
         </select>
       </div>
-      <div style="flex:1;">
+      <div style="flex:1;min-width:200px;">
         <label>Tema Tampilan:</label>
         <select id="articleTheme">
           <option value="theme-dark">Dark Elegant</option>
@@ -131,19 +151,18 @@ button:hover{opacity:0.9}
     <label>URL Foto Sampul (Banner Utama):</label>
     <input type="text" id="articleImage" placeholder="https://images.unsplash.com/...">
 
-    <label>Isi Konten Artikel (Dibagi Menjadi 2 Halaman):</label>
-    <div class="tabs-editor">
-      <button type="button" class="tab-btn active" id="tabBtn1" onclick="switchEditorTab(0)">Halaman 1</button>
-      <button type="button" class="tab-btn" id="tabBtn2" onclick="switchEditorTab(1)">Halaman 2</button>
-    </div>
-    <textarea id="articleContentBox" rows="10" placeholder="Tulis konten HTML atau teks di sini..."></textarea>
+    <label style="display:block;margin-top:10px;">Isi Konten Artikel (Pilih halaman atau tambah dengan tombol +):</label>
+    <div class="tabs-editor" id="editorTabsContainer"></div>
+    
+    <!-- Kotak Tulis Lebar & Luas -->
+    <textarea id="articleContentBox" placeholder="Tulis konten HTML atau teks di sini... (Kotak ini luas ke bawah dan ke samping)"></textarea>
 
     <div style="display:flex;gap:10px;margin-top:10px;">
       <button type="button" onclick="publishArticle()" style="background:#34a853;color:#fff;">Publikasikan Artikel ✨</button>
       <button type="button" onclick="resetEditor()" style="background:#ea4335;color:#fff;">Batal</button>
     </div>
 
-    <hr style="border:0;border-top:1px solid var(--border);margin:25px 0;">
+    <hr style="border:0;border-top:1px solid var(--border);margin:30px 0;">
 
     <h3>Karya Saya yang Dipublikasikan</h3>
     <div id="myArticlesList" style="margin-top:12px;"></div>
@@ -167,7 +186,7 @@ button:hover{opacity:0.9}
 </main>
 
 <script>
-let articlePages = ["", ""];
+let articlePages = [""];
 let currentEditorIndex = 0;
 let currentReaderPages = [];
 let currentReaderIndex = 0;
@@ -197,24 +216,41 @@ function logout(){
   checkAuthStatus();
 }
 
+function renderEditorTabs(){
+  const container = document.getElementById("editorTabsContainer");
+  let html = "";
+  articlePages.forEach((_, idx) => {
+    let activeClass = idx === currentEditorIndex ? "tab-btn active" : "tab-btn";
+    html += `<button type="button" class="${activeClass}" onclick="switchEditorTab(${idx})">Halaman ${idx + 1}</button>`;
+  });
+  html += `<button type="button" class="add-tab-btn" onclick="addNewPage()">+ Tambah Halaman</button>`;
+  container.innerHTML = html;
+}
+
 function switchEditorTab(index){
   saveCurrentPageContent();
   currentEditorIndex = index;
-  document.getElementById("articleContentBox").value = articlePages[index];
-  document.getElementById("tabBtn1").className = index === 0 ? "tab-btn active" : "tab-btn";
-  document.getElementById("tabBtn2").className = index === 1 ? "tab-btn active" : "tab-btn";
+  document.getElementById("articleContentBox").value = articlePages[index] || "";
+  renderEditorTabs();
+}
+
+function addNewPage(){
+  saveCurrentPageContent();
+  articlePages.push("");
+  currentEditorIndex = articlePages.length - 1;
+  document.getElementById("articleContentBox").value = "";
+  renderEditorTabs();
 }
 
 function saveCurrentPageContent(){
   articlePages[currentEditorIndex] = document.getElementById("articleContentBox").value;
 }
 
-function renderEditorPagesTabs(){
-  articlePages = ["", ""];
+function resetEditorPages(){
+  articlePages = [""];
   currentEditorIndex = 0;
   document.getElementById("articleContentBox").value = "";
-  document.getElementById("tabBtn1").className = "tab-btn active";
-  document.getElementById("tabBtn2").className = "tab-btn";
+  renderEditorTabs();
 }
 
 function publishArticle(){
@@ -226,13 +262,13 @@ function publishArticle(){
   const image = document.getElementById("articleImage").value.trim();
   const author = localStorage.getItem("oer_logged_user") || "Kreator";
 
-  const sentenceCount = title.split(/[.!?]+/).filter(Boolean).length;
-  if(!title || sentenceCount < 2){
-    alert("Judul artikel wajib minimal 2 kalimat (atau lebih) agar lebih deskriptif!");
+  if(!title){
+    alert("Judul artikel tidak boleh kosong!");
     return;
   }
 
-  if(articlePages[0].trim() === "" && articlePages[1].trim() === ""){
+  const hasContent = articlePages.some(p => p.trim() !== "");
+  if(!hasContent){
     alert("Minimal isi salah satu halaman artikel!");
     return;
   }
@@ -254,8 +290,6 @@ function publishArticle(){
 
   localStorage.setItem("oer_user_websites", JSON.stringify(list));
   alert("Artikel berhasil dipublikasikan!");
-  
-  // LANGSUNG BUKA PRATINJAU ARTIKEL YANG BARU DIBUAT
   location.href = `website.html?view=${uniqueId}`;
 }
 
@@ -263,7 +297,7 @@ function resetEditor(){
   document.getElementById("editArticleId").value = "";
   document.getElementById("articleTitle").value = "";
   document.getElementById("articleImage").value = "";
-  renderEditorPagesTabs();
+  resetEditorPages();
   document.getElementById("editorHeading").innerText = "Tulis Karya Baru";
 }
 
@@ -306,9 +340,10 @@ function editArticle(id){
   document.getElementById("articleTheme").value = art.theme || "theme-dark";
   document.getElementById("articleImage").value = art.image || "";
   
-  articlePages = art.pages && art.pages.length >= 2 ? art.pages : [art.content || "", ""];
+  articlePages = art.pages && art.pages.length > 0 ? art.pages : [art.content || ""];
   currentEditorIndex = 0;
   document.getElementById("articleContentBox").value = articlePages[0];
+  renderEditorTabs();
   document.getElementById("editorHeading").innerText = "Edit Artikel";
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
@@ -353,14 +388,13 @@ window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("readTitle").innerText = target.title;
       document.getElementById("readMeta").innerHTML = `<span>Kategori: <b>${target.category}</b></span> • <span>Penulis: <b>${target.author}</b></span> • <span>${target.date}</span>`;
       
-      // MENGATUR GAMBAR BANNER UTAMA AGAR MUNCUL DAN TIDAK POLOS
       if(target.image){
         const img = document.getElementById("readBanner");
         img.src = target.image;
         img.style.display = "block";
       }
 
-      currentReaderPages = target.pages && target.pages.length >= 2 ? target.pages : [target.pages?.[0] || target.content || "", ""];
+      currentReaderPages = target.pages && target.pages.length > 0 ? target.pages : [target.content || ""];
       currentReaderIndex = 0;
       updateReaderView();
     } else {
@@ -369,7 +403,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   } else {
     checkAuthStatus();
-    renderEditorPagesTabs();
+    resetEditorPages();
   }
 });
 </script>
