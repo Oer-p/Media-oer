@@ -486,54 +486,6 @@ if(initial)runSearch(initial,["all","knowledge","images","books","news","videos"
   function openOerWebViewer(url) {
     try {
       const parsed = new URL(url);
-
-      // Hanya izinkan situs HTTPS dari daftar ini.
-     openOerWebViewer("https://apkpure.com/");
-      const allowedHosts = [
-        "apkpure.com",
-        "www.apkpure.com"
-      ];
-
-      if (
-        parsed.protocol !== "https:" ||
-        !allowedHosts.includes(parsed.hostname.toLowerCase())
-      ) {
-        return false;
-      }
-
-      currentUrl = parsed.href;
-      title.textContent = "APKPure";
-      notice.textContent =
-        "Situs sedang dimuat. Jika diblokir, pilih Buka tab baru.";
-
-      viewer.hidden = false;
-      frame.src = currentUrl;
-      document.body.style.overflow = "hidden";
-
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  function closeOerWebViewer() {
-    viewer.hidden = true;
-    frame.src = "about:blank";
-    document.body.style.overflow = "";
-  }
-
-  back.addEventListener("click", closeOerWebViewer);
-
-  newTab.addEventListener("click", function () {
-    if (currentUrl) {
-      window.open(currentUrl, "_blank", "noopener,noreferrer");
-    }
-  });
-
-  // Fungsi ini bisa dipakai dari hasil pencarian OeR.
-  window.openOerWebViewer = openOerWebViewer;
- openOerWebViewer("https://apkpure.com/");
-})();
 </script>
 </body>
 </html>
