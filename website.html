@@ -395,9 +395,7 @@
       list.unshift(articleObj);
     }
     
-    // Auto-sync ke penyimpanan global search.html
     localStorage.setItem("oer_user_websites", JSON.stringify(list));
-
     showSuccessPopup();
   }
 
@@ -481,7 +479,6 @@
   function deleteArticle(id) {
     if (confirm("Hapus artikel ini secara permanen dari publikasi dan mesin pencari?")) {
       let all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
-      // Hapus item dari array dan langsung sinkronkan ke search.html
       all = all.filter(a => a.id !== id);
       localStorage.setItem("oer_user_websites", JSON.stringify(all));
       renderMyArticles();
@@ -508,7 +505,7 @@
     const viewId = params.get("view");
 
     if (viewId) {
-      const all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+      let all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
       const target = all.find(a => a.id === viewId);
 
       if (target) {
@@ -527,7 +524,7 @@
           img.style.display = "block";
         }
 
-        currentReaderPages = target.pages || [target.content || ""];
+        currentReaderPages = target.pages && target.pages.length > 0 ? target.pages : [target.content || "Konten kosong"];
         currentReaderIndex = 0;
         updateReaderView();
 
@@ -536,7 +533,7 @@
         }
 
       } else {
-        alert("Artikel tidak ditemukan.");
+        alert("Artikel tidak ditemukan atau sudah dihapus.");
         location.href = "search.html";
       }
     } else {
