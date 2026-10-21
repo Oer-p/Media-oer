@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta MLBB 2026 Lengkap | Season 42 Starward Decade</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+  
+  :root {
+    --bg: #0a0e17;
+    --card: #121826;
+    --accent: #00f0ff;
+    --accent2: #ff2a6d;
+    --gold: #ffd700;
+    --text: #e0e6f0;
+    --muted: #8b9bb4;
+  }
+  
+  * { margin:0; padding:0; box-sizing:border-box; }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #0d1321, #1a2332);
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(0,240,255,0.15);
+  }
+  
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0,240,255,0.5);
+  }
+  
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    background: rgba(0,240,255,0.08);
+    border: 1px solid transparent;
+    transition: all 0.3s;
+  }
+  
+  nav a:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+  
+  /* Hero Banner */
+  .banner {
+    background: linear-gradient(rgba(10,14,23,0.7), rgba(10,14,23,0.9)), 
+                url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600') center/cover;
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+  
+  .banner h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(0,240,255,0.4);
+  }
+  
+  .banner p {
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  
+  .badge {
+    display: inline-block;
+    background: var(--accent2);
+    color: white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  /* Main Content */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+  
+  section {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(0,240,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  
+  section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid rgba(0,240,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  section h3 {
+    color: var(--gold);
+    margin: 1.8rem 0 0.8rem;
+    font-size: 1.25rem;
+  }
+  
+  p { margin-bottom: 1.1rem; }
+  
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  
+  .hero-card {
+    background: linear-gradient(145deg, #1a2332, #0f1623);
+    border-radius: 12px;
+    padding: 1.3rem;
+    border: 1px solid rgba(0,240,255,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .hero-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,240,255,0.2);
+  }
+  
+  .hero-card h4 {
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+  }
+  
+  .tier {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+  }
+  
+  .s-plus { background: #ff2a6d; color: white; }
+  .s { background: #ffd700; color: #000; }
+  .a { background: #00c853; color: white; }
+  
+  ul, ol { margin: 1rem 0 1rem 1.5rem; }
+  li { margin-bottom: 0.5rem; }
+  
+  .img-box {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin: 1.5rem 0;
+    border: 2px solid rgba(0,240,255,0.2);
+  }
+  
+  .highlight {
+    background: rgba(0,240,255,0.08);
+    border-left: 4px solid var(--accent);
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    background: #0d1321;
+    color: var(--muted);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(0,240,255,0.1);
+  }
+  
+  @media (max-width: 700px) {
+    nav { justify-content: center; }
+    section { padding: 1.5rem; }
+    .banner { padding: 3rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">MLBB META 2026</div>
+    <nav>
+      <a href="#intro">Intro</a>
+      <a href="#exp">EXP</a>
+      <a href="#jungle">Jungle</a>
+      <a href="#mid">Mid</a>
+      <a href="#gold">Gold</a>
+      <a href="#roam">Roam</a>
+      <a href="#solo">Solo Rank</a>
+      <a href="#tier">Tier List</a>
+      <a href="#build">Build</a>
+      <a href="#tips">Tips</a>
+    </nav>
+  </div>
+</header>
+
+<div class="banner">
+  <h1>META MOBILE LEGENDS 2026</h1>
+  <p>Panduan lengkap Season 42 – Starward Decade (Patch 2.2.16 / 2.2.16a). Data win rate, ban rate, dan meta terkini Oktober 2026.</p>
+  <span class="badge">Update: 21 Oktober 2026</span>
+</div>
+
+<main>
+
+<!-- 1. INTRO -->
+<section id="intro">
+  <h2>1. Pengenalan Meta MLBB 2026</h2>
+  <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1000" alt="Gaming Arena" class="img-box">
+  <p>Season 42 Mobile Legends: Bang Bang yang bertajuk <strong>Starward Decade</strong> resmi dimulai pada 16 September 2026 bersamaan dengan patch besar 2.2.16. Ini adalah musim perayaan 10 tahun MLBB, di mana Moonton melakukan banyak penyesuaian hero, termasuk revamp signifikan pada beberapa karakter seperti Masha. Meta saat ini (per Oktober 2026, patch 2.2.16a) sangat didominasi oleh hero yang memiliki sustain tinggi, pressure early-mid game, dan kemampuan untuk solo carry atau memberikan impact besar meski dalam kondisi solo queue.</p>
+  
+  <p>Menurut data ranked dari berbagai sumber terpercaya seperti mlbbdex dan statistik resmi, hero dengan win rate tertinggi adalah <strong>Masha</strong> (sekitar 60.8%), diikuti oleh beberapa support dan fighter seperti Rafaela, Argus, Gloo, dan Obsidia. Hero paling dibanned adalah <strong>Hirara</strong> dengan ban rate mencapai 67%+, menandakan betapa ditakutkannya hero baru ini di Mythic Glory ke atas.</p>
+  
+  <div class="highlight">
+    <strong>Ciri utama meta 2026:</strong> EXP lane menjadi sangat decisive karena hadirnya Masha yang hampir tak terkalahkan di 1v1. Jungle lebih agresif dengan Aulus dan Hirara. Mid lane mengandalkan mage dengan clear wave cepat seperti Valir. Gold lane didominasi marksman yang aman dan high damage seperti Obsidia. Roam lebih fleksibel antara tank hard engage dan support heal/speed.
+  </div>
+  
+  <p>Patch 2.2.16a yang rilis 14 Oktober membawa nerf pada Aulus, Hirara, Eudora, dan Rafaela, serta buff pada Kalea. Meski begitu, meta belum bergeser drastis. Player solo rank disarankan fokus pada hero yang self-sufficient, memiliki escape, atau bisa farming dengan aman. Komposisi team fight yang seimbang antara CC, damage, dan sustain masih menjadi kunci kemenangan di rank tinggi.</p>
+  
+  <p>Di halaman ini kita akan bahas secara mendalam setiap lane, hero terbaik, strategi solo rank, tier list, build item, hingga tips naik rank yang praktis. Semua data mengacu pada statistik ranked Oktober 2026 agar kamu tidak ketinggalan meta.</p>
+</section>
+
+<!-- 2. EXP LANE -->
+<section id="exp">
+  <h2>2. Hero Terbaik EXP Lane 2026</h2>
+  <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1000" alt="Fighter Arena" class="img-box">
+  <p>EXP Lane adalah salah satu lane paling menentukan di meta Season 42. Dengan kehadiran Masha yang direvamp, lane ini menjadi tempat battle of attrition yang brutal. Hero EXP yang bagus harus punya sustain, ability untuk 1v1, dan kemampuan untuk split push atau join team fight dengan cepat.</p>
+  
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="tier s-plus">S+</span>
+      <h4>Masha</h4>
+      <p>Win rate \~60.8%. Tiga bar HP, Wound mechanic, dan reset skill membuatnya sangat sulit dibunuh. Cocok untuk solo rank karena sangat self-sufficient.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s-plus">S+</span>
+      <h4>Argus</h4>
+      <p>Win rate 56%+. Ultimate immortality + damage tinggi. Ban rate rendah, jadi sering free pick. Sangat bagus untuk late game carry.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Aulus</h4>
+      <p>Meski dinerf, masih sangat kuat di early-mid. Stack passive cepat, sustain bagus. Bisa jungle juga.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Gloo / Lukas / Sun</h4>
+      <p>Gloo sangat kuat di engage, Lukas fleksibel, Sun clone pressure tinggi. Semua punya win rate solid di atas 52%.</p>
+    </div>
+  </div>
+  
+  <h3>Cara Bermain EXP di Meta Ini</h3>
+  <p>Prioritas utama adalah menang di lane. Jangan terlalu agresif jika lawan Masha atau Argus. Fokus farm sampai level 4, lalu cari peluang trade. Item core biasanya Warrior Boots → Blade of the Heptaseas / Bloodlust Axe → Hunter Strike → Queen’s Wings atau Immortality. Emblem Fighter dengan Talent Festival of Blood atau Brave Smite sangat direkomendasikan.</p>
+  
+  <p>Untuk solo rank, hindari hero yang terlalu bergantung pada team fight seperti Phoveus atau Yin kecuali kamu sudah sangat mahir. Lebih baik pilih hero yang bisa split push dan create pressure sendiri seperti Masha, Argus, atau Sun. Ingat, EXP lane yang menang biasanya menentukan siapa yang akan mendapatkan objective pertama (Turtle).</p>
+</section>
+
+<!-- 3. JUNGLE -->
+<section id="jungle">
+  <h2>3. Hero Terbaik Jungle 2026</h2>
+  <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1000" alt="Jungle Path" class="img-box">
+  <p>Jungle di Season 42 sangat agresif. Hero dengan clear speed cepat dan gank potential tinggi mendominasi. Hirara menjadi hero paling ditakuti dengan ban rate tertinggi, sementara Aulus tetap menjadi pilihan solid meskipun sudah terkena nerf.</p>
+  
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="tier s-plus">S+</span>
+      <h4>Hirara</h4>
+      <p>Ban rate 67%+. Burst tinggi + invincibility. Sangat berbahaya di early-mid game. Hampir selalu dibanned di Mythic+.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Aulus</h4>
+      <p>Masih sangat kuat setelah nerf. Clear cepat, sustain bagus, dan scale ke late game dengan baik.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Sun / Lukas</h4>
+      <p>Sun dengan clone sangat efektif untuk objective. Lukas fleksibel antara jungle dan EXP.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier a">A</span>
+      <h4>Popol & Kupa / Ling</h4>
+      <p>Popol aman dan bagus untuk objective control. Ling masih viable di tangan pro player.</p>
+    </div>
+  </div>
+  
+  <p>Pathing yang direkomendasikan biasanya mulai dari buff merah atau biru tergantung matchup, lalu langsung menuju Turtle di menit 2. Gank early sangat penting karena banyak hero EXP yang lemah di level 1-3. Item core: Swift Boots → Blade of Despair / Hunter Strike → Malefic Roar atau Endless Battle tergantung hero.</p>
+  
+  <p>Untuk solo rank, pilih jungler yang tidak terlalu bergantung pada gank sukses, seperti Aulus atau Sun. Mereka bisa farm dengan aman dan masih berkontribusi di team fight meski gank gagal.</p>
+</section>
+
+<!-- 4. MID LANE -->
+<section id="mid">
+  <h2>4. Hero Terbaik Mid Lane 2026</h2>
+  <p>Mid lane di meta ini mengutamakan clear wave cepat dan rotasi. Valir menjadi pilihan terbaik karena win rate tinggi dan jarang dibanned. Eudora masih sangat kuat tapi ban rate-nya tinggi.</p>
+  
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Valir</h4>
+      <p>Win rate 54.5%+. Poke + slow + burst. Sangat bagus untuk kontrol team fight dan jarang dibanned.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Eudora</h4>
+      <p>Burst sangat tinggi. Ban rate tinggi karena terlalu kuat di early-mid.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier a">A</span>
+      <h4>Gord / Zhask</h4>
+      <p>Gord untuk sustained damage, Zhask untuk zone control. Keduanya solid di rank menengah-tinggi.</p>
+    </div>
+  </div>
+  
+  <p>Strategi mid: Clear wave secepat mungkin, lalu rotate ke side lane atau bantu jungle ambil Turtle. Jangan terlalu overextend karena banyak assassin yang kuat. Item: Arcane Boots → Lightning Truncheon → Holy Crystal → Divine Glaive / Blood Wings.</p>
+</section>
+
+<!-- 5. GOLD LANE -->
+<section id="gold">
+  <h2>5. Hero Terbaik Gold Lane 2026</h2>
+  <p>Gold lane didominasi marksman yang aman dan high damage. <strong>Obsidia</strong> menjadi raja meta dengan pick rate tinggi dan win rate solid.</p>
+  
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="tier s-plus">S+</span>
+      <h4>Obsidia</h4>
+      <p>Most picked di Mythical Glory+. Damage tinggi + mobility cukup. Harus dipelajari jika ingin main Gold.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Bruno / Popol & Kupa</h4>
+      <p>Bruno classic carry. Popol aman dan bagus untuk objective.</p>
+    </div>
+  </div>
+  
+  <p>Fokus farm sampai item kedua, lalu ikut team fight dari jarak aman. Core item: Swift Boots → Corrosion Scythe / Haas’s Claws → Berserker’s Fury → Windtalker / Malefic Roar.</p>
+</section>
+
+<!-- 6. ROAM -->
+<section id="roam">
+  <h2>6. Hero Terbaik Roam / Support 2026</h2>
+  <p>Roam sangat fleksibel. Support heal seperti Rafaela dan Floryn sangat kuat, begitu juga tank hard engage seperti Gloo, Minotaur, dan Carmilla.</p>
+  
+  <div class="hero-grid">
+    <div class="hero-card">
+      <span class="tier s-plus">S+</span>
+      <h4>Rafaela / Carmilla / Gloo</h4>
+      <p>Rafaela speed + heal. Carmilla link damage. Gloo engage terbaik.</p>
+    </div>
+    <div class="hero-card">
+      <span class="tier s">S</span>
+      <h4>Minotaur / Floryn / Khufra</h4>
+      <p>Minotaur team fight god. Floryn global heal. Khufra anti-dash.</p>
+    </div>
+  </div>
+  
+  <p>Roam harus selalu ada di setiap fight, kasih vision, dan protect carry. Emblem Support dengan Talent Focusing Mark atau Favor Aegis.</p>
+</section>
+
+<!-- 7. SOLO RANK -->
+<section id="solo">
+  <h2>7. Strategi Solo Rank Meta 2026</h2>
+  <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=1000" alt="Rank Climb" class="img-box">
+  <p>Solo rank di Season 42 membutuhkan hero yang bisa impact meski team kurang bagus. Prioritaskan hero dengan:</p>
+  <ul>
+    <li>Self-sustain tinggi (Masha, Argus, Aulus)</li>
+    <li>Escape atau mobility bagus</li>
+    <li>Kemampuan create pressure sendiri (split push)</li>
+    <li>Tidak terlalu bergantung pada combo team</li>
+  </ul>
+  
+  <p>Hindari hero yang butuh setup sempurna seperti Fanny atau hero yang mudah di-counter jika salah posisi. Fokus pada macro: ambil Turtle, jaga Lord, jangan overextend. Komunikasi minimal tapi efektif (ping objective, enemy missing).</p>
+  
+  <p>Mental juga penting. Jangan tilt setelah kalah streak. Main hero yang kamu kuasai 70% + meta 30%. Lebih baik master 3-5 hero per role daripada banyak tapi mediocre.</p>
+</section>
+
+<!-- 8. TIER LIST -->
+<section id="tier">
+  <h2>8. Tier List Ringkas Meta Oktober 2026</h2>
+  <p><strong>S+ / Must Ban-Pick:</strong> Masha, Hirara, Obsidia, Aulus, Rafaela, Gloo, Argus</p>
+  <p><strong>S:</strong> Valir, Carmilla, Minotaur, Sun, Lukas, Floryn, Marcel, Paquito</p>
+  <p><strong>A:</strong> Bruno, Gord, Zhask, Popol & Kupa, Khufra, Benedetta, Guinevere, Ling</p>
+  <p>Data berdasarkan win rate + ban rate ranked all ranks & Mythic.</p>
+</section>
+
+<!-- 9. BUILD -->
+<section id="build">
+  <h2>9. Build Item & Emblem Meta</h2>
+  <p><strong>EXP Fighter:</strong> Warrior Boots → Blade of the Heptaseas → Hunter Strike → Queen’s Wings → Immortality / Athena’s Shield</p>
+  <p><strong>Jungle:</strong> Swift Boots → Hunter Strike → Blade of Despair → Malefic Roar → Immortality</p>
+  <p><strong>Mage:</strong> Arcane Boots → Lightning Truncheon → Holy Crystal → Divine Glaive → Blood Wings</p>
+  <p><strong>Marksman:</strong> Swift Boots → Corrosion Scythe → Berserker’s Fury → Windtalker → Malefic Roar</p>
+  <p><strong>Emblem:</strong> Fighter (Festival of Blood), Assassin (High and Dry), Mage (Lethal Ignition), Marksman (Weakness Finder), Support (Focusing Mark).</p>
+</section>
+
+<!-- 10. TIPS -->
+<section id="tips">
+  <h2>10. Tips Naik Rank & Kesimpulan</h2>
+  <p>1. Main hero yang kamu nyaman, bukan hanya yang meta.</p>
+  <p>2. Selalu cek ban/pick lawan sebelum lock.</p>
+  <p>3. Fokus objective, bukan kill.</p>
+  <p>4. Jaga map awareness dan minimap setiap 3 detik.</p>
+  <p>5. Review replay setelah kalah untuk belajar.</p>
+  
+  <div class="highlight">
+    <strong>Kesimpulan:</strong> Meta 2026 sangat favoritkan hero sustain dan pressure. Masha dan Obsidia adalah raja saat ini. Dengan pemahaman lane, build yang tepat, dan mental yang kuat, naik ke Mythical Glory bahkan Immortal sangat memungkinkan. Selamat rank up, para Legends!
+  </div>
+  
+  <p style="margin-top:2rem; color:var(--muted); font-size:0.9rem;">Data diambil dari statistik ranked Oktober 2026 (Patch 2.2.16a). Meta bisa berubah setiap patch. Selalu update pengetahuanmu!</p>
+</section>
+
+</main>
+
+<footer>
+  <p>Meta MLBB 2026 • Season 42 Starward Decade • Dibuat untuk komunitas Mobile Legends Indonesia</p>
+  <p style="margin-top:0.5rem;">© 2026 • Update terakhir: 21 Oktober 2026</p>
+</footer>
+
+</body>
+</html>
