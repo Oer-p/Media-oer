@@ -229,21 +229,62 @@ function link(url,text,cls){
  return a;
 }
 
+// FUNGSI PENYARING OTOMATIS: HANYA MELOLOSKAN ARTIKEL VALID (ANTI-SAMPAH / CANDA)
+function isValidArticle(w){
+ if(!w || !w.title || !w.content) return false;
+ const title = w.title.trim();
+ const content = w.content.trim();
+ 
+ // Tolak jika judul atau isi terlalu pendek (kurang dari 5 karakter)
+ if(title.length < 4 || content.length < 10) return false;
+
+ // Tolak jika isinya hanya kata-kata uji coba atau canda yang tidak jelas
+ const spamWords = ["test", "tes", "coba", "asdf", "123", "wkwk", "hahaha", "kosong", "anjing", "goblok"];
+ const lowerTitle = title.toLowerCase();
+ if(spamWords.includes(lowerTitle) || spamWords.some(word => lowerTitle === word)) return false;
+
+ return true;
+}
+
+// EKSTRAKSI OTOMATIS FOTO/PNG SAMPUL DARI KONTEN HTML ATAU ATRIBUT ARTIKEL
+function extractThumbnail(w){
+ if(w.thumbnail) return w.thumbnail;
+ if(w.image) return w.image;
+ if(w.gambar) return w.gambar;
+ 
+ // Cari tag <img src="..."> atau format png/jpg/webp di dalam teks HTML artikel
+ if(w.content){
+  const imgMatch = w.content.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if(imgMatch && imgMatch[1]) return imgMatch[1];
+ }
+ return "";
+}
+
 function websiteResults(query){
  const q=normalize(query);
  
- // Ambil karya kreator dari localStorage (dukungan untuk website.html dan puisi_cerita)
  let creatorPages = [];
  try {
-  const storedWorks = JSON.parse(localStorage.getItem("oer_creator_works") || localStorage.getItem("oer_puisi_cerita_works") || localStorage.getItem("oer_user_websites") || "[]");
+  // Ambil data karya kreator dari localStorage
+  const storedWorks = JSON.parse(localStorage.getItem("oer_user_websites") || localStorage.getItem("oer_creator_works") || "[]");
   if (Array.isArray(storedWorks)) {
-   creatorPages = storedWorks.map(w => ({
-    names: [w.title || w.nama, w.category || w.kategori, w.creator || w.author || w.pembuat, w.desc || w.content || w.deskripsi],
-    title: w.title || w.nama || "Karya Kreator",
-    url: w.url || (w.link && w.link !== "#" ? w.link : "./website.html"),
-    thumbnail: w.image || w.gambar || w.thumbnail || "",
-    description: `[Karya Kreator • ${w.category || w.kategori || 'Posting'}] Oleh ${w.creator || w.author || w.pembuat || 'Kreator'} — ${w.desc || w.content || w.deskripsi || ''}`
-   }));
+   // Hapus otomatis data sampah/canda yang tidak valid dari penyimpanan agar bersih
+   const validWorks = storedWorks.filter(isValidArticle);
+   if(validWorks.length !== storedWorks.length){
+    localStorage.setItem("oer_user_websites", JSON.stringify(validWorks));
+   }
+
+   creatorPages = validWorks.map(w => {
+    const thumb = extractThumbnail(w);
+    const cleanContent = (w.content || w.desc || '').replace(/<[^>]*>?/gm, '');
+    return {
+     names: [w.title, w.category, cleanContent, w.slug, w.author],
+     title: w.title,
+     url: w.url || (w.id ? `website.html?view=${w.id}` : "./website.html"),
+     thumbnail: thumb,
+     description: `[Karya Kreator • ${w.category || 'Artikel'}] Oleh ${w.author || 'Kreator'} — ${cleanContent.substring(0, 110)}...`
+    };
+   });
   }
  } catch (e) {
   console.warn("Gagal memuat karya kreator:", e);
