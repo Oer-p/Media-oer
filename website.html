@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR Website — Portal Kreator & Publikasi Karya</title>
+<title>OoeR Website — Portal Kreator & Publikasi Lengkap</title>
 <style>
   :root {
     --text: #202124; --muted: #5f6368; --border: #dfe1e5;
@@ -37,7 +37,7 @@
   .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
   .btn-outline:hover{background:var(--soft);}
 
-  main{width:min(100%, 1000px);margin:30px auto;flex:1;padding:0 20px;}
+  main{width:min(100%, 1100px);margin:30px auto;flex:1;padding:0 20px;}
   .hero-banner{
     background:linear-gradient(135deg, #e8f0fe, #fce8e6);padding:30px;border-radius:18px;
     margin-bottom:25px;border:1px solid var(--border);
@@ -46,32 +46,42 @@
   .hero-banner h1{margin:0 0 10px;color:var(--blue);font-size:26px;}
   .hero-banner p{margin:0 0 15px;color:var(--muted);font-size:14px;line-height:1.5;}
 
-  /* Tab Menu & Filter */
+  /* Tab Filter */
   .filter-bar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px;}
   .categories{display:flex;gap:8px;flex-wrap:wrap;}
   .cat-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:12px;}
   .cat-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
 
   /* Grid Karya */
-  .works-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:18px;}
+  .works-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:20px;}
   .work-card{
-    background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;
-    display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);
+    background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;
+    display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);overflow:hidden;
   }
+  .work-image{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:12px;background:var(--soft);}
   .work-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:8px;}
   .work-badge{background:#e6f4ea;color:#137333;padding:3px 8px;border-radius:6px;font-weight:bold;}
-  .work-card h3{margin:0 0 8px;font-size:16px;line-height:1.4;}
-  .work-card p{margin:0 0 15px;color:var(--muted);font-size:13px;line-height:1.5;}
+  .work-card h3{margin:0 0 8px;font-size:17px;line-height:1.4;}
+  .work-card p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.6;white-space:pre-line;}
+  
+  /* Kotak Kode di Kartu */
+  .code-preview{background:#1e1e1e;color:#d4d4d4;padding:12px;border-radius:8px;font-family:monospace;font-size:12px;overflow-x:auto;margin-bottom:12px;max-height:120px;}
+
   .work-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:12px;}
   .creator-info{font-size:12px;font-weight:bold;}
   
-  /* Modal Upload */
+  /* Modal Upload Komplit */
   .overlay{display:none;position:fixed;inset:0;background:#0006;z-index:200;align-items:center;justify-content:center;padding:20px;}
   .overlay.show{display:flex;}
-  .modal{width:min(100%, 550px);background:var(--bg);padding:25px;border-radius:16px;border:1px solid var(--border);max-height:90vh;overflow:auto;}
+  .modal{width:min(100%, 650px);background:var(--bg);padding:25px;border-radius:16px;border:1px solid var(--border);max-height:90vh;overflow:auto;}
   .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
   .form-control{width:100%;padding:10px 12px;margin:6px 0 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);}
   
+  /* Toolbar Editor */
+  .editor-toolbar{display:flex;gap:5px;margin-bottom:5px;}
+  .editor-toolbar button{padding:4px 8px;background:var(--soft);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;}
+  .editor-toolbar button:hover{background:var(--border);}
+
   footer{text-align:center;padding:20px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;margin-top:40px;}
 </style>
 </head>
@@ -91,56 +101,69 @@
 <main>
   <div class="hero-banner">
     <h1>🚀 Pusat Kreator & Publikasi Karya OoeR</h1>
-    <p>Tempat para kreator, pelajar, dan pengembang membagikan artikel, modul belajar, aplikasi, dan karya seni. Semua karya di sini <b>otomatis terindeks</b> dan bisa langsung dicari melalui mesin pencari OoeR!</p>
-    <button class="btn btn-primary" onclick="openUploadModal()">Mulai Unggah Karya Kamu Sekarang</button>
+    <p>Unggah karya lengkap dengan foto/gambar, file dokumen, editor teks penuh, hingga blok kode pemrograman. Semua otomatis terindeks di mesin pencari OoeR!</p>
+    <button class="btn btn-primary" onclick="openUploadModal()">Mulai Unggah Karya Kamu</button>
   </div>
 
   <div class="filter-bar">
     <div class="categories">
       <button class="cat-btn active" onclick="filterCategory('semua', this)">Semua Karya</button>
       <button class="cat-btn" onclick="filterCategory('Edukasi', this)">📚 Edukasi & Soal</button>
-      <button class="cat-btn" onclick="filterCategory('Artikel', this)">📝 Artikel & Blog</button>
-      <button class="cat-btn" onclick="filterCategory('Aplikasi', this)">💻 Aplikasi & Game</button>
-      <button class="cat-btn" onclick="filterCategory('Seni', this)">🎨 Seni & Desain</button>
+      <button class="cat-btn" onclick="filterCategory('Artikel', this)">📝 Artikel & Catatan</button>
+      <button class="cat-btn" onclick="filterCategory('Aplikasi', this)">💻 Kode & Aplikasi</button>
+      <button class="cat-btn" onclick="filterCategory('Seni', this)">🎨 Foto & Desain</button>
     </div>
     <span id="totalWorks" style="font-size:13px; color:var(--muted);">Memuat karya...</span>
   </div>
 
-  <!-- Daftar Karya Kreator -->
+  <!-- Daftar Karya -->
   <div class="works-grid" id="worksGrid"></div>
 </main>
 
 <footer>
-  <p>© 2026 OoeR Platform. Setiap karya kreator terindeks langsung di sistem OoeR Search.</p>
+  <p>© 2026 OoeR Platform. Terintegrasi penuh dengan OoeR Search.</p>
 </footer>
 
-<!-- MODAL UPLOAD KARYA -->
+<!-- MODAL UPLOAD KOMPLIT -->
 <div class="overlay" id="uploadModal">
   <div class="modal">
     <div class="modal-head">
-      <h2 style="margin:0; font-size:18px;">✨ Terbitkan Karya Baru ke OoeR</h2>
+      <h2 style="margin:0; font-size:18px;">✨ Terbitkan Karya Komplit ke OoeR</h2>
       <button class="btn btn-outline" style="padding:4px 10px;" onclick="closeUploadModal()">✕</button>
     </div>
     <form id="uploadForm">
-      <label>Nama / Kreator:</label>
-      <input type="text" id="creatorName" class="form-control" required placeholder="Contoh: Budi Santoso">
+      <label>Nama Kreator:</label>
+      <input type="text" id="creatorName" class="form-control" required placeholder="Contoh: Arip Rahman">
 
       <label>Judul Karya:</label>
-      <input type="text" id="workTitle" class="form-control" required placeholder="Contoh: Rangkuman Rumus Fisika Kelas 12">
+      <input type="text" id="workTitle" class="form-control" required placeholder="Contoh: Modul & Source Code Game Sederhana">
 
       <label>Kategori:</label>
       <select id="workCategory" class="form-control">
         <option value="Edukasi">📚 Edukasi & Soal</option>
-        <option value="Artikel">📝 Artikel & Blog</option>
-        <option value="Aplikasi">💻 Aplikasi & Game</option>
-        <option value="Seni">🎨 Seni & Desain</option>
+        <option value="Artikel">📝 Artikel & Catatan</option>
+        <option value="Aplikasi">💻 Kode & Aplikasi</option>
+        <option value="Seni">🎨 Foto & Desain</option>
       </select>
 
-      <label>Deskripsi / Isi Singkat:</label>
-      <textarea id="workDesc" class="form-control" rows="4" required placeholder="Jelaskan isi karya kamu agar mudah ditemukan dalam pencarian OoeR..."></textarea>
+      <label>URL / Link Foto Preview (Opsional):</label>
+      <input type="url" id="workImage" class="form-control" placeholder="https://contoh.com/gambar.jpg (untuk kartu visual)">
 
-      <label>Link Tautan / File (Opsional):</label>
-      <input type="url" id="workLink" class="form-control" placeholder="https://contoh.com atau link project kamu">
+      <label>Isi / Catatan Lengkap:</label>
+      <div class="editor-toolbar">
+        <button type="button" onclick="formatText('<b>', '</b>')"><b>B</b></button>
+        <button type="button" onclick="formatText('<i>', '</i>')"><i>I</i></button>
+        <button type="button" onclick="formatText('<u>', '</u>')"><u>U</u></button>
+        <button type="button" onclick="formatText('<h3>', '</h3>')">H3</button>
+        <button type="button" onclick="formatText('\n• ', '')">• List</button>
+      </div>
+      <textarea id="workDesc" class="form-control" rows="5" required placeholder="Tulis penjelasan, deskripsi, atau artikel lengkap di sini..."></textarea>
+
+      <label>Blok Kode Pemrograman / Source Code (Opsional):</label>
+      <textarea id="workCode" class="form-control" rows="4" placeholder="// Tulis kode HTML/JS/Python di sini jika ada..." style="font-family:monospace; background:#1e1e1e; color:#d4d4d4;"></textarea>
+
+      <label>Link File / Tautan Download Eksternal (Opsional):</label>
+      <input type="url" id="workLink" class="form-control" placeholder="https://github.com/... atau link file download">
 
       <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Publikasikan Sekarang 🚀</button>
     </form>
@@ -154,30 +177,14 @@
   const defaultWorks = [
     {
       id: "work_1",
-      title: "Modul Belajar Matematika Persiapan Ujian",
-      category: "Edukasi",
-      desc: "Kumpulan rumus cepat dan latihan soal aljabar tingkat lanjut untuk pelajar SMA.",
-      creator: "Tim Edukasi OoeR",
-      link: "ruang_belajar_tingkat.html",
-      date: "2026-10-21"
-    },
-    {
-      id: "work_2",
-      title: "Panduan Membuat Aplikasi Web Mobile Sederhana",
+      title: "Contoh Website Portfolio & Kode HTML",
       category: "Aplikasi",
-      desc: "Tutorial praktis membangun aplikasi berbasis HTML dan JavaScript murni untuk pemula.",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop",
+      desc: "Template portfolio bersih menggunakan HTML dan CSS modern yang siap pakai untuk pelajar.",
+      code: "<div class=\"card\">\n  <h1>Halo OoeR</h1>\n  <p>Selamat datang di platform kreator.</p>\n</div>",
       creator: "Arip Rahman",
       link: "#",
-      date: "2026-10-20"
-    },
-    {
-      id: "work_3",
-      title: "Analisis Perkembangan Teknologi AI di Tahun 2026",
-      category: "Artikel",
-      desc: "Ulasan mendalam bagaimana kecerdasan buatan mengubah sistem pendidikan dan produktivitas global.",
-      creator: "Leilani",
-      link: "#",
-      date: "2026-10-19"
+      date: "2026-10-21"
     }
   ];
 
@@ -203,7 +210,7 @@
     grid.replaceChildren();
 
     if (!filtered.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--muted);">Belum ada karya dalam kategori ini. Jadilah yang pertama mengunggah!</div>`;
+      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--muted);">Belum ada karya dalam kategori ini.</div>`;
       return;
     }
 
@@ -211,23 +218,41 @@
       const card = document.createElement("div");
       card.className = "work-card";
 
+      let imgHtml = work.image ? `<img src="${work.image}" class="work-image" alt="Preview" onerror="this.style.display='none'">` : '';
+      let codeHtml = work.code ? `<div class="code-preview"><code>${escapeHtml(work.code)}</code></div>` : '';
+
       card.innerHTML = `
         <div>
+          ${imgHtml}
           <div class="work-meta">
             <span class="work-badge">${work.category}</span>
             <span>${work.date}</span>
           </div>
           <h3>${work.title}</h3>
           <p>${work.desc}</p>
+          ${codeHtml}
         </div>
         <div class="work-footer">
           <span class="creator-info">👤 ${work.creator}</span>
-          ${work.link && work.link !== "#" ? `<a href="${work.link}" class="btn btn-outline" style="padding:5px 10px; font-size:12px;" target="_blank">Buka Karya ↗</a>` : `<span style="font-size:11px; color:var(--muted);">Publikasi OoeR</span>`}
+          ${work.link && work.link !== "#" ? `<a href="${work.link}" class="btn btn-outline" style="padding:5px 10px; font-size:12px;" target="_blank">Buka File ↗</a>` : `<span style="font-size:11px; color:var(--muted);">Publikasi OoeR</span>`}
         </div>
       `;
       grid.appendChild(card);
     });
   }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  window.formatText = function(tagOpen, tagClose) {
+    const textarea = document.getElementById("workDesc");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.substring(start, end);
+    textarea.value = textarea.value.substring(0, start) + tagOpen + selectedText + tagClose + textarea.value.substring(end);
+    textarea.focus();
+  };
 
   window.filterCategory = function(cat, btn) {
     activeFilter = cat;
@@ -248,14 +273,18 @@
     const creator = document.getElementById("creatorName").value.trim();
     const title = document.getElementById("workTitle").value.trim();
     const category = document.getElementById("workCategory").value;
+    const image = document.getElementById("workImage").value.trim();
     const desc = document.getElementById("workDesc").value.trim();
+    const code = document.getElementById("workCode").value.trim();
     const link = document.getElementById("workLink").value.trim() || "#";
 
     const newWork = {
       id: "work_" + Date.now(),
       title,
       category,
+      image,
       desc,
+      code,
       creator,
       link,
       date: new Date().toISOString().split('T')[0]
@@ -273,7 +302,7 @@
       }
     } catch {}
 
-    alert("🎉 Berhasil! Karya kamu telah diterbitkan dan otomatis terindeks di mesin pencari OoeR.");
+    alert("🎉 Berhasil! Karya komplit kamu telah diterbitkan dan otomatis terindeks di pencarian OoeR.");
     document.getElementById("uploadForm").reset();
     closeUploadModal();
     renderWorks();
@@ -284,5 +313,4 @@
 </script>
 
 </body>
-  </html>
-  
+</html>
