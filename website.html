@@ -50,7 +50,6 @@
 
   .container { max-width: 850px; margin: 16px auto; padding: 0 12px; }
 
-  /* AUTH */
   .auth-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 12px; padding: 28px; max-width: 420px; margin: 40px auto; text-align: center;
@@ -64,7 +63,6 @@
     border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer;
   }
 
-  /* EDITOR CONTAINER */
   .editor-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
@@ -179,7 +177,6 @@
 
 <main class="container">
 
-  <!-- AUTH / LOGIN KREATOR -->
   <div id="authArea" class="auth-card" style="display:none;">
     <h2>Masuk OoeR Account</h2>
     <p style="color:var(--muted); font-size:13px; margin:10px 0 20px;">Masukkan nama kreator kamu untuk mulai mengelola artikel.</p>
@@ -189,7 +186,6 @@
     </form>
   </div>
 
-  <!-- EDITOR & DASHBOARD KREATOR -->
   <div id="editorArea" style="display:none;">
     <div class="editor-card">
       <input type="hidden" id="editArticleId" value="">
@@ -241,7 +237,6 @@
     </section>
   </div>
 
-  <!-- MODE PEMBACA (READER VIEW) 2 HALAMAN -->
   <div id="readerArea" style="display:none;">
     <div id="readerWrapper" class="read-container">
       <h1 id="readTitle" class="read-title"></h1>
@@ -358,7 +353,6 @@
       date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
 
-    // AMBIL DATA DENGAN AMAN DAN PASTIKAN TIDAK ADA DATA LAIN YANG HILANG
     let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
     
     if (idField) {
@@ -377,7 +371,7 @@
     modal.innerHTML = `
       <div class="modal-content">
         <h3 style="color:var(--success); margin-bottom:8px;">✨ Berhasil Dipublikasikan!</h3>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel kamu tersimpan aman dan terhubung ke OoeR Search.</p>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel kamu tersimpan aman dan siap tampil di pencarian.</p>
         <button onclick="closeModalAndRedirect()" style="padding:8px 16px; background:var(--primary); color:#fff; border:0; border-radius:6px; font-weight:bold; cursor:pointer;">Lihat Daftar Publikasi</button>
       </div>
     `;
@@ -448,7 +442,7 @@
   }
 
   function deleteArticle(id) {
-    if (confirm("Hapus artikel ini secara permanen dari publikasi dan mesin pencari?")) {
+    if (confirm("Hapus artikel ini dari daftar?")) {
       let all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
       all = all.filter(a => a.id !== id);
       localStorage.setItem("oer_user_websites", JSON.stringify(all));
@@ -503,7 +497,7 @@
         updateReaderView();
 
       } else {
-        alert("Artikel tidak ditemukan atau sudah dihapus.");
+        alert("Artikel tidak ditemukan.");
         location.href = "search.html";
       }
     } else {
