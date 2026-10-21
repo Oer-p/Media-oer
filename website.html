@@ -84,21 +84,17 @@
   .tool-btn.active { background: var(--primary); color: #fff; }
 
   .editor-textarea {
-    width: 100%; min-height: 320px; padding: 14px; font-size: 15px; line-height: 1.6;
+    width: 100%; min-height: 280px; padding: 14px; font-size: 15px; line-height: 1.6;
     border: 1px solid var(--border); border-radius: 8px; outline: none; resize: vertical;
     font-family: monospace;
   }
 
   .pages-tab-bar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
   .page-tab-btn {
-    padding: 6px 14px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border);
+    padding: 6px 16px; font-size: 13px; border-radius: 6px; border: 1px solid var(--border);
     background: #f1f3f4; cursor: pointer; font-weight: bold; color: var(--muted);
   }
   .page-tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .btn-add-page {
-    padding: 6px 12px; font-size: 13px; border-radius: 6px; border: 1px dashed var(--primary);
-    background: #e8f0fe; color: var(--primary); cursor: pointer; font-weight: bold;
-  }
 
   .extra-settings { display: grid; grid-template-columns: 1fr; gap: 10px; }
   .setting-box { border: 1px dashed var(--border); border-radius: 8px; padding: 10px; background: #fafafa; }
@@ -142,26 +138,23 @@
   .theme-clean { background: #ffffff; color: #292929; border: 1px solid #e6e6e6; }
   .theme-clean h1.read-title { font-size: 32px; font-weight: 800; color: #111; letter-spacing: -0.5px; }
   .theme-clean h2 { font-size: 22px; font-weight: 700; color: #1a73e8; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #f1f3f4; padding-bottom: 6px; }
-  .theme-clean h3 { font-size: 18px; font-weight: 600; color: #333; margin-top: 20px; margin-bottom: 8px; }
   .theme-clean p { font-size: 16px; line-height: 1.8; margin-bottom: 16px; color: #333; }
   .theme-clean blockquote { border-left: 4px solid #1a73e8; padding-left: 16px; margin: 20px 0; font-style: italic; color: #555; background: #f8f9fa; padding: 12px 16px; border-radius: 0 8px 8px 0; }
-  .theme-clean pre, .theme-clean .code-block { background: #1e1e1e; color: #9cdcfe; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+  .theme-clean .code-block { background: #1e1e1e; color: #9cdcfe; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
 
   .theme-dark { background: #13151a; color: #c9d1d9; border: 1px solid #30363d; }
   .theme-dark h1.read-title { font-size: 32px; font-weight: 800; color: #f0f6fc; letter-spacing: -0.5px; }
   .theme-dark h2 { font-size: 22px; font-weight: 700; color: #58a6ff; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #21262d; padding-bottom: 6px; }
-  .theme-dark h3 { font-size: 18px; font-weight: 600; color: #c9d1d9; margin-top: 20px; margin-bottom: 8px; }
   .theme-dark p { font-size: 16px; line-height: 1.8; margin-bottom: 16px; color: #b1bac4; }
   .theme-dark blockquote { border-left: 4px solid #58a6ff; padding: 12px 16px; margin: 20px 0; font-style: italic; color: #8b949e; background: #161b22; border-radius: 0 8px 8px 0; }
-  .theme-dark pre, .theme-dark .code-block { background: #0d1117; color: #7ee787; border: 1px solid #30363d; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+  .theme-dark .code-block { background: #0d1117; color: #7ee787; border: 1px solid #30363d; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
 
   .theme-warm { background: #fcf8f2; color: #4a3b32; border: 1px solid #e8decf; }
   .theme-warm h1.read-title { font-size: 32px; font-weight: 800; color: #2c221e; font-family: Georgia, serif; letter-spacing: -0.5px; }
   .theme-warm h2 { font-size: 22px; font-weight: 700; color: #8c5830; margin-top: 28px; margin-bottom: 12px; border-bottom: 2px solid #eadfd4; padding-bottom: 6px; font-family: Georgia, serif; }
-  .theme-warm h3 { font-size: 18px; font-weight: 600; color: #5c4033; margin-top: 20px; margin-bottom: 8px; font-family: Georgia, serif; }
   .theme-warm p { font-size: 17px; line-height: 1.9; margin-bottom: 16px; color: #4a3b32; font-family: Georgia, serif; }
   .theme-warm blockquote { border-left: 4px solid #b38257; padding: 12px 16px; margin: 20px 0; font-style: italic; color: #6b5344; background: #f4ede3; border-radius: 0 8px 8px 0; font-family: Georgia, serif; }
-  .theme-warm pre, .theme-warm .code-block { background: #f0e6d8; color: #332211; border: 1px solid #e0d0bc; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
+  .theme-warm .code-block { background: #f0e6d8; color: #332211; border: 1px solid #e0d0bc; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 20px 0; }
 
   .read-meta { font-size: 13px; opacity: 0.8; margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
   .read-banner { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
@@ -186,6 +179,7 @@
 
 <main class="container">
 
+  <!-- AUTH / LOGIN KREATOR -->
   <div id="authArea" class="auth-card" style="display:none;">
     <h2>Masuk OoeR Account</h2>
     <p style="color:var(--muted); font-size:13px; margin:10px 0 20px;">Masukkan nama kreator kamu untuk mulai mengelola artikel.</p>
@@ -195,6 +189,7 @@
     </form>
   </div>
 
+  <!-- EDITOR & DASHBOARD KREATOR -->
   <div id="editorArea" style="display:none;">
     <div class="editor-card">
       <input type="hidden" id="editArticleId" value="">
@@ -218,17 +213,16 @@
       </div>
 
       <div>
-        <label style="font-size: 12px; font-weight: bold; color: var(--muted); display: block; margin-bottom: 6px;">📑 Halaman / Bab Artikel (Multi-Page):</label>
+        <label style="font-size: 12px; font-weight: bold; color: var(--muted); display: block; margin-bottom: 6px;">📑 Navigasi 2 Halaman Artikel:</label>
         <div id="editorPagesTabs" class="pages-tab-bar"></div>
       </div>
 
-      <textarea id="articleContent" class="editor-textarea" placeholder="Tulis isi halaman/bab ini di sini..." oninput="saveCurrentPageContent()"></textarea>
+      <textarea id="articleContent" class="editor-textarea" placeholder="Tulis isi halaman ini di sini..." oninput="saveCurrentPageContent()"></textarea>
 
       <div class="extra-settings">
         <div class="setting-box">
-          <h4>🖼️ Foto Sampul (Upload/URL PNG/JPG)</h4>
-          <input type="file" id="imageUploadInput" accept="image/*" onchange="handleImageUpload(event)" style="margin-bottom:6px;">
-          <input type="text" id="articleImage" placeholder="Atau ketik URL Gambar...">
+          <h4>🖼️ Foto Sampul (URL Gambar)</h4>
+          <input type="text" id="articleImage" placeholder="Tempel URL Gambar di sini...">
         </div>
       </div>
 
@@ -247,6 +241,7 @@
     </section>
   </div>
 
+  <!-- MODE PEMBACA (READER VIEW) 2 HALAMAN -->
   <div id="readerArea" style="display:none;">
     <div id="readerWrapper" class="read-container">
       <h1 id="readTitle" class="read-title"></h1>
@@ -255,9 +250,9 @@
       <div id="readContent" class="read-content"></div>
       
       <div class="pagination-bar" id="paginationBar">
-        <button class="page-nav-btn" id="prevPageBtn" onclick="changeReaderPage(-1)">⬅ Sebelumnya</button>
-        <span id="pageIndicator" class="page-indicator">Halaman 1 dari 1</span>
-        <button class="page-nav-btn" id="nextPageBtn" onclick="changeReaderPage(1)">Selanjutnya ➡</button>
+        <button class="page-nav-btn" id="prevPageBtn" onclick="changeReaderPage(-1)">⬅ Halaman 1</button>
+        <span id="pageIndicator" class="page-indicator">Halaman 1 dari 2</span>
+        <button class="page-nav-btn" id="nextPageBtn" onclick="changeReaderPage(1)">Halaman 2 ➡</button>
       </div>
     </div>
   </div>
@@ -265,32 +260,26 @@
 </main>
 
 <script>
-  let uploadedImageBase64 = "";
-  let articlePages = [""]; 
+  let articlePages = ["", ""]; 
   let activePageIndex = 0; 
-  let currentReaderPages = []; 
+  let currentReaderPages = ["", ""]; 
   let currentReaderIndex = 0;
 
   function renderEditorPagesTabs() {
     const bar = document.getElementById("editorPagesTabs");
     bar.innerHTML = "";
-    articlePages.forEach((pg, idx) => {
+    if (articlePages.length < 2) articlePages = ["", ""];
+
+    for (let i = 0; i < 2; i++) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "page-tab-btn " + (idx === activePageIndex ? "active" : "");
-      btn.textContent = `Halaman ${idx + 1}`;
-      btn.onclick = () => switchEditorPage(idx);
+      btn.className = "page-tab-btn " + (i === activePageIndex ? "active" : "");
+      btn.textContent = `Halaman ${i + 1}`;
+      btn.onclick = () => switchEditorPage(i);
       bar.appendChild(btn);
-    });
+    }
 
-    const addBtn = document.createElement("button");
-    addBtn.type = "button";
-    addBtn.className = "btn-add-page";
-    addBtn.textContent = "➕ Tambah Halaman";
-    addBtn.onclick = addNewEditorPage;
-    bar.appendChild(addBtn);
-
-    document.getElementById("articleContent").value = articlePages[activePageIndex];
+    document.getElementById("articleContent").value = articlePages[activePageIndex] || "";
   }
 
   function saveCurrentPageContent() {
@@ -304,31 +293,12 @@
     renderEditorPagesTabs();
   }
 
-  function addNewEditorPage() {
-    saveCurrentPageContent();
-    articlePages.push("");
-    activePageIndex = articlePages.length - 1;
-    renderEditorPagesTabs();
-  }
-
   function insertFormat(start, end) {
     const ta = document.getElementById("articleContent");
     const s = ta.selectionStart, e = ta.selectionEnd;
     ta.value = ta.value.substring(0, s) + start + ta.value.substring(s, e) + end + ta.value.substring(e);
     articlePages[activePageIndex] = ta.value;
     ta.focus();
-  }
-
-  function handleImageUpload(e) {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(uploadEvent) {
-        uploadedImageBase64 = uploadEvent.target.result;
-        document.getElementById("articleImage").value = uploadedImageBase64;
-      };
-      reader.readAsDataURL(file);
-    }
   }
 
   function handleLogin(e) {
@@ -372,11 +342,11 @@
     const title = document.getElementById("articleTitle").value.trim();
     const category = document.getElementById("articleCategory").value;
     const theme = document.getElementById("articleTheme").value;
-    const image = document.getElementById("articleImage").value.trim() || uploadedImageBase64;
+    const image = document.getElementById("articleImage").value.trim();
     const author = localStorage.getItem("oer_logged_user") || "Kreator";
 
-    if (!title || articlePages.every(p => !p.trim())) {
-      alert("Judul dan minimal isi halaman pertama wajib diisi!");
+    if (!title || (articlePages[0].trim() === "" && articlePages[1].trim() === "")) {
+      alert("Judul dan minimal isi salah satu halaman wajib diisi!");
       return;
     }
 
@@ -388,7 +358,9 @@
       date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
 
+    // AMBIL DATA DENGAN AMAN DAN PASTIKAN TIDAK ADA DATA LAIN YANG HILANG
     let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+    
     if (idField) {
       list = list.map(item => item.id === idField ? articleObj : item);
     } else {
@@ -405,7 +377,7 @@
     modal.innerHTML = `
       <div class="modal-content">
         <h3 style="color:var(--success); margin-bottom:8px;">✨ Berhasil Dipublikasikan!</h3>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel multi-halaman kamu tersimpan dan terhubung ke OoeR Search.</p>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Artikel kamu tersimpan aman dan terhubung ke OoeR Search.</p>
         <button onclick="closeModalAndRedirect()" style="padding:8px 16px; background:var(--primary); color:#fff; border:0; border-radius:6px; font-weight:bold; cursor:pointer;">Lihat Daftar Publikasi</button>
       </div>
     `;
@@ -423,10 +395,9 @@
     document.getElementById("editArticleId").value = "";
     document.getElementById("articleTitle").value = "";
     document.getElementById("articleImage").value = "";
-    articlePages = [""];
+    articlePages = ["", ""];
     activePageIndex = 0;
     renderEditorPagesTabs();
-    uploadedImageBase64 = "";
   }
 
   function renderMyArticles() {
@@ -447,7 +418,7 @@
       card.innerHTML = `
         <div class="article-info">
           <h4>${item.title}</h4>
-          <p><span>${item.category}</span> • ${item.pages ? item.pages.length : 1} Halaman • ${item.date}</p>
+          <p><span>${item.category}</span> • 2 Halaman • ${item.date}</p>
         </div>
         <div class="article-item-btns">
           <a href="website.html?view=${item.id}" class="btn-icon">👁️ Pratinjau</a>
@@ -469,7 +440,7 @@
       document.getElementById("articleTheme").value = target.theme || "theme-clean";
       document.getElementById("articleImage").value = target.image || "";
       
-      articlePages = target.pages || [target.content || ""];
+      articlePages = target.pages && target.pages.length >= 2 ? target.pages : [target.pages?.[0] || target.content || "", ""];
       activePageIndex = 0;
       renderEditorPagesTabs();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -487,16 +458,18 @@
 
   function updateReaderView() {
     document.getElementById("readContent").innerHTML = currentReaderPages[currentReaderIndex] || "";
-    document.getElementById("pageIndicator").textContent = `Halaman ${currentReaderIndex + 1} dari ${currentReaderPages.length}`;
+    document.getElementById("pageIndicator").textContent = `Halaman ${currentReaderIndex + 1} dari 2`;
     document.getElementById("prevPageBtn").disabled = currentReaderIndex === 0;
-    document.getElementById("nextPageBtn").disabled = currentReaderIndex === currentReaderPages.length - 1;
+    document.getElementById("nextPageBtn").disabled = currentReaderIndex === 1;
+    document.getElementById("prevPageBtn").textContent = currentReaderIndex === 1 ? "⬅ Halaman 1" : "⬅ Sebelumnya";
+    document.getElementById("nextPageBtn").textContent = currentReaderIndex === 0 ? "Halaman 2 ➡" : "Selanjutnya ➡";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function changeReaderPage(direction) {
     currentReaderIndex += direction;
     if (currentReaderIndex < 0) currentReaderIndex = 0;
-    if (currentReaderIndex >= currentReaderPages.length) currentReaderIndex = currentReaderPages.length - 1;
+    if (currentReaderIndex > 1) currentReaderIndex = 1;
     updateReaderView();
   }
 
@@ -524,13 +497,10 @@
           img.style.display = "block";
         }
 
-        currentReaderPages = target.pages && target.pages.length > 0 ? target.pages : [target.content || "Konten kosong"];
+        let pgs = target.pages && target.pages.length >= 2 ? target.pages : [target.pages?.[0] || target.content || "", ""];
+        currentReaderPages = pgs;
         currentReaderIndex = 0;
         updateReaderView();
-
-        if (currentReaderPages.length <= 1) {
-          document.getElementById("paginationBar").style.display = "none";
-        }
 
       } else {
         alert("Artikel tidak ditemukan atau sudah dihapus.");
