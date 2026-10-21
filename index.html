@@ -303,6 +303,84 @@ footer a:hover{text-decoration:underline}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
+  
+/* Pintasan layanan baru OoeR */
+.service-shortcut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 2px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.service-shortcut .service-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 17px;
+  font-size: 23px;
+  font-weight: 800;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
+  transition: transform 0.18s ease;
+}
+
+.service-shortcut:active .service-logo {
+  transform: scale(0.92);
+}
+
+.service-shortcut .service-name {
+  display: block;
+  width: 100%;
+  font-size: 11px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.service-website {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.service-ads {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.service-market {
+  background: #dcfce7;
+  color: #166534;
+}
+
+body.dark .service-shortcut .service-logo {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+body.dark .service-website {
+  background: #0c4a6e;
+  color: #bae6fd;
+}
+
+body.dark .service-ads {
+  background: #78350f;
+  color: #fde68a;
+}
+
+body.dark .service-market {
+  background: #14532d;
+  color: #bbf7d0;
+  }
+  
 </style>
 </head>
 
