@@ -167,7 +167,6 @@
   .read-banner { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   .read-content { font-size: 16px; overflow-wrap: anywhere; min-height: 240px; }
   
-  /* UKURAN TOMBOL NAVIGASI BAWAH DIPERKEECIL DAN RAPI */
   .pagination-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.08); }
   .page-nav-btn { padding: 6px 14px; font-size: 13px; background: var(--primary); color: #fff; border: 0; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
   .page-nav-btn:hover { opacity: 0.9; }
@@ -255,7 +254,6 @@
       <img id="readBanner" class="read-banner" src="" alt="" style="display:none;">
       <div id="readContent" class="read-content"></div>
       
-      <!-- TOMBOL NAVIGASI BAWAH YANG TELAH DIPERKECIL -->
       <div class="pagination-bar" id="paginationBar">
         <button class="page-nav-btn" id="prevPageBtn" onclick="changeReaderPage(-1)">⬅ Sebelumnya</button>
         <span id="pageIndicator" class="page-indicator">Halaman 1 dari 1</span>
@@ -396,6 +394,8 @@
     } else {
       list.unshift(articleObj);
     }
+    
+    // Auto-sync ke penyimpanan global search.html
     localStorage.setItem("oer_user_websites", JSON.stringify(list));
 
     showSuccessPopup();
@@ -479,8 +479,9 @@
   }
 
   function deleteArticle(id) {
-    if (confirm("Hapus artikel ini dari publikasi?")) {
+    if (confirm("Hapus artikel ini secara permanen dari publikasi dan mesin pencari?")) {
       let all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
+      // Hapus item dari array dan langsung sinkronkan ke search.html
       all = all.filter(a => a.id !== id);
       localStorage.setItem("oer_user_websites", JSON.stringify(all));
       renderMyArticles();
