@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OoeR Website — Portal Kreator & Publikasi Karya</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --text: #202124; --muted: #5f6368; --border: #dfe1e5;
@@ -152,7 +151,6 @@
 (() => {
   "use strict";
 
-  // Data Awal Bawaan (Seed Data) jika belum ada di localStorage
   const defaultWorks = [
     {
       id: "work_1",
@@ -245,7 +243,6 @@
     document.getElementById("uploadModal").classList.remove("show");
   };
 
-  // Proses Submit Unggahan & Sinkronisasi ke Sistem Pencarian OoeR
   document.getElementById("uploadForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const creator = document.getElementById("creatorName").value.trim();
@@ -266,9 +263,8 @@
 
     const works = getWorks();
     works.unshift(newWork);
-    localStorage.setItem("oer_creator_works", works);
+    localStorage.setItem("oer_creator_works", JSON.stringify(works));
 
-    // --- SINKRONISASI OTOMATIS KE PENCARIAN OoeR (`oer_search_history` / indeks lokal) ---
     try {
       const searchHistory = JSON.parse(localStorage.getItem("oer_search_history") || "[]");
       if (!searchHistory.includes(title)) {
@@ -288,4 +284,5 @@
 </script>
 
 </body>
-</html>
+  </html>
+  
