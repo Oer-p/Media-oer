@@ -72,7 +72,7 @@
   }
   .tool-btn.active { background: var(--primary); color: #fff; }
 
-  /* LAYAR KETIK DIBUAT GEDEH/LUAS */
+  /* LAYAR KETIK DIBUAT LUAS */
   .editor-textarea {
     width: 100%; min-height: 380px; padding: 14px; font-size: 15px; line-height: 1.6;
     border: 1px solid var(--border); border-radius: 8px; outline: none; resize: vertical;
@@ -134,7 +134,7 @@
   <!-- AREA EDITOR (UNTUK MENULIS & EDIT) -->
   <div id="editorArea">
     <div class="editor-card">
-      <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama...">
+      <input type="text" id="articleTitle" class="input-title" placeholder="Judul Artikel Utama..." value="Panduan Praktis Membangun Ekosistem Web di OoeR">
       
       <div class="editor-tools">
         <select id="articleCategory" class="tool-btn">
@@ -149,13 +149,13 @@
       </div>
 
       <!-- LAYAR KETIK DIBUAT LUAS -->
-      <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau kode HTML di sini..."></textarea>
+      <textarea id="articleContent" class="editor-textarea" placeholder="Tuliskan isi artikel atau kode HTML di sini..."><h2>Selamat Datang di OoeR Space!</h2><p>Platform ini dirancang agar setiap kreator bisa menerbitkan artikel, modul edukasi, hingga halaman web interaktif secara mandiri dan gratis.</p><h3>Fitur Unggulan:</h3><ul><li><b>Live Render HTML:</b> Tulis tag web dan langsung tampilkan hasilnya.</li><li><b>Multi-Halaman:</b> Hubungkan antar artikel menggunakan slug link.</li></ul></textarea>
 
       <!-- PENGATURAN MULTI-HALAMAN (PAGE LINK) -->
       <div class="page-settings">
         <h4>📑 Pengaturan Halaman (Page Link)</h4>
         <div class="page-inputs">
-          <input type="text" id="pageSlug" class="input-sub" placeholder="Slug URL (contoh: page-1 / tentang)">
+          <input type="text" id="pageSlug" class="input-sub" value="panduan-oer" placeholder="Slug URL (contoh: page-1)">
           <input type="text" id="nextPageUrl" class="input-sub" placeholder="Tautan Halaman Selanjutnya (Optional)">
         </div>
       </div>
@@ -166,12 +166,10 @@
       </div>
     </div>
 
-    <!-- DAFTAR KARYA / PUBLIKASI SAYA (TIDAK AKAN HILANG) -->
+    <!-- DAFTAR KARYA / PUBLIKASI SAYA -->
     <section class="my-articles-section">
       <h3 class="section-title">📚 Daftar Publikasi Saya</h3>
-      <div id="myArticlesList" class="article-list">
-        <!-- Artikel yang pernah dipublikasi akan dirender di sini -->
-      </div>
+      <div id="myArticlesList" class="article-list"></div>
     </section>
   </div>
 
@@ -208,7 +206,6 @@
     btn.classList.toggle("active", isCodeMode);
   }
 
-  // PUBLIKASIKAN ARTIKEL DENGAN AMAN TANPA MENGHAPUS DATA LAMA
   function publishArticle() {
     const title = document.getElementById("articleTitle").value.trim();
     const content = document.getElementById("articleContent").value.trim();
@@ -221,22 +218,20 @@
       return;
     }
 
+    const uniqueId = "art_" + Date.now();
     const newArticle = {
-      id: "art_" + Date.now(),
+      id: uniqueId,
       title: title,
       category: category,
       content: content,
       slug: slug,
       nextPage: nextPage,
-      url: `website.html?view=art_${Date.now()}`,
+      url: `website.html?view=${uniqueId}`,
       date: new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' })
     };
 
-    // Ambil data lama dari LocalStorage
     let existingWorks = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
-    existingWorks.unshift(newArticle); // Tambahkan ke paling atas
-    
-    // Simpan kembali ke kunci LocalStorage yang sinkron dengan OoeR Search
+    existingWorks.unshift(newArticle);
     localStorage.setItem("oer_user_websites", JSON.stringify(existingWorks));
 
     clearEditor();
@@ -251,7 +246,6 @@
     document.getElementById("nextPageUrl").value = "";
   }
 
-  // MENAMPILKAN DAFTAR ARTIKEL SAYA
   function renderMyArticles() {
     const listContainer = document.getElementById("myArticlesList");
     const articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
@@ -279,7 +273,6 @@
     });
   }
 
-  // HAPUS ARTIKEL DARI DAFTAR
   function deleteArticle(id) {
     if (confirm("Apakah kamu yakin ingin menghapus artikel ini?")) {
       let articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
@@ -289,13 +282,11 @@
     }
   }
 
-  // PENANGANAN OTOMATIS: MODE EDITOR VS MODE BACA ARTIKEL
   window.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get("view");
 
     if (viewId) {
-      // BERPINDAH KE MODE BACA ARTIKEL
       const articles = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
       const target = articles.find(art => String(art.id) === String(viewId));
 
@@ -305,7 +296,7 @@
 
         document.getElementById("readTitle").innerText = target.title;
         document.getElementById("readMeta").innerHTML = `<b>${target.category || 'Artikel'}</b> • Dipublikasikan pada ${target.date || 'Baru saja'}`;
-        document.getElementById("readContent").innerHTML = target.content; // Render langsung HTML/Kode
+        document.getElementById("readContent").innerHTML = target.content;
 
         if (target.nextPage) {
           document.getElementById("readNextPage").innerHTML = `<a href="${target.nextPage}" style="display:inline-block; padding:10px 18px; background:var(--primary); color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;">Lanjut ke Halaman Berikutnya ➡️</a>`;
@@ -315,7 +306,6 @@
         window.location.href = "website.html";
       }
     } else {
-      // TAMPILKAN EDITOR DAN DAFTAR PUBLIKASI SAYA
       renderMyArticles();
     }
   });
