@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -239,26 +238,6 @@ main{
   border-radius:14px;background:var(--soft);color:var(--muted);
   text-align:center;font-size:13px;line-height:1.7
 }
-.ai-panel{
-  display:none;width:min(100%,690px);margin-top:24px;
-  border:1px solid var(--border);border-radius:16px;background:var(--bg);overflow:hidden
-}
-.ai-panel.show{display:block}
-.ai-header{display:flex;justify-content:space-between;align-items:center;padding:14px 17px;border-bottom:1px solid var(--border)}
-.ai-title{font-size:14px;font-weight:700}
-.ai-close{border:0;background:transparent;cursor:pointer;font-size:20px}
-.ai-messages{min-height:70px;max-height:250px;overflow:auto;padding:15px}
-.ai-message{
-  max-width:85%;padding:10px 13px;margin-bottom:10px;
-  border-radius:13px;background:var(--soft);font-size:13px;line-height:1.6;overflow-wrap:anywhere
-}
-.ai-message.user{margin-left:auto;background:#e8f0fe;color:#174ea6}
-.ai-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
-.ai-form input{
-  flex:1;min-width:0;padding:11px 14px;border:1px solid var(--border);
-  border-radius:22px;background:var(--bg);color:var(--text);outline:none
-}
-.ai-form button{padding:0 16px;border:0;border-radius:22px;background:var(--blue);color:#fff;cursor:pointer}
 .reels-empty{display:block}
 .about-section{width:min(100%,900px);margin:42px auto;text-align:center}
 .about-section p{max-width:680px;margin:12px auto;color:var(--muted);font-size:14px;line-height:1.8}
@@ -347,40 +326,14 @@ footer a:hover{text-decoration:underline}
   overflow-wrap: anywhere;
 }
 
-.service-website {
-  background: #e0f2fe;
-  color: #0369a1;
-}
+.service-website { background: #e0f2fe; color: #0369a1; }
+.service-ads { background: #fef3c7; color: #92400e; }
+.service-market { background: #dcfce7; color: #166534; }
 
-.service-ads {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.service-market {
-  background: #dcfce7;
-  color: #166534;
-}
-
-body.dark .service-shortcut .service-logo {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
-}
-
-body.dark .service-website {
-  background: #0c4a6e;
-  color: #bae6fd;
-}
-
-body.dark .service-ads {
-  background: #78350f;
-  color: #fde68a;
-}
-
-body.dark .service-market {
-  background: #14532d;
-  color: #bbf7d0;
-  }
-  
+body.dark .service-shortcut .service-logo { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22); }
+body.dark .service-website { background: #0c4a6e; color: #bae6fd; }
+body.dark .service-ads { background: #78350f; color: #fde68a; }
+body.dark .service-market { background: #14532d; color: #bbf7d0; }
 </style>
 </head>
 
@@ -443,11 +396,12 @@ body.dark .service-market {
       </div>
       <div class="suggestions" id="suggestions"></div>
     </form>
+    
     <div class="search-buttons">
-  <button type="submit" form="searchForm">Cari OoeR</button>
-  <button type="button" id="luckyButton">Jelajahi OoeR</button>
-  <button type="button" id="aiButton">AI Chat</button>
-          </div>
+      <button type="submit" form="searchForm">Cari OoeR</button>
+      <button type="button" id="luckyButton">Jelajahi OoeR</button>
+      <button type="button" id="aiButton">AI Chat</button>
+    </div>
     
     <p id="notice" aria-live="polite"></p>
 
@@ -469,38 +423,29 @@ body.dark .service-market {
         <span class="shortcut-label">Sosial</span>
       </a>
       
-<!-- OoeR Website -->
-<button class="service-shortcut" id="oerWebsiteButton"
-  type="button" aria-label="OoeR Website">
-  <span class="service-logo service-website" aria-hidden="true">W</span>
-  <span class="service-name">OoeR Website</span>
-</button>
+      <!-- OoeR Website -->
+      <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="OoeR Website">
+        <span class="service-logo service-website" aria-hidden="true">W</span>
+        <span class="service-name">OoeR Website</span>
+      </button>
 
-<!-- OoeR Ads -->
-<button class="service-shortcut" id="oerAdsButton"
-  type="button" aria-label="OoeR Ads">
-  <span class="service-logo service-ads" aria-hidden="true">A</span>
-  <span class="service-name">OoeR Ads</span>
-</button>
+      <!-- OoeR Ads -->
+      <button class="service-shortcut" id="oerAdsButton" type="button" aria-label="OoeR Ads">
+        <span class="service-logo service-ads" aria-hidden="true">A</span>
+        <span class="service-name">OoeR Ads</span>
+      </button>
 
-<!-- Market OeR -->
-<button class="service-shortcut" id="marketOerButton"
-  type="button" aria-label="Market OeR">
-  <span class="service-logo service-market" aria-hidden="true">M</span>
-  <span class="service-name">Market OeR</span>
-</button>
+      <!-- Market OeR -->
+      <button class="service-shortcut" id="marketOerButton" type="button" aria-label="Market OeR">
+        <span class="service-logo service-market" aria-hidden="true">M</span>
+        <span class="service-name">Market OeR</span>
+      </button>
       
       <button class="shortcut" type="button" id="addShortcutButton">
         <span class="shortcut-icon add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
         <span class="shortcut-label">Tambah</span>
       </button>
     </nav>
-  </section>
-
-  <section class="ai-panel" id="aiPanel" aria-label="AI Chat OoeR">
-    <div class="ai-header"><div class="ai-title">AI Chat OoeR</div><button class="ai-close" id="aiClose" type="button" aria-label="Tutup AI Chat">×</button></div>
-    <div class="ai-messages" id="aiMessages"><div class="ai-message bot">Halo! AI Chat OoeR masih dalam tahap pengembangan.</div></div>
-    <form class="ai-form" id="aiForm"><input id="aiInput" type="text" placeholder="Tulis pertanyaan..." autocomplete="off"><button type="submit">Kirim</button></form>
   </section>
 
   <section class="content-section" id="oer-bola">
@@ -532,25 +477,21 @@ body.dark .service-market {
     <a href="#reels">Reels</a>
   </div>
   
-<div style="margin-top:16px;padding-top:14px;border-top:1px solid #2d3037;">
-  <a href="mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OeR"
-     style="display:inline-flex;align-items:center;gap:7px;color:#8ab4f8;font-size:13px;text-decoration:none;">
-    <span aria-hidden="true">✉</span>
-    <span>Email untuk Bisnis</span>
-  </a>
-  <div style="margin-top:7px;font-size:12px;">
-    <a href="mailto:oerplatfrom@gmail.com"
-       style="color:#9298a2;text-decoration:none;">
-      oerplatfrom@gmail.com
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid #2d3037;width:100%;">
+    <a href="mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OeR" style="display:inline-flex;align-items:center;gap:7px;color:#8ab4f8;font-size:13px;text-decoration:none;">
+      <span aria-hidden="true">✉</span>
+      <span>Email untuk Bisnis</span>
     </a>
+    <div style="margin-top:7px;font-size:12px;">
+      <a href="mailto:oerplatfrom@gmail.com" style="color:#9298a2;text-decoration:none;">oerplatfrom@gmail.com</a>
+    </div>
+    <div style="margin-top:6px;color:#9298a2;font-size:11px;">
+      Hubungi OeR untuk kerja sama dan keperluan bisnis.
+    </div>
   </div>
-  <div style="margin-top:6px;color:#9298a2;font-size:11px;">
-    Hubungi OeR untuk kerja sama dan keperluan bisnis.
-  </div>
-</div>
-
 </footer>
 
+<!-- DIALOG OVERLAYS -->
 <div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
   <div class="dialog">
     <div class="dialog-head"><h2 id="historyTitle">Riwayat pencarian</h2><button class="close-button" type="button" data-close="historyOverlay" aria-label="Tutup">×</button></div>
@@ -594,7 +535,6 @@ body.dark .service-market {
 (() => {
   "use strict";
 
-  /* SUPABASE: PERTAHANKAN URL DAN KEY PROYEK ASLI */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 
@@ -606,9 +546,6 @@ body.dark .service-market {
   const loginButton = $("loginButton");
   const accountLabel = $("accountLabel");
   const accountMenu = $("accountMenu");
-  const aiPanel = $("aiPanel");
-  const aiInput = $("aiInput");
-  const aiMessages = $("aiMessages");
 
   let supabaseClient = null;
   let currentGoogleUser = null;
@@ -708,42 +645,29 @@ body.dark .service-market {
     hideSuggestions();
 
     const normalizedQuery = query.toLowerCase();
-   const gameKeywords = [
-  "game", "games", "oer game", "oer games",
-  "pubg mobile", "free fire",
-  "genshin impact", "minecraft", "roblox", "valorant",
-  "tekken", "god of war", "need for speed",
-  "gran turismo", "stardew valley", "among us"
-];
+    const gameKeywords = [
+      "game", "games", "oer game", "oer games", "pubg mobile", "free fire",
+      "genshin impact", "minecraft", "roblox", "valorant", "tekken",
+      "god of war", "need for speed", "gran turismo", "stardew valley", "among us"
+    ];
 
-// === Tambahan untuk Meta MLBB ===
-const mlbbMetaKeywords = [
-  "meta mlbb",
-  "mlbb meta",
-  "meta mobile legends",
-  "mobile legends meta",
-  "tier list mlbb",
-  "mlbb 2026",
-  "meta 2026",
-  "mlbb tier list",
-  "hero meta mlbb",
-  "mlbb_ooer",
-  "mlbb ooer"
-];
+    const mlbbMetaKeywords = [
+      "meta mlbb", "mlbb meta", "meta mobile legends", "mobile legends meta",
+      "tier list mlbb", "mlbb 2026", "meta 2026", "mlbb tier list",
+      "hero meta mlbb", "mlbb_ooer", "mlbb ooer"
+    ];
 
-// Cek dulu apakah pencarian tentang Meta MLBB
-if (mlbbMetaKeywords.some(keyword => normalizedQuery.includes(keyword)) || 
-    normalizedQuery === "mlbb" || 
-    normalizedQuery === "mobile legends") {
-  window.location.href = new URL("./Mlbb_ooer.html", location.href).href;
-  return;
-}
+    if (mlbbMetaKeywords.some(keyword => normalizedQuery.includes(keyword)) || 
+        normalizedQuery === "mlbb" || normalizedQuery === "mobile legends") {
+      window.location.href = new URL("./Mlbb_ooer.html", location.href).href;
+      return;
+    }
 
-// Baru cek game biasa
-if (gameKeywords.includes(normalizedQuery)) {
-  window.location.href = new URL("./games.html", location.href).href;
-  return;
-  }
+    if (gameKeywords.includes(normalizedQuery)) {
+      window.location.href = new URL("./games.html", location.href).href;
+      return;
+    }
+
     const searchUrl = new URL("./search.html", location.href);
     searchUrl.searchParams.set("q", query);
     window.location.href = searchUrl.href;
@@ -796,14 +720,9 @@ if (gameKeywords.includes(normalizedQuery)) {
     }
   });
 
-  /* DIALOG */
-  function openOverlay(id) {
-    $(id).classList.add("show");
-  }
-
-  function closeOverlay(id) {
-    $(id).classList.remove("show");
-  }
+  /* DIALOG OVERLAYS */
+  function openOverlay(id) { $(id).classList.add("show"); }
+  function closeOverlay(id) { $(id).classList.remove("show"); }
 
   document.querySelectorAll("[data-close]").forEach(button => {
     button.addEventListener("click", () => closeOverlay(button.dataset.close));
@@ -823,7 +742,7 @@ if (gameKeywords.includes(normalizedQuery)) {
     }
   });
 
-  /* RIWAYAT */
+  /* RIWAYAT DIALOG */
   function renderHistory() {
     const list = $("historyList");
     list.replaceChildren();
@@ -874,26 +793,9 @@ if (gameKeywords.includes(normalizedQuery)) {
     notice.textContent = "Riwayat pencarian dihapus.";
   });
 
-  /* FAVORIT */
+  /* FAVORIT DIALOG */
   function getFavorites() {
     return readStorage("oer_favorites").filter(x => typeof x === "string");
-  }
-
-  function addFavorite(query) {
-    if (!query) {
-      notice.textContent = "Masukkan pencarian terlebih dahulu untuk menyimpan favorit.";
-      return;
-    }
-
-    const favorites = getFavorites();
-    if (favorites.some(item => item.toLowerCase() === query.toLowerCase())) {
-      notice.textContent = "Pencarian ini sudah ada di favorit.";
-      return;
-    }
-
-    favorites.unshift(query);
-    writeStorage("oer_favorites", favorites.slice(0, 30));
-    notice.textContent = "Pencarian ditambahkan ke favorit.";
   }
 
   function renderFavorites() {
@@ -1073,35 +975,6 @@ if (gameKeywords.includes(normalizedQuery)) {
     if (!form.contains(event.target)) hideSuggestions();
   });
 
-  /* AI CHAT: TAMPILAN PENGEMBANGAN */
-  $("aiButton").addEventListener("click", () => {
-    aiPanel.classList.toggle("show");
-    if (aiPanel.classList.contains("show")) {
-      aiInput.focus();
-      aiPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
-    }
-  });
-
-  $("aiClose").addEventListener("click", () => aiPanel.classList.remove("show"));
-
-  $("aiForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const question = aiInput.value.trim();
-    if (!question) return;
-
-    const userMessage = document.createElement("div");
-    userMessage.className = "ai-message user";
-    userMessage.textContent = question;
-    aiMessages.appendChild(userMessage);
-    aiInput.value = "";
-
-    const botMessage = document.createElement("div");
-    botMessage.className = "ai-message bot";
-    botMessage.textContent = "AI Chat OoeR masih dalam tahap pengembangan. Fitur jawaban AI belum terhubung.";
-    aiMessages.appendChild(botMessage);
-    aiMessages.scrollTop = aiMessages.scrollHeight;
-  });
-
   /* OoeR BOLA: data/bola.json */
   {
     const bolaList = $("bolaList");
@@ -1225,7 +1098,7 @@ if (gameKeywords.includes(normalizedQuery)) {
     window.setInterval(loadBola, 5 * 60 * 1000);
   }
 
-  /* LOGIN GOOGLE MELALUI SUPABASE */
+  /* LOGIN GOOGLE SUPABASE */
   async function signInWithGoogle() {
     if (!supabaseClient) {
       notice.textContent = "Layanan login belum siap. Periksa koneksi internet dan konfigurasi Supabase.";
@@ -1275,7 +1148,6 @@ if (gameKeywords.includes(normalizedQuery)) {
     }
   });
 
-  /* OR ACCOUNT TERPISAH DARI LOGIN GOOGLE */
   $("menuORAccount").addEventListener("click", () => {
     window.location.href = "https://oer-p.github.io/Oer/login.html";
   });
@@ -1322,7 +1194,6 @@ if (gameKeywords.includes(normalizedQuery)) {
       menuLogin.textContent = "Masuk dengan Google";
     }
 
-    /* OR Account selalu tersedia dan tidak digabung dengan sesi Google. */
     $("menuORAccount").textContent = "Masuk dengan OR Account";
     $("menuORAccount").style.display = "";
   }
@@ -1366,6 +1237,7 @@ if (gameKeywords.includes(normalizedQuery)) {
     window.scrollTo({top:0,behavior:"smooth"});
   });
 })();
+</script>
 
 <script>
 /* PWA: SERVICE WORKER */
@@ -1376,9 +1248,8 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.error("PWA gagal diaktifkan:", error));
   });
 }
- <script>
-/* URL layanan OoeR.
-   Isi URL setelah setiap layanan benar-benar tersedia. */
+  
+/* URL LAYANAN OOER */
 const OER_SERVICE_URLS = {
   website: "",
   ads: "",
@@ -1390,7 +1261,6 @@ function openOerService(url, serviceName) {
     window.location.href = url;
     return;
   }
-
   alert(serviceName + " sedang disiapkan. Tautan akan tersedia setelah layanan diluncurkan.");
 }
 
@@ -1406,7 +1276,7 @@ document.getElementById("marketOerButton")?.addEventListener("click", () => {
   openOerService(OER_SERVICE_URLS.market, "Market OeR");
 });
 
-// Perintah untuk mengarahkan tombol AI Chat langsung ke halaman ai_chat.html
+/* TOMBOL AI CHAT -> DIBUKA KE AI_CHAT.HTML */
 document.getElementById('aiButton')?.addEventListener('click', function() {
   window.location.href = 'ai_chat.html';
 });
