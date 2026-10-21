@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oer - Ruang Belajar Fungsional</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+    .container { max-width: 650px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h2 { color: #008080; text-align: center; margin-bottom: 20px; }
+    .section { background: #fafafa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eaeaea; }
+    h3 { margin-top: 0; color: #333; font-size: 16px; }
+    textarea, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-top: 5px; margin-bottom: 10px; }
+    button { background: #008080; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; font-size: 14px; }
+    button:hover { background: #006666; }
+    .btn-guru { background: #4682B4; }
+    .btn-guru:hover { background: #315f86; }
+    .output { background: #ffffff; padding: 12px; border-radius: 6px; margin-top: 10px; border-left: 4px solid #008080; white-space: pre-wrap; font-size: 14px; border: 1px solid #ddd; max-height: 200px; overflow-y: auto; }
+    .feed-item { background: white; padding: 10px; border-radius: 6px; margin-top: 8px; border: 1px solid #ddd; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>📚 Oer - Ruang Belajar & Interaksi Nyata</h2>
+    
+    <!-- FITUR 1: MODE GURU (BUAT MATERI & SIMPAN KE DB) -->
+    <div class="section" style="border-left: 4px solid #4682B4;">
+      <h3>👨‍🏫 Panel Guru: Posting Materi / Tugas</h3>
+      <input type="text" id="teacherName" placeholder="Nama Guru (Contoh: Pak Budi)">
+      <input type="text" id="materialTitle" placeholder="Judul Materi / Tugas">
+      <textarea id="materialContent" rows="3" placeholder="Isi materi atau instruksi tugas..."></textarea>
+      <button class="btn-guru" onclick="postingMateri()">Simpan Materi ke Database</button>
+    </div>
+
+    <!-- FITUR 2: TANYA GURU AI & SIMPAN DISKUSI KE DB -->
+    <div class="section" style="border-left: 4px solid #008080;">
+      <h3>🤖 Tanya Guru AI & Diskusi Murid</h3>
+      <input type="text" id="studentName" placeholder="Nama Murid (Contoh: Siti)">
+      <textarea id="promptInput" rows="3" placeholder="Tulis pertanyaan pelajaran di sini..."></textarea>
+      <button onclick="tanyaDanSimpanAI()">Kirim ke AI & Simpan Diskusi</button>
+      <div class="output" id="aiOutput">Respon AI akan muncul di sini...</div>
+    </div>
+
+    <!-- FITUR 3: DAFTAR MATERI & DISKUSI TERBARU DARI DATABASE -->
+    <div class="section" style="border-left: 4px solid #e67e22;">
+      <h3>📢 Feed Aktivitas Kelas (Real-time dari Supabase)</h3>
+      <button style="background: #e67e22; margin-bottom: 10px;" onclick="muatDataDariDatabase()">Muat / Refresh Data</button>
+      <div id="feedContainer" class="output">Klik tombol refresh untuk melihat data terbaru...</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // MASUKKAN SUPABASE URL & ANON KEY KAMU DI SINI
+    // ==========================================
+    const SUPABASE_URL = "MASUKKAN_SUPABASE_URL_KAMU_DISINI";
+    const SUPABASE_ANON_KEY = "MASUKKAN_SUPABASE_ANON_KEY_KAMU_DISINI";
+    
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 1. Fungsi Guru Posting Materi (Menyimpan langsung ke tabel oer_materials)
+    async function postingMateri() {
+      const teacher = document.getElementById("teacherName").value.trim();
+      const title = document.getElementById("materialTitle").value.trim();
+      const content = document.getElementById("materialContent").value.trim();
+
+      if (!teacher || !title || !content) {
+        alert("Semua kolom panel guru harus diisi!");
+        return;
+      }
+
+      // Masukkan ke database Supabase
+      const { error } = await supabaseClient
+        .from('oer_materials')
+        .insert([{ title: `[${teacher}] ${title}`, content_text: content }]);
+
+      if (error) {
+        alert("Gagal menyimpan materi: " + error.message);
+      } else {
+        alert("Berhasil! Materi tersimpan di database Supabase.");
+        document.getElementById("materialTitle").value = "";
+        document.getElementById("materialContent").value = "";
+        muatDataDariDatabase();
+      }
+    }
+
+    // 2. Fungsi Tanya AI & Simpan ke Tabel oer_discussions
+    async function tanyaDanSimpanAI() {
+      const student = document.getElementById("studentName").value.trim();
+      const prompt = document.getElementById("promptInput").value.trim();
+      const outputDiv = document.getElementById("aiOutput");
+
+      if (!student || !prompt) {
+        alert("Nama murid dan pertanyaan harus diisi!");
+        return;
+      }
+
+      outputDiv.innerText = "⏳ Menghubungkan ke Gemini AI & menyimpan data...";
+
+      try {
+        // Panggil Edge Function AI
+        const { data, error: fnError } = await supabaseClient.functions.invoke('oer-learning', {
+          body: { action: 'tanya_guru_ai', prompt: prompt }
+        });
+
+        if (fnError) throw fnError;
+
+        const jawabanAI = data.answer || "Tidak ada jawaban.";
+        outputDiv.innerText = jawabanAI;
+
+        // Simpan percakapan ke database Supabase tabel oer_discussions
+        await supabaseClient.from('oer_discussions').insert([
+          { sender_name: student, role: 'student', message: prompt },
+          { sender_name: 'Guru AI', role: 'teacher', message: jawabanAI }
+        ]);
+
+        muatDataDariDatabase();
+      } catch (err) {
+        outputDiv.innerText = "Terjadi kesalahan: " + (err.message || err);
+      }
+    }
+
+    // 3. Fungsi Menarik Data Nyata dari Supabase ke Layar
+    async function muatDataDariDatabase() {
+      const feedDiv = document.getElementById("feedContainer");
+      feedDiv.innerText = "Memuat data terbaru...";
+
+      // Ambil data materi
+      const { data: materials } = await supabaseClient
+        .from('oer_materials')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      // Ambil data diskusi
+      const { data: discussions } = await supabaseClient
+        .from('oer_discussions')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      let html = "<b>--- MATERI TERBARU ---</b><br>";
+      if (materials && materials.length > 0) {
+        materials.forEach(m => {
+          html += `<div class="feed-item"><b>${m.title}</b><br>${m.content_text}</div>`;
+        });
+      } else {
+        html += "<div class='feed-item'>Belum ada materi.</div>";
+      }
+
+      html += "<br><b>--- DISKUSI TERAKHIR ---</b><br>";
+      if (discussions && discussions.length > 0) {
+        discussions.forEach(d => {
+          html += `<div class="feed-item"><b>${d.sender_name} (${d.role}):</b> ${d.message}</div>`;
+        });
+      } else {
+        html += "<div class='feed-item'>Belum ada diskusi.</div>";
+      }
+
+      feedDiv.innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>
