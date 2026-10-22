@@ -259,6 +259,8 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .google-button:disabled{opacity:.65;cursor:wait}
 .google-mark{font-size:21px;font-weight:bold;color:#4285f4}
 #loginMessage{min-height:20px;margin:14px 0 0;font-size:12px;color:#ffb4ab}
+
+/* Pengunci pointer saat layar login terbuka */
 body.login-locked{overflow:hidden}
 body.login-locked header,
 body.login-locked main{pointer-events:none;user-select:none}
@@ -280,7 +282,7 @@ body.login-locked main{pointer-events:none;user-select:none}
 </style>
 </head>
 
-<body class="login-locked">
+<body>
 <header>
   <div class="account-area">
     <button class="account-button" id="accountMenuButton" type="button"
@@ -446,9 +448,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const SITE_URL = "https://oer-p.github.io/Media-oer/";
-  
-  // TAUTAN RESMI HYPER-TASK
-  const AI_TRANSLATE_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/hyper-task";
 
   const $ = id => document.getElementById(id);
   const form = $("searchForm");
@@ -459,6 +458,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   const siteMenu = $("siteMenu");
   const loginGate = $("loginGate");
   const langSelectHome = $("langSelectHome");
+  const themeButton = $("themeButton");
 
   let supabaseClient = null;
   let currentSession = null;
@@ -466,7 +466,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   let authBusy = false;
 
   /* ===================================================
-     KAMUS LENGKAP 12 BAHASA (PERMANEN, 0 TOKEN, INSTAN)
+     KAMUS LENGKAP 12 BAHASA
      =================================================== */
   const UI_DICTIONARY = {
     "Indonesia": {
@@ -759,52 +759,71 @@ body.login-locked main{pointer-events:none;user-select:none}
     }
   };
 
-  // Fungsi pengunci bahasa permanen ke seluruh elemen
+  function updateThemeButton() {
+    if (!themeButton) return;
+    const currentLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[currentLang] || UI_DICTIONARY["Indonesia"];
+    themeButton.textContent = document.body.classList.contains("light") ? dict.darkMode : dict.lightMode;
+  }
+
   function applyLanguage(lang) {
     const dict = UI_DICTIONARY[lang] || UI_DICTIONARY["Indonesia"];
     
-    input.placeholder = dict.placeholder;
-    input.setAttribute("aria-label", dict.placeholder);
-    $("txtLuckyButton").textContent = dict.explore;
-    $("loginTitle").textContent = dict.loginTitle;
-    $("txtLoginDesc").textContent = dict.loginDesc;
-    $("gateGoogleText").textContent = dict.loginBtn;
-    $("txtMenuHistory").textContent = dict.history;
-    $("txtMenuFavorites").textContent = dict.favorites;
-    $("txtSiteSettings").textContent = dict.settings;
-    $("txtSiteBusiness").textContent = dict.business;
-    $("txtSiteCookies").textContent = dict.cookies;
-    $("txtSiteHelp").textContent = dict.help;
+    if (input) {
+      input.placeholder = dict.placeholder;
+      input.setAttribute("aria-label", dict.placeholder);
+    }
+    if ($("txtLuckyButton")) $("txtLuckyButton").textContent = dict.explore;
+    if ($("loginTitle")) $("loginTitle").textContent = dict.loginTitle;
+    if ($("txtLoginDesc")) $("txtLoginDesc").textContent = dict.loginDesc;
+    if ($("gateGoogleText")) $("gateGoogleText").textContent = dict.loginBtn;
+    if ($("txtMenuHistory")) $("txtMenuHistory").textContent = dict.history;
+    if ($("txtMenuFavorites")) $("txtMenuFavorites").textContent = dict.favorites;
+    if ($("txtSiteSettings")) $("txtSiteSettings").textContent = dict.settings;
+    if ($("txtSiteBusiness")) $("txtSiteBusiness").textContent = dict.business;
+    if ($("txtSiteCookies")) $("txtSiteCookies").textContent = dict.cookies;
+    if ($("txtSiteHelp")) $("txtSiteHelp").textContent = dict.help;
 
-    $("historyTitle").textContent = dict.history;
-    $("clearHistoryButton").textContent = dict.clearHist;
-    $("favoritesTitle").textContent = dict.favorites;
-    $("txtFavEmpty").textContent = dict.emptyFav;
-    $("settingsTitle").textContent = "OoeR " + dict.settings;
-    $("txtThemeTitle").textContent = dict.themeTitle;
-    $("txtThemeDesc").textContent = dict.themeDesc;
-    $("txtHistTitle").textContent = dict.history;
-    $("settingsHistoryBtn").textContent = dict.openBtn;
+    if ($("historyTitle")) $("historyTitle").textContent = dict.history;
+    if ($("clearHistoryButton")) $("clearHistoryButton").textContent = dict.clearHist;
+    if ($("favoritesTitle")) $("favoritesTitle").textContent = dict.favorites;
+    if ($("txtFavEmpty")) $("txtFavEmpty").textContent = dict.emptyFav;
+    if ($("settingsTitle")) $("settingsTitle").textContent = "OoeR " + dict.settings;
+    if ($("txtThemeTitle")) $("txtThemeTitle").textContent = dict.themeTitle;
+    if ($("txtThemeDesc")) $("txtThemeDesc").textContent = dict.themeDesc;
+    if ($("txtHistTitle")) $("txtHistTitle").textContent = dict.history;
+    if ($("settingsHistoryBtn")) $("settingsHistoryBtn").textContent = dict.openBtn;
 
     updateThemeButton();
+
     if (!currentSession) {
-      $("accountMenuHeader").textContent = dict.guestStatus;
-      $("googleAuthText").textContent = dict.loginBtn;
+      if ($("accountMenuHeader")) $("accountMenuHeader").textContent = dict.guestStatus;
+      if ($("googleAuthText")) $("googleAuthText").textContent = dict.loginBtn;
     } else {
-      $("googleAuthText").textContent = dict.logoutBtn;
+      if ($("googleAuthText")) $("googleAuthText").textContent = dict.logoutBtn;
     }
   }
 
-  // 1. Baca bahasa permanen dari HP/Komputer saat halaman dibuka
+  // Muat bahasa awal
   const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
-  langSelectHome.value = savedLang;
+  if (langSelectHome) langSelectHome.value = savedLang;
   applyLanguage(savedLang);
 
-  // 2. KUNCI PERMANEN: Hanya berubah jika pengguna klik ganti bahasa!
-  langSelectHome.addEventListener("change", () => {
-    const chosen = langSelectHome.value;
-    localStorage.setItem("ooer_user_lang", chosen);
-    applyLanguage(chosen);
+  if (langSelectHome) {
+    langSelectHome.addEventListener("change", () => {
+      const chosen = langSelectHome.value;
+      localStorage.setItem("ooer_user_lang", chosen);
+      applyLanguage(chosen);
+    });
+  }
+
+  // Deteksi jika pengguna kembali dari search agar Home TIDAK MACET
+  window.addEventListener("pageshow", (event) => {
+    const currentLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
+    if (langSelectHome) langSelectHome.value = currentLang;
+    applyLanguage(currentLang);
+    // Pastikan kunci pointer dilepas jika pengguna sudah login
+    if (currentSession) unlockPage(currentSession);
   });
 
   /* ===================================================
@@ -852,46 +871,50 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   function lockPage() {
     document.body.classList.add("login-locked");
-    loginGate.classList.add("show");
-    const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
-    $("accountMenuHeader").textContent = dict.guestStatus;
+    if (loginGate) loginGate.classList.add("show");
+    const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
+    if ($("accountMenuHeader")) $("accountMenuHeader").textContent = dict.guestStatus;
   }
 
   function unlockPage(session) {
     currentSession = session;
     document.body.classList.remove("login-locked");
-    loginGate.classList.remove("show");
+    if (loginGate) loginGate.classList.remove("show");
 
-    const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
+    const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
     const user = session.user;
     const name = user.user_metadata?.full_name ||
       user.user_metadata?.name || user.email || "Pengguna OoeR";
     const picture = user.user_metadata?.avatar_url ||
       user.user_metadata?.picture;
 
-    $("accountMenuHeader").textContent =
-      name + (user.email ? " · " + user.email : "");
-    $("googleAuthText").textContent = dict.logoutBtn;
+    if ($("accountMenuHeader")) {
+      $("accountMenuHeader").textContent = name + (user.email ? " · " + user.email : "");
+    }
+    if ($("googleAuthText")) $("googleAuthText").textContent = dict.logoutBtn;
 
     const avatar = $("avatar");
-    avatar.replaceChildren();
-
-    if (picture) {
-      const img = document.createElement("img");
-      img.src = picture;
-      img.alt = "Foto profil";
-      img.referrerPolicy = "no-referrer";
-      img.onerror = () => {
+    if (avatar) {
+      avatar.replaceChildren();
+      if (picture) {
+        const img = document.createElement("img");
+        img.src = picture;
+        img.alt = "Foto profil";
+        img.referrerPolicy = "no-referrer";
+        img.onerror = () => {
+          avatar.textContent = (name[0] || "O").toUpperCase();
+        };
+        avatar.appendChild(img);
+      } else {
         avatar.textContent = (name[0] || "O").toUpperCase();
-      };
-      avatar.appendChild(img);
-    } else {
-      avatar.textContent = (name[0] || "O").toUpperCase();
+      }
     }
   }
 
   function showLoginError(message) {
-    $("loginMessage").textContent = message;
+    if ($("loginMessage")) $("loginMessage").textContent = message;
   }
 
   async function signInWithGoogle() {
@@ -904,8 +927,8 @@ body.login-locked main{pointer-events:none;user-select:none}
 
     authBusy = true;
     const button = $("gateGoogleLogin");
-    button.disabled = true;
-    $("gateGoogleText").textContent = "Menghubungkan...";
+    if (button) button.disabled = true;
+    if ($("gateGoogleText")) $("gateGoogleText").textContent = "Menghubungkan...";
     showLoginError("");
 
     try {
@@ -916,26 +939,24 @@ body.login-locked main{pointer-events:none;user-select:none}
           queryParams: { prompt: "select_account" }
         }
       });
-
       if (error) throw error;
     } catch (error) {
       console.error("Google OAuth error:", error);
       showLoginError("Login gagal: " + (error.message || "Periksa konfigurasi."));
       authBusy = false;
-      button.disabled = false;
-      const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
-      $("gateGoogleText").textContent = dict.loginBtn;
+      if (button) button.disabled = false;
+      const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+      const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
+      if ($("gateGoogleText")) $("gateGoogleText").textContent = dict.loginBtn;
     }
   }
 
   async function signOut() {
     if (!supabaseClient) return;
-
     const confirmed = confirm("Keluar dari akun Google OoeR?");
     if (!confirmed) return;
 
     const { error } = await supabaseClient.auth.signOut();
-
     if (error) {
       alert("Gagal keluar: " + error.message);
       return;
@@ -943,16 +964,18 @@ body.login-locked main{pointer-events:none;user-select:none}
 
     currentSession = null;
     lockPage();
-    accountMenu.classList.remove("show");
+    if (accountMenu) accountMenu.classList.remove("show");
   }
 
-  $("gateGoogleLogin").addEventListener("click", signInWithGoogle);
+  if ($("gateGoogleLogin")) $("gateGoogleLogin").addEventListener("click", signInWithGoogle);
 
-  $("menuGoogleLogin").addEventListener("click", async () => {
-    accountMenu.classList.remove("show");
-    if (currentSession) await signOut();
-    else await signInWithGoogle();
-  });
+  if ($("menuGoogleLogin")) {
+    $("menuGoogleLogin").addEventListener("click", async () => {
+      if (accountMenu) accountMenu.classList.remove("show");
+      if (currentSession) await signOut();
+      else await signInWithGoogle();
+    });
+  }
 
   async function initializeAuth() {
     if (!supabaseClient) {
@@ -977,10 +1000,9 @@ body.login-locked main{pointer-events:none;user-select:none}
   if (supabaseClient) {
     supabaseClient.auth.onAuthStateChange((event, session) => {
       currentSession = session;
-
       if (session?.user) {
         unlockPage(session);
-        $("loginMessage").textContent = "";
+        showLoginError("");
       } else if (authReady || event === "SIGNED_OUT") {
         lockPage();
       }
@@ -988,57 +1010,71 @@ body.login-locked main{pointer-events:none;user-select:none}
   }
 
   /* Menu akun dan menu situs */
-  $("accountMenuButton").addEventListener("click", event => {
-    event.stopPropagation();
-    if (!currentSession) { lockPage(); return; }
-    accountMenu.classList.toggle("show");
-    $("accountMenuButton").setAttribute(
-      "aria-expanded",
-      accountMenu.classList.contains("show") ? "true" : "false"
-    );
-  });
+  if ($("accountMenuButton")) {
+    $("accountMenuButton").addEventListener("click", event => {
+      event.stopPropagation();
+      if (!currentSession) { lockPage(); return; }
+      if (accountMenu) {
+        accountMenu.classList.toggle("show");
+        $("accountMenuButton").setAttribute(
+          "aria-expanded",
+          accountMenu.classList.contains("show") ? "true" : "false"
+        );
+      }
+    });
+  }
 
-  accountMenu.addEventListener("click", event => event.stopPropagation());
+  if (accountMenu) accountMenu.addEventListener("click", event => event.stopPropagation());
 
-  $("siteMenuButton").addEventListener("click", event => {
-    event.stopPropagation();
-    if (!currentSession) { lockPage(); return; }
-    siteMenu.classList.toggle("show");
-  });
+  if ($("siteMenuButton")) {
+    $("siteMenuButton").addEventListener("click", event => {
+      event.stopPropagation();
+      if (!currentSession) { lockPage(); return; }
+      if (siteMenu) siteMenu.classList.toggle("show");
+    });
+  }
 
-  siteMenu.addEventListener("click", event => event.stopPropagation());
+  if (siteMenu) siteMenu.addEventListener("click", event => event.stopPropagation());
 
   document.addEventListener("click", () => {
-    accountMenu.classList.remove("show");
-    siteMenu.classList.remove("show");
-    $("accountMenuButton").setAttribute("aria-expanded", "false");
+    if (accountMenu) accountMenu.classList.remove("show");
+    if (siteMenu) siteMenu.classList.remove("show");
+    if ($("accountMenuButton")) $("accountMenuButton").setAttribute("aria-expanded", "false");
     hideSuggestions();
   });
 
-  $("siteSettings").addEventListener("click", () => {
-    siteMenu.classList.remove("show");
-    openOverlay("settingsOverlay");
-  });
+  if ($("siteSettings")) {
+    $("siteSettings").addEventListener("click", () => {
+      if (siteMenu) siteMenu.classList.remove("show");
+      openOverlay("settingsOverlay");
+    });
+  }
 
-  $("siteBusiness").addEventListener("click", () => {
-    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
-  });
+  if ($("siteBusiness")) {
+    $("siteBusiness").addEventListener("click", () => {
+      window.location.href = "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
+    });
+  }
 
-  $("siteCookies").addEventListener("click", () => {
-    alert("Pengaturan Cookie akan ditambahkan pada tahap berikutnya.");
-  });
+  if ($("siteCookies")) {
+    $("siteCookies").addEventListener("click", () => {
+      alert("Pengaturan Cookie akan ditambahkan pada tahap berikutnya.");
+    });
+  }
 
-  $("siteHelp").addEventListener("click", () => {
-    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
-  });
+  if ($("siteHelp")) {
+    $("siteHelp").addEventListener("click", () => {
+      window.location.href = "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
+    });
+  }
 
   function openOverlay(id) { $(id)?.classList.add("show"); }
   function closeOverlay(id) { $(id)?.classList.remove("show"); }
 
-  loginGate.addEventListener("click", event => { event.stopPropagation(); });
+  if (loginGate) loginGate.addEventListener("click", event => { event.stopPropagation(); });
 
   document.addEventListener("keydown", event => {
-    if (!currentSession && loginGate.classList.contains("show")) {
+    if (!currentSession && loginGate && loginGate.classList.contains("show")) {
       if (event.key === "Escape") {
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -1048,8 +1084,8 @@ body.login-locked main{pointer-events:none;user-select:none}
 
     if (event.key === "Escape") {
       document.querySelectorAll(".overlay.show").forEach(el => el.classList.remove("show"));
-      accountMenu.classList.remove("show");
-      siteMenu.classList.remove("show");
+      if (accountMenu) accountMenu.classList.remove("show");
+      if (siteMenu) siteMenu.classList.remove("show");
     }
   }, true);
 
@@ -1064,9 +1100,10 @@ body.login-locked main{pointer-events:none;user-select:none}
     writeStorage("oer_search_history", history.slice(0, 20));
   }
 
-  function hideSuggestions() { suggestions.classList.remove("show"); }
+  function hideSuggestions() { if (suggestions) suggestions.classList.remove("show"); }
 
   function renderSuggestions() {
+    if (!suggestions || !input) return;
     const query = input.value.trim().toLowerCase();
     const items = getHistory().filter(item => !query || item.toLowerCase().includes(query)).slice(0, 5);
 
@@ -1098,11 +1135,13 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   function performSearch() {
     if (!currentSession) { lockPage(); return; }
+    if (!input) return;
     const query = input.value.trim();
 
     if (!query) {
-      const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
-      notice.textContent = dict.emptySearch;
+      const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+      const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
+      if (notice) notice.textContent = dict.emptySearch;
       input.focus();
       return;
     }
@@ -1124,26 +1163,29 @@ body.login-locked main{pointer-events:none;user-select:none}
       return;
     }
 
-    // Arahkan ke halaman search (bahasa sudah otomatis sinkron dan terkunci permanen)
     const url = new URL("./search.html", location.href);
     url.searchParams.set("q", query);
     location.href = url.href;
   }
 
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    performSearch();
-  });
+  if (form) {
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      performSearch();
+    });
+  }
 
-  input.addEventListener("input", renderSuggestions);
-  input.addEventListener("focus", renderSuggestions);
+  if (input) {
+    input.addEventListener("input", renderSuggestions);
+    input.addEventListener("focus", renderSuggestions);
+  }
 
   /* Tombol utama OoeR */
   const mainButtons = [
     $("netnetButton"),
     $("aiButton"),
     $("luckyButton")
-  ];
+  ].filter(Boolean);
 
   mainButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -1153,7 +1195,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       button.classList.add("selected");
 
       if (button.id === "netnetButton") {
-        notice.textContent = "NetNet sedang disiapkan.";
+        if (notice) notice.textContent = "NetNet sedang disiapkan.";
         return;
       }
       if (button.id === "aiButton") {
@@ -1167,43 +1209,48 @@ body.login-locked main{pointer-events:none;user-select:none}
   });
 
   /* Pencarian suara */
-  $("voiceButton").addEventListener("click", () => {
-    if (!currentSession) { lockPage(); return; }
+  if ($("voiceButton")) {
+    $("voiceButton").addEventListener("click", () => {
+      if (!currentSession) { lockPage(); return; }
 
-    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!Recognition) {
-      notice.textContent = "Pencarian suara tidak didukung browser ini.";
-      return;
-    }
+      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Recognition) {
+        if (notice) notice.textContent = "Pencarian suara tidak didukung browser ini.";
+        return;
+      }
 
-    const recognition = new Recognition();
-    recognition.lang = langSelectHome.value === "Indonesia" ? "id-ID" : "en-US";
-    recognition.interimResults = false;
-    notice.textContent = "Mendengarkan...";
+      const recognition = new Recognition();
+      const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+      recognition.lang = curLang === "Indonesia" ? "id-ID" : "en-US";
+      recognition.interimResults = false;
+      if (notice) notice.textContent = "Mendengarkan...";
 
-    recognition.onresult = event => {
-      input.value = event.results[0][0].transcript;
-      notice.textContent = "";
-      performSearch();
-    };
+      recognition.onresult = event => {
+        if (input) input.value = event.results[0][0].transcript;
+        if (notice) notice.textContent = "";
+        performSearch();
+      };
 
-    recognition.onerror = () => {
-      notice.textContent = "Suara tidak berhasil dikenali.";
-    };
+      recognition.onerror = () => {
+        if (notice) notice.textContent = "Suara tidak berhasil dikenali.";
+      };
 
-    recognition.onend = () => {
-      if (notice.textContent === "Mendengarkan...") notice.textContent = "";
-    };
+      recognition.onend = () => {
+        if (notice && notice.textContent === "Mendengarkan...") notice.textContent = "";
+      };
 
-    recognition.start();
-  });
+      recognition.start();
+    });
+  }
 
   /* Dialog riwayat */
   function renderHistory() {
     const list = $("historyList");
+    if (!list) return;
     list.replaceChildren();
     const history = getHistory();
-    const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
+    const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
 
     if (!history.length) {
       const empty = document.createElement("p");
@@ -1223,7 +1270,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       label.style.flex = "1";
 
       label.addEventListener("click", () => {
-        input.value = query;
+        if (input) input.value = query;
         closeOverlay("historyOverlay");
         performSearch();
       });
@@ -1248,9 +1295,11 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   function renderFavorites() {
     const list = $("favoritesList");
+    if (!list) return;
     list.replaceChildren();
     const favorites = getFavorites();
-    const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
+    const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
 
     if (!favorites.length) {
       const empty = document.createElement("p");
@@ -1270,7 +1319,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       label.style.cursor = "pointer";
 
       label.addEventListener("click", () => {
-        input.value = query;
+        if (input) input.value = query;
         closeOverlay("favoritesOverlay");
         performSearch();
       });
@@ -1288,49 +1337,52 @@ body.login-locked main{pointer-events:none;user-select:none}
     });
   }
 
-  $("menuHistory").addEventListener("click", () => {
-    accountMenu.classList.remove("show");
-    renderHistory();
-    openOverlay("historyOverlay");
-  });
-
-  $("menuFavorites").addEventListener("click", () => {
-    accountMenu.classList.remove("show");
-    renderFavorites();
-    openOverlay("favoritesOverlay");
-  });
-
-  $("clearHistoryButton").addEventListener("click", () => {
-    if (confirm("Hapus semua riwayat pencarian?")) {
-      localStorage.removeItem("oer_search_history");
+  if ($("menuHistory")) {
+    $("menuHistory").addEventListener("click", () => {
+      if (accountMenu) accountMenu.classList.remove("show");
       renderHistory();
-    }
-  });
-
-  $("settingsHistoryBtn").addEventListener("click", () => {
-    closeOverlay("settingsOverlay");
-    renderHistory();
-    openOverlay("historyOverlay");
-  });
-
-  /* Tema */
-  const themeButton = $("themeButton");
-
-  function updateThemeButton() {
-    const dict = UI_DICTIONARY[langSelectHome.value] || UI_DICTIONARY["Indonesia"];
-    themeButton.textContent = document.body.classList.contains("light") ? dict.darkMode : dict.lightMode;
+      openOverlay("historyOverlay");
+    });
   }
 
+  if ($("menuFavorites")) {
+    $("menuFavorites").addEventListener("click", () => {
+      if (accountMenu) accountMenu.classList.remove("show");
+      renderFavorites();
+      openOverlay("favoritesOverlay");
+    });
+  }
+
+  if ($("clearHistoryButton")) {
+    $("clearHistoryButton").addEventListener("click", () => {
+      if (confirm("Hapus semua riwayat pencarian?")) {
+        localStorage.removeItem("oer_search_history");
+        renderHistory();
+      }
+    });
+  }
+
+  if ($("settingsHistoryBtn")) {
+    $("settingsHistoryBtn").addEventListener("click", () => {
+      closeOverlay("settingsOverlay");
+      renderHistory();
+      openOverlay("historyOverlay");
+    });
+  }
+
+  /* Tema */
   if (readStorage("oer_dark_mode", true) === false) {
     document.body.classList.add("light");
   }
   updateThemeButton();
 
-  themeButton.addEventListener("click", () => {
-    document.body.classList.toggle("light");
-    writeStorage("oer_dark_mode", !document.body.classList.contains("light"));
-    updateThemeButton();
-  });
+  if (themeButton) {
+    themeButton.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      writeStorage("oer_dark_mode", !document.body.classList.contains("light"));
+      updateThemeButton();
+    });
+  }
 
   document.querySelectorAll("[data-close]").forEach(button => {
     button.addEventListener("click", () => { closeOverlay(button.dataset.close); });
@@ -1342,8 +1394,7 @@ body.login-locked main{pointer-events:none;user-select:none}
     });
   });
 
-  /* Jalankan pemeriksaan awal */
-  lockPage();
+  /* Inisialisasi awal */
   initializeAuth();
 })();
 </script>
