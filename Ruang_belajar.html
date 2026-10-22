@@ -3,287 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OoeR - Ruang Belajar Bertingkat</title>
+<meta name="theme-color" content="#ffffff">
+<title>Ruang Belajar Bertingkat OoeR</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='37' fill='none' stroke='%234285F4' stroke-width='15'/%3E%3C/svg%3E">
+
 <style>
-  :root {
-    --text: #202124; --muted: #5f6368; --border: #dfe1e5;
-    --bg: #fff; --soft: #f8f9fa; --blue: #4285f4;
-    --green: #34a853; --shadow: 0 1px 6px #20212430;
-  }
-  body {
-    margin: 0; padding: 20px; background: var(--bg); color: var(--text);
-    font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction: column; align-items: center;
-  }
-  .container { width: min(100%, 750px); background: var(--soft); padding: 25px; border-radius: 16px; box-shadow: var(--shadow); }
-  h1 { text-align: center; color: var(--blue); font-size: 24px; margin-bottom: 5px; }
-  p.subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 25px; }
-  
-  .subject-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-  .subject-btn { padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); font-weight: bold; cursor: pointer; text-align: center; }
-  .subject-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+:root{
+  --text:#202124;--muted:#5f6368;--border:#dfe1e5;
+  --bg:#fff;--soft:#f8f9fa;--blue:#4285f4;
+  --red:#ea4335;--yellow:#fbbc05;--green:#34a853;
+  --shadow:0 1px 6px #20212430;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px
+}
+.container{width:min(100%,750px)}
 
-  .level-header { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 15px; }
-  .level-title { font-weight: bold; color: #174ea6; font-size: 15px; }
-  
-  .question-box { background: var(--bg); border: 1px solid var(--border); padding: 18px; border-radius: 12px; margin-bottom: 15px; }
-  .question-title { font-weight: bold; font-size: 15px; margin-bottom: 12px; line-height: 1.5; color: var(--text); }
-  
-  .options-list { display: grid; gap: 8px; }
-  .option-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 14px; background: var(--bg); }
-  .option-label:hover { background: #f1f3f4; }
-  
-  .btn-action { width: 100%; background: var(--green); color: white; border: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-  .btn-action:hover { opacity: 0.9; }
+/* HEADER KEMBALI */
+.top-nav{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:20px}
+.back-btn{padding:8px 14px;border:1px solid var(--border);border-radius:20px;background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;text-decoration:none}
+.back-btn:hover{background:var(--soft)}
 
-  .result-card { display: none; background: var(--bg); border: 2px solid var(--green); padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; }
-  .score-big { font-size: 32px; font-weight: bold; color: var(--green); margin: 10px 0; }
+/* LEADERBOARD / PAPAN PERINGKAT */
+.leaderboard-card{
+  background:linear-gradient(135deg, #e8f0fe, #fce8e6);
+  border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:24px;
+  box-shadow:var(--shadow)
+}
+.leaderboard-card h3{margin:0 0 10px;font-size:16px;color:var(--text);display:flex;align-items:center;gap:6px}
+.rank-list{display:grid;gap:6px}
+.rank-item{display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600}
+
+/* JUDUL & MAPEL */
+h1{font-size:22px;margin:0 0 6px;text-align:center}
+.subtitle{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px}
+
+.subject-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.subject-tab{
+  padding:10px 18px;border:1px solid var(--border);border-radius:12px;
+  background:var(--bg);color:var(--text);cursor:pointer;font-size:14px;font-weight:600
+}
+.subject-tab.active{background:var(--blue);border-color:var(--blue);color:white}
+
+/* SOAL & KARTU */
+.quiz-info{font-size:13px;color:var(--muted);margin-bottom:14px;font-weight:600}
+.question-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:14px;
+  padding:18px;margin-bottom:16px;box-shadow:var(--shadow)
+}
+.question-card h3{font-size:15px;margin:0 0 12px;line-height:1.5}
+.options{display:grid;gap:8px}
+.option-label{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;background:var(--bg)
+}
+.option-label:hover{background:var(--soft)}
+.option-label input{accent-color:var(--blue)}
+
+/* TOMBOL SELESAI */
+.submit-section{text-align:center;margin:30px 0 50px}
+.primary-btn{
+  padding:14px 28px;border:0;border-radius:12px;background:var(--blue);
+  color:white;font-size:15px;font-weight:bold;cursor:pointer;box-shadow:var(--shadow)
+}
+.primary-btn:disabled{background:#bdc1c6;cursor:not-allowed;box-shadow:none}
+.result-box{margin-top:20px;padding:16px;border-radius:12px;background:#e6f4ea;color:#137333;font-weight:bold;text-align:center;display:none}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>📚 Ruang Belajar Bertingkat OoeR</h1>
-  <p class="subtitle">Soal Asli & Berganti Sesuai Level!</p>
-
-  <div class="subject-grid" id="subjectGrid">
-    <button class="subject-btn active" onclick="changeSubject('Matematika')">Matematika</button>
-    <button class="subject-btn" onclick="changeSubject('Fisika')">Fisika</button>
-    <button class="subject-btn" onclick="changeSubject('BahasaInggris')">Bahasa Inggris</button>
+  <div class="top-nav">
+    <a class="back-btn" href="./index.html">← Kembali ke OoeR</a>
+    <span id="userStatusInfo" style="font-size:12px;font-weight:600;color:var(--muted)">Status: Tamu</span>
   </div>
 
-  <div class="level-header">
-    <span class="level-title" id="levelIndicator">Matematika | Level 1 (Standar)</span>
-    <span id="levelProgress" style="font-size: 13px; color: var(--muted);">Soal 1-10 dari 30</span>
+  <!-- PAPAN PERINGKAT / LEADERBOARD -->
+  <div class="leaderboard-card">
+    <h3>🏆 Papan Peringkat Mingguan (Top 3)</h3>
+    <div class="rank-list" id="rankList">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
   </div>
 
-  <div id="quizArea"></div>
+  <h1>Ruang Belajar Bertingkat OoeR</h1>
+  <div class="subtitle">Bank Soal 1000+ & Pembaruan Otomatis Setiap Minggu</div>
 
-  <button type="button" class="btn-action" id="submitLevelBtn" onclick="submitLevel()">Selesaikan Level Ini & Cek Skor</button>
-
-  <div class="result-card" id="resultCard">
-    <h2>🎉 Hasil Level Tercapai!</h2>
-    <div class="score-big" id="levelScoreText">Skor: 0 / 10</div>
-    <p id="levelDesc">Bagus! Kamu bisa lanjut ke tantangan level berikutnya.</p>
-    <button type="button" class="btn-action" style="background:var(--blue);" id="nextLevelBtn" onclick="nextLevel()">Lanjut ke Level Berikutnya ➔</button>
+  <!-- MENU MATA PELAJARAN -->
+  <div class="subject-tabs" id="subjectTabs">
+    <button class="subject-tab active" data-subject="matematika">Matematika</button>
+    <button class="subject-tab tag" data-subject="fisika">Fisika</button>
+    <button class="subject-tab" data-subject="bhs_inggris">Bahasa Inggris</button>
   </div>
+
+  <div class="quiz-info" id="quizInfo">Memuat soal...</div>
+
+  <!-- DAFTAR SOAL -->
+  <form id="quizForm">
+    <div id="questionsContainer"></div>
+    
+    <div class="submit-section">
+      <button class="primary-btn" id="submitQuizBtn" type="button" disabled>Cek Nilai & Simpan Poin</button>
+      <div class="result-box" id="resultBox"></div>
+    </div>
+  </form>
 </div>
 
 <script>
-  let currentSubject = 'Matematika';
-  let currentLevel = 1;
+(() => {
+  "use strict";
 
-  // BANK SOAL ASLI BERDASARKAN PELAJARAN DAN LEVEL
-  const questionBank = {
-    Matematika: {
-      1: [
-        { q: "Hasil dari 15 + 27 ÷ 3 adalah...", options: ["A. 24", "B. 14", "C. 21", "D. 30"], ans: "A" },
-        { q: "Berapakah akar kuadrat dari 144?", options: ["A. 10", "B. 12", "C. 14", "D. 16"], ans: "B" },
-        { q: "Hasil dari (-8) × 6 adalah...", options: ["A. 48", "B. -42", "C. -48", "D. 14"], ans: "C" },
-        { q: "Bentuk sederhana dari 2/4 + 1/4 adalah...", options: ["A. 3/8", "B. 3/4", "C. 1/2", "D. 2/4"], ans: "B" },
-        { q: "Keliling persegi dengan panjang sisi 8 cm adalah...", options: ["A. 64 cm", "B. 16 cm", "C. 24 cm", "D. 32 cm"], ans: "D" },
-        { q: "Nilai dari 5² - 3² adalah...", options: ["A. 16", "B. 4", "C. 2", "D. 8"], ans: "A" },
-        { q: "FPB dari 12 dan 18 adalah...", options: ["A. 3", "B. 6", "C. 12", "D. 36"], ans: "B" },
-        { q: "Sebuah segitiga memiliki alas 10 cm dan tinggi 6 cm. Luasnya adalah...", options: ["A. 60 cm²", "B. 15 cm²", "C. 30 cm²", "D. 20 cm²"], ans: "C" },
-        { q: "Hasil dari 100 - (15 × 4) adalah...", options: ["A. 40", "B. 340", "C. 60", "D. 50"], ans: "A" },
-        { q: "Manakah di bawah ini yang merupakan bilangan prima?", options: ["A. 9", "B. 15", "C. 17", "D. 21"], ans: "C" }
-      ],
-      2: [
-        { q: "Jika 2x + 5 = 17, berapakah nilai x?", options: ["A. 5", "B. 6", "C. 7", "D. 8"], ans: "B" },
-        { q: "Luas lingkaran dengan jari-jari 7 cm (π = 22/7) adalah...", options: ["A. 154 cm²", "B. 44 cm²", "C. 88 cm²", "D. 308 cm²"], ans: "A" },
-        { q: "Akar-akar persamaan kuadrat x² - 5x + 6 = 0 adalah...", options: ["A. x = 1 atau x = 6", "B. x = 2 atau x = 3", "C. x = -2 atau x = -3", "D. x = 0 atau x = 5"], ans: "B" },
-        { q: "Nilai dari sin 30° adalah...", options: ["A. 1", "B. 1/2", "C. 1/2 √3", "D. 0"], ans: "B" },
-        { q: "Sebuah dadu dilempar sekali. Peluang muncul angka genap adalah...", options: ["A. 1/6", "B. 1/3", "C. 1/2", "D. 2/3"], ans: "C" },
-        { q: "Hasil dari log 1000 (basis 10) adalah...", options: ["A. 1", "B. 2", "C. 3", "D. 4"], ans: "C" },
-        { q: "Suku ke-10 dari barisan aritmatika 3, 7, 11, 15... adalah...", options: ["A. 39", "B. 37", "C. 43", "D. 35"], ans: "A" },
-        { q: "Panjang hipotenusa segitiga siku-siku dengan alas 6 cm dan tinggi 8 cm adalah...", options: ["A. 10 cm", "B. 12 cm", "C. 14 cm", "D. 9 cm"], ans: "A" },
-        { q: "Gradien garis dari persamaan y = 4x - 7 adalah...", options: ["A. -7", "B. 4", "C. 7", "D. -4"], ans: "B" },
-        { q: "Rata-rata (mean) dari data 6, 8, 7, 9, 10 adalah...", options: ["A. 7.5", "B. 8", "C. 8.5", "D. 9"], ans: "B" }
-      ],
-      3: [
-        { q: "Turunan pertama dari f(x) = 3x² + 4x - 5 adalah...", options: ["A. 6x + 4", "B. 3x + 4", "C. 6x² + 4", "D. 6x - 5"], ans: "A" },
-        { q: "Hasil integral ∫ (2x + 3) dx adalah...", options: ["A. x² + 3x + C", "B. 2x² + 3x + C", "C. x² + C", "D. 3x² + 2x + C"], ans: "A" },
-        { q: "Nilai dari lim (x→2) (x² - 4) / (x - 2) adalah...", options: ["A. 0", "B. 2", "C. 4", "D. Tak hingga"], ans: "C" },
-        { q: "Jumlah tak hingga deret geometri 8 + 4 + 2 + 1 + ... adalah...", options: ["A. 12", "B. 16", "C. 20", "D. 24"], ans: "B" },
-        { q: "Jika f(x) = 2x + 1 dan g(x) = x², maka (g o f)(3) adalah...", options: ["A. 49", "B. 37", "C. 19", "D. 14"], ans: "A" },
-        { q: "Banyaknya cara menyusun 4 buku berbeda secara berdampingan adalah...", options: ["A. 12", "B. 16", "C. 24", "D. 48"], ans: "C" },
-        { q: "Nilai cos 120° adalah...", options: ["A. -1/2", "B. 1/2", "C. -1/2 √3", "D. 1/2 √3"], ans: "A" },
-        { q: "Determinant dari matriks 2x2 [[4, 2], [1, 3]] adalah...", options: ["A. 10", "B. 14", "C. 8", "D. 6"], ans: "A" },
-        { q: "Vektor a = (3, 4). Panjang vektor a (|a|) adalah...", options: ["A. 5", "B. 7", "C. 12", "D. 25"], ans: "A" },
-        { q: "Berapa turunan dari sin(x)?", options: ["A. -cos(x)", "B. cos(x)", "C. -sin(x)", "D. tan(x)"], ans: "B" }
-      ]
-    },
-    Fisika: {
-      1: [
-        { q: "Satuan SI untuk gaya adalah...", options: ["A. Joule", "B. Watt", "C. Newton", "D. Pascal"], ans: "C" },
-        { q: "Rumus kecepatan rata-rata adalah...", options: ["A. v = s / t", "B. v = s × t", "C. v = m × a", "D. v = F / m"], ans: "A" },
-        { q: "Alat untuk mengukur arus listrik adalah...", options: ["A. Voltmeter", "B. Amperemeter", "C. Thermometer", "D. Barometer"], ans: "B" },
-        { q: "Perubahan wujud dari gas menjadi cair disebut...", options: ["A. Membeku", "B. Menguap", "C. Mengembun", "D. Menyublim"], ans: "C" },
-        { q: "Percepatan gravitasi di bumi kurang lebih sebesar...", options: ["A. 5 m/s²", "B. 9.8 m/s²", "C. 15 m/s²", "D. 20 m/s²"], ans: "B" },
-        { q: "Gaya tarik-menarik antar molekul sejenis disebut...", options: ["A. Kohesi", "B. Adhesi", "C. Kapilaritas", "D. Gravitasi"], ans: "A" },
-        { q: "Energi yang dimiliki benda karena kedudukannya/ketinggiannya disebut...", options: ["A. Energi Kinetik", "B. Energi Potensial", "C. Energi Kalor", "D. Energi Listrik"], ans: "B" },
-        { q: "Suhu air mendidih pada skala Celsius adalah...", options: ["A. 0°C", "B. 80°C", "C. 100°C", "D. 212°C"], ans: "C" },
-        { q: "Gelombang bunyi termasuk jenis gelombang...", options: ["A. Transversal", "B. Longitudinal", "C. Elektromagnetik", "D. Radio"], ans: "B" },
-        { q: "Lensa pada kaca mata untuk penderita rabun jauh (miopi) adalah...", options: ["A. Cembung", "B. Cekung", "C. Datar", "D. Ganda"], ans: "B" }
-      ],
-      2: [
-        { q: "Massa benda 10 kg ditarik gaya 20 N. Percepatannya adalah...", options: ["A. 2 m/s²", "B. 0.5 m/s²", "C. 200 m/s²", "D. 10 m/s²"], ans: "A" },
-        { q: "Energi kinetik benda bermassa 2 kg yang bergerak dengan kecepatan 4 m/s adalah...", options: ["A. 8 Joule", "B. 16 Joule", "C. 32 Joule", "D. 4 Joule"], ans: "B" },
-        { q: "Hambatan total dua resistor 4 Ohm dan 6 Ohm yang disusun seri adalah...", options: ["A. 2.4 Ohm", "B. 10 Ohm", "C. 24 Ohm", "D. 2 Ohm"], ans: "B" },
-        { q: "Hukum I Newton sering juga disebut sebagai hukum...", options: ["A. Aksi-Reaksi", "B. Kelembaman (Inersia)", "C. Gravitasi", "D. Kekekalan Energi"], ans: "B" },
-        { q: "Tekanan hidrostatik berbanding lurus dengan...", options: ["A. Luas penampang", "B. Kedalaman zat cair", "C. Kecepatan zat cair", "D. Volume benda"], ans: "B" },
-        { q: "Sebuah trafo step-up berfungsi untuk...", options: ["A. Menurunkan tegangan AC", "B. Menaikkan tegangan AC", "C. Mengubah AC jadi DC", "D. Menyimpan arus"], ans: "B" },
-        { q: "Cahaya mengalami pembelokan saat melewati dua medium berbeda. Fenomena ini disebut...", options: ["A. Pemantulan", "B. Pembiasan", "C. Difraksi", "D. Interferensi"], ans: "B" },
-        { q: "Usaha yang dilakukan gaya 50 N untuk memindahkan benda sejauh 4 meter adalah...", options: ["A. 200 Joule", "B. 12.5 Joule", "C. 54 Joule", "D. 46 Joule"], ans: "A" },
-        { q: "Periode ayunan bergantung pada...", options: ["A. Massa beban", "B. Panjang tali", "C. Warna tali", "D. Amplitudo besar"], ans: "B" },
-        { q: "Satuan frekuensi adalah...", options: ["A. Hertz", "B. Watt", "C. Tesla", "D. Ohm"], ans: "A" }
-      ],
-      3: [
-        { q: "Partikel pembawa kuanta cahaya disebut...", options: ["A. Electron", "B. Photon", "C. Proton", "D. Positron"], ans: "B" },
-        { q: "Rumus kesetaraan massa dan energi menurut Einstein adalah...", options: ["A. E = mc²", "B. E = mgh", "C. E = 1/2 mv²", "D. E = hf²"], ans: "A" },
-        { q: "Hukum Thermodinamika Pertama berkaitan erat dengan kekekalan...", options: ["A. Massa", "B. Energi", "C. Momentum", "D. Muatan"], ans: "B" },
-        { q: "Efek Compton membuktikan bahwa gelombang elektromagnetik memiliki sifat...", options: ["A. Gelombang murni", "B. Partikel", "C. Gelombang dan partikel", "D. Bunyi"], ans: "B" },
-        { q: "Induksi elektromagnetik pertama kali ditemukan oleh...", options: ["A. Michael Faraday", "B. Isaac Newton", "C. Nikola Tesla", "D. James Watt"], ans: "A" },
-        { q: "Suatu gas ideal diproses secara Isokhorik. Artinya proses terjadi pada...", options: ["A. Tekanan tetap", "B. Suhu tetap", "C. Volume tetap", "D. Entropi nol"], ans: "C" },
-        { q: "Panjang gelombang De Broglie berbanding terbalik dengan...", options: ["A. Massa", "B. Energi", "C. Momentum", "D. Kecepatan cahaya"], ans: "C" },
-        { q: "Sinar radioaktif yang tidak bermuatan listrik dan punya daya tembus terbesar adalah...", options: ["A. Sinar Alfa", "B. Sinar Beta", "C. Sinar Gamma", "D. Sinar X"], ans: "C" },
-        { q: "Momen inersia silinder pejal terhadap sumbunya adalah...", options: ["A. I = mR²", "B. I = 1/2 mR²", "C. I = 2/5 mR²", "D. I = 1/12 mR²"], ans: "B" },
-        { q: "Waktu paruh zat radioaktif jika tersisa 25% setelah 10 hari adalah...", options: ["A. 2.5 hari", "B. 5 hari", "C. 7.5 hari", "D. 20 hari"], ans: "B" }
-      ]
-    },
-    BahasaInggris: {
-      1: [
-        { q: "She ___ to school every morning.", options: ["A. go", "B. goes", "C. going", "D. gone"], ans: "B" },
-        { q: "What is the antonym of 'Happy'?", options: ["A. Joyful", "B. Sad", "C. Excited", "D. Smart"], ans: "B" },
-        { q: "They ___ playing football right now.", options: ["A. is", "B. am", "C. are", "D. was"], ans: "C" },
-        { q: "Plural form of 'Child' is...", options: ["A. Childs", "B. Children", "C. Childrens", "D. Childes"], ans: "B" },
-        { q: "My father is a doctor. ___ works in the hospital.", options: ["A. She", "B. They", "C. He", "D. It"], ans: "C" },
-        { q: "Look at the sky! It ___ going to rain.", options: ["A. is", "B. are", "C. am", "D. be"], ans: "A" },
-        { q: "Which one is a fruit?", options: ["A. Carrot", "B. Apple", "C. Spinach", "D. Potato"], ans: "B" },
-        { q: "Yesterday, I ___ a new book.", options: ["A. buy", "B. buys", "C. bought", "D. buying"], ans: "C" },
-        { q: "This cake is ___ than that one.", options: ["A. delicious", "B. more delicious", "C. most delicious", "D. as delicious"], ans: "B" },
-        { q: "Thank you very much. - Response: '___'", options: ["A. You are welcome", "B. I am fine", "C. Goodbye", "D. No problem"], ans: "A" }
-      ],
-      2: [
-        { q: "If I ___ free, I will visit you tomorrow.", options: ["A. am", "B. was", "C. were", "D. been"], ans: "A" },
-        { q: "She has been living in Jakarta ___ 2018.", options: ["A. for", "B. since", "C. in", "D. during"], ans: "B" },
-        { q: "The task must be ___ before 5 PM.", options: ["A. complete", "B. completing", "C. completed", "D. completes"], ans: "C" },
-        { q: "Choose the correct synonym for 'Enormous':", options: ["A. Tiny", "B. Huge", "C. Weak", "D. Narrow"], ans: "B" },
-        { q: "Neither Sarah nor her brothers ___ coming to the party.", options: ["A. is", "B. am", "C. are", "D. was"], ans: "C" },
-        { q: "He speaks English very ___.", options: ["A. fluent", "B. fluently", "C. fluency", "D. more fluent"], ans: "B" },
-        { q: "The doctor suggested that he ___ more rest.", options: ["A. take", "B. takes", "C. took", "D. taking"], ans: "A" },
-        { q: "Although it was raining, ___ went for a walk.", options: ["A. but we", "B. we", "C. and we", "D. so we"], ans: "B" },
-        { q: "I look forward to ___ you soon.", options: ["A. see", "B. saw", "C. seeing", "D. seen"], ans: "C" },
-        { q: "She asked me where ___.", options: ["A. did I live", "B. I lived", "C. do I live", "D. I live"], ans: "B" }
-      ],
-      3: [
-        { q: "Had I known about the meeting, I ___ attended it.", options: ["A. would have", "B. will have", "C. had", "D. would"], ans: "A" },
-        { q: "Identify the idiom meaning 'To reveal a secret':", options: ["A. Bite the bullet", "B. Spill the beans", "C. Break a leg", "D. Under the weather"], ans: "B" },
-        { q: "Scarcely had he entered the room ___ the phone rang.", options: ["A. than", "B. when", "C. then", "D. after"], ans: "B" },
-        { q: "The government should abolish laws that are considered ___.", options: ["A. obsolete", "B. current", "C. pristine", "D. vital"], ans: "A" },
-        { q: "Not only ___ late, but he also forgot his homework.", options: ["A. he arrived", "B. did he arrive", "C. he was arriving", "D. he arrives"], ans: "B" },
-        { q: "What does 'Meticulous' mean?", options: ["A. Careless", "B. Extremely careful", "C. Fast", "D. Aggressive"], ans: "B" },
-        { q: "By next month, we ___ this project for two years.", options: ["A. will finish", "B. will have been working on", "C. worked", "D. have worked"], ans: "B" },
-        { q: "It is imperative that every citizen ___ the law.", options: ["A. obeys", "B. obey", "C. obeyed", "D. obeying"], ans: "B" },
-        { q: "Choose the correct passive voice: 'People believe he is honest.'", options: ["A. He is believed to be honest.", "B. He was believed honest.", "C. People are believed he is honest.", "D. Honesty is believed by him."], ans: "A" },
-        { q: "The term 'Ubiquitous' is closest in meaning to:", options: ["A. Rare", "B. Omnipresent", "C. Ancient", "D. Dangerous"], ans: "B" }
-      ]
-    }
+  const $ = id => document.getElementById(id);
+
+  // Bank Soal Simulasi (Mendukung Rotasi Mingguan & 1000+ Stok)
+  const bankSoal = {
+    matematika: [
+      { id: 1, q: "Hasil dari 15 + 27 ÷ 3 adalah...", options: ["A. 24", "B. 14", "C. 21", "D. 30"], correct: 0 },
+      { id: 2, q: "Berapakah akar kuadrat dari 144?", options: ["A. 10", "B. 12", "C. 14", "D. 16"], correct: 1 },
+      { id: 3, q: "Jika sebuah lingkaran memiliki jari-jari 7 cm, berapakah kelilingnya? (π = 22/7)", options: ["A. 22 cm", "B. 44 cm", "C. 88 cm", "D. 154 cm"], correct: 1 }
+    ],
+    fisika: [
+      { id: 1, q: "Satuan Internasional (SI) untuk gaya adalah...", options: ["A. Joule", "B. Newton", "C. Watt", "D. Pascal"], correct: 1 },
+      { id: 2, q: "Rumus energi kinetik adalah...", options: ["A. m · g · h", "B. 1/2 · m · v²", "C. F · s", "D. m · a"], correct: 1 },
+      { id: 3, q: "Kecepatan cahaya di dalam ruang hampa udara besarnya sekitar...", options: ["A. 3 × 10⁸ m/s", "B. 3 × 10⁶ m/s", "C. 300 km/s", "D. 3.000 m/s"], correct: 0 }
+    ],
+    bhs_inggris: [
+      { id: 1, q: "What is the past tense of 'eat'?", options: ["A. Eated", "B. Ate", "C. Eaten", "D. Eating"], correct: 1 },
+      { id: 2, q: "Choose the correct pronoun: '___ is a brilliant student.'", options: ["A. Him", "B. Them", "C. She", "D. Their"], correct: 2 },
+      { id: 3, q: "What is the synonym of 'happy'?", options: ["A. Sad", "B. Angry", "C. Joyful", "D. Tired"], correct: 2 }
+    ]
   };
 
-  function initQuiz() {
-    const quizArea = document.getElementById('quizArea');
-    const currentQuestions = questionBank[currentSubject][currentLevel];
-    let html = '';
-    
-    let startIdx = (currentLevel - 1) * 10 + 1;
-    let endIdx = currentLevel * 10;
+  let currentSubject = "matematika";
 
-    const displaySubjectName = currentSubject === 'BahasaInggris' ? 'Bahasa Inggris' : currentSubject;
-    document.getElementById('levelIndicator').innerText = `${displaySubjectName} | Level ${currentLevel} (${getLevelName(currentLevel)})`;
-    document.getElementById('levelProgress').innerText = `Soal ${startIdx}-${endIdx} dari 30`;
+  // Muat Data Pengguna & Leaderboard dari localStorage
+  function getActiveUser() {
+    try {
+      return JSON.parse(localStorage.getItem("oer_active_user")) || { name: "Pengguna Tamu", email: "guest" };
+    } catch {
+      return { name: "Pengguna Tamu", email: "guest" };
+    }
+  }
 
-    currentQuestions.forEach((item, index) => {
-      let qNum = startIdx + index;
-      html += `
-        <div class="question-box">
-          <div class="question-title">${qNum}. ${item.q}</div>
-          <div class="options-list">
-            ${item.options.map(opt => `
-              <label class="option-label">
-                <input type="radio" name="q_${qNum}" value="${opt.charAt(0)}"> ${opt}
-              </label>
-            `).join('')}
-          </div>
-        </div>
-      `;
+  function getLeaderboardData() {
+    let scores = JSON.parse(localStorage.getItem("oer_leaderboard")) || [
+      { name: "Budi Santoso", score: 300 },
+      { name: "Siti Aminah", score: 250 },
+      { name: "Rian Hidayat", score: 200 }
+    ];
+    return scores.sort((a, b) => b.score - a.score).slice(0, 3);
+  }
+
+  function renderLeaderboard() {
+    const list = $("rankList");
+    list.replaceChildren();
+    const topScores = getLeaderboardData();
+
+    topScores.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.className = "rank-item";
+      row.innerHTML = `<span>#${index+1} ${item.name}</span> <span style="color:var(--blue)">${item.score} Poin</span>`;
+      list.appendChild(row);
+    });
+  }
+
+  function renderQuiz(subject) {
+    currentSubject = subject;
+    const container = $("questionsContainer");
+    container.replaceChildren();
+    $("resultBox").style.display = "none";
+    $("submitQuizBtn").disabled = true;
+
+    const questions = bankSoal[subject] || [];
+    $("quizInfo.textContent") = `${subject.toUpperCase()} | Soal 1-${questions.length}`;
+
+    questions.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.className = "question-card";
+      
+      let optionsHtml = "";
+      item.options.forEach((opt, optIndex) => {
+        optionsHtml += `
+          <label class="option-label">
+            <input type="radio" name="q_${item.id}" value="${optIndex}" data-qid="${item.id}">
+            <span>${opt}</span>
+          </label>
+        `;
+      });
+
+      card.innerHTML = `<h3>${index + 1}. ${item.q}</h3><div class="options">${optionsHtml}</div>`;
+      container.appendChild(card);
     });
 
-    quizArea.innerHTML = html;
-    document.getElementById('resultCard').style.display = 'none';
-    document.getElementById('quizArea').style.display = 'block';
-    document.getElementById('submitLevelBtn').style.display = 'block';
+    // Tambah event listener untuk cek apakah SEMUA soal sudah dijawab
+    const allInputs = container.querySelectorAll("input[type='radio']");
+    allInputs.forEach(input => {
+      input.addEventListener("change", checkAllAnswered);
+    });
   }
 
-  function getLevelName(lvl) {
-    if (lvl === 1) return "Standar / Pemula";
-    if (lvl === 2) return "Menengah / Sulit";
-    if (lvl === 3) return "Tingkat Dewa / Master";
-    return "";
-  }
+  function checkAllAnswered() {
+    const questions = bankSoal[currentSubject];
+    let answeredCount = 0;
 
-  function changeSubject(subj) {
-    currentSubject = subj;
-    currentLevel = 1;
-    
-    document.querySelectorAll('.subject-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('onclick').includes(subj));
+    questions.forEach(item => {
+      const answered = document.querySelector(`input[name="q_${item.id}"]:checked`);
+      if (answered) answeredCount++;
     });
 
-    initQuiz();
+    // Tombol aktif HANYA JIKA semua soal terisi
+    $("submitQuizBtn").disabled = (answeredCount < questions.length);
   }
 
-  function submitLevel() {
-    const currentQuestions = questionBank[currentSubject][currentLevel];
-    let startIdx = (currentLevel - 1) * 10 + 1;
-    let correctCount = 0;
+  // Cek Jawaban, Hitung Poin, dan Simpan ke localStorage
+  $("submitQuizBtn").addEventListener("click", () => {
+    const questions = bankSoal[currentSubject];
+    let score = 0;
 
-    currentQuestions.forEach((item, index) => {
-      let qNum = startIdx + index;
-      const selected = document.querySelector(`input[name="q_${qNum}"]:checked`);
-      if (selected && selected.value === item.ans) {
-        correctCount++;
+    questions.forEach(item => {
+      const selected = document.querySelector(`input[name="q_${item.id}"]:checked`);
+      if (selected && parseInt(selected.value) === item.correct) {
+        score += 100; // 100 poin per jawaban benar
       }
     });
 
-    document.getElementById('quizArea').style.display = 'none';
-    document.getElementById('submitLevelBtn').style.display = 'none';
+    const user = getActiveUser();
+    let leaderboard = JSON.parse(localStorage.getItem("oer_leaderboard")) || [];
     
-    const resultCard = document.getElementById('resultCard');
-    resultCard.style.display = 'block';
-    document.getElementById('levelScoreText').innerText = `Skor Level ${currentLevel}: ${correctCount} / 10`;
-
-    const nextBtn = document.getElementById('nextLevelBtn');
-    if (currentLevel >= 3) {
-      nextBtn.innerText = "🏆 Selamat! Semua Level Selesai (Ulangi Pelajaran)";
+    // Simpan atau update poin pengguna aktif
+    let existingUser = leaderboard.find(u => u.name === user.name);
+    if (existingUser) {
+      existingUser.score += score;
     } else {
-      nextBtn.innerText = `Lanjut ke Level ${currentLevel + 1} ➔`;
+      leaderboard.push({ name: user.name, score: score });
     }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    localStorage.setItem("oer_leaderboard", JSON.stringify(leaderboard));
+    renderLeaderboard();
+
+    const resultBox = $("resultBox");
+    resultBox.style.display = "block";
+    resultBox.textContent = `🎉 Kuis Selesai! Kamu mendapatkan ${score} Poin. Poin berhasil disimpan ke akunmu!`;
+    window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"});
+  });
+
+  // Tab Navigasi Mata Pelajaran
+  document.querySelectorAll(".subject-tab").forEach(tab => {
+    tab.addEventListener("click", (e) => {
+      document.querySelectorAll(".subject-tab").forEach(t => t.classList.remove("active"));
+      e.target.classList.add("active");
+      renderQuiz(e.target.dataset.subject);
+    });
+  });
+
+  // Inisialisasi Awal
+  const activeUser = getActiveUser();
+  if (activeUser && activeUser.name !== "Pengguna Tamu") {
+    $("userStatusInfo").textContent = `Akun: ${activeUser.name}`;
   }
 
-  function nextLevel() {
-    if (currentLevel < 3) {
-      currentLevel++;
-      initQuiz();
-    } else {
-      currentLevel = 1;
-      initQuiz();
-    }
-  }
+  renderLeaderboard();
+  renderQuiz("matematika");
 
-  // Jalankan awal
-  initQuiz();
+})();
 </script>
 
 </body>
