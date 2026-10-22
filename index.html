@@ -41,34 +41,38 @@ button:focus-visible,a:focus-visible,input:focus-visible{
   outline:2px solid var(--blue);outline-offset:3px
 }
 
-/* HEADER */
+/* HEADER & PROFIL MODERN ESTETIS */
 header{
   width:100%;min-height:76px;padding:14px 34px;
   display:flex;align-items:center;justify-content:space-between;gap:20px
 }
 .account-area{display:flex;align-items:center;gap:10px;position:relative}
 .account-button{
-  display:flex;align-items:center;gap:10px;border:0;
-  background:transparent;cursor:pointer;padding:4px;border-radius:24px
+  display:flex;align-items:center;gap:12px;border:0;
+  background:transparent;cursor:pointer;padding:6px 12px;border-radius:28px;
+  transition:background 0.2s ease;
 }
 .account-button:hover{background:var(--soft)}
 .avatar{
   width:42px;height:42px;border-radius:50%;display:grid;
-  place-items:center;overflow:hidden;background:#e8f0fe;
-  color:#174ea6;font-weight:700;font-size:17px;flex-shrink:0
+  place-items:center;overflow:hidden;background:linear-gradient(135deg, #4285f4, #34a853);
+  color:#fff;font-weight:700;font-size:16px;flex-shrink:0;box-shadow:0 2px 8px rgba(66, 133, 244, 0.25);
 }
 .avatar img{width:100%;height:100%;object-fit:cover}
-.account-label{font-size:15px}
-.chevron{font-size:13px;color:var(--muted)}
+.account-info{display:flex;flex-direction:column;text-align:left}
+.account-label{font-size:14px;font-weight:600;color:var(--text)}
+.account-sub{font-size:11px;color:var(--muted)}
+.chevron{font-size:13px;color:var(--muted);margin-left:4px}
 .account-menu{
-  display:none;position:absolute;top:54px;left:0;min-width:220px;
-  padding:8px;border:1px solid var(--border);border-radius:14px;
+  display:none;position:absolute;top:58px;left:0;min-width:240px;
+  padding:10px;border:1px solid var(--border);border-radius:16px;
   background:var(--bg);box-shadow:var(--shadow);z-index:100
 }
 .account-menu.show{display:block}
 .account-menu button{
-  width:100%;padding:12px;border:0;border-radius:8px;
-  background:transparent;text-align:left;cursor:pointer
+  width:100%;padding:12px 14px;border:0;border-radius:10px;
+  background:transparent;text-align:left;cursor:pointer;font-size:13px;font-weight:500;
+  transition:background 0.15s;
 }
 .account-menu button:hover{background:var(--soft)}
 .header-tools{display:flex;align-items:center;gap:8px}
@@ -283,7 +287,7 @@ footer a:hover{text-decoration:underline}
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
   
-/* Pintasan layanan OoeR (Website & Puisi Cerita berdampingan) */
+/* Pintasan layanan OoeR */
 .service-shortcut {
   display: flex;
   flex-direction: column;
@@ -326,13 +330,11 @@ footer a:hover{text-decoration:underline}
 }
 
 .service-website { background: #e0f2fe; color: #0369a1; }
-.service-puisi { background: #fce7f3; color: #be185d; }
 .service-ads { background: #fef3c7; color: #92400e; }
 .service-market { background: #dcfce7; color: #166534; }
 
 body.dark .service-shortcut .service-logo { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22); }
 body.dark .service-website { background: #0c4a6e; color: #bae6fd; }
-body.dark .service-puisi { background: #831843; color: #fbcfe8; }
 body.dark .service-ads { background: #78350f; color: #fde68a; }
 body.dark .service-market { background: #14532d; color: #bbf7d0; }
 </style>
@@ -343,12 +345,15 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
   <div class="account-area">
     <button class="account-button" id="accountMenuButton" type="button" aria-label="Menu akun" aria-expanded="false">
       <span class="avatar" id="loginButton" title="Profil OoeR">
-        <svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
         </svg>
       </span>
-      <span class="account-label" id="accountLabel">Akun</span>
+      <span class="account-info">
+        <span class="account-label" id="accountLabel">OoeR Account</span>
+        <span class="account-sub">Kelola Profil</span>
+      </span>
       <span class="chevron">⌄</span>
     </button>
     <div class="account-menu" id="accountMenu">
@@ -424,16 +429,10 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
         <span class="shortcut-label">Sosial</span>
       </a>
       
-      <!-- 1. OoeR Website (Halaman Utama/Website Asli) -->
+      <!-- OoeR Website -->
       <button class="service-shortcut" id="oerWebsiteButton" type="button" aria-label="OoeR Website">
         <span class="service-logo service-website" aria-hidden="true">W</span>
         <span class="service-name">OoeR Website</span>
-      </button>
-
-      <!-- 2. Puisi & Cerita (Halaman Sastra Khusus yang Baru) -->
-      <button class="service-shortcut" id="oerPuisiButton" type="button" aria-label="Puisi & Cerita">
-        <span class="service-logo service-puisi" aria-hidden="true">📜</span>
-        <span class="service-name">Puisi&cerita</span>
       </button>
 
       <!-- OoeR Ads -->
@@ -550,12 +549,9 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
   const input = $("searchInput");
   const suggestions = $("suggestions");
   const notice = $("notice");
-  const loginButton = $("loginButton");
-  const accountLabel = $("accountLabel");
   const accountMenu = $("accountMenu");
 
   let supabaseClient = null;
-  let currentGoogleUser = null;
 
   if (window.supabase?.createClient) {
     try {
@@ -692,42 +688,59 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     window.location.href = "./search.html";
   });
 
+  $("aiButton").addEventListener("click", () => {
+    window.location.href = "./search.html";
+  });
+
   $("homeButton").addEventListener("click", () => {
     window.scrollTo({top:0,behavior:"smooth"});
     input.focus();
   });
 
-  /* PENCARIAN SUARA */
-  $("voiceButton").addEventListener("click", () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // Navigasi Tombol OoeR Website
+  const oerWebsiteBtn = $("oerWebsiteButton");
+  if (oerWebsiteBtn) {
+    oerWebsiteBtn.addEventListener("click", () => {
+      window.location.href = "./website.html";
+    });
+  }
 
-    if (!SpeechRecognition) {
-      notice.textContent = "Pencarian suara belum didukung browser ini.";
-      return;
-    }
+  // Toggle Menu Akun
+  const accountMenuBtn = $("accountMenuButton");
+  if (accountMenuBtn && accountMenu) {
+    accountMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      accountMenu.classList.toggle("show");
+    });
+    document.addEventListener("click", () => {
+      accountMenu.classList.remove("show");
+    });
+  }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "id-ID";
-    recognition.interimResults = false;
-    recognition.onstart = () => notice.textContent = "Silakan berbicara...";
-    recognition.onresult = event => {
-      input.value = event.results[0][0].transcript;
-      notice.textContent = "";
-      performSearch();
-    };
-    recognition.onerror = () => {
-      notice.textContent = "Pencarian suara tidak berhasil. Coba lagi.";
-    };
+  // Tombol Riwayat & Pengaturan
+  $("historyButton").addEventListener("click", () => openOverlay("historyOverlay"));
+  $("menuHistory").addEventListener("click", () => openOverlay("historyOverlay"));
+  $("favoritesButton").addEventListener("click", () => openOverlay("favoritesOverlay"));
+  $("menuFavorites").addEventListener("click", () => openOverlay("favoritesOverlay"));
+  $("settingsButton").addEventListener("click", () => openOverlay("settingsOverlay"));
 
-    try {
-      recognition.start();
-    } catch (error) {
-      console.warn("Pencarian suara:", error);
-      notice.textContent = "Pencarian suara belum bisa dimulai.";
-    }
-  });
+  $("addShortcutButton").addEventListener("click", () => openOverlay("shortcutOverlay"));
 
-  /* DIALOG OVERLAYS */
+  // Toggle Mode Gelap
+  const themeBtn = $("themeButton");
+  if (themeBtn) {
+    const isDark = readStorage("oer_dark_mode", false);
+    if (isDark) document.body.classList.add("dark");
+    themeBtn.textContent = isDark ? "Aktifkan mode terang" : "Aktifkan mode gelap";
+    
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      const darkActive = document.body.classList.contains("dark");
+      writeStorage("oer_dark_mode", darkActive);
+      themeBtn.textContent = darkActive ? "Aktifkan mode terang" : "Aktifkan mode gelap";
+    });
+  }
+
   function openOverlay(id) { $(id).classList.add("show"); }
   function closeOverlay(id) { $(id).classList.remove("show"); }
 
@@ -741,557 +754,29 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     });
   });
 
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-      document.querySelectorAll(".overlay.show").forEach(item => closeOverlay(item.id));
-      accountMenu.classList.remove("show");
-      hideSuggestions();
-    }
-  });
-
-  /* RIWAYAT DIALOG */
-  function renderHistory() {
-    const list = $("historyList");
-    list.replaceChildren();
-    const history = getHistory();
-
-    if (!history.length) {
-      const empty = document.createElement("p");
-      empty.className = "dialog-empty";
-      empty.textContent = "Belum ada riwayat pencarian.";
-      list.appendChild(empty);
-      return;
-    }
-
-    history.forEach(query => {
-      const row = document.createElement("div");
-      row.className = "dialog-item";
-
-      const link = document.createElement("a");
-      link.href = "./search.html?q=" + encodeURIComponent(query);
-      link.textContent = "◷  " + query;
-      link.style.flex = "1";
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.textContent = "Hapus";
-      remove.addEventListener("click", () => {
-        writeStorage("oer_search_history", getHistory().filter(item => item !== query));
-        renderHistory();
-      });
-
-      row.append(link, remove);
-      list.appendChild(row);
-    });
+  // Widget Berita OoeR Bola sederhana
+  const bolaList = $("bolaList");
+  const bolaStatus = $("bolaStatus");
+  if (bolaList) {
+    bolaStatus.textContent = "Aktif";
+    bolaList.innerHTML = `
+      <div class="bola-card">
+        <div class="bola-meta">Liga Utama · <span class="bola-source">OoeR Bola</span></div>
+        <h3>Perkembangan Terbaru Sepak Bola Dunia dan Jadwal Pertandingan</h3>
+        <p>Simak pembaruan informasi terkini seputar dunia sepak bola nasional dan internasional langsung melalui ekosistem OoeR.</p>
+        <a class="bola-read" href="./search.html?q=sepak+bola">Baca selengkapnya →</a>
+      </div>
+      <div class="bola-card">
+        <div class="bola-meta">Bursa Transfer · <span class="bola-source">OoeR Bola</span></div>
+        <h3>Analisis Bursa Transfer Pemain Musim Ini</h3>
+        <p>Dapatkan rangkuman informasi transfer pemain bola paling hangat dan dipercaya minggu ini.</p>
+        <a class="bola-read" href="./search.html?q=transfer+pemain">Baca selengkapnya →</a>
+      </div>
+    `;
   }
 
-  function showHistory() {
-    renderHistory();
-    openOverlay("historyOverlay");
-    accountMenu.classList.remove("show");
-  }
-
-  $("historyButton").addEventListener("click", showHistory);
-  $("menuHistory").addEventListener("click", showHistory);
-
-  $("clearHistoryButton").addEventListener("click", () => {
-    writeStorage("oer_search_history", []);
-    renderHistory();
-    notice.textContent = "Riwayat pencarian dihapus.";
-  });
-
-  /* FAVORIT DIALOG */
-  function getFavorites() {
-    return readStorage("oer_favorites").filter(x => typeof x === "string");
-  }
-
-  function renderFavorites() {
-    const list = $("favoritesList");
-    list.replaceChildren();
-    const favorites = getFavorites();
-
-    if (!favorites.length) {
-      const empty = document.createElement("p");
-      empty.className = "dialog-empty";
-      empty.textContent = "Belum ada favorit. Masukkan kata di kolom pencarian lalu simpan.";
-      list.appendChild(empty);
-      return;
-    }
-
-    favorites.forEach(query => {
-      const row = document.createElement("div");
-      row.className = "dialog-item";
-
-      const link = document.createElement("a");
-      link.href = "./search.html?q=" + encodeURIComponent(query);
-      link.textContent = "★  " + query;
-      link.style.flex = "1";
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.textContent = "Hapus";
-      remove.addEventListener("click", () => {
-        writeStorage("oer_favorites", getFavorites().filter(item => item !== query));
-        renderFavorites();
-      });
-
-      row.append(link, remove);
-      list.appendChild(row);
-    });
-  }
-
-  function showFavorites() {
-    renderFavorites();
-    openOverlay("favoritesOverlay");
-    accountMenu.classList.remove("show");
-  }
-
-  $("favoritesButton").addEventListener("click", showFavorites);
-  $("menuFavorites").addEventListener("click", showFavorites);
-
-  /* PINTASAN KUSTOM */
-  function getCustomShortcuts() {
-    return readStorage("oer_custom_shortcuts").filter(item =>
-      item && typeof item.name === "string" && typeof item.url === "string"
-    );
-  }
-
-  function renderCustomShortcuts() {
-    const list = $("customShortcutsList");
-    list.replaceChildren();
-
-    getCustomShortcuts().forEach((item, index) => {
-      const row = document.createElement("div");
-      row.className = "dialog-item";
-
-      const link = document.createElement("a");
-      link.href = item.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = item.name + " — " + item.url;
-      link.style.flex = "1";
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.textContent = "Hapus";
-      remove.addEventListener("click", () => {
-        const shortcuts = getCustomShortcuts();
-        shortcuts.splice(index, 1);
-        writeStorage("oer_custom_shortcuts", shortcuts);
-        renderCustomShortcuts();
-        renderShortcutTiles();
-      });
-
-      row.append(link, remove);
-      list.appendChild(row);
-    });
-  }
-
-  function renderShortcutTiles() {
-    document.querySelectorAll(".custom-shortcut").forEach(el => el.remove());
-
-    getCustomShortcuts().forEach(item => {
-      const link = document.createElement("a");
-      link.className = "shortcut custom-shortcut";
-      link.href = item.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-
-      const icon = document.createElement("span");
-      icon.className = "shortcut-icon add";
-      icon.textContent = item.name.charAt(0).toUpperCase();
-
-      const label = document.createElement("span");
-      label.className = "shortcut-label";
-      label.textContent = item.name;
-
-      link.append(icon, label);
-      $("addShortcutButton").before(link);
-    });
-  }
-
-  $("addShortcutButton").addEventListener("click", () => {
-    renderCustomShortcuts();
-    openOverlay("shortcutOverlay");
-  });
-
-  $("shortcutForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const name = $("shortcutName").value.trim();
-    let url;
-
-    try {
-      url = new URL($("shortcutUrl").value.trim());
-      if (!["https:", "http:"].includes(url.protocol)) throw new Error("Protokol tidak valid");
-    } catch {
-      notice.textContent = "Masukkan alamat situs HTTP atau HTTPS yang valid.";
-      return;
-    }
-
-    if (!name) return;
-
-    const shortcuts = getCustomShortcuts();
-    shortcuts.push({name, url:url.href});
-    writeStorage("oer_custom_shortcuts", shortcuts.slice(0, 10));
-    $("shortcutForm").reset();
-    renderCustomShortcuts();
-    renderShortcutTiles();
-    closeOverlay("shortcutOverlay");
-    notice.textContent = "Pintasan berhasil disimpan di browser ini.";
-  });
-
-  renderShortcutTiles();
-
-  /* TEMA */
-  function applyTheme(dark) {
-    document.body.classList.toggle("dark", dark);
-    document.querySelector('meta[name="theme-color"]').content = dark ? "#202124" : "#ffffff";
-
-    try {
-      localStorage.setItem("oer_dark_mode", dark ? "1" : "0");
-    } catch {}
-
-    $("themeButton").textContent = dark ? "Aktifkan mode terang" : "Aktifkan mode gelap";
-  }
-
-  let darkMode = false;
-  try {
-    darkMode = localStorage.getItem("oer_dark_mode") === "1";
-  } catch {}
-
-  applyTheme(darkMode);
-
-  $("settingsButton").addEventListener("click", () => openOverlay("settingsOverlay"));
-
-  $("themeButton").addEventListener("click", () => {
-    applyTheme(!document.body.classList.contains("dark"));
-  });
-
-  /* MENU AKUN */
-  $("accountMenuButton").addEventListener("click", event => {
-    event.stopPropagation();
-    const isOpen = accountMenu.classList.toggle("show");
-    $("accountMenuButton").setAttribute("aria-expanded", String(isOpen));
-  });
-
-  document.addEventListener("click", event => {
-    if (!accountMenu.contains(event.target) && !$("accountMenuButton").contains(event.target)) {
-      accountMenu.classList.remove("show");
-      $("accountMenuButton").setAttribute("aria-expanded", "false");
-    }
-    if (!form.contains(event.target)) hideSuggestions();
-  });
-
-  /* OoeR BOLA: data/bola.json */
-  {
-    const bolaList = $("bolaList");
-    const bolaStatus = $("bolaStatus");
-    const filters = document.querySelectorAll("[data-bola-filter]");
-    let articles = [];
-    let activeFilter = "semua";
-    let refreshInProgress = false;
-
-    function renderBola() {
-      bolaList.replaceChildren();
-
-      const filtered = articles.filter(article =>
-        activeFilter === "semua" ||
-        String(article.category || "").toLowerCase() === activeFilter
-      );
-
-      const visible = filtered.slice(0, 2);
-
-      if (!visible.length) {
-        const empty = document.createElement("div");
-        empty.className = "bola-empty";
-        empty.textContent = articles.length
-          ? "Belum ada berita dalam kategori ini."
-          : "Feed berita belum tersedia. Bagian ini siap menampilkan berita saat data tersedia.";
-        bolaList.appendChild(empty);
-        return;
-      }
-
-      visible.forEach(article => {
-        const card = document.createElement("article");
-        card.className = "bola-card";
-
-        const meta = document.createElement("div");
-        meta.className = "bola-meta";
-
-        const source = document.createElement("div");
-        source.className = "bola-source";
-        source.textContent = article.source || "Sumber berita";
-
-        const date = document.createElement("div");
-        const published = article.published ? new Date(article.published) : null;
-        date.textContent = published && !Number.isNaN(published.getTime())
-          ? published.toLocaleString("id-ID")
-          : "Waktu terbit tidak tersedia";
-
-        meta.append(source, date);
-
-        const title = document.createElement("h3");
-        title.textContent = article.title || "Berita sepak bola";
-
-        const summary = document.createElement("p");
-        summary.textContent = article.summary || "Baca artikel asli untuk informasi selengkapnya.";
-
-        card.append(meta, title, summary);
-
-        let validUrl = "";
-        try {
-          const parsed = new URL(article.url);
-          if (parsed.protocol === "https:" || parsed.protocol === "http:") validUrl = parsed.href;
-        } catch {}
-
-        if (validUrl) {
-          const link = document.createElement("a");
-          link.className = "bola-read";
-          link.textContent = "Baca berita asli ↗";
-          link.href = validUrl;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          card.appendChild(link);
-        }
-
-        bolaList.appendChild(card);
-      });
-    }
-
-    filters.forEach(button => {
-      button.addEventListener("click", () => {
-        activeFilter = button.dataset.bolaFilter;
-        filters.forEach(item => item.classList.toggle("active", item === button));
-        renderBola();
-      });
-    });
-
-    async function loadBola() {
-      if (refreshInProgress) return;
-      refreshInProgress = true;
-
-      try {
-        const response = await fetch("./data/bola.json?updated=" + Date.now(), {cache:"no-store"});
-        if (!response.ok) throw new Error("Feed belum tersedia");
-
-        const data = await response.json();
-        if (!Array.isArray(data.articles)) throw new Error("Format data tidak valid");
-
-        articles = data.articles
-          .filter(article => article && typeof article.title === "string" && typeof article.url === "string")
-          .sort((a,b) => new Date(b.published || 0).getTime() - new Date(a.published || 0).getTime());
-
-        bolaStatus.textContent = data.updated
-          ? "Diperbarui " + new Date(data.updated).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})
-          : "Berita terbaru";
-
-        renderBola();
-      } catch (error) {
-        console.warn("OoeR Bola:", error);
-        bolaStatus.textContent = "Feed belum tersedia";
-        if (!articles.length) {
-          bolaList.replaceChildren();
-          const empty = document.createElement("div");
-          empty.className = "bola-empty";
-          empty.textContent = "Feed berita belum terhubung. Bagian OoeR Bola siap menampilkan berita setelah data tersedia.";
-          bolaList.appendChild(empty);
-        }
-      } finally {
-        refreshInProgress = false;
-      }
-    }
-
-    loadBola();
-    window.setInterval(loadBola, 5 * 60 * 1000);
-  }
-
-  /* LOGIN GOOGLE SUPABASE */
-  async function signInWithGoogle() {
-    if (!supabaseClient) {
-      notice.textContent = "Layanan login belum siap. Periksa koneksi internet dan konfigurasi Supabase.";
-      return;
-    }
-
-    notice.textContent = "Menghubungkan ke Google...";
-
-    try {
-      const {error} = await supabaseClient.auth.signInWithOAuth({
-        provider:"google",
-        options:{
-          redirectTo:window.location.origin + window.location.pathname
-        }
-      });
-
-      if (error) {
-        console.error(error);
-        notice.textContent = "Login gagal: " + error.message;
-      }
-    } catch (error) {
-      console.error(error);
-      notice.textContent = "Terjadi kesalahan saat login Google.";
-    }
-  }
-
-  async function signOutGoogle() {
-    if (!supabaseClient) return;
-
-    try {
-      const {error} = await supabaseClient.auth.signOut();
-      if (error) throw error;
-      notice.textContent = "Berhasil keluar dari akun Google.";
-      updateProfile(null);
-    } catch (error) {
-      console.error(error);
-      notice.textContent = "Tidak dapat keluar: " + (error.message || "terjadi kesalahan");
-    }
-  }
-
-  $("menuLogin").addEventListener("click", () => {
-    accountMenu.classList.remove("show");
-    if (currentGoogleUser) {
-      signOutGoogle();
-    } else {
-      signInWithGoogle();
-    }
-  });
-
-  $("menuORAccount").addEventListener("click", () => {
-    window.location.href = "https://oer-p.github.io/Oer/login.html";
-  });
-
-  function updateProfile(user) {
-    currentGoogleUser = user || null;
-    loginButton.replaceChildren();
-
-    const menuLogin = $("menuLogin");
-
-    if (user) {
-      const metadata = user.user_metadata || {};
-      const name = metadata.full_name || metadata.name || user.email || "Pengguna OoeR";
-      const avatar = metadata.avatar_url || metadata.picture;
-
-      if (avatar) {
-        const image = document.createElement("img");
-        image.src = avatar;
-        image.alt = "Foto profil";
-        image.referrerPolicy = "no-referrer";
-        image.onerror = () => {
-          loginButton.replaceChildren();
-          loginButton.textContent = name.charAt(0).toUpperCase();
-        };
-        loginButton.appendChild(image);
-      } else {
-        loginButton.textContent = name.charAt(0).toUpperCase();
-        loginButton.style.background = "#34a853";
-        loginButton.style.color = "#fff";
-        loginButton.style.fontWeight = "700";
-      }
-
-      loginButton.title = name;
-      accountLabel.textContent = name.split(" ")[0];
-      menuLogin.textContent = "Keluar dari Google";
-    } else {
-      loginButton.style.background = "";
-      loginButton.style.color = "";
-      loginButton.style.fontWeight = "";
-      loginButton.innerHTML =
-        '<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.3-7 8-7s8 2.8 8 7"></path></svg>';
-      loginButton.title = "Akun";
-      accountLabel.textContent = "Akun";
-      menuLogin.textContent = "Masuk dengan Google";
-    }
-
-    $("menuORAccount").textContent = "Masuk dengan OR Account";
-    $("menuORAccount").style.display = "";
-  }
-
-  async function loadSession() {
-    if (!supabaseClient) {
-      notice.textContent = "Login Google belum tersedia karena Supabase belum berhasil dimuat.";
-      return;
-    }
-
-    try {
-      const {data,error} = await supabaseClient.auth.getSession();
-      if (error) throw error;
-      updateProfile(data.session ? data.session.user : null);
-    } catch (error) {
-      console.error("Gagal memeriksa sesi:", error);
-    }
-  }
-
-  loadSession();
-
-  if (supabaseClient) {
-    supabaseClient.auth.onAuthStateChange((_event,session) => {
-      updateProfile(session ? session.user : null);
-
-      if (session) {
-        notice.textContent = "Selamat datang di OoeR, " +
-          (session.user.user_metadata?.full_name || session.user.email || "Pengguna") + ".";
-      }
-    });
-  }
-
-  $("footerAbout").addEventListener("click", event => {
-    event.preventDefault();
-    $("tentang").scrollIntoView({behavior:"smooth"});
-  });
-
-  $("helpLink").addEventListener("click", event => {
-    event.preventDefault();
-    notice.textContent = "Bantuan OoeR: gunakan kolom pencarian untuk mencari melalui OoeR Search.";
-    window.scrollTo({top:0,behavior:"smooth"});
-  });
 })();
 </script>
 
-<script>
-/* PWA: SERVICE WORKER */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/Media-oer/sw.js")
-      .then(() => console.log("OoeR PWA siap"))
-      .catch(error => console.error("PWA gagal diaktifkan:", error));
-  });
-}
-  
-/* URL LAYANAN OOER (Website Utama & Puisi Cerita Berdampingan) */
-const OER_SERVICE_URLS = {
-  website: "website.html",
-  puisi: "puisi_cerita.html",
-  ads: "",
-  market: ""
-};
-
-function openOerService(url, serviceName) {
-  if (url && url.trim() !== "") {
-    window.location.href = url;
-    return;
-  }
-  alert(serviceName + " sedang disiapkan. Tautan akan tersedia setelah layanan diluncurkan.");
-}
-
-document.getElementById("oerWebsiteButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.website, "OoeR Website");
-});
-
-document.getElementById("oerPuisiButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.puisi, "Puisi & Cerita");
-});
-
-document.getElementById("oerAdsButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.ads, "OoeR Ads");
-});
-
-document.getElementById("marketOerButton")?.addEventListener("click", () => {
-  openOerService(OER_SERVICE_URLS.market, "Market OeR");
-});
-
-/* TOMBOL AI CHAT -> DIBUKA KE AI_CHAT.HTML */
-document.getElementById('aiButton')?.addEventListener('click', function() {
-  window.location.href = 'ai_chat.html';
-});
-</script>
 </body>
 </html>
