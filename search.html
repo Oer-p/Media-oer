@@ -7,7 +7,7 @@
 <meta name="description" content="OoeR Search — Telusuri informasi, AI, gambar, dan pengetahuan.">
 <title>OoeR Search</title>
 
-<!-- Library Supabase JS (Wajib untuk sinkronisasi login dari Home) -->
+<!-- Library Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -229,7 +229,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .pill-tools {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--muted);
 }
 .tool-btn {
@@ -260,9 +260,9 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-weight: 600;
   outline: none;
   cursor: pointer;
-  padding-right: 2px;
+  max-width: 95px;
 }
-.lang-dropdown option {
+.lang-dropdown option, .lang-dropdown optgroup {
   background-color: #23252a;
   color: #ffffff;
 }
@@ -534,14 +534,27 @@ footer a { color: var(--link-blue); }
       <input id="query" name="q" type="search" placeholder="Telusuri di OoeR..." autocomplete="off">
       
       <div class="pill-tools">
-        <!-- TOMBOL & PILIHAN GANTI BAHASA (PERMANEN) -->
-        <div class="lang-selector-box" title="Ganti Bahasa Teks & Pencarian">
+        <!-- TOMBOL & PILIHAN GANTI BAHASA LENGKAP -->
+        <div class="lang-selector-box" title="Ganti Bahasa (Permanen)">
           <select id="langSelect" class="lang-dropdown">
-            <option value="Indonesia">🇮🇩 ID</option>
-            <option value="Inggris">🇬🇧 EN</option>
-            <option value="Jepang">🇯🇵 JP</option>
-            <option value="Arab">🇸🇦 AR</option>
-            <option value="Mandarin">🇨🇳 ZH</option>
+            <optgroup label="Asia Tenggara">
+              <option value="Indonesia">🇮🇩 ID (Indonesia)</option>
+              <option value="Melayu (Malaysia)">🇲🇾 MY (Melayu)</option>
+              <option value="Tagalog (Filipina)">🇵🇭 PH (Filipino)</option>
+              <option value="Thailand">🇹🇭 TH (ไทย)</option>
+              <option value="Vietnam">🇻🇳 VN (Tiếng Việt)</option>
+            </optgroup>
+            <optgroup label="Asia Timur & Selatan">
+              <option value="Jepang">🇯🇵 JP (日本語)</option>
+              <option value="Korea">🇰🇷 KR (한국어)</option>
+              <option value="Mandarin">🇨🇳 ZH (中文)</option>
+              <option value="Hindi (India)">🇮🇳 IN (हिन्दी)</option>
+              <option value="Arab">🇸🇦 AR (العربية)</option>
+            </optgroup>
+            <optgroup label="Global / Barat">
+              <option value="English (US)">🇺🇸 US (English)</option>
+              <option value="English (UK)">🇬🇧 UK (English)</option>
+            </optgroup>
           </select>
           <button type="button" class="btn-translate-action" id="translateButton" title="Klik untuk Terjemahkan Sekarang">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -611,12 +624,12 @@ let activeTab = "all";
 let currentQuery = "";
 let requestId = 0;
 
-/* KONEKSI SUPABASE RESMI OOER */
+/* KONEKSI SUPABASE & ENDPOINT RESMI GROQ OOER */
 const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 
-// Endpoint Function Groq AI Anda
-const AI_TRANSLATE_ENDPOINT = SUPABASE_URL + "/functions/v1/chat-groq";
+// MENGGUNAKAN EDGE FUNCTION HYPER-TASK
+const AI_TRANSLATE_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/hyper-task";
 
 let supabaseClient = null;
 if (window.supabase?.createClient) {
@@ -642,7 +655,7 @@ if (savedLang) {
 // 2. Setiap kali pengguna memilih bahasa baru di dropdown, KUNCI permanen!
 langSelect.addEventListener("change", () => {
   localStorage.setItem("ooer_user_lang", langSelect.value);
-  translateCurrentScreen(); // Langsung terjemahkan layar ke bahasa baru
+  translateCurrentScreen();
 });
 
 /* ===================================================
@@ -791,26 +804,19 @@ function renderNotifPanel() {
 }
 
 /* ===================================================
-   FITUR PENERJEMAH GROQ AI + CACHE MEMORI (0 TOKEN)
+   FITUR PENERJEMAH GROQ AI VIA HYPER-TASK (0 TOKEN CACHE)
    =================================================== */
 
-// Fungsi cerdas: Cek memori lokal HP dulu, jika belum ada baru panggil Groq
 async function translateTextWithGroq(text, targetLang) {
   if (!text || !text.trim()) return text;
-
-  // Jika bahasa tujuan adalah Indonesia (bahasa asli data Wiki), tidak perlu buang token
   if (targetLang === "Indonesia") return text;
 
-  // Kunci memori unik di HP
   const cacheKey = `ooer_tr_${targetLang}_${text.trim()}`;
-
-  // 1. Cek apakah teks ini sudah pernah diterjemahkan sebelumnya di HP
   const cached = localStorage.getItem(cacheKey);
   if (cached) {
-    return cached; // 0 Token Groq terpakai!
+    return cached; // 0 Token!
   }
 
-  // 2. Jika belum pernah, panggil AI Groq
   try {
     const res = await fetch(AI_TRANSLATE_ENDPOINT, {
       method: "POST",
@@ -820,19 +826,16 @@ async function translateTextWithGroq(text, targetLang) {
         "Authorization": "Bearer " + SUPABASE_KEY
       },
       body: JSON.stringify({
-        message: `Terjemahkan teks berikut ke bahasa ${targetLang}. HANYA berikan teks hasil terjemahan murni tanpa tambahan kalimat pengantar apapun, tanpa tanda kutip:\n\n${text}`,
+        message: `Terjemahkan teks berikut ke bahasa ${targetLang}. HANYA berikan hasil terjemahan murni tanpa penjelasan pembuka atau tanda kutip:\n\n${text}`,
         max_tokens: 600
       })
     });
     const data = await res.json();
     if (data.reply) {
-      const cleanResult = data.reply.trim();
-      // Simpan ke memori HP agar pencarian berikutnya 0 token
+      const cleanResult = data.reply.trim().replace(/^["']|["']$/g, '');
       try {
         localStorage.setItem(cacheKey, cleanResult);
-      } catch (e) {
-        // Abaikan jika storage penuh
-      }
+      } catch (e) {}
       return cleanResult;
     }
     return text;
@@ -842,22 +845,22 @@ async function translateTextWithGroq(text, targetLang) {
   }
 }
 
-// Terjemahkan seluruh elemen teks yang ada di layar search
 async function translateCurrentScreen() {
   const target = langSelect.value;
+  if (target === "Indonesia") return;
+
   const currentText = input.value.trim();
 
-  // Efek tombol loading
-  translateButton.style.opacity = "0.5";
-  showStatus(`Menyesuaikan bahasa ${target}...`);
+  translateButton.style.opacity = "0.4";
+  showStatus(`Menerjemahkan ke bahasa ${target}...`);
 
   // 1. Terjemahkan teks input search
   if (currentText) {
-    const translatedQuery = await translateTextWithGroq(currentText, target);
-    input.value = translatedQuery;
+    const tQuery = await translateTextWithGroq(currentText, target);
+    input.value = tQuery;
   }
 
-  // 2. Terjemahkan judul & deskripsi Overview di layar
+  // 2. Terjemahkan judul & overview
   const overviewTitle = document.querySelector(".entity-title-group h2");
   const overviewDesc = document.querySelector(".overview-desc");
   if (overviewTitle && overviewDesc) {
@@ -869,7 +872,7 @@ async function translateCurrentScreen() {
     overviewDesc.innerText = tDesc;
   }
 
-  // 3. Terjemahkan semua hasil organik yang tampil
+  // 3. Terjemahkan artikel organik di bawahnya
   const organicCards = document.querySelectorAll(".organic-card");
   for (const card of organicCards) {
     const titleEl = card.querySelector(".result-title");
@@ -888,7 +891,6 @@ async function translateCurrentScreen() {
   translateButton.style.opacity = "1";
 }
 
-// Tombol translate ditekan manual
 translateButton.addEventListener("click", translateCurrentScreen);
 
 /* ===================================================
@@ -957,7 +959,7 @@ async function fetchAI(query) {
         "Authorization": "Bearer " + SUPABASE_KEY
       },
       body: JSON.stringify({ 
-        message: `Jelaskan secara ringkas dan padat tentang: ${query} (dalam bahasa ${targetLang})`,
+        message: `Jelaskan secara ringkas dan informatif mengenai: ${query} (dalam bahasa ${targetLang})`,
         max_tokens: 600
       })
     });
@@ -1048,7 +1050,7 @@ async function runSearch(query) {
     renderEntityCard(top.title, "Topik Terkait", top.snippet, top.url, images);
     wikiResults.slice(1).forEach(renderOrganicResult);
 
-    // KUNCI PERMANEN: Jika bahasa yang aktif BUKAN Indonesia, otomatis terjemahkan semua hasil
+    // Jika bahasa permanen BUKAN Indonesia, langsung terjemahkan otomatis!
     if (langSelect.value !== "Indonesia") {
       translateCurrentScreen();
     }
