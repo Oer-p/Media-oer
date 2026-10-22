@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -138,16 +139,28 @@ main{
   border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer
 }
 .suggestion:hover{background:var(--soft)}
+
+/* Tiga tombol utama */
 .search-buttons{
-  display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap
+  display:flex;justify-content:center;align-items:center;
+  gap:10px;margin-top:20px;flex-wrap:wrap
 }
 .search-buttons button{
-  min-height:48px;padding:12px 17px;border:1px solid transparent;
-  border-radius:8px;background:var(--soft);color:var(--text);
-  font-size:14px;cursor:pointer
+  min-height:46px;padding:12px 21px;border:1px solid transparent;
+  border-radius:999px;background:#30343B;color:#f1f3f4;
+  font-size:14px;font-weight:500;cursor:pointer;
+  transition:background .18s ease,transform .18s ease
 }
-.search-buttons button:hover{border-color:var(--border)}
-#notice{min-height:18px;margin:12px 0 0;color:var(--muted);font-size:12px;text-align:center}
+.search-buttons button:hover{background:#454950}
+.search-buttons button:active{transform:scale(.97)}
+.search-buttons button.selected{background:#808080;color:#fff}
+body.light .search-buttons button{background:#30343B;color:#f1f3f4}
+body.light .search-buttons button.selected{background:#808080;color:#fff}
+
+#notice{
+  min-height:18px;margin:12px 0 0;color:var(--muted);
+  font-size:12px;text-align:center
+}
 .shortcuts,#oer-bola,#reels,.about-section,footer{display:none!important}
 
 /* Dialog umum */
@@ -176,7 +189,10 @@ main{
   border-radius:10px;overflow-wrap:anywhere
 }
 .dialog-item:hover{background:var(--soft)}
-.dialog-item button{margin-left:auto;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+.dialog-item button{
+  margin-left:auto;border:0;background:transparent;
+  cursor:pointer;color:var(--muted)
+}
 .dialog-empty{color:var(--muted);font-size:14px;line-height:1.6}
 .primary-button{
   width:100%;padding:12px 16px;border:0;border-radius:9px;
@@ -214,11 +230,13 @@ main{
 .login-logo .oe{color:#ea4335}
 .login-logo .r{color:#34a853}
 .login-logo .o{
-  width:34px;height:34px;border:8px solid #4285f4;border-radius:50%;
-  margin-right:4px
+  width:34px;height:34px;border:8px solid #4285f4;
+  border-radius:50%;margin-right:4px
 }
 .login-card h1{font-size:22px;margin:0 0 10px}
-.login-card p{font-size:14px;line-height:1.6;color:#c4c7cc;margin:0 0 22px}
+.login-card p{
+  font-size:14px;line-height:1.6;color:#c4c7cc;margin:0 0 22px
+}
 .google-button{
   width:100%;min-height:48px;display:flex;align-items:center;
   justify-content:center;gap:12px;padding:12px 16px;
@@ -232,6 +250,7 @@ main{
 body.login-locked{overflow:hidden}
 body.login-locked header,
 body.login-locked main{pointer-events:none;user-select:none}
+
 @media(max-width:700px){
   header{min-height:56px;padding:8px 5px}
   main{padding:35px 18px 30px}
@@ -244,10 +263,12 @@ body.login-locked main{pointer-events:none;user-select:none}
   .logo-o{width:55px;height:55px}
   .logo-o:after{inset:10px}
   .logo-oe,.logo-r{font-size:68px}
-  .search-buttons button{font-size:12px}
+  .search-buttons button{font-size:12px;padding:11px 6px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{scroll-behavior:auto!important;transition:none!important}
+  *,*:before,*:after{
+    scroll-behavior:auto!important;transition:none!important
+  }
 }
 </style>
 </head>
@@ -300,7 +321,8 @@ body.login-locked main{pointer-events:none;user-select:none}
         </svg>
         <input id="searchInput" type="search" placeholder="Cari atau masukkan alamat"
           autocomplete="off" aria-label="Cari atau masukkan alamat">
-        <button class="search-action" type="button" id="voiceButton" aria-label="Pencarian suara" title="Pencarian suara">
+        <button class="search-action" type="button" id="voiceButton"
+          aria-label="Pencarian suara" title="Pencarian suara">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path>
           </svg>
@@ -309,18 +331,23 @@ body.login-locked main{pointer-events:none;user-select:none}
       <div class="suggestions" id="suggestions"></div>
     </form>
 
-    <div class="search-buttons">
-      <button type="submit" form="searchForm">Cari OoeR</button>
-      <button type="button" id="luckyButton">Jelajahi OoeR</button>
-      <button type="button" id="aiButton">AI Chat</button>
+    <!-- Tiga tombol utama, tepat di bawah kolom pencarian -->
+    <div class="search-buttons" aria-label="Menu utama OoeR">
+      <button type="button" id="netnetButton">◉ NetNet</button>
+      <button type="button" id="aiButton">✦ OoeR AI</button>
+      <button type="button" id="luckyButton">⌕ Jelajahi</button>
     </div>
+
     <p id="notice" aria-live="polite"></p>
   </section>
 </main>
 
 <div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
   <div class="dialog">
-    <div class="dialog-head"><h2 id="historyTitle">Riwayat pencarian</h2><button class="close-button" data-close="historyOverlay">×</button></div>
+    <div class="dialog-head">
+      <h2 id="historyTitle">Riwayat pencarian</h2>
+      <button class="close-button" data-close="historyOverlay" aria-label="Tutup">×</button>
+    </div>
     <div class="dialog-list" id="historyList"></div>
     <button class="primary-button" id="clearHistoryButton">Hapus riwayat</button>
   </div>
@@ -328,7 +355,10 @@ body.login-locked main{pointer-events:none;user-select:none}
 
 <div class="overlay" id="favoritesOverlay" role="dialog" aria-modal="true" aria-labelledby="favoritesTitle">
   <div class="dialog">
-    <div class="dialog-head"><h2 id="favoritesTitle">Favorit</h2><button class="close-button" data-close="favoritesOverlay">×</button></div>
+    <div class="dialog-head">
+      <h2 id="favoritesTitle">Favorit</h2>
+      <button class="close-button" data-close="favoritesOverlay" aria-label="Tutup">×</button>
+    </div>
     <div class="dialog-list" id="favoritesList"></div>
     <p class="dialog-empty">Favorit tersimpan di perangkat ini.</p>
   </div>
@@ -336,19 +366,30 @@ body.login-locked main{pointer-events:none;user-select:none}
 
 <div class="overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="dialog">
-    <div class="dialog-head"><h2 id="settingsTitle">Pengaturan OoeR</h2><button class="close-button" data-close="settingsOverlay">×</button></div>
-    <div class="settings-group">
-      <div class="settings-text"><h4>Tema tampilan</h4><p>Sesuaikan tampilan terang atau gelap.</p></div>
-      <button class="primary-button" id="themeButton" style="width:auto;padding:8px 12px;font-size:12px">Mode terang</button>
+    <div class="dialog-head">
+      <h2 id="settingsTitle">Pengaturan OoeR</h2>
+      <button class="close-button" data-close="settingsOverlay" aria-label="Tutup">×</button>
     </div>
     <div class="settings-group">
-      <div class="settings-text"><h4>Riwayat pencarian</h4><p>Kelola riwayat pencarian Anda.</p></div>
-      <button class="primary-button" id="settingsHistoryBtn" style="width:auto;padding:8px 12px;font-size:12px">Buka</button>
+      <div class="settings-text">
+        <h4>Tema tampilan</h4>
+        <p>Sesuaikan tampilan terang atau gelap.</p>
+      </div>
+      <button class="primary-button" id="themeButton"
+        style="width:auto;padding:8px 12px;font-size:12px">Mode terang</button>
+    </div>
+    <div class="settings-group">
+      <div class="settings-text">
+        <h4>Riwayat pencarian</h4>
+        <p>Kelola riwayat pencarian Anda.</p>
+      </div>
+      <button class="primary-button" id="settingsHistoryBtn"
+        style="width:auto;padding:8px 12px;font-size:12px">Buka</button>
     </div>
   </div>
 </div>
 
-<!-- Login wajib: tidak ada tombol tutup dan klik latar tidak menutupnya -->
+<!-- Login wajib -->
 <div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="login-card">
     <div class="login-logo" aria-label="OoeR">
@@ -357,7 +398,8 @@ body.login-locked main{pointer-events:none;user-select:none}
     <h1 id="loginTitle">Masuk ke OoeR</h1>
     <p>Untuk menggunakan OoeR, daftar atau masuk dengan akun Google kamu.</p>
     <button type="button" class="google-button" id="gateGoogleLogin">
-      <span class="google-mark">G</span><span id="gateGoogleText">Lanjutkan dengan Google</span>
+      <span class="google-mark">G</span>
+      <span id="gateGoogleText">Lanjutkan dengan Google</span>
     </button>
     <p id="loginMessage" role="status" aria-live="polite"></p>
   </div>
@@ -387,14 +429,18 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   if (window.supabase?.createClient) {
     try {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true,
-          flowType: "pkce"
+      supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            flowType: "pkce"
+          }
         }
-      });
+      );
     } catch (error) {
       console.error("Supabase gagal diinisialisasi:", error);
     }
@@ -403,7 +449,9 @@ body.login-locked main{pointer-events:none;user-select:none}
   function readStorage(key, fallback = []) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "null");
-      if (Array.isArray(fallback)) return Array.isArray(value) ? value : fallback;
+      if (Array.isArray(fallback)) {
+        return Array.isArray(value) ? value : fallback;
+      }
       return value ?? fallback;
     } catch {
       return fallback;
@@ -411,8 +459,11 @@ body.login-locked main{pointer-events:none;user-select:none}
   }
 
   function writeStorage(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); }
-    catch (error) { console.warn("Penyimpanan lokal tidak tersedia:", error); }
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.warn("Penyimpanan lokal tidak tersedia:", error);
+    }
   }
 
   function lockPage() {
@@ -429,11 +480,12 @@ body.login-locked main{pointer-events:none;user-select:none}
     const user = session.user;
     const name = user.user_metadata?.full_name ||
       user.user_metadata?.name || user.email || "Pengguna OoeR";
-    const picture = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+    const picture = user.user_metadata?.avatar_url ||
+      user.user_metadata?.picture;
 
-    $("accountMenuHeader").textContent = name + (user.email ? " · " + user.email : "");
+    $("accountMenuHeader").textContent =
+      name + (user.email ? " · " + user.email : "");
     $("googleAuthText").textContent = "Keluar dari Google";
-    $("avatar").classList.add("account-connected");
 
     const avatar = $("avatar");
     avatar.replaceChildren();
@@ -460,7 +512,9 @@ body.login-locked main{pointer-events:none;user-select:none}
     if (authBusy) return;
 
     if (!supabaseClient) {
-      showLoginError("Supabase belum berhasil dimuat. Periksa koneksi internet lalu muat ulang.");
+      showLoginError(
+        "Supabase belum berhasil dimuat. Periksa koneksi internet lalu muat ulang."
+      );
       return;
     }
 
@@ -480,10 +534,12 @@ body.login-locked main{pointer-events:none;user-select:none}
       });
 
       if (error) throw error;
-      /* Supabase mengarahkan pengguna ke Google. */
     } catch (error) {
       console.error("Google OAuth error:", error);
-      showLoginError("Login gagal dimulai: " + (error.message || "Periksa konfigurasi Google OAuth."));
+      showLoginError(
+        "Login gagal dimulai: " +
+        (error.message || "Periksa konfigurasi Google OAuth.")
+      );
       authBusy = false;
       button.disabled = false;
       $("gateGoogleText").textContent = "Lanjutkan dengan Google";
@@ -492,14 +548,17 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   async function signOut() {
     if (!supabaseClient) return;
+
     const confirmed = confirm("Keluar dari akun Google OoeR?");
     if (!confirmed) return;
 
     const { error } = await supabaseClient.auth.signOut();
+
     if (error) {
       alert("Gagal keluar: " + error.message);
       return;
     }
+
     currentSession = null;
     lockPage();
     accountMenu.classList.remove("show");
@@ -513,12 +572,13 @@ body.login-locked main{pointer-events:none;user-select:none}
     else await signInWithGoogle();
   });
 
-  /* Memeriksa sesi server Supabase saat halaman dibuka. */
   async function initializeAuth() {
     if (!supabaseClient) {
       authReady = true;
       lockPage();
-      showLoginError("Supabase belum tersedia. Muat ulang halaman atau periksa koneksi.");
+      showLoginError(
+        "Supabase belum tersedia. Muat ulang halaman atau periksa koneksi."
+      );
       return;
     }
 
@@ -533,7 +593,9 @@ body.login-locked main{pointer-events:none;user-select:none}
       console.error("Gagal memeriksa sesi:", error);
       authReady = true;
       lockPage();
-      showLoginError("Sesi belum dapat diperiksa. Periksa koneksi lalu muat ulang.");
+      showLoginError(
+        "Sesi belum dapat diperiksa. Periksa koneksi lalu muat ulang."
+      );
     }
   }
 
@@ -553,21 +615,29 @@ body.login-locked main{pointer-events:none;user-select:none}
   /* Menu akun dan menu situs */
   $("accountMenuButton").addEventListener("click", event => {
     event.stopPropagation();
+
     if (!currentSession) {
       lockPage();
       return;
     }
+
     accountMenu.classList.toggle("show");
+    $("accountMenuButton").setAttribute(
+      "aria-expanded",
+      accountMenu.classList.contains("show") ? "true" : "false"
+    );
   });
 
   accountMenu.addEventListener("click", event => event.stopPropagation());
 
   $("siteMenuButton").addEventListener("click", event => {
     event.stopPropagation();
+
     if (!currentSession) {
       lockPage();
       return;
     }
+
     siteMenu.classList.toggle("show");
   });
 
@@ -576,6 +646,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   document.addEventListener("click", () => {
     accountMenu.classList.remove("show");
     siteMenu.classList.remove("show");
+    $("accountMenuButton").setAttribute("aria-expanded", "false");
     hideSuggestions();
   });
 
@@ -585,7 +656,8 @@ body.login-locked main{pointer-events:none;user-select:none}
   });
 
   $("siteBusiness").addEventListener("click", () => {
-    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
+    window.location.href =
+      "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
   });
 
   $("siteCookies").addEventListener("click", () => {
@@ -593,13 +665,18 @@ body.login-locked main{pointer-events:none;user-select:none}
   });
 
   $("siteHelp").addEventListener("click", () => {
-    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
+    window.location.href =
+      "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
   });
 
-  function openOverlay(id) { $(id)?.classList.add("show"); }
-  function closeOverlay(id) { $(id)?.classList.remove("show"); }
+  function openOverlay(id) {
+    $(id)?.classList.add("show");
+  }
 
-  /* Jangan biarkan pengguna melewati login melalui latar atau Escape. */
+  function closeOverlay(id) {
+    $(id)?.classList.remove("show");
+  }
+
   loginGate.addEventListener("click", event => {
     event.stopPropagation();
   });
@@ -614,7 +691,9 @@ body.login-locked main{pointer-events:none;user-select:none}
     }
 
     if (event.key === "Escape") {
-      document.querySelectorAll(".overlay.show").forEach(el => el.classList.remove("show"));
+      document.querySelectorAll(".overlay.show").forEach(el => {
+        el.classList.remove("show");
+      });
       accountMenu.classList.remove("show");
       siteMenu.classList.remove("show");
     }
@@ -622,20 +701,28 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   /* Riwayat pencarian */
   function getHistory() {
-    return readStorage("oer_search_history", []).filter(item => typeof item === "string");
+    return readStorage("oer_search_history", [])
+      .filter(item => typeof item === "string");
   }
 
   function saveHistory(query) {
-    const history = getHistory().filter(item => item.toLowerCase() !== query.toLowerCase());
+    const history = getHistory().filter(
+      item => item.toLowerCase() !== query.toLowerCase()
+    );
     history.unshift(query);
     writeStorage("oer_search_history", history.slice(0, 20));
   }
 
-  function hideSuggestions() { suggestions.classList.remove("show"); }
+  function hideSuggestions() {
+    suggestions.classList.remove("show");
+  }
 
   function renderSuggestions() {
     const query = input.value.trim().toLowerCase();
-    const items = getHistory().filter(item => !query || item.toLowerCase().includes(query)).slice(0, 5);
+    const items = getHistory()
+      .filter(item => !query || item.toLowerCase().includes(query))
+      .slice(0, 5);
+
     suggestions.replaceChildren();
 
     if (!items.length) {
@@ -647,16 +734,20 @@ body.login-locked main{pointer-events:none;user-select:none}
       const button = document.createElement("button");
       button.type = "button";
       button.className = "suggestion";
+
       const icon = document.createElement("span");
       icon.textContent = "◷";
+
       const label = document.createElement("span");
       label.textContent = item;
+
       button.append(icon, label);
       button.addEventListener("click", event => {
         event.stopPropagation();
         input.value = item;
         performSearch();
       });
+
       suggestions.appendChild(button);
     });
 
@@ -670,6 +761,7 @@ body.login-locked main{pointer-events:none;user-select:none}
     }
 
     const query = input.value.trim();
+
     if (!query) {
       notice.textContent = "Masukkan kata yang ingin dicari.";
       input.focus();
@@ -680,18 +772,24 @@ body.login-locked main{pointer-events:none;user-select:none}
     hideSuggestions();
 
     const normalized = query.toLowerCase();
+
     const mlbbKeywords = [
-      "meta mlbb","mlbb meta","meta mobile legends","mobile legends meta",
-      "tier list mlbb","mlbb 2026","meta 2026","mlbb tier list",
-      "hero meta mlbb","mlbb_ooer","mlbb ooer","mlbb","mobile legends"
-    ];
-    const gameKeywords = [
-      "game","games","oer game","oer games","pubg mobile","free fire",
-      "genshin impact","minecraft","roblox","valorant","tekken","god of war",
-      "need for speed","gran turismo","stardew valley","among us"
+      "meta mlbb", "mlbb meta", "meta mobile legends",
+      "mobile legends meta", "tier list mlbb", "mlbb 2026",
+      "meta 2026", "mlbb tier list", "hero meta mlbb",
+      "mlbb_ooer", "mlbb ooer", "mlbb", "mobile legends"
     ];
 
-    if (mlbbKeywords.some(keyword => normalized === keyword || normalized.includes(keyword))) {
+    const gameKeywords = [
+      "game", "games", "oer game", "oer games", "pubg mobile",
+      "free fire", "genshin impact", "minecraft", "roblox",
+      "valorant", "tekken", "god of war", "need for speed",
+      "gran turismo", "stardew valley", "among us"
+    ];
+
+    if (mlbbKeywords.some(keyword =>
+      normalized === keyword || normalized.includes(keyword)
+    )) {
       location.href = new URL("./Mlbb_ooer.html", location.href).href;
       return;
     }
@@ -714,23 +812,54 @@ body.login-locked main{pointer-events:none;user-select:none}
   input.addEventListener("input", renderSuggestions);
   input.addEventListener("focus", renderSuggestions);
 
-  $("luckyButton").addEventListener("click", () => {
-    if (!currentSession) return lockPage();
-    location.href = "./search.html";
-  });
+  /* Tombol utama OoeR */
+  const mainButtons = [
+    $("netnetButton"),
+    $("aiButton"),
+    $("luckyButton")
+  ];
 
-  $("aiButton").addEventListener("click", () => {
-    if (!currentSession) return lockPage();
-    location.href = "https://oer-p.github.io/Media-oer/ai_chat.html";
+  mainButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      if (!currentSession) {
+        lockPage();
+        return;
+      }
+
+      mainButtons.forEach(item => item.classList.remove("selected"));
+      button.classList.add("selected");
+
+      if (button.id === "netnetButton") {
+        notice.textContent =
+          "NetNet sedang disiapkan. Ide dan fungsinya akan kita tentukan nanti.";
+        return;
+      }
+
+      if (button.id === "aiButton") {
+        location.href =
+          "https://oer-p.github.io/Media-oer/ai_chat.html";
+        return;
+      }
+
+      if (button.id === "luckyButton") {
+        location.href = "./search.html";
+      }
+    });
   });
 
   /* Pencarian suara */
   $("voiceButton").addEventListener("click", () => {
-    if (!currentSession) return lockPage();
+    if (!currentSession) {
+      lockPage();
+      return;
+    }
 
-    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const Recognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (!Recognition) {
-      notice.textContent = "Pencarian suara tidak didukung browser ini. Silakan ketik pencarian.";
+      notice.textContent =
+        "Pencarian suara tidak didukung browser ini. Silakan ketik pencarian.";
       return;
     }
 
@@ -745,12 +874,17 @@ body.login-locked main{pointer-events:none;user-select:none}
       notice.textContent = "";
       performSearch();
     };
+
     recognition.onerror = () => {
       notice.textContent = "Suara tidak berhasil dikenali. Coba lagi.";
     };
+
     recognition.onend = () => {
-      if (notice.textContent === "Mendengarkan...") notice.textContent = "";
+      if (notice.textContent === "Mendengarkan...") {
+        notice.textContent = "";
+      }
     };
+
     recognition.start();
   });
 
@@ -776,6 +910,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       label.textContent = "◷ " + query;
       label.style.cursor = "pointer";
       label.style.flex = "1";
+
       label.addEventListener("click", () => {
         input.value = query;
         closeOverlay("historyOverlay");
@@ -786,8 +921,12 @@ body.login-locked main{pointer-events:none;user-select:none}
       remove.type = "button";
       remove.textContent = "×";
       remove.setAttribute("aria-label", "Hapus riwayat ini");
+
       remove.addEventListener("click", () => {
-        writeStorage("oer_search_history", getHistory().filter(item => item !== query));
+        writeStorage(
+          "oer_search_history",
+          getHistory().filter(item => item !== query)
+        );
         renderHistory();
       });
 
@@ -796,8 +935,10 @@ body.login-locked main{pointer-events:none;user-select:none}
     });
   }
 
+  /* Favorit */
   function getFavorites() {
-    return readStorage("oer_favorites", []).filter(item => typeof item === "string");
+    return readStorage("oer_favorites", [])
+      .filter(item => typeof item === "string");
   }
 
   function renderFavorites() {
@@ -821,6 +962,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       label.textContent = "☆ " + query;
       label.style.flex = "1";
       label.style.cursor = "pointer";
+
       label.addEventListener("click", () => {
         input.value = query;
         closeOverlay("favoritesOverlay");
@@ -831,8 +973,12 @@ body.login-locked main{pointer-events:none;user-select:none}
       remove.type = "button";
       remove.textContent = "×";
       remove.setAttribute("aria-label", "Hapus favorit");
+
       remove.addEventListener("click", () => {
-        writeStorage("oer_favorites", getFavorites().filter(item => item !== query));
+        writeStorage(
+          "oer_favorites",
+          getFavorites().filter(item => item !== query)
+        );
         renderFavorites();
       });
 
@@ -870,32 +1016,42 @@ body.login-locked main{pointer-events:none;user-select:none}
   const themeButton = $("themeButton");
 
   function updateThemeButton() {
-    themeButton.textContent = document.body.classList.contains("light")
-      ? "Aktifkan mode gelap" : "Aktifkan mode terang";
+    themeButton.textContent =
+      document.body.classList.contains("light")
+        ? "Aktifkan mode gelap"
+        : "Aktifkan mode terang";
   }
 
   if (readStorage("oer_dark_mode", true) === false) {
     document.body.classList.add("light");
   }
+
   updateThemeButton();
 
   themeButton.addEventListener("click", () => {
     document.body.classList.toggle("light");
-    writeStorage("oer_dark_mode", !document.body.classList.contains("light"));
+    writeStorage(
+      "oer_dark_mode",
+      !document.body.classList.contains("light")
+    );
     updateThemeButton();
   });
 
   document.querySelectorAll("[data-close]").forEach(button => {
-    button.addEventListener("click", () => closeOverlay(button.dataset.close));
+    button.addEventListener("click", () => {
+      closeOverlay(button.dataset.close);
+    });
   });
 
   document.querySelectorAll(".overlay").forEach(overlay => {
     overlay.addEventListener("click", event => {
-      if (event.target === overlay) closeOverlay(overlay.id);
+      if (event.target === overlay) {
+        closeOverlay(overlay.id);
+      }
     });
   });
 
-  /* Mulai dengan layar terkunci sampai sesi Supabase diperiksa. */
+  /* Mulai dengan layar terkunci sampai sesi Supabase diperiksa */
   lockPage();
   initializeAuth();
 })();
