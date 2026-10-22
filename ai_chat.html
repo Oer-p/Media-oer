@@ -1,1080 +1,709 @@
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="OoeR — ruang percakapan dan pencarian ide.">
-  <title>OoeR</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-  <style>
-    :root {
-      --green: #65a30d;
-      --lime: #a3e635;
-      --bg: #ffffff;
-      --surface: #f8faf7;
-      --border: #e5e7eb;
-      --text: #202124;
-      --muted: #717782;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: Inter, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    button, textarea {
-      font: inherit;
-    }
-
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    #app {
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg);
-    }
-
-    .topbar {
-      height: 64px;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-      background: var(--bg);
-    }
-
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      border: 0;
-      border-radius: 50%;
-      background: transparent;
-      color: #53565b;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px;
-      cursor: pointer;
-    }
-
-    .icon-btn:hover {
-      background: #f3f4f6;
-    }
-
-    .logo {
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 800;
-      letter-spacing: -2px;
-      user-select: none;
-    }
-
-    .logo .o1 { color: #4285f4; }
-    .logo .o2 { color: #ea4335; }
-    .logo .e  { color: #fbbc05; }
-    .logo .r  { color: #65a30d; }
-
-    #chat-container {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      padding: 16px 18px 24px;
-      scroll-behavior: smooth;
-    }
-
-    #welcome {
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 4px 22px;
-    }
-
-    #welcome h1 {
-      margin: 0;
-      font-size: clamp(25px, 5vw, 36px);
-      line-height: 1.35;
-      font-weight: 500;
-      letter-spacing: -1.1px;
-      color: #292b2f;
-    }
-
-    #welcome .accent {
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    #welcome p {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 12px 0 0;
-    }
-
-    #suggestions {
-      width: 100%;
-      max-width: 650px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 34px;
-    }
-
-    .suggestion {
-      width: 100%;
-      min-height: 56px;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      background: var(--surface);
-      text-align: left;
-      color: #45484d;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .suggestion i {
-      color: var(--green);
-      font-size: 17px;
-      flex-shrink: 0;
-    }
-
-    .suggestion:hover {
-      border-color: #a3e635;
-      background: #fbfff5;
-    }
-
-    #messages {
-      max-width: 760px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      padding-bottom: 12px;
-    }
-
-    .message {
-      display: flex;
-      width: 100%;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .message.user {
-      justify-content: flex-end;
-    }
-
-    .bubble {
-      max-width: 88%;
-      min-width: 0;
-      font-size: 15px;
-      line-height: 1.75;
-      overflow-wrap: anywhere;
-    }
-
-    .user .bubble {
-      padding: 12px 17px;
-      border-radius: 22px 22px 5px 22px;
-      background: #f0f7e8;
-      color: #25331a;
-    }
-
-    .assistant .bubble {
-      padding: 2px 0;
-      color: #292b2f;
-      width: 100%;
-    }
-
-    .avatar {
-      width: 31px;
-      height: 31px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: #f0f7e8;
-      color: var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
-    }
-
-    .message-actions {
-      display: flex;
-      justify-content: flex-start;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .small-action {
-      border: 0;
-      background: transparent;
-      color: #777d85;
-      padding: 6px 8px;
-      border-radius: 8px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .small-action:hover {
-      background: #f3f4f6;
-      color: var(--green);
-    }
-
-    #composer-area {
-      flex-shrink: 0;
-      width: 100%;
-      padding: 8px 16px max(12px, env(safe-area-inset-bottom));
-      background: var(--bg);
-    }
-
-    #composer {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      border: 1px solid #d6d9de;
-      border-radius: 27px;
-      padding: 12px 12px 8px 17px;
-      background: #f7f8fa;
-      transition: border-color .15s, box-shadow .15s;
-    }
-
-    #composer:focus-within {
-      border-color: #a3e635;
-      box-shadow: 0 0 0 2px rgba(163, 230, 53, .12);
-    }
-
-    #user-input {
-      width: 100%;
-      min-height: 43px;
-      max-height: 150px;
-      resize: none;
-      border: 0;
-      outline: 0;
-      color: var(--text);
-      background: transparent;
-      font-size: 16px;
-      line-height: 1.5;
-      padding: 7px 3px;
-      overflow-y: auto;
-    }
-
-    #user-input::placeholder {
-      color: #81858d;
-      opacity: 1;
-    }
-
-    .composer-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding-top: 5px;
-    }
-
-    .composer-left, .composer-right {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .round-btn {
-      width: 43px;
-      height: 43px;
-      border: 0;
-      border-radius: 50%;
-      background: transparent;
-      color: #5c626b;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .round-btn:hover {
-      background: #e9ebef;
-    }
-
-    #send-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 0;
-      background: var(--green);
-      color: white;
-      cursor: pointer;
-      font-size: 19px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .15s, opacity .15s;
-    }
-
-    #send-btn:hover {
-      background: #4d7c0f;
-    }
-
-    #send-btn:disabled {
-      opacity: .42;
-      cursor: not-allowed;
-    }
-
-    #footer-note {
-      text-align: center;
-      font-size: 10px;
-      color: #969ba3;
-      margin: 8px 0 0;
-    }
-
-    #history-panel {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background: rgba(0,0,0,.35);
-    }
-
-    #history-panel.open {
-      display: block;
-    }
-
-    .history-drawer {
-      height: 100%;
-      width: min(82%, 330px);
-      background: #fff;
-      padding: 20px 16px;
-      box-shadow: 5px 0 25px rgba(0,0,0,.12);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .history-search {
-      border: 0;
-      outline: 0;
-      background: #f1f3f5;
-      padding: 13px;
-      border-radius: 25px;
-      width: 100%;
-      font-size: 14px;
-    }
-
-    .history-row {
-      padding: 13px 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      color: #3e4146;
-      cursor: pointer;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .history-row:hover {
-      background: #f3f4f6;
-    }
-
-    .typing-dots {
-      display: inline-flex;
-      gap: 5px;
-      padding: 12px 0;
-    }
-
-    .typing-dots span {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 1s infinite ease-in-out;
-    }
-
-    .typing-dots span:nth-child(2) { animation-delay: .15s; }
-    .typing-dots span:nth-child(3) { animation-delay: .3s; }
-
-    @keyframes pulse {
-      0%, 60%, 100% { opacity: .3; transform: translateY(0); }
-      30% { opacity: 1; transform: translateY(-3px); }
-    }
-
-    .markdown-body p { margin: 0 0 10px; }
-    .markdown-body p:last-child { margin-bottom: 0; }
-    .markdown-body ul { list-style: disc; padding-left: 23px; margin: 8px 0; }
-    .markdown-body ol { list-style: decimal; padding-left: 23px; margin: 8px 0; }
-    .markdown-body li { margin: 4px 0; }
-    .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-      font-weight: 700;
-      margin: 16px 0 8px;
-    }
-    .markdown-body h1 { font-size: 1.4rem; }
-    .markdown-body h2 { font-size: 1.2rem; }
-    .markdown-body h3 { font-size: 1.05rem; }
-    .markdown-body a { color: var(--green); text-decoration: underline; overflow-wrap: anywhere; }
-    .markdown-body blockquote {
-      border-left: 3px solid var(--green);
-      padding-left: 12px;
-      color: #666;
-      margin: 10px 0;
-    }
-    .markdown-body pre {
-      overflow-x: auto;
-      white-space: pre;
-      background: #f0f1f3;
-      border: 1px solid #e1e3e6;
-      border-radius: 12px;
-      padding: 14px;
-      margin: 12px 0;
-    }
-    .markdown-body code:not(pre code) {
-      background: #eef0f2;
-      border-radius: 5px;
-      padding: 2px 5px;
-      font-size: .9em;
-    }
-    .markdown-body table {
-      display: block;
-      max-width: 100%;
-      overflow-x: auto;
-      border-collapse: collapse;
-    }
-    .markdown-body th, .markdown-body td {
-      border: 1px solid #ddd;
-      padding: 7px 10px;
-      text-align: left;
-    }
-    .markdown-body th { background: #f0f2f3; }
-
-    @media (min-width: 600px) {
-      #suggestions {
-        grid-template-columns: 1fr 1fr;
-      }
-      #composer-area {
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-    }
-
-    @media (max-height: 650px) {
-      #welcome h1 { font-size: 25px; }
-      #suggestions { margin-top: 20px; gap: 7px; }
-      .suggestion { min-height: 45px; padding: 10px 12px; }
-      #welcome p { margin-top: 7px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-  </style>
-</head>
-
-<body>
-<div id="app">
-  <header class="topbar">
-    <button class="icon-btn" type="button" id="history-btn" aria-label="Riwayat percakapan" title="Riwayat percakapan">
-      <i class="fa-solid fa-bars-staggered"></i>
-    </button>
-
-    <a href="index.html" aria-label="Kembali ke Home" style="text-decoration:none">
-      <div class="logo" aria-label="OoeR">
-        <span class="o1">O</span><span class="o2">o</span><span class="e">e</span><span class="r">R</span>
-      </div>
-    </a>
-
-    <button class="icon-btn" type="button" id="new-chat-btn" aria-label="Percakapan baru" title="Percakapan baru">
-      <i class="fa-solid fa-chevron-down"></i>
-    </button>
-  </header>
-
-  <main id="chat-container">
-    <section id="welcome">
-      <h1>Apa yang ingin kamu <span class="accent">cari?</span></h1>
-
-      <div id="suggestions">
-        <button class="suggestion" type="button" data-prompt="Jelaskan cara memulai bermain padel untuk pemula.">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Bagaimana cara mulai bermain padel?</span>
-        </button>
-
-        <button class="suggestion" type="button" data-prompt="Buatkan tabel perbandingan berbagai metode seduh kopi, beserta kelebihan dan kekurangannya.">
-          <i class="fa-solid fa-table"></i>
-          <span>Buat tabel perbandingan metode seduh kopi</span>
-        </button>
-
-        <button class="suggestion" type="button" data-prompt="Jelaskan topik ini dengan bahasa sederhana dan berikan contoh yang mudah dipahami.">
-          <i class="fa-solid fa-lightbulb"></i>
-          <span>Jelaskan sebuah topik dengan sederhana</span>
-        </button>
-
-        <button class="suggestion" type="button" data-prompt="Bantu saya mencari ide kreatif untuk proyek atau konten baru.">
-          <i class="fa-regular fa-compass"></i>
-          <span>Temukan ide kreatif baru</span>
-        </button>
-      </div>
-    </section>
-
-    <section id="messages" aria-live="polite"></section>
-  </main>
-
-  <footer id="composer-area">
-    <form id="composer">
-      <textarea id="user-input" rows="1" maxlength="12000" placeholder="Tanyakan apa saja" aria-label="Tanyakan apa saja"></textarea>
-
-      <div class="composer-actions">
-        <div class="composer-left">
-          <button type="button" class="round-btn" id="clear-btn" title="Hapus percakapan" aria-label="Hapus percakapan">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-        </div>
-
-        <div class="composer-right">
-          <button type="button" class="round-btn" id="mic-btn" title="Input suara" aria-label="Input suara">
-            <i class="fa-solid fa-microphone"></i>
-          </button>
-
-          <button type="submit" id="send-btn" disabled aria-label="Kirim pesan" title="Kirim pesan">
-            <i class="fa-solid fa-arrow-up"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
-    <p id="footer-note">Periksa kembali informasi penting sebelum menggunakannya.</p>
-  </footer>
-</div>
-
-<div id="history-panel" aria-hidden="true">
-  <aside class="history-drawer">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px">
-      <strong style="font-size:19px">Percakapan</strong>
-      <button class="icon-btn" type="button" id="close-history" aria-label="Tutup riwayat">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
-    <input class="history-search" id="history-search" type="search" placeholder="Telusuri rangkaian pesan">
-
-    <button type="button" id="drawer-new-chat" style="text-align:left;padding:17px 9px;background:none;border:0;color:#42464b;cursor:pointer">
-      <i class="fa-regular fa-pen-to-square" style="margin-right:12px"></i> Rangkaian percakapan baru
-    </button>
-
-    <p style="font-size:13px;color:#8a8f97;margin:24px 8px 8px">Terbaru</p>
-    <div id="history-list" style="overflow-y:auto;flex:1"></div>
-
-    <button type="button" id="delete-history" style="border:0;background:#f7f7f7;border-radius:12px;padding:12px;color:#a33;cursor:pointer;margin-top:10px">
-      <i class="fa-regular fa-trash-can" style="margin-right:8px"></i> Hapus semua riwayat
-    </button>
-  </aside>
-</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#242424">
+<meta name="description" content="OoeR — ruang percakapan dan bantuan digital.">
+<title>OoeR</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
-  const chatContainer = document.getElementById('chat-container');
-  const welcome = document.getElementById('welcome');
-  const messages = document.getElementById('messages');
-  const userInput = document.getElementById('user-input');
-  const sendBtn = document.getElementById('send-btn');
-  const micBtn = document.getElementById('mic-btn');
-
-  let isGenerating = false;
-  let recognition = null;
-  let currentChatId = null;
-  let chats = loadChats();
-
-  const SUPABASE_URL = 'https://jhopfzmyxuafdbwwkjbf.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
-  const EDGE_FUNCTION_NAME = 'smooth-handler';
-
-  function loadChats() {
-    try {
-      const saved = JSON.parse(localStorage.getItem('ooer_chats') || '[]');
-      return Array.isArray(saved) ? saved : [];
-    } catch {
-      return [];
+tailwind.config = {
+    darkMode: 'class',
+    theme: {
+        extend: {
+            colors: {
+                ooer: {
+                    bg: '#242424',
+                    card: '#303030',
+                    input: '#3A3A3A',
+                    border: '#484848',
+                    blue: '#4285F4',
+                    red: '#EA4335',
+                    yellow: '#FBBC05',
+                    green: '#34A853'
+                }
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif']
+            }
+        }
     }
-  }
+};
+</script>
 
-  function saveChats() {
-    try {
-      localStorage.setItem('ooer_chats', JSON.stringify(chats.slice(0, 50)));
-    } catch (error) {
-      console.warn('Riwayat tidak dapat disimpan:', error);
+<style>
+* { box-sizing: border-box; }
+
+html, body {
+    background: #242424;
+    color: #E0E0E0;
+    font-family: Inter, sans-serif;
+}
+
+body {
+    min-height: 100dvh;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #242424; }
+::-webkit-scrollbar-thumb {
+    background: #484848;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover { background: #606060; }
+
+button:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #888888;
+    outline-offset: 2px;
+}
+
+#chat-container {
+    overscroll-behavior: contain;
+    scrollbar-color: #484848 #242424;
+}
+
+#user-input {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #606060 transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); opacity: .35; }
+    50% { transform: translateY(-4px); opacity: 1; }
+}
+
+.dot-1 { animation: typing 1.2s infinite 0s; }
+.dot-2 { animation: typing 1.2s infinite .2s; }
+.dot-3 { animation: typing 1.2s infinite .4s; }
+
+.markdown-body {
+    overflow-wrap: anywhere;
+    line-height: 1.7;
+}
+
+.markdown-body p { margin-bottom: .65rem; }
+.markdown-body p:last-child { margin-bottom: 0; }
+
+.markdown-body ul {
+    list-style: disc;
+    padding-left: 1.3rem;
+    margin-bottom: .65rem;
+}
+
+.markdown-body ol {
+    list-style: decimal;
+    padding-left: 1.3rem;
+    margin-bottom: .65rem;
+}
+
+.markdown-body li { margin: .25rem 0; }
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    font-weight: 700;
+    margin: .9rem 0 .45rem;
+}
+
+.markdown-body h1 { font-size: 1.4rem; }
+.markdown-body h2 { font-size: 1.2rem; }
+.markdown-body h3 { font-size: 1.05rem; }
+
+.markdown-body a {
+    color: #A8C7FA;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+}
+
+.markdown-body blockquote {
+    border-left: 3px solid #888888;
+    padding-left: .8rem;
+    margin: .7rem 0;
+    color: #C9C9C9;
+}
+
+.markdown-body code:not(pre code) {
+    background: #414141;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: .88em;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+.markdown-body pre {
+    background: #292929;
+    border: 1px solid #484848;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 10px 0;
+    overflow-x: auto;
+    position: relative;
+    white-space: pre;
+}
+
+.markdown-body pre code {
+    font-family: monospace;
+    font-size: .85rem;
+    color: #E0E0E0;
+}
+
+.markdown-body table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: .7rem 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+    border: 1px solid #505050;
+    padding: 7px 10px;
+    text-align: left;
+}
+
+.markdown-body th { background: #3A3A3A; }
+
+.message-bubble {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
-  }
+}
+</style>
+</head>
 
-  function makeChat() {
-    currentChatId = 'chat-' + Date.now();
-    chats.unshift({
-      id: currentChatId,
-      title: 'Percakapan baru',
-      messages: [],
-      updatedAt: Date.now()
-    });
-    saveChats();
-    messages.innerHTML = '';
-    welcome.style.display = 'flex';
-    userInput.value = '';
-    adjustTextareaHeight();
-    checkInput();
-    updateHistory();
-    closeHistory();
-    userInput.focus();
-  }
+<body class="bg-ooer-bg text-gray-200 font-sans flex flex-col h-screen overflow-hidden">
 
-  function getCurrentChat() {
-    return chats.find(chat => chat.id === currentChatId);
-  }
+<header class="bg-ooer-card border-b border-ooer-border px-3 sm:px-4 py-3 flex items-center justify-between z-20 flex-shrink-0">
+    <div class="flex items-center gap-2">
+        <a href="index.html"
+           class="text-gray-300 hover:text-white p-2 rounded-full hover:bg-ooer-input transition flex items-center justify-center"
+           title="Kembali ke Home"
+           aria-label="Kembali ke Home">
+            <i class="fa-solid fa-arrow-left text-lg"></i>
+        </a>
 
-  function ensureChat(text) {
-    let chat = getCurrentChat();
-    if (!chat) {
-      chat = {
-        id: 'chat-' + Date.now(),
-        title: text.slice(0, 42),
-        messages: [],
-        updatedAt: Date.now()
-      };
-      currentChatId = chat.id;
-      chats.unshift(chat);
-    }
-    if (!chat.messages.length) {
-      chat.title = text.replace(/\s+/g, ' ').slice(0, 42);
-    }
-    chat.updatedAt = Date.now();
-    return chat;
-  }
+        <div class="flex items-center gap-2">
+            <div class="flex items-center text-2xl font-extrabold tracking-tight" aria-label="OoeR">
+                <span class="text-ooer-blue">O</span><span class="text-ooer-red">o</span><span class="text-ooer-yellow">e</span><span class="text-ooer-green">R</span>
+            </div>
+            <span class="text-sm font-semibold text-gray-200">OoeR</span>
+        </div>
+    </div>
 
-  function persistMessage(role, text) {
-    const chat = getCurrentChat();
-    if (!chat) return;
-    chat.messages.push({ role, text });
-    chat.updatedAt = Date.now();
-    saveChats();
-    updateHistory();
-  }
+    <button type="button"
+            onclick="clearChatHistory()"
+            class="text-gray-300 hover:text-white p-2.5 rounded-xl hover:bg-ooer-input transition text-sm flex items-center gap-2"
+            title="Hapus percakapan"
+            aria-label="Hapus percakapan">
+        <i class="fa-regular fa-trash-can"></i>
+        <span class="hidden sm:inline text-xs">Hapus</span>
+    </button>
+</header>
 
-  function showConversation(chatId) {
-    const chat = chats.find(item => item.id === chatId);
-    if (!chat) return;
+<main id="chat-container"
+      class="flex-1 overflow-y-auto px-3 sm:px-4 py-5 space-y-5 w-full max-w-3xl mx-auto">
 
-    currentChatId = chatId;
-    messages.innerHTML = '';
-    welcome.style.display = chat.messages.length ? 'none' : 'flex';
+    <div id="welcome-card" class="py-8 text-center">
+        <div class="flex items-center justify-center gap-1 text-4xl font-extrabold tracking-tight mb-3">
+            <span class="text-ooer-blue">O</span><span class="text-ooer-red">o</span><span class="text-ooer-yellow">e</span><span class="text-ooer-green">R</span>
+        </div>
+    </div>
 
-    chat.messages.forEach(message => {
-      if (message.role === 'user') appendUserBubble(message.text, false);
-      else appendAIBubble(message.text, false);
-    });
+    <div id="opening-message" class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full bg-ooer-input border border-ooer-border flex-shrink-0 flex items-center justify-center text-gray-200 font-bold text-xs">
+            O
+        </div>
 
-    closeHistory();
-    scrollToBottom();
-  }
+        <div class="message-bubble bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[90%] sm:max-w-[85%]">
+            <p class="text-sm text-gray-200">Halo! Ada yang bisa saya bantu?</p>
+            <div class="mt-2 flex justify-end">
+                <button type="button"
+                        onclick="copyMessageText(this)"
+                        class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                    <i class="fa-regular fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
 
-  function updateHistory() {
-    const list = document.getElementById('history-list');
-    const query = (document.getElementById('history-search').value || '').toLowerCase();
-    list.innerHTML = '';
+<footer class="bg-ooer-bg border-t border-ooer-border px-3 py-3 sm:px-4 sm:py-4 w-full flex-shrink-0">
+    <div id="quick-prompts"
+         class="flex items-center gap-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs max-w-3xl mx-auto">
+        <button type="button"
+                onclick="useQuickPrompt('Rangkum artikel berikut dengan poin-poin utama:')"
+                class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-2 rounded-full border border-ooer-border whitespace-nowrap transition">
+            <i class="fa-regular fa-file-lines mr-1"></i> Rangkum artikel
+        </button>
 
-    chats.filter(chat => chat.title.toLowerCase().includes(query)).slice(0, 50).forEach(chat => {
-      const row = document.createElement('div');
-      row.className = 'history-row';
-      row.textContent = chat.title || 'Percakapan baru';
-      row.title = chat.title;
-      row.addEventListener('click', () => showConversation(chat.id));
-      list.appendChild(row);
-    });
+        <button type="button"
+                onclick="useQuickPrompt('Jelaskan topik ini dengan bahasa sederhana:')"
+                class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-2 rounded-full border border-ooer-border whitespace-nowrap transition">
+            <i class="fa-solid fa-book-open mr-1"></i> Jelaskan topik
+        </button>
 
-    if (!list.children.length) {
-      const empty = document.createElement('p');
-      empty.style.cssText = 'font-size:13px;color:#8a8f97;padding:10px';
-      empty.textContent = 'Belum ada riwayat percakapan.';
-      list.appendChild(empty);
-    }
-  }
+        <button type="button"
+                onclick="useQuickPrompt('Bantu saya mencari ide kreatif tentang:')"
+                class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-2 rounded-full border border-ooer-border whitespace-nowrap transition">
+            <i class="fa-regular fa-lightbulb mr-1"></i> Cari ide
+        </button>
+    </div>
 
-  function openHistory() {
-    document.getElementById('history-panel').classList.add('open');
-    document.getElementById('history-panel').setAttribute('aria-hidden', 'false');
-    updateHistory();
-  }
+    <form id="chat-form"
+          onsubmit="handleSubmit(event)"
+          class="relative flex items-end gap-1.5 bg-ooer-input border border-ooer-border rounded-2xl p-2 focus-within:border-gray-500 transition max-w-3xl mx-auto">
 
-  function closeHistory() {
-    document.getElementById('history-panel').classList.remove('open');
-    document.getElementById('history-panel').setAttribute('aria-hidden', 'true');
-  }
+        <textarea id="user-input"
+                  rows="1"
+                  maxlength="12000"
+                  placeholder="Ketik pesan..."
+                  aria-label="Ketik pesan"
+                  class="w-full bg-transparent text-gray-100 text-sm px-3 py-2.5 focus:outline-none resize-none max-h-32 placeholder:text-gray-400"
+                  oninput="adjustTextareaHeight(this); checkInputStatus();"
+                  onkeydown="handleKeyDown(event)"></textarea>
 
-  function adjustTextareaHeight() {
-    userInput.style.height = 'auto';
-    userInput.style.height = Math.min(userInput.scrollHeight, 150) + 'px';
-  }
+        <div class="flex items-center gap-1 pb-1 pr-1">
+            <button type="button"
+                    id="mic-btn"
+                    onclick="toggleSpeechRecognition()"
+                    class="p-2.5 text-gray-300 hover:text-white rounded-xl hover:bg-[#4A4A4A] transition"
+                    title="Input suara"
+                    aria-label="Input suara">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
 
-  function checkInput() {
+            <button type="submit"
+                    id="send-btn"
+                    disabled
+                    class="p-2.5 bg-[#555555] text-white rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#666666] flex items-center justify-center"
+                    aria-label="Kirim pesan">
+                <i class="fa-solid fa-arrow-up text-sm"></i>
+            </button>
+        </div>
+    </form>
+
+    <p class="text-[10px] text-gray-500 text-center mt-2">
+        Periksa kembali informasi penting sebelum menggunakannya.
+    </p>
+</footer>
+
+<script>
+const chatContainer = document.getElementById('chat-container');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const micBtn = document.getElementById('mic-btn');
+const welcomeCard = document.getElementById('welcome-card');
+
+let isGenerating = false;
+let recognition = null;
+
+/* Koneksi Supabase yang sudah digunakan */
+const SUPABASE_URL = 'https://jhopfzmyxuafdbwwkjbf.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
+const EDGE_FUNCTION_NAME = 'smooth-handler';
+
+function adjustTextareaHeight(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 128) + 'px';
+}
+
+function checkInputStatus() {
     sendBtn.disabled = !userInput.value.trim() || isGenerating;
-  }
+}
 
-  function scrollToBottom() {
-    requestAnimationFrame(() => {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!isGenerating && userInput.value.trim()) {
+            document.getElementById('chat-form').requestSubmit();
+        }
+    }
+}
+
+function useQuickPrompt(text) {
+    if (isGenerating) return;
+    userInput.value = text;
+    adjustTextareaHeight(userInput);
+    checkInputStatus();
+    userInput.focus();
+}
+
+async function handleSubmit(e) {
+    e.preventDefault();
+
+    const text = userInput.value.trim();
+    if (!text || isGenerating) return;
+
+    if (welcomeCard) welcomeCard.style.display = 'none';
+
+    userInput.value = '';
+    userInput.style.height = 'auto';
+    isGenerating = true;
+    checkInputStatus();
+
+    appendUserBubble(text);
+    const typingId = appendTypingIndicator();
+
+    try {
+        const answer = await fetchGeminiResponse(text);
+        removeElement(typingId);
+        appendAIBubble(answer);
+    } catch (error) {
+        console.error('OoeR error:', error);
+        removeElement(typingId);
+        appendAIBubble(
+            'Maaf, pesan belum dapat diproses.\n\n**Detail:** ' +
+            (error.message || 'Terjadi kesalahan yang tidak diketahui.')
+        );
+    } finally {
+        isGenerating = false;
+        checkInputStatus();
+        userInput.focus();
+    }
+}
+
+function appendUserBubble(text) {
+    const row = document.createElement('div');
+    row.className = 'flex justify-end';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble bg-[#454545] border border-[#555555] text-gray-100 rounded-2xl rounded-tr-sm p-3.5 max-w-[90%] sm:max-w-[85%]';
+
+    const p = document.createElement('p');
+    p.className = 'text-sm leading-relaxed whitespace-pre-wrap select-text';
+    p.textContent = text;
+
+    bubble.appendChild(p);
+    row.appendChild(bubble);
+    chatContainer.appendChild(row);
+    scrollToBottom();
+}
+
+function appendAIBubble(text) {
+    const row = document.createElement('div');
+    row.className = 'flex items-start gap-3';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'w-8 h-8 rounded-full bg-ooer-input border border-ooer-border flex-shrink-0 flex items-center justify-center text-gray-200 font-bold text-xs';
+    avatar.textContent = 'O';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'message-bubble bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[90%] sm:max-w-[85%]';
+
+    const markdown = document.createElement('div');
+    markdown.className = 'markdown-body text-sm text-gray-200 select-text';
+    markdown.innerHTML = renderSafeMarkdown(text);
+
+    const actions = document.createElement('div');
+    actions.className = 'mt-3 pt-2 border-t border-ooer-border flex justify-end';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'text-xs text-gray-400 hover:text-white transition flex items-center gap-1';
+    copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
+    copyBtn.onclick = () => copyMessageText(copyBtn);
+
+    actions.appendChild(copyBtn);
+    bubble.append(markdown, actions);
+    row.append(avatar, bubble);
+
+    markdown.querySelectorAll('pre').forEach(pre => {
+        const codeBtn = document.createElement('button');
+        codeBtn.type = 'button';
+        codeBtn.className = 'absolute top-2 right-2 bg-[#414141] text-gray-300 hover:text-white px-2 py-1 rounded text-xs border border-ooer-border';
+        codeBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode';
+
+        codeBtn.onclick = async () => {
+            const code = pre.querySelector('code');
+            if (!code) return;
+
+            const ok = await copyToClipboard(code.innerText);
+            codeBtn.innerHTML = ok
+                ? '<i class="fa-solid fa-check"></i> Tersalin'
+                : 'Gagal menyalin';
+
+            setTimeout(() => {
+                codeBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode';
+            }, 1800);
+        };
+
+        pre.appendChild(codeBtn);
     });
-  }
 
-  function escapeHTML(value) {
-    return String(value).replace(/[&<>'"]/g, char => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;',
-      "'": '&#39;', '"': '&quot;'
-    })[char]);
-  }
+    chatContainer.appendChild(row);
+    scrollToBottom();
+}
 
-  function safeMarkdown(text) {
-    const html = window.marked
-      ? marked.parse(text, { breaks: true, gfm: true })
-      : escapeHTML(text).replace(/\n/g, '<br>');
+function renderSafeMarkdown(text) {
+    const raw = window.marked
+        ? marked.parse(text, { breaks: true, gfm: true })
+        : escapeHTML(text).replace(/\n/g, '<br>');
 
-    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const doc = new DOMParser().parseFromString(raw, 'text/html');
 
-    doc.querySelectorAll('script, iframe, object, embed, form, input, button, textarea, link, meta, style, svg, math')
-      .forEach(el => el.remove());
+    doc.querySelectorAll(
+        'script, iframe, object, embed, form, input, button, textarea, link, meta, style'
+    ).forEach(el => el.remove());
 
     doc.querySelectorAll('*').forEach(el => {
-      [...el.attributes].forEach(attr => {
-        const name = attr.name.toLowerCase();
-        const value = attr.value.trim().toLowerCase();
+        [...el.attributes].forEach(attr => {
+            const name = attr.name.toLowerCase();
+            const value = attr.value.trim().toLowerCase();
 
-        if (name.startsWith('on')) el.removeAttribute(attr.name);
+            if (name.startsWith('on')) el.removeAttribute(attr.name);
 
-        if ((name === 'href' || name === 'src') &&
-            (value.startsWith('javascript:') || value.startsWith('data:'))) {
-          el.removeAttribute(attr.name);
-        }
-      });
+            if ((name === 'href' || name === 'src') &&
+                (value.startsWith('javascript:') || value.startsWith('data:'))) {
+                el.removeAttribute(attr.name);
+            }
+        });
     });
 
     return doc.body.innerHTML;
-  }
+}
 
-  function appendUserBubble(text, scroll = true) {
-    welcome.style.display = 'none';
-
+function appendTypingIndicator() {
+    const id = 'typing-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
     const row = document.createElement('div');
-    row.className = 'message user';
+    row.id = id;
+    row.className = 'flex items-start gap-3';
 
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.textContent = text;
+    row.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-ooer-input border border-ooer-border flex-shrink-0 flex items-center justify-center text-gray-200 font-bold text-xs">O</div>
+        <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-4 flex items-center gap-1.5">
+            <span class="w-2 h-2 bg-gray-400 rounded-full dot-1"></span>
+            <span class="w-2 h-2 bg-gray-400 rounded-full dot-2"></span>
+            <span class="w-2 h-2 bg-gray-400 rounded-full dot-3"></span>
+        </div>`;
 
-    row.appendChild(bubble);
-    messages.appendChild(row);
-
-    if (scroll) scrollToBottom();
-  }
-
-  function appendAIBubble(text, scroll = true) {
-    welcome.style.display = 'none';
-
-    const row = document.createElement('div');
-    row.className = 'message assistant';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar';
-    avatar.textContent = 'O';
-
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'min-width:0;flex:1';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble markdown-body';
-    bubble.innerHTML = safeMarkdown(text);
-
-    const actions = document.createElement('div');
-    actions.className = 'message-actions';
-
-    const copy = document.createElement('button');
-    copy.className = 'small-action';
-    copy.type = 'button';
-    copy.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
-    copy.addEventListener('click', async () => {
-      const ok = await copyText(text);
-      copy.innerHTML = ok
-        ? '<i class="fa-solid fa-check"></i> Tersalin'
-        : '<i class="fa-solid fa-triangle-exclamation"></i> Gagal';
-      setTimeout(() => {
-        copy.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
-      }, 1600);
-    });
-
-    actions.appendChild(copy);
-    wrapper.append(bubble, actions);
-    row.append(avatar, wrapper);
-    messages.appendChild(row);
-
-    if (scroll) scrollToBottom();
-  }
-
-  function showTyping() {
-    const row = document.createElement('div');
-    row.className = 'message assistant';
-    row.id = 'typing-indicator';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar';
-    avatar.textContent = 'O';
-
-    const dots = document.createElement('div');
-    dots.className = 'typing-dots';
-    dots.innerHTML = '<span></span><span></span><span></span>';
-
-    row.append(avatar, dots);
-    messages.appendChild(row);
+    chatContainer.appendChild(row);
     scrollToBottom();
-  }
+    return id;
+}
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const prompt = userInput.value.trim();
-    if (!prompt || isGenerating) return;
-
-    const chat = ensureChat(prompt);
-    currentChatId = chat.id;
-
-    userInput.value = '';
-    adjustTextareaHeight();
-    checkInput();
-
-    appendUserBubble(prompt);
-    persistMessage('user', prompt);
-
-    isGenerating = true;
-    checkInput();
-    showTyping();
-
-    try {
-      const answer = await fetchOoeRResponse(prompt);
-      document.getElementById('typing-indicator')?.remove();
-      appendAIBubble(answer);
-      persistMessage('assistant', answer);
-    } catch (error) {
-      document.getElementById('typing-indicator')?.remove();
-      const message = 'Maaf, pesan belum berhasil diproses.\n\n' +
-        '**Detail:** ' + (error.message || 'Terjadi kesalahan.');
-      appendAIBubble(message);
-      persistMessage('assistant', message);
-      console.error('OoeR error:', error);
-    } finally {
-      isGenerating = false;
-      checkInput();
-      userInput.focus();
-    }
-  }
-
-  async function fetchOoeRResponse(prompt) {
+/* Request ke Supabase Edge Function */
+async function fetchGeminiResponse(prompt) {
     const endpoint = `${SUPABASE_URL}/functions/v1/${EDGE_FUNCTION_NAME}`;
 
     let response;
     try {
-      response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_PUBLISHABLE_KEY,
-          'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
-        },
-        body: JSON.stringify({ message: prompt })
-      });
-    } catch {
-      throw new Error('Tidak dapat menghubungi server. Periksa koneksi internet dan konfigurasi Edge Function.');
+        response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_PUBLISHABLE_KEY,
+                'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+            },
+            body: JSON.stringify({ message: prompt })
+        });
+    } catch (error) {
+        throw new Error(
+            'Tidak dapat menghubungi Supabase. Periksa koneksi internet dan pengaturan CORS.'
+        );
     }
 
-    const raw = await response.text();
+    const rawText = await response.text();
     let data;
+
     try {
-      data = raw ? JSON.parse(raw) : {};
+        data = rawText ? JSON.parse(rawText) : {};
     } catch {
-      throw new Error(`Respons server tidak valid (HTTP ${response.status}).`);
+        throw new Error(`Respons server bukan JSON (HTTP ${response.status}).`);
     }
 
     if (!response.ok) {
-      const detail = typeof data.error === 'string'
-        ? data.error
-        : data.error?.message || data.message || JSON.stringify(data.error || data);
-      throw new Error(`Server HTTP ${response.status}: ${detail}`);
+        let detail = data.message || data.error?.message || data.error;
+
+        if (typeof detail !== 'string') detail = JSON.stringify(detail || data);
+
+        throw new Error(`Supabase HTTP ${response.status}: ${detail}`);
     }
 
     if (data.error) {
-      throw new Error(typeof data.error === 'string'
-        ? data.error
-        : data.error.message || JSON.stringify(data.error));
+        const detail = typeof data.error === 'string'
+            ? data.error
+            : data.error.message || JSON.stringify(data.error);
+        throw new Error(detail);
     }
 
     const answer = data.reply || data.answer;
+
     if (typeof answer !== 'string' || !answer.trim()) {
-      throw new Error('Balasan tidak ditemukan. Pastikan Edge Function mengembalikan "reply" atau "answer".');
+        throw new Error('Balasan tidak ditemukan. Pastikan Edge Function mengembalikan "reply" atau "answer".');
     }
 
     return answer.trim();
-  }
+}
 
-  async function copyText(text) {
+function clearChatHistory() {
+    if (isGenerating) {
+        alert('Tunggu sampai jawaban selesai sebelum menghapus percakapan.');
+        return;
+    }
+
+    if (!confirm('Hapus seluruh percakapan yang sedang tampil?')) return;
+
+    chatContainer.innerHTML = '';
+    if (welcomeCard) {
+        welcomeCard.style.display = 'block';
+        chatContainer.appendChild(welcomeCard);
+    }
+
+    const row = document.createElement('div');
+    row.id = 'opening-message';
+    row.className = 'flex items-start gap-3';
+    row.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-ooer-input border border-ooer-border flex-shrink-0 flex items-center justify-center text-gray-200 font-bold text-xs">O</div>
+        <div class="message-bubble bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[90%] sm:max-w-[85%]">
+            <p class="text-sm text-gray-200">Halo! Ada yang bisa saya bantu?</p>
+            <div class="mt-2 flex justify-end">
+                <button type="button" onclick="copyMessageText(this)" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1">
+                    <i class="fa-regular fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>`;
+
+    chatContainer.appendChild(row);
+    scrollToBottom();
+    userInput.focus();
+}
+
+async function copyMessageText(btn) {
+    const bubble = btn.closest('.message-bubble');
+    if (!bubble) return;
+
+    const content = bubble.querySelector('.markdown-body') || bubble.querySelector('p');
+    if (!content) return;
+
+    const ok = await copyToClipboard(content.innerText);
+    const original = btn.innerHTML;
+
+    btn.innerHTML = ok
+        ? '<i class="fa-solid fa-check"></i> Tersalin'
+        : '<i class="fa-solid fa-triangle-exclamation"></i> Gagal';
+
+    setTimeout(() => { btn.innerHTML = original; }, 1800);
+}
+
+async function copyToClipboard(text) {
     try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-        return true;
-      }
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
     } catch (error) {
-      console.warn(error);
+        console.warn('Clipboard API gagal:', error);
     }
 
     try {
-      const el = document.createElement('textarea');
-      el.value = text;
-      el.style.position = 'fixed';
-      el.style.opacity = '0';
-      document.body.appendChild(el);
-      el.select();
-      const success = document.execCommand('copy');
-      el.remove();
-      return success;
-    } catch {
-      return false;
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        area.style.pointerEvents = 'none';
+        document.body.appendChild(area);
+        area.focus();
+        area.select();
+        const success = document.execCommand('copy');
+        area.remove();
+        return success;
+    } catch (error) {
+        return false;
     }
-  }
+}
 
-  function resetConversation() {
-    if (isGenerating) {
-      alert('Tunggu sampai balasan selesai terlebih dahulu.');
-      return;
-    }
-    makeChat();
-  }
-
-  function clearAllHistory() {
-    if (isGenerating) {
-      alert('Tunggu sampai balasan selesai terlebih dahulu.');
-      return;
-    }
-    if (!confirm('Hapus semua riwayat percakapan di perangkat ini?')) return;
-
-    chats = [];
-    currentChatId = null;
-    saveChats();
-    messages.innerHTML = '';
-    welcome.style.display = 'flex';
-    updateHistory();
-    closeHistory();
-  }
-
-  function startSpeechRecognition() {
+function toggleSpeechRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert('Input suara tidak didukung browser ini. Coba gunakan Chrome dan izinkan akses mikrofon.');
-      return;
+        alert('Input suara tidak didukung browser ini. Coba gunakan Chrome dan izinkan akses mikrofon.');
+        return;
     }
 
     if (!recognition) {
-      recognition = new SpeechRecognition();
-      recognition.lang = 'id-ID';
-      recognition.continuous = false;
-      recognition.interimResults = false;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'id-ID';
+        recognition.continuous = false;
+        recognition.interimResults = false;
 
-      recognition.onstart = () => {
-        micBtn.style.color = '#dc2626';
-        micBtn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>';
-      };
+        recognition.onstart = () => {
+            micBtn.classList.add('text-white', 'animate-pulse');
+            micBtn.title = 'Mendengarkan...';
+        };
 
-      recognition.onresult = event => {
-        const transcript = event.results[0][0].transcript;
-        userInput.value += (userInput.value ? ' ' : '') + transcript;
-        adjustTextareaHeight();
-        checkInput();
-      };
+        recognition.onresult = event => {
+            const transcript = event.results[0][0].transcript;
+            userInput.value += (userInput.value ? ' ' : '') + transcript;
+            adjustTextareaHeight(userInput);
+            checkInputStatus();
+        };
 
-      recognition.onerror = event => {
-        console.warn('Speech recognition error:', event.error);
-        if (event.error === 'not-allowed') alert('Izin mikrofon ditolak. Aktifkan izin mikrofon untuk situs ini.');
-      };
+        recognition.onerror = event => {
+            console.warn('Kesalahan input suara:', event.error);
+            if (event.error === 'not-allowed') {
+                alert('Izin mikrofon ditolak. Aktifkan izin mikrofon untuk situs ini.');
+            }
+        };
 
-      recognition.onend = () => {
-        micBtn.style.color = '';
-        micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-      };
+        recognition.onend = () => {
+            micBtn.classList.remove('text-white', 'animate-pulse');
+            micBtn.title = 'Input suara';
+        };
     }
 
     try {
-      recognition.start();
+        recognition.start();
     } catch (error) {
-      console.warn('Input suara mungkin sedang aktif:', error);
+        console.warn('Pengenalan suara sedang berjalan atau belum siap.', error);
     }
-  }
+}
 
-  document.getElementById('composer').addEventListener('submit', handleSubmit);
+function removeElement(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+}
 
-  userInput.addEventListener('input', () => {
-    adjustTextareaHeight();
-    checkInput();
-  });
-
-  userInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      if (!sendBtn.disabled) document.getElementById('composer').requestSubmit();
-    }
-  });
-
-  document.querySelectorAll('.suggestion').forEach(button => {
-    button.addEventListener('click', () => {
-      userInput.value = button.dataset.prompt || '';
-      adjustTextareaHeight();
-      checkInput();
-      userInput.focus();
+function scrollToBottom() {
+    requestAnimationFrame(() => {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     });
-  });
+}
 
-  document.getElementById('history-btn').addEventListener('click', openHistory);
-  document.getElementById('close-history').addEventListener('click', closeHistory);
-  document.getElementById('new-chat-btn').addEventListener('click', resetConversation);
-  document.getElementById('drawer-new-chat').addEventListener('click', resetConversation);
-  document.getElementById('clear-btn').addEventListener('click', resetConversation);
-  document.getElementById('delete-history').addEventListener('click', clearAllHistory);
-  document.getElementById('history-search').addEventListener('input', updateHistory);
-  micBtn.addEventListener('click', startSpeechRecognition);
+function escapeHTML(str) {
+    return String(str).replace(/[&<>'"]/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+    }[ch]));
+}
 
-  document.getElementById('history-panel').addEventListener('click', event => {
-    if (event.target.id === 'history-panel') closeHistory();
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeHistory();
-  });
-
-  updateHistory();
-  checkInput();
+checkInputStatus();
 </script>
+
 </body>
 </html>
