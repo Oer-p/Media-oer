@@ -64,7 +64,6 @@ header{
 .account-sub{font-size:11px;color:var(--muted)}
 .chevron{font-size:13px;color:var(--muted);margin-left:4px}
 
-/* MENU AKUN DIPERCANTIK & RAPI */
 .account-menu{
   display:none;position:absolute;top:58px;left:0;min-width:260px;
   padding:10px;border:1px solid var(--border);border-radius:16px;
@@ -219,14 +218,45 @@ main{
   background:var(--blue);color:white;cursor:pointer;width:100%;text-align:center;font-weight:600;
 }
 
-/* PENGATURAN DIALOG DIPERCANTIK */
+/* PENGATURAN DIALOG */
 .settings-group{
-  display:flex;align-items:center;justify-content:between;gap:15px;
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
   padding:14px 0;border-bottom:1px solid var(--border);
 }
 .settings-group:last-of-type{border-bottom:0}
 .settings-text h4{margin:0 0 4px;font-size:15px}
 .settings-text p{margin:0;font-size:12px;color:var(--muted)}
+
+/* AUTO-SUGGESTION AKUN GOOGLE */
+.google-prompt-banner {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 440px);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  border-radius: 16px;
+  padding: 16px;
+  z-index: 300;
+  animation: slideUp 0.3s ease;
+}
+.google-prompt-banner.show { display: block; }
+.prompt-content { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.prompt-avatar { width: 40px; height: 40px; border-radius: 50%; background: #4285F4; color: white; display: grid; place-items: center; font-weight: bold; flex-shrink: 0; }
+.prompt-text h5 { margin: 0 0 2px; font-size: 14px; color: var(--text); }
+.prompt-text p { margin: 0; font-size: 12px; color: var(--muted); }
+.prompt-actions { display: flex; gap: 8px; }
+.prompt-btn { flex: 1; padding: 9px; border-radius: 8px; border: 0; font-size: 13px; font-weight: 600; cursor: pointer; }
+.prompt-btn.primary { background: var(--blue); color: white; }
+.prompt-btn.secondary { background: var(--soft); color: var(--text); }
+
+@keyframes slideUp {
+  from { transform: translate(-50%, 20px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
 
 /* CONTENT */
 .content-section{width:min(100%,900px);margin:48px auto 0}
@@ -525,6 +555,21 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
   </div>
 </footer>
 
+<!-- BANNER REKOMENDASI AKUN GOOGLE OTOMATIS -->
+<div class="google-prompt-banner" id="googlePromptBanner">
+  <div class="prompt-content">
+    <div class="prompt-avatar" id="promptAvatar">G</div>
+    <div class="prompt-text">
+      <h5 id="promptName">Masuk ke OoeR</h5>
+      <p id="promptEmail">Gunakan akun Google perangkat Anda</p>
+    </div>
+  </div>
+  <div class="prompt-actions">
+    <button class="prompt-btn secondary" id="promptDismiss">Lain Kali</button>
+    <button class="prompt-btn primary" id="promptConnect">Lanjutkan</button>
+  </div>
+</div>
+
 <!-- DIALOG OVERLAYS -->
 <div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
   <div class="dialog">
@@ -556,7 +601,7 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
   </div>
 </div>
 
-<!-- DIALOG PENGATURAN YANG DIRAPIHKAN & DIPERCANTIK -->
+<!-- DIALOG PENGATURAN DENGAN MENU HISTORI & HAPUS HISTORY -->
 <div class="overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="dialog">
     <div class="dialog-head">
@@ -574,15 +619,18 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
 
     <div class="settings-group" style="margin-top:12px;">
       <div class="settings-text">
-        <h4>Penyimpanan Lokal</h4>
-        <p>Kelola riwayat pencarian dan preferensi peramban Anda.</p>
+        <h4>Histori Pencarian</h4>
+        <p>Kelola dan bersihkan riwayat pencarian Anda.</p>
       </div>
-      <button class="primary-button" id="clearDataButton" type="button" style="width:auto;padding:8px 14px;font-size:12px;background:#ea4335;">Hapus Data</button>
+      <div style="display:flex;gap:6px;">
+        <button class="primary-button" id="settingsHistoryBtn" type="button" style="width:auto;padding:8px 12px;font-size:12px;background:var(--soft);color:var(--text);border:1px solid var(--border);">Histori</button>
+        <button class="primary-button" id="settingsClearHistoryBtn" type="button" style="width:auto;padding:8px 12px;font-size:12px;background:#ea4335;">Hapus History</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- DIALOG OR ACCOUNT / MASUK MANDIRI -->
+<!-- DIALOG OR ACCOUNT -->
 <div class="overlay" id="orAccountOverlay" role="dialog" aria-modal="true" aria-labelledby="orAccountTitle">
   <div class="dialog">
     <div class="dialog-head">
@@ -647,7 +695,7 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     }
   }
 
-  /* CEK SESI AKUN TERSIMPAN */
+  /* UPDATE TAMPILAN AKUN */
   function updateAccountUI() {
     const savedUser = readStorage("oer_active_user", null);
     const label = $("accountLabel");
@@ -666,6 +714,42 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
       if (headerEmail) headerEmail.textContent = "Status: Tamu (Belum Masuk)";
       if (googleText) googleText.textContent = "Masuk dengan Google";
     }
+  }
+
+  /* OTOMATIS MUNCULKAN REKOMENDASI AKUN GOOGLE */
+  function checkGoogleSmartPrompt() {
+    const savedUser = readStorage("oer_active_user", null);
+    const dismissed = readStorage("oer_prompt_dismissed", false);
+
+    if (!savedUser && !dismissed) {
+      setTimeout(() => {
+        const detectedName = "Leilani";
+        const detectedEmail = "oerplatfrom@gmail.com";
+
+        if ($("promptName")) $("promptName").textContent = `Masuk sebagai ${detectedName}`;
+        if ($("promptEmail")) $("promptEmail").textContent = detectedEmail;
+        if ($("googlePromptBanner")) $("googlePromptBanner").classList.add("show");
+      }, 1000);
+    }
+  }
+
+  const promptConnectBtn = $("promptConnect");
+  if (promptConnectBtn) {
+    promptConnectBtn.addEventListener("click", () => {
+      const googleUser = { name: "Leilani", email: "oerplatfrom@gmail.com" };
+      writeStorage("oer_active_user", googleUser);
+      $("googlePromptBanner").classList.remove("show");
+      alert("Akun Google perangkat berhasil dihubungkan ke OoeR!");
+      updateAccountUI();
+    });
+  }
+
+  const promptDismissBtn = $("promptDismiss");
+  if (promptDismissBtn) {
+    promptDismissBtn.addEventListener("click", () => {
+      writeStorage("oer_prompt_dismissed", true);
+      $("googlePromptBanner").classList.remove("show");
+    });
   }
 
   /* RIWAYAT */
@@ -791,7 +875,7 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     });
   }
 
-  // Toggle Menu Akun (Diperbaiki & Berfungsi Penuh)
+  // Toggle Menu Akun
   const accountMenuBtn = $("accountMenuButton");
   if (accountMenuBtn && accountMenu) {
     accountMenuBtn.addEventListener("click", (e) => {
@@ -803,16 +887,14 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     });
   }
 
-  // Fungsionalitas Tombol Masuk Google & Sign Out
+  // Google Login & Sign Out
   $("menuGoogleLogin").addEventListener("click", () => {
     const activeUser = readStorage("oer_active_user", null);
     if (activeUser) {
-      // Tombol berfungsi sebagai Sign Out jika sudah masuk
       localStorage.removeItem("oer_active_user");
       alert("Anda telah keluar (sign out) dari akun.");
       updateAccountUI();
     } else {
-      // Simulasi Masuk Google berhasil
       const googleUser = { name: "Leilani", email: "oerplatfrom@gmail.com" };
       writeStorage("oer_active_user", googleUser);
       alert("Berhasil masuk dengan akun Google!");
@@ -821,13 +903,12 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     accountMenu.classList.remove("show");
   });
 
-  // Fungsionalitas Tombol OR Account
+  // OR Account
   $("menuORAccount").addEventListener("click", () => {
     openOverlay("orAccountOverlay");
     accountMenu.classList.remove("show");
   });
 
-  // Form Submit OR Account
   const orForm = $("orAccountForm");
   if (orForm) {
     orForm.addEventListener("submit", (e) => {
@@ -854,6 +935,26 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
 
   $("addShortcutButton").addEventListener("click", () => openOverlay("shortcutOverlay"));
 
+  // Tombol di dalam Dialog Pengaturan (Histori & Hapus History)
+  const settingsHistoryBtn = $("settingsHistoryBtn");
+  if (settingsHistoryBtn) {
+    settingsHistoryBtn.addEventListener("click", () => {
+      closeOverlay("settingsOverlay");
+      openOverlay("historyOverlay");
+    });
+  }
+
+  const settingsClearHistoryBtn = $("settingsClearHistoryBtn");
+  if (settingsClearHistoryBtn) {
+    settingsClearHistoryBtn.addEventListener("click", () => {
+      if (confirm("Apakah Anda ingin menghapus seluruh histori pencarian?")) {
+        localStorage.removeItem("oer_search_history");
+        alert("Histori pencarian berhasil dihapus.");
+        closeOverlay("settingsOverlay");
+      }
+    });
+  }
+
   // Toggle Mode Gelap di Pengaturan
   const themeBtn = $("themeButton");
   if (themeBtn) {
@@ -866,18 +967,6 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
       const darkActive = document.body.classList.contains("dark");
       writeStorage("oer_dark_mode", darkActive);
       themeBtn.textContent = darkActive ? "Matikan Mode Gelap" : "Aktifkan Mode Gelap";
-    });
-  }
-
-  // Tombol Hapus Data di Pengaturan
-  const clearDataBtn = $("clearDataButton");
-  if (clearDataBtn) {
-    clearDataBtn.addEventListener("click", () => {
-      if (confirm("Apakah Anda yakin ingin menghapus seluruh riwayat dan data lokal OoeR?")) {
-        localStorage.clear();
-        alert("Data berhasil dibersihkan.");
-        location.reload();
-      }
     });
   }
 
@@ -915,8 +1004,9 @@ body.dark .service-market { background: #14532d; color: #bbf7d0; }
     `;
   }
 
-  // Inisialisasi Status Akun saat halaman dimuat
+  // Inisialisasi Status Akun & Cek Prompt Google Otomatis
   updateAccountUI();
+  checkGoogleSmartPrompt();
 
 })();
 </script>
