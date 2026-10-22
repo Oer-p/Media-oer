@@ -35,6 +35,7 @@ body{
 .leaderboard-card h3{margin:0 0 10px;font-size:16px;color:var(--text);display:flex;align-items:center;gap:6px}
 .rank-list{display:grid;gap:6px}
 .rank-item{display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600}
+.rank-empty{font-size:13px;color:var(--muted);text-align:center;padding:8px;background:var(--bg);border-radius:8px;}
 
 /* JUDUL & MAPEL */
 h1{font-size:22px;margin:0 0 6px;text-align:center}
@@ -42,8 +43,8 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
 
 .subject-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
 .subject-tab{
-  padding:10px 18px;border:1px solid var(--border);border-radius:12px;
-  background:var(--bg);color:var(--text);cursor:pointer;font-size:14px;font-weight:600
+  padding:8px 14px;border:1px solid var(--border);border-radius:12px;
+  background:var(--bg);color:var(--text);cursor:pointer;font-size:13px;font-weight:600
 }
 .subject-tab.active{background:var(--blue);border-color:var(--blue);color:white}
 
@@ -80,22 +81,29 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     <span id="userStatusInfo" style="font-size:12px;font-weight:600;color:var(--muted)">Status: Tamu</span>
   </div>
 
-  <!-- PAPAN PERINGKAT / LEADERBOARD -->
+  <!-- PAPAN PERINGKAT / LEADERBOARD (KOSONG DI AWAL) -->
   <div class="leaderboard-card">
     <h3>🏆 Papan Peringkat Mingguan (Top 3)</h3>
     <div class="rank-list" id="rankList">
-      <!-- Diisi otomatis oleh JavaScript -->
+      <!-- Diisi otomatis oleh JavaScript berdasarkan poin pengguna -->
     </div>
   </div>
 
   <h1>Ruang Belajar Bertingkat OoeR</h1>
   <div class="subtitle">Bank Soal 1000+ & Pembaruan Otomatis Setiap Minggu</div>
 
-  <!-- MENU MATA PELAJARAN -->
+  <!-- MENU SEMUA MATA PELAJARAN SEKOLAH -->
   <div class="subject-tabs" id="subjectTabs">
     <button class="subject-tab active" data-subject="matematika">Matematika</button>
-    <button class="subject-tab tag" data-subject="fisika">Fisika</button>
-    <button class="subject-tab" data-subject="bhs_inggris">Bahasa Inggris</button>
+    <button class="subject-tab" data-subject="fisika">Fisika</button>
+    <button class="subject-tab" data-subject="biologi">Biologi</button>
+    <button class="subject-tab" data-subject="kimia">Kimia</button>
+    <button class="subject-tab" data-subject="bhs_indonesia">B. Indonesia</button>
+    <button class="subject-tab" data-subject="bhs_inggris">B. Inggris</button>
+    <button class="subject-tab" data-subject="sejarah">Sejarah</button>
+    <button class="subject-tab" data-subject="geografi">Geografi</button>
+    <button class="subject-tab" data-subject="ekonomi">Ekonomi</button>
+    <button class="subject-tab" data-subject="ppkn">PPKn</button>
   </div>
 
   <div class="quiz-info" id="quizInfo">Memuat soal...</div>
@@ -117,7 +125,7 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
 
   const $ = id => document.getElementById(id);
 
-  // Bank Soal Simulasi (Mendukung Rotasi Mingguan & 1000+ Stok)
+  // Bank Soal Lengkap Semua Mata Pelajaran Sekolah
   const bankSoal = {
     matematika: [
       { id: 1, q: "Hasil dari 15 + 27 ÷ 3 adalah...", options: ["A. 24", "B. 14", "C. 21", "D. 30"], correct: 0 },
@@ -125,20 +133,46 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
       { id: 3, q: "Jika sebuah lingkaran memiliki jari-jari 7 cm, berapakah kelilingnya? (π = 22/7)", options: ["A. 22 cm", "B. 44 cm", "C. 88 cm", "D. 154 cm"], correct: 1 }
     ],
     fisika: [
-      { id: 1, q: "Satuan Internasional (SI) untuk gaya adalah...", options: ["A. Joule", "B. Newton", "C. Watt", "D. Pascal"], correct: 1 },
-      { id: 2, q: "Rumus energi kinetik adalah...", options: ["A. m · g · h", "B. 1/2 · m · v²", "C. F · s", "D. m · a"], correct: 1 },
-      { id: 3, q: "Kecepatan cahaya di dalam ruang hampa udara besarnya sekitar...", options: ["A. 3 × 10⁸ m/s", "B. 3 × 10⁶ m/s", "C. 300 km/s", "D. 3.000 m/s"], correct: 0 }
+      { id: 1, q: "Satuan Internasional (SI) untuk besaran gaya adalah...", options: ["A. Joule", "B. Newton", "C. Watt", "D. Pascal"], correct: 1 },
+      { id: 2, q: "Rumus dari energi kinetik adalah...", options: ["A. m · g · h", "B. 1/2 · m · v²", "C. F · s", "D. m · a"], correct: 1 },
+      { id: 3, q: "Kecepatan rambat cahaya di ruang hampa besarnya adalah...", options: ["A. 3 × 10⁸ m/s", "B. 3 × 10⁶ m/s", "C. 300 km/s", "D. 3.000 m/s"], correct: 0 }
+    ],
+    biologi: [
+      { id: 1, q: "Bagian sel yang berfungsi sebagai pusat pengatur seluruh kegiatan sel adalah...", options: ["A. Sitoplasma", "B. Mitokondria", "C. Nukleus (Inti Sel)", "D. Ribosom"], correct: 2 },
+      { id: 2, q: "Proses pembuatan makanan pada tumbuhan hijau disebut...", options: ["A. Respirasi", "B. Fotosintesis", "C. Transpirasi", "D. Fermentasi"], correct: 1 }
+    ],
+    kimia: [
+      { id: 1, q: "Lambang unsur kimia untuk Emas adalah...", options: ["A. Ag", "B. Fe", "C. Au", "D. Cu"], correct: 2 },
+      { id: 2, q: "Air murni memiliki rumus kimia...", options: ["A. CO2", "B. H2O", "C. NaCl", "D. O2"], correct: 1 }
+    ],
+    bhs_indonesia: [
+      { id: 1, q: "Bagian teks laporan hasil observasi yang berisi pembuka atau pengantar hal yang akan dilaporkan disebut...", options: ["A. Deskripsi bagian", "B. Kesimpulan", "C. Pernyataan umum", "D. Penutup"], correct: 2 },
+      { id: 2, q: "Sinonim dari kata 'canggih' adalah...", options: ["A. Kuno", "B. Modern", "C. Sederhana", "D. Lambat"], correct: 1 }
     ],
     bhs_inggris: [
       { id: 1, q: "What is the past tense of 'eat'?", options: ["A. Eated", "B. Ate", "C. Eaten", "D. Eating"], correct: 1 },
-      { id: 2, q: "Choose the correct pronoun: '___ is a brilliant student.'", options: ["A. Him", "B. Them", "C. She", "D. Their"], correct: 2 },
-      { id: 3, q: "What is the synonym of 'happy'?", options: ["A. Sad", "B. Angry", "C. Joyful", "D. Tired"], correct: 2 }
+      { id: 2, q: "Choose the correct pronoun: '___ is a brilliant student.'", options: ["A. Him", "B. Them", "C. She", "D. Their"], correct: 2 }
+    ],
+    sejarah: [
+      { id: 1, q: "Tahun berapa teks Proklamasi Kemerdekaan Indonesia dibacakan?", options: ["A. 1942", "B. 1945", "C. 1950", "D. 1908"], correct: 1 },
+      { id: 2, q: "Organisasi pergerakan nasional pertama di Indonesia adalah...", options: ["A. Budi Utomo", "B. Sarekat Islam", "C. Indische Partij", "D. PNI"], correct: 0 }
+    ],
+    geografi: [
+      { id: 1, q: "Garis khatulistiwa membagi bumi menjadi dua belahan yaitu...", options: ["A. Barat dan Timur", "B. Utara dan Selatan", "C. Darat dan Laut", "D. Tropis dan Kutub"], correct: 1 },
+      { id: 2, q: "Benua terluas di permukaan bumi adalah...", options: ["A. Afrika", "B. Amerika", "C. Asia", "D. Australia"], correct: 2 }
+    ],
+    ekonomi: [
+      { id: 1, q: "Ilmu yang mempelajari tentang cara manusia memenuhi kebutuhan hidupnya disebut...", options: ["A. Sosiologi", "B. Ekonomi", "C. Politik", "D. Antropologi"], correct: 1 },
+      { id: 2, q: "Inflasi adalah keadaan di mana terjadi...", options: ["A. Penurunan harga barang secara terus-menerus", "B. Kenaikan harga barang secara umum dan terus-menerus", "C. Kelangkaan uang kas", "D. Peningkatan nilai tukar mata uang"], correct: 1 }
+    ],
+    ppkn: [
+      { id: 1, q: "Dasar negara Republik Indonesia adalah...", options: ["A. UUD 1945", "B. Pancasila", "C. Bhinneka Tunggal Ika", "D. NKRI"], correct: 1 },
+      { id: 2, q: "Lambang sila ke-4 Pancasila adalah...", options: ["A. Rantai", "B. Pohon Beringin", "C. Kepala Banteng", "D. Padi dan Kapas"], correct: 2 }
     ]
   };
 
   let currentSubject = "matematika";
 
-  // Muat Data Pengguna & Leaderboard dari localStorage
   function getActiveUser() {
     try {
       return JSON.parse(localStorage.getItem("oer_active_user")) || { name: "Pengguna Tamu", email: "guest" };
@@ -148,11 +182,7 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
   }
 
   function getLeaderboardData() {
-    let scores = JSON.parse(localStorage.getItem("oer_leaderboard")) || [
-      { name: "Budi Santoso", score: 300 },
-      { name: "Siti Aminah", score: 250 },
-      { name: "Rian Hidayat", score: 200 }
-    ];
+    let scores = JSON.parse(localStorage.getItem("oer_leaderboard")) || [];
     return scores.sort((a, b) => b.score - a.score).slice(0, 3);
   }
 
@@ -160,6 +190,14 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     const list = $("rankList");
     list.replaceChildren();
     const topScores = getLeaderboardData();
+
+    if (topScores.length === 0) {
+      const emptyMsg = document.div ? document.createElement("div") : document.createElement("div");
+      emptyMsg.className = "rank-empty";
+      emptyMsg.textContent = "Belum ada ranking. Jadilah yang pertama mendapatkan nilai tinggi!";
+      list.appendChild(emptyMsg);
+      return;
+    }
 
     topScores.forEach((item, index) => {
       const row = document.createElement("div");
@@ -177,7 +215,7 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     $("submitQuizBtn").disabled = true;
 
     const questions = bankSoal[subject] || [];
-    $("quizInfo.textContent") = `${subject.toUpperCase()} | Soal 1-${questions.length}`;
+    $("quizInfo").textContent = `${subject.toUpperCase().replace('_', ' ')} | Soal 1-${questions.length}`;
 
     questions.forEach((item, index) => {
       const card = document.createElement("div");
@@ -197,7 +235,6 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
       container.appendChild(card);
     });
 
-    // Tambah event listener untuk cek apakah SEMUA soal sudah dijawab
     const allInputs = container.querySelectorAll("input[type='radio']");
     allInputs.forEach(input => {
       input.addEventListener("change", checkAllAnswered);
@@ -213,11 +250,9 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
       if (answered) answeredCount++;
     });
 
-    // Tombol aktif HANYA JIKA semua soal terisi
     $("submitQuizBtn").disabled = (answeredCount < questions.length);
   }
 
-  // Cek Jawaban, Hitung Poin, dan Simpan ke localStorage
   $("submitQuizBtn").addEventListener("click", () => {
     const questions = bankSoal[currentSubject];
     let score = 0;
@@ -225,14 +260,13 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     questions.forEach(item => {
       const selected = document.querySelector(`input[name="q_${item.id}"]:checked`);
       if (selected && parseInt(selected.value) === item.correct) {
-        score += 100; // 100 poin per jawaban benar
+        score += 100;
       }
     });
 
     const user = getActiveUser();
     let leaderboard = JSON.parse(localStorage.getItem("oer_leaderboard")) || [];
     
-    // Simpan atau update poin pengguna aktif
     let existingUser = leaderboard.find(u => u.name === user.name);
     if (existingUser) {
       existingUser.score += score;
@@ -245,11 +279,10 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
 
     const resultBox = $("resultBox");
     resultBox.style.display = "block";
-    resultBox.textContent = `🎉 Kuis Selesai! Kamu mendapatkan ${score} Poin. Poin berhasil disimpan ke akunmu!`;
+    resultBox.textContent = `🎉 Kuis Selesai! Kamu mendapatkan ${score} Poin. Poin berhasil disimpan dan memperbarui peringkat!`;
     window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"});
   });
 
-  // Tab Navigasi Mata Pelajaran
   document.querySelectorAll(".subject-tab").forEach(tab => {
     tab.addEventListener("click", (e) => {
       document.querySelectorAll(".subject-tab").forEach(t => t.classList.remove("active"));
@@ -258,7 +291,6 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     });
   });
 
-  // Inisialisasi Awal
   const activeUser = getActiveUser();
   if (activeUser && activeUser.name !== "Pengguna Tamu") {
     $("userStatusInfo").textContent = `Akun: ${activeUser.name}`;
