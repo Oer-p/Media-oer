@@ -1,8 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#121212">
+    <meta name="description" content="OoeR AI Chat — asisten AI untuk membantu menjawab pertanyaan dan mengembangkan ide.">
     <title>OoeR AI Chat</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,37 +39,67 @@
     </script>
 
     <style>
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #121212; }
+        * {
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
         ::-webkit-scrollbar-thumb {
             background: #333333;
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover { background: #444444; }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444444;
+        }
 
         @keyframes typing {
             0%, 100% {
                 transform: translateY(0);
                 opacity: 0.4;
             }
+
             50% {
                 transform: translateY(-4px);
                 opacity: 1;
             }
         }
 
-        .dot-1 { animation: typing 1.2s infinite 0s; }
-        .dot-2 { animation: typing 1.2s infinite 0.2s; }
-        .dot-3 { animation: typing 1.2s infinite 0.4s; }
+        .dot-1 {
+            animation: typing 1.2s infinite 0s;
+        }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .dot-2 {
+            animation: typing 1.2s infinite 0.2s;
+        }
+
+        .dot-3 {
+            animation: typing 1.2s infinite 0.4s;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
 
-        .markdown-body p { margin-bottom: 0.5rem; }
-        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body p {
+            margin-bottom: 0.5rem;
+        }
+
+        .markdown-body p:last-child {
+            margin-bottom: 0;
+        }
 
         .markdown-body ul {
             list-style-type: disc;
@@ -80,22 +113,60 @@
             margin-bottom: 0.5rem;
         }
 
+        .markdown-body li {
+            margin: 0.2rem 0;
+        }
+
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3 {
+            font-weight: 700;
+            margin: 0.8rem 0 0.4rem;
+        }
+
+        .markdown-body h1 {
+            font-size: 1.35rem;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.2rem;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.05rem;
+        }
+
+        .markdown-body a {
+            color: #60a5fa;
+            text-decoration: underline;
+            overflow-wrap: anywhere;
+        }
+
+        .markdown-body blockquote {
+            border-left: 3px solid #4285F4;
+            padding-left: 0.8rem;
+            margin: 0.6rem 0;
+            color: #c7c7c7;
+        }
+
         .markdown-body code:not(pre code) {
             background-color: rgba(255, 255, 255, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.85em;
             font-family: monospace;
+            overflow-wrap: anywhere;
         }
 
         .markdown-body pre {
             background-color: #0d0d0d;
             border: 1px solid #333;
             border-radius: 8px;
-            padding: 10px;
+            padding: 12px;
             margin: 8px 0;
             overflow-x: auto;
             position: relative;
+            white-space: pre;
         }
 
         .markdown-body pre code {
@@ -103,10 +174,52 @@
             font-size: 0.85rem;
             color: #e6e6e6;
         }
+
+        .markdown-body table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            border-collapse: collapse;
+            margin: 0.6rem 0;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px solid #444;
+            padding: 6px 9px;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background: #282828;
+        }
+
+        #user-input {
+            overflow-y: auto;
+        }
+
+        #chat-container {
+            overscroll-behavior: contain;
+        }
+
+        button:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid #4285F4;
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-ooer-bg text-gray-100 font-sans flex flex-col h-screen overflow-hidden select-none">
+<body class="bg-ooer-bg text-gray-100 font-sans flex flex-col h-screen overflow-hidden">
 
     <!-- Header -->
     <header class="bg-ooer-card border-b border-ooer-border px-4 py-3 flex items-center justify-between shadow-md z-20 flex-shrink-0">
@@ -114,7 +227,8 @@
         <div class="flex items-center space-x-3">
             <a href="index.html"
                class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-ooer-input transition flex items-center justify-center"
-               title="Kembali ke Home">
+               title="Kembali ke Home"
+               aria-label="Kembali ke Home">
                 <i class="fa-solid fa-arrow-left text-lg"></i>
             </a>
 
@@ -138,10 +252,12 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
+
                 <span class="text-xs text-gray-300 font-medium">Gemini AI</span>
             </div>
 
-            <button onclick="clearChatHistory()"
+            <button type="button"
+                    onclick="clearChatHistory()"
                     class="text-gray-400 hover:text-ooer-red p-2 rounded-lg hover:bg-ooer-input transition text-sm flex items-center gap-1.5"
                     title="Hapus Riwayat Chat">
                 <i class="fa-regular fa-trash-can"></i>
@@ -185,7 +301,8 @@
                 </p>
 
                 <div class="mt-2 flex justify-end">
-                    <button onclick="copyMessageText(this)"
+                    <button type="button"
+                            onclick="copyMessageText(this)"
                             class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
                         <i class="fa-regular fa-copy"></i> Salin
                     </button>
@@ -201,25 +318,29 @@
         <div id="quick-prompts"
              class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
 
-            <button onclick="useQuickPrompt('Rangkum artikel berita ini dengan poin-poin utama:')"
+            <button type="button"
+                    onclick="useQuickPrompt('Rangkum artikel berita ini dengan poin-poin utama:')"
                     class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-file-lines text-ooer-blue"></i>
                 Rangkum artikel berita
             </button>
 
-            <button onclick="useQuickPrompt('Bantu saya belajar dan jelaskan konsep ini secara sederhana:')"
+            <button type="button"
+                    onclick="useQuickPrompt('Bantu saya belajar dan jelaskan konsep ini secara sederhana:')"
                     class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-graduation-cap text-ooer-green"></i>
                 Bantu belajar konsep
             </button>
 
-            <button onclick="useQuickPrompt('Buatkan jadwal belajar harian yang teratur untuk siswa/mahasiswa')"
+            <button type="button"
+                    onclick="useQuickPrompt('Buatkan jadwal belajar harian yang teratur untuk siswa/mahasiswa')"
                     class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-calendar-days text-ooer-yellow"></i>
                 Buat jadwal belajar
             </button>
 
-            <button onclick="useQuickPrompt('Tuliskan beberapa ide konten menarik atau puisi singkat')"
+            <button type="button"
+                    onclick="useQuickPrompt('Tuliskan beberapa ide konten menarik atau puisi singkat')"
                     class="bg-ooer-card hover:bg-ooer-input text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-ooer-border whitespace-nowrap transition flex items-center gap-1.5">
                 <i class="fa-solid fa-lightbulb text-ooer-red"></i>
                 Ide konten / Puisi
@@ -234,7 +355,9 @@
             <textarea
                 id="user-input"
                 rows="1"
+                maxlength="12000"
                 placeholder="Ketik pesan untuk OoeR AI..."
+                aria-label="Ketik pesan"
                 class="w-full bg-transparent text-gray-100 text-sm px-3 py-2 focus:outline-none resize-none max-h-32"
                 oninput="adjustTextareaHeight(this); checkInputStatus();"
                 onkeydown="handleKeyDown(event)"
@@ -246,7 +369,8 @@
                     id="mic-btn"
                     onclick="toggleSpeechRecognition()"
                     class="p-2 text-gray-400 hover:text-ooer-red rounded-xl hover:bg-ooer-input transition"
-                    title="Input Suara">
+                    title="Input Suara"
+                    aria-label="Input suara">
                     <i class="fa-solid fa-microphone text-base"></i>
                 </button>
 
@@ -254,7 +378,8 @@
                     type="submit"
                     id="send-btn"
                     disabled
-                    class="p-2.5 bg-ooer-blue text-white rounded-xl shadow transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-600 flex items-center justify-center">
+                    class="p-2.5 bg-ooer-blue text-white rounded-xl shadow transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-600 flex items-center justify-center"
+                    aria-label="Kirim pesan">
                     <i class="fa-solid fa-paper-plane text-xs"></i>
                 </button>
             </div>
@@ -275,9 +400,22 @@
         let isGenerating = false;
         let recognition = null;
 
+        // ==========================================
+        // SUPABASE EDGE FUNCTION
+        // Fungsi yang dipanggil: smooth-handler
+        // ==========================================
+
+        const SUPABASE_URL =
+            'https://jhopfzmyxuafdbwvkjbf.supabase.co';
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
+
+        const EDGE_FUNCTION_NAME = 'smooth-handler';
+
         function adjustTextareaHeight(el) {
             el.style.height = 'auto';
-            el.style.height = el.scrollHeight + 'px';
+            el.style.height = Math.min(el.scrollHeight, 128) + 'px';
         }
 
         function checkInputStatus() {
@@ -289,8 +427,8 @@
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
 
-                if (!sendBtn.disabled) {
-                    handleSubmit(e);
+                if (!isGenerating && userInput.value.trim()) {
+                    document.getElementById('chat-form').requestSubmit();
                 }
             }
         }
@@ -308,6 +446,7 @@
             e.preventDefault();
 
             const text = userInput.value.trim();
+
             if (!text || isGenerating) return;
 
             if (welcomeCard) {
@@ -316,14 +455,13 @@
 
             userInput.value = '';
             userInput.style.height = 'auto';
+
+            isGenerating = true;
             checkInputStatus();
 
             appendUserBubble(text);
 
             const typingId = appendTypingIndicator();
-
-            isGenerating = true;
-            sendBtn.disabled = true;
 
             try {
                 const aiResponse = await fetchGeminiResponse(text);
@@ -336,11 +474,13 @@
                 removeElement(typingId);
 
                 appendAIBubble(
-                    `Maaf, gagal memproses respons: ${error.message}`
+                    'Maaf, OoeR AI gagal memproses pesan.\n\n**Detail:** ' +
+                    (error.message || 'Terjadi kesalahan yang tidak diketahui.')
                 );
             } finally {
                 isGenerating = false;
                 checkInputStatus();
+                userInput.focus();
             }
         }
 
@@ -348,13 +488,19 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = 'flex items-start justify-end space-x-3';
 
-            msgDiv.innerHTML = `
-                <div class="bg-ooer-blue text-white rounded-2xl rounded-tr-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
-                    <p class="text-sm leading-relaxed whitespace-pre-wrap select-text">${escapeHTML(text)}</p>
-                </div>
-            `;
+            const bubble = document.createElement('div');
+            bubble.className =
+                'bg-ooer-blue text-white rounded-2xl rounded-tr-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow';
 
+            const paragraph = document.createElement('p');
+            paragraph.className =
+                'text-sm leading-relaxed whitespace-pre-wrap select-text';
+            paragraph.textContent = text;
+
+            bubble.appendChild(paragraph);
+            msgDiv.appendChild(bubble);
             chatContainer.appendChild(msgDiv);
+
             scrollToBottom();
         }
 
@@ -362,61 +508,112 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = 'flex items-start space-x-3';
 
-            const formattedText = marked.parse(text);
+            const avatar = document.createElement('div');
+            avatar.className =
+                'w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow';
+            avatar.textContent = 'AI';
 
-            msgDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
-                    AI
-                </div>
+            const bubble = document.createElement('div');
+            bubble.className =
+                'bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow';
 
-                <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
-                    <div class="markdown-body text-sm text-gray-200 leading-relaxed select-text">${formattedText}</div>
+            const markdown = document.createElement('div');
+            markdown.className =
+                'markdown-body text-sm text-gray-200 leading-relaxed select-text';
 
-                    <div class="mt-2.5 pt-1.5 border-t border-ooer-border/50 flex justify-end">
-                        <button onclick="copyMessageText(this)"
-                                class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
-                            <i class="fa-regular fa-copy"></i> Salin
-                        </button>
-                    </div>
-                </div>
-            `;
+            // Marked menghasilkan HTML dari teks model.
+            // Sanitasi HTML agar jawaban model tidak menyisipkan skrip.
+            markdown.innerHTML = renderSafeMarkdown(text);
 
-            msgDiv.querySelectorAll('pre').forEach(pre => {
-                const copyBtn = document.createElement('button');
+            const actions = document.createElement('div');
+            actions.className =
+                'mt-2.5 pt-1.5 border-t border-ooer-border/50 flex justify-end';
 
-                copyBtn.className =
+            const copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
+            copyBtn.className =
+                'text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1';
+            copyBtn.innerHTML =
+                '<i class="fa-regular fa-copy"></i> Salin';
+            copyBtn.onclick = () => copyMessageText(copyBtn);
+
+            actions.appendChild(copyBtn);
+            bubble.append(markdown, actions);
+            msgDiv.append(avatar, bubble);
+
+            markdown.querySelectorAll('pre').forEach(pre => {
+                pre.style.position = 'relative';
+
+                const copyBtnCode = document.createElement('button');
+                copyBtnCode.type = 'button';
+                copyBtnCode.className =
                     'absolute top-2 right-2 bg-ooer-input text-gray-400 hover:text-white px-2 py-1 rounded text-[10px] border border-ooer-border transition';
+                copyBtnCode.innerHTML =
+                    '<i class="fa-regular fa-copy"></i> Salin kode';
 
-                copyBtn.innerHTML =
-                    '<i class="fa-regular fa-copy"></i> Copy Code';
-
-                copyBtn.onclick = () => {
+                copyBtnCode.onclick = async () => {
                     const code = pre.querySelector('code');
+                    if (!code) return;
 
-                    if (code) {
-                        copyToClipboard(code.innerText);
-                    }
+                    const ok = await copyToClipboard(code.innerText);
 
-                    copyBtn.innerHTML =
-                        '<i class="fa-solid fa-check text-emerald-400"></i> Copied!';
+                    copyBtnCode.innerHTML = ok
+                        ? '<i class="fa-solid fa-check text-emerald-400"></i> Tersalin'
+                        : 'Gagal menyalin';
 
                     setTimeout(() => {
-                        copyBtn.innerHTML =
-                            '<i class="fa-regular fa-copy"></i> Copy Code';
-                    }, 2000);
+                        copyBtnCode.innerHTML =
+                            '<i class="fa-regular fa-copy"></i> Salin kode';
+                    }, 1800);
                 };
 
-                pre.appendChild(copyBtn);
+                pre.appendChild(copyBtnCode);
             });
 
             chatContainer.appendChild(msgDiv);
             scrollToBottom();
         }
 
-        function appendTypingIndicator() {
-            const id = 'typing-' + Date.now();
-            const typingDiv = document.createElement('div');
+        function renderSafeMarkdown(text) {
+            const rawHTML = window.marked
+                ? marked.parse(text, { breaks: true, gfm: true })
+                : escapeHTML(text).replace(/\n/g, '<br>');
 
+            // Menghapus elemen yang berpotensi menjalankan skrip.
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(rawHTML, 'text/html');
+
+            doc.querySelectorAll(
+                'script, iframe, object, embed, form, input, button, textarea, link, meta, style'
+            ).forEach(el => el.remove());
+
+            doc.querySelectorAll('*').forEach(el => {
+                [...el.attributes].forEach(attr => {
+                    const name = attr.name.toLowerCase();
+                    const value = attr.value.trim().toLowerCase();
+
+                    if (name.startsWith('on')) {
+                        el.removeAttribute(attr.name);
+                    }
+
+                    if (
+                        (name === 'href' || name === 'src') &&
+                        value.startsWith('javascript:')
+                    ) {
+                        el.removeAttribute(attr.name);
+                    }
+                });
+            });
+
+            return doc.body.innerHTML;
+        }
+
+        function appendTypingIndicator() {
+            const id = 'typing-' +
+                Date.now() + '-' +
+                Math.random().toString(36).slice(2, 8);
+
+            const typingDiv = document.createElement('div');
             typingDiv.id = id;
             typingDiv.className = 'flex items-start space-x-3';
 
@@ -439,96 +636,198 @@
         }
 
         // ==========================================
-        // KONEKSI OoeR AI MELALUI SUPABASE (URL DIPERBAIKI)
+        // KONEKSI KE SUPABASE EDGE FUNCTION
+        //
+        // Permintaan: { "message": "..." }
+        // Balasan:    { "reply": "..." }
+        //
+        // Juga menerima format { "answer": "..." }
+        // untuk kompatibilitas dengan fungsi versi lama.
         // ==========================================
+
         async function fetchGeminiResponse(prompt) {
             const endpoint =
-                'https://jhopfzmyxuafdbwvkjbf.supabase.co/functions/v1/smooth-handler';
-
-            const supabasePublishableKey =
-                'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
+                `${SUPABASE_URL}/functions/v1/${EDGE_FUNCTION_NAME}`;
 
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'apikey': supabasePublishableKey
+                    'apikey': SUPABASE_PUBLISHABLE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
                 },
-                body: JSON.stringify({ prompt })
+                body: JSON.stringify({
+                    message: prompt
+                })
             });
 
-            const data = await response.json().catch(() => ({}));
+            const rawText = await response.text();
+            let data = {};
+
+            try {
+                data = rawText ? JSON.parse(rawText) : {};
+            } catch {
+                throw new Error(
+                    `Respons Supabase bukan JSON (HTTP ${response.status}). Periksa Edge Function.`
+                );
+            }
 
             if (!response.ok) {
+                let detail;
+
+                if (typeof data.error === 'string') {
+                    detail = data.error;
+                } else if (data.error?.error?.message) {
+                    detail = data.error.error.message;
+                } else if (data.error?.message) {
+                    detail = data.error.message;
+                } else if (data.message) {
+                    detail = data.message;
+                } else {
+                    detail = JSON.stringify(data.error || data);
+                }
+
                 throw new Error(
-                    data?.error ||
-                    `Permintaan ke OoeR AI gagal (HTTP ${response.status}).`
+                    `Supabase HTTP ${response.status}: ${detail}`
                 );
             }
 
-            if (!data.answer || typeof data.answer !== 'string') {
+            if (data.error) {
+                const detail =
+                    typeof data.error === 'string'
+                        ? data.error
+                        : data.error?.error?.message ||
+                          data.error?.message ||
+                          JSON.stringify(data.error);
+
+                throw new Error(detail);
+            }
+
+            const answer = data.reply || data.answer;
+
+            if (typeof answer !== 'string' || !answer.trim()) {
                 throw new Error(
-                    data?.error || 'OoeR AI belum memberikan jawaban.'
+                    'Balasan AI tidak ditemukan. Pastikan Edge Function mengembalikan properti "reply" atau "answer".'
                 );
             }
 
-            return data.answer;
+            return answer.trim();
         }
 
         function clearChatHistory() {
+            if (isGenerating) {
+                alert('Tunggu sampai jawaban AI selesai sebelum menghapus percakapan.');
+                return;
+            }
+
             if (
-                confirm(
+                !confirm(
                     'Apakah Anda yakin ingin menghapus seluruh riwayat chat ini?'
                 )
             ) {
-                chatContainer.innerHTML = '';
+                return;
+            }
 
-                if (welcomeCard) {
-                    welcomeCard.style.display = 'block';
-                    chatContainer.appendChild(welcomeCard);
+            // Hanya membersihkan percakapan pada halaman ini.
+            chatContainer.innerHTML = '';
+
+            if (welcomeCard) {
+                welcomeCard.style.display = 'block';
+                chatContainer.appendChild(welcomeCard);
+            }
+
+            const opening = document.createElement('div');
+            opening.className = 'flex items-start space-x-3';
+
+            opening.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
+                    AI
+                </div>
+
+                <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
+                    <p class="text-sm text-gray-200">
+                        Halo! Saya OoeR AI. Ada yang bisa saya bantu untuk Anda hari ini?
+                    </p>
+
+                    <div class="mt-2 flex justify-end">
+                        <button type="button"
+                                onclick="copyMessageText(this)"
+                                class="text-[11px] text-gray-500 hover:text-gray-300 transition flex items-center gap-1">
+                            <i class="fa-regular fa-copy"></i> Salin
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            chatContainer.appendChild(opening);
+            scrollToBottom();
+            userInput.focus();
+        }
+
+        async function copyMessageText(btn) {
+            const bubble = btn.closest('.bg-ooer-card');
+
+            if (!bubble) return;
+
+            const content = bubble.querySelector('.markdown-body')
+                || bubble.querySelector('p');
+
+            if (!content) return;
+
+            const ok = await copyToClipboard(content.innerText);
+            const originalHTML = btn.innerHTML;
+
+            btn.innerHTML = ok
+                ? '<i class="fa-solid fa-check text-emerald-400"></i> Tersalin!'
+                : '<i class="fa-solid fa-triangle-exclamation"></i> Gagal';
+
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 1800);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return true;
                 }
+            } catch (error) {
+                console.warn('Clipboard API gagal:', error);
             }
-        }
 
-        function copyMessageText(btn) {
-            const container = btn.closest('.bg-ooer-card')
-                ?.querySelector('.markdown-body, p');
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                textArea.style.pointerEvents = 'none';
 
-            if (container) {
-                copyToClipboard(container.innerText);
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
 
-                const originalHTML = btn.innerHTML;
+                const success = document.execCommand('copy');
+                textArea.remove();
 
-                btn.innerHTML =
-                    '<i class="fa-solid fa-check text-emerald-400"></i> Tersalin!';
-
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                }, 2000);
+                return success;
+            } catch (error) {
+                console.error('Gagal menyalin teks:', error);
+                return false;
             }
-        }
-
-        function copyToClipboard(text) {
-            const textArea = document.createElement('textarea');
-
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
         }
 
         // ==========================================
         // INPUT SUARA
         // ==========================================
+
         function toggleSpeechRecognition() {
             if (
                 !('webkitSpeechRecognition' in window) &&
                 !('SpeechRecognition' in window)
             ) {
                 alert(
-                    'Pengenalan suara tidak didukung oleh browser Anda.'
+                    'Pengenalan suara tidak didukung browser ini. Coba gunakan Chrome dengan izin mikrofon.'
                 );
                 return;
             }
@@ -549,6 +848,7 @@
                         'text-ooer-red',
                         'animate-pulse'
                     );
+                    micBtn.title = 'Mendengarkan...';
                 };
 
                 recognition.onresult = function(event) {
@@ -562,11 +862,17 @@
                     checkInputStatus();
                 };
 
-                recognition.onerror = function() {
-                    micBtn.classList.remove(
-                        'text-ooer-red',
-                        'animate-pulse'
+                recognition.onerror = function(event) {
+                    console.warn(
+                        'Kesalahan input suara:',
+                        event.error
                     );
+
+                    if (event.error === 'not-allowed') {
+                        alert(
+                            'Izin mikrofon ditolak. Aktifkan izin mikrofon untuk situs ini.'
+                        );
+                    }
                 };
 
                 recognition.onend = function() {
@@ -574,13 +880,17 @@
                         'text-ooer-red',
                         'animate-pulse'
                     );
+                    micBtn.title = 'Input Suara';
                 };
             }
 
             try {
                 recognition.start();
             } catch (error) {
-                console.warn('Pengenalan suara:', error);
+                console.warn(
+                    'Pengenalan suara mungkin sedang berjalan:',
+                    error
+                );
             }
         }
 
@@ -593,12 +903,14 @@
         }
 
         function scrollToBottom() {
-            chatContainer.scrollTop =
-                chatContainer.scrollHeight;
+            requestAnimationFrame(() => {
+                chatContainer.scrollTop =
+                    chatContainer.scrollHeight;
+            });
         }
 
         function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, tag => ({
+            return String(str).replace(/[&<>'"]/g, tag => ({
                 '&': '&amp;',
                 '<': '&lt;',
                 '>': '&gt;',
@@ -606,6 +918,10 @@
                 '"': '&quot;'
             }[tag] || tag));
         }
+
+        // Pemeriksaan awal halaman.
+        checkInputStatus();
     </script>
 </body>
 </html>
+
