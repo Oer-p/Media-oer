@@ -109,12 +109,13 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
   </form>
 </div>
 
+<!-- Memuat soal langsung dari file soal.js -->
+<script src="./soal.js"></script>
 <script>
 (() => {
   "use strict";
 
   const $ = id => document.getElementById(id);
-  let globalBankSoal = {};
   let currentSubject = "matematika";
 
   function getActiveUser() {
@@ -151,7 +152,6 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     });
   }
 
-  // Sistem Rotasi Mingguan Otomatis Berdasarkan Minggu Tahun Berjalan
   function getWeeklyRotatedQuestions(allQuestions) {
     if (!allQuestions || allQuestions.length === 0) return [];
     
@@ -159,7 +159,6 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     const startOfYear = new Date(now.getFullYear(), 0, 1);
     const weekNumber = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
     
-    // Mengambil subset soal secara berputar setiap minggu
     const startIndex = (weekNumber * 5) % allQuestions.length;
     let rotated = [];
     for (let i = 0; i < Math.min(5, allQuestions.length); i++) {
@@ -168,14 +167,12 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
     return rotated;
   }
 
-  async function loadBankSoal() {
-    try {
-      const response = await fetch("./soal.json");
-      globalBankSoal = await response.json();
-      renderQuiz(currentSubject);
-    } catch (error) {
-      $("quizInfo").textContent = "Gagal memuat bank soal. Pastikan file soal.json tersedia.";
+  function initQuiz() {
+    if (typeof globalBankSoal === "undefined") {
+      $("quizInfo").textContent = "Gagal memuat bank soal. Pastikan file soal.js tersedia dan mendefinisikan globalBankSoal.";
+      return;
     }
+    renderQuiz(currentSubject);
   }
 
   function renderQuiz(subject) {
@@ -277,7 +274,7 @@ h1{font-size:22px;margin:0 0 6px;text-align:center}
   }
 
   renderLeaderboard();
-  loadBankSoal();
+  initQuiz();
 
 })();
 </script>
