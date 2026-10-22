@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -22,573 +21,264 @@
 
 <style>
 :root {
-  --text: #e8eaed;
-  --muted: #aeb4bc;
-  --border: #41454c;
-  --bg: #202124;
-  --soft: #303134;
-  --blue: #4285f4;
-  --red: #ea4335;
-  --yellow: #fbbc05;
-  --green: #34a853;
-  --shadow: 0 2px 10px #0005;
+  --text:#e8eaed;
+  --muted:#aeb4bc;
+  --border:#41454c;
+  --bg:#202124;
+  --soft:#303134;
+  --blue:#4285f4;
+  --red:#ea4335;
+  --yellow:#fbbc05;
+  --green:#34a853;
+  --shadow:0 2px 14px #0006;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column
+}
+body.light{
+  --text:#202124;--muted:#5f6368;--border:#dfe1e5;
+  --bg:#f1f3f4;--soft:#e8eaed;--shadow:0 2px 12px #20212420
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--blue);outline-offset:3px
+}
+header{
+  position:relative;z-index:100;width:100%;min-height:60px;padding:8px;
+  display:flex;align-items:center;justify-content:space-between
+}
+.account-area{position:relative;display:flex;align-items:center}
+.account-button,.menu-toggle{
+  display:grid;place-items:center;border:0;border-radius:50%;
+  background:transparent;cursor:pointer
+}
+.account-button{padding:4px}
+.account-button:hover,.menu-toggle:hover{background:var(--soft)}
+.avatar{
+  width:40px;height:40px;display:grid;place-items:center;overflow:hidden;
+  border-radius:50%;background:#5f6368;color:white
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.account-menu,.site-menu{
+  display:none;position:absolute;padding:10px;border:1px solid var(--border);
+  border-radius:15px;background:var(--bg);box-shadow:var(--shadow);z-index:160
+}
+.account-menu{top:50px;left:0;width:min(280px,calc(100vw - 24px))}
+.account-menu.show{display:block}
+.account-menu-header{
+  padding:10px 12px 12px;margin-bottom:6px;border-bottom:1px solid var(--border);
+  font-size:12px;color:var(--muted);overflow-wrap:anywhere
+}
+.account-menu button,.site-menu button{
+  width:100%;display:flex;align-items:center;gap:10px;padding:12px;
+  border:0;border-radius:9px;background:transparent;color:var(--text);
+  text-align:left;font-size:13px;cursor:pointer
+}
+.account-menu button:hover,.site-menu button:hover{background:var(--soft)}
+.menu-toggle{width:42px;height:42px}
+.menu-toggle svg{width:25px;height:25px}
+.site-menu{top:55px;right:10px;width:min(260px,calc(100vw - 20px));padding:8px}
+.site-menu.show{display:grid}
+main{
+  width:100%;flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:35px 18px 30px
+}
+.hero{width:100%;display:flex;flex-direction:column;align-items:center}
+.logo{
+  height:85px;margin-bottom:22px;display:flex;align-items:center;
+  justify-content:center;white-space:nowrap;user-select:none
+}
+.logo-o{
+  width:65px;height:65px;position:relative;display:inline-block;flex-shrink:0;
+  border-radius:50%;
+  background:conic-gradient(from -43deg,var(--red) 0deg 105deg,
+  var(--yellow) 105deg 225deg,var(--blue) 225deg 360deg)
+}
+.logo-o:after{
+  content:"";position:absolute;inset:12px;border-radius:50%;background:var(--bg)
+}
+.logo-oe,.logo-r{
+  font-size:80px;font-weight:500;line-height:1;letter-spacing:-5px
+}
+.logo-oe{color:var(--red);margin-left:6px}
+.logo-r{color:var(--green);margin-left:2px;letter-spacing:-3px}
+.search-wrap{position:relative;width:min(100%,760px)}
+.search-box{
+  width:100%;min-height:58px;display:flex;align-items:center;gap:14px;
+  padding:0 20px;border:1px solid var(--border);border-radius:32px;
+  background:transparent;transition:box-shadow .18s,border-color .18s
+}
+.search-box:hover,.search-box:focus-within{
+  border-color:transparent;box-shadow:var(--shadow)
+}
+.search-icon{width:23px;height:23px;color:var(--muted);flex-shrink:0}
+#searchInput{
+  width:100%;min-width:0;padding:15px 0;border:0;outline:none;
+  background:transparent;color:var(--text);font-size:16px
+}
+#searchInput::placeholder{color:var(--muted)}
+.search-action{
+  display:grid;place-items:center;padding:5px;border:0;
+  background:transparent;color:var(--blue);cursor:pointer;flex-shrink:0
+}
+.search-action svg{width:23px;height:23px}
+.suggestions{
+  display:none;position:absolute;top:64px;left:0;right:0;z-index:50;
+  overflow:hidden;padding:8px 0;border-radius:18px;background:var(--bg);
+  box-shadow:var(--shadow)
+}
+.suggestions.show{display:block}
+.suggestion{
+  display:flex;align-items:center;gap:13px;width:100%;padding:12px 20px;
+  border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer
+}
+.suggestion:hover{background:var(--soft)}
+.search-buttons{
+  display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap
+}
+.search-buttons button{
+  min-height:48px;padding:12px 17px;border:1px solid transparent;
+  border-radius:8px;background:var(--soft);color:var(--text);
+  font-size:14px;cursor:pointer
+}
+.search-buttons button:hover{border-color:var(--border)}
+#notice{min-height:18px;margin:12px 0 0;color:var(--muted);font-size:12px;text-align:center}
+.shortcuts,#oer-bola,#reels,.about-section,footer{display:none!important}
+
+/* Dialog umum */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  align-items:center;justify-content:center;padding:18px;background:#0009
+}
+.overlay.show{display:flex}
+.dialog{
+  width:min(100%,470px);max-height:85vh;overflow:auto;padding:22px;
+  border:1px solid var(--border);border-radius:18px;background:var(--bg);
+  box-shadow:var(--shadow)
+}
+.dialog-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;margin-bottom:16px
+}
+.dialog-head h2{font-size:19px;margin:0}
+.close-button{
+  width:35px;height:35px;border:0;border-radius:50%;
+  background:var(--soft);cursor:pointer;font-size:20px
+}
+.dialog-list{display:grid;gap:8px}
+.dialog-item{
+  display:flex;align-items:center;gap:12px;padding:12px;
+  border-radius:10px;overflow-wrap:anywhere
+}
+.dialog-item:hover{background:var(--soft)}
+.dialog-item button{margin-left:auto;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+.dialog-empty{color:var(--muted);font-size:14px;line-height:1.6}
+.primary-button{
+  width:100%;padding:12px 16px;border:0;border-radius:9px;
+  background:var(--blue);color:white;cursor:pointer;font-weight:600
+}
+.settings-group{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;padding:14px 0;border-bottom:1px solid var(--border)
+}
+.settings-group:last-of-type{border-bottom:0}
+.settings-text h4{margin:0 0 4px;font-size:15px}
+.settings-text p{margin:0;font-size:12px;color:var(--muted)}
+.dialog-input{
+  width:100%;padding:12px;margin:8px 0;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text)
 }
 
-* { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
+/* Login wajib */
+#loginGate{
+  display:none;position:fixed;inset:0;z-index:99999;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(12,13,15,.88);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px)
 }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
+#loginGate.show{display:flex}
+.login-card{
+  width:min(100%,390px);padding:30px 24px;text-align:center;
+  border:1px solid #484b50;border-radius:22px;background:#242629;
+  color:#f1f3f4;box-shadow:0 18px 70px #0008
 }
-
-body.light {
-  --text: #202124;
-  --muted: #5f6368;
-  --border: #dfe1e5;
-  --bg: #fff;
-  --soft: #f8f9fa;
-  --shadow: 0 1px 6px #20212430;
+.login-logo{
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;font-weight:600;letter-spacing:-3px;margin-bottom:16px
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
+.login-logo .oe{color:#ea4335}
+.login-logo .r{color:#34a853}
+.login-logo .o{
+  width:34px;height:34px;border:8px solid #4285f4;border-radius:50%;
+  margin-right:4px
 }
-
-button, input { font: inherit; }
-button { color: inherit; }
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 3px;
+.login-card h1{font-size:22px;margin:0 0 10px}
+.login-card p{font-size:14px;line-height:1.6;color:#c4c7cc;margin:0 0 22px}
+.google-button{
+  width:100%;min-height:48px;display:flex;align-items:center;
+  justify-content:center;gap:12px;padding:12px 16px;
+  border:1px solid #5f6368;border-radius:10px;background:#f8f9fa;
+  color:#202124;font-weight:600;cursor:pointer
 }
-
-/* HEADER */
-header {
-  position: relative;
-  z-index: 100;
-  width: 100%;
-  min-height: 60px;
-  padding: 8px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.google-button:hover{background:#e8eaed}
+.google-button:disabled{opacity:.65;cursor:wait}
+.google-mark{font-size:21px;font-weight:bold;color:#4285f4}
+#loginMessage{min-height:20px;margin:14px 0 0;font-size:12px;color:#ffb4ab}
+body.login-locked{overflow:hidden}
+body.login-locked header,
+body.login-locked main{pointer-events:none;user-select:none}
+@media(max-width:700px){
+  header{min-height:56px;padding:8px 5px}
+  main{padding:35px 18px 30px}
+  .search-box{min-height:54px;padding:0 15px;gap:10px}
+  #searchInput{font-size:15px}
+  .search-buttons{width:100%;gap:8px}
+  .search-buttons button{flex:1;padding:11px 8px;font-size:13px}
 }
-
-.account-area {
-  position: relative;
-  display: flex;
-  align-items: center;
+@media(max-width:380px){
+  .logo-o{width:55px;height:55px}
+  .logo-o:after{inset:10px}
+  .logo-oe,.logo-r{font-size:68px}
+  .search-buttons button{font-size:12px}
 }
-
-.account-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-
-.account-button:hover { background: var(--soft); }
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 50%;
-  background: #5f6368;
-  color: white;
-  box-shadow: none;
-}
-
-.avatar.account-connected {
-  background: #34a853;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.account-info,
-.account-button .chevron {
-  display: none !important;
-}
-
-.account-menu {
-  display: none;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  width: min(280px, calc(100vw - 24px));
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: var(--bg);
-  box-shadow: var(--shadow);
-  z-index: 150;
-}
-
-.account-menu.show { display: block; }
-
-.account-menu-header {
-  padding: 10px 12px 12px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.account-menu button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--text);
-  text-align: left;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.account-menu button:hover { background: var(--soft); }
-
-.menu-toggle {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-
-.menu-toggle:hover { background: var(--soft); }
-.menu-toggle svg { width: 25px; height: 25px; }
-
-.site-menu {
-  display: none;
-  position: absolute;
-  top: 55px;
-  right: 10px;
-  width: min(260px, calc(100vw - 20px));
-  padding: 8px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: var(--bg);
-  box-shadow: var(--shadow);
-  z-index: 160;
-}
-
-.site-menu.show { display: grid; }
-
-.site-menu button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 13px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--text);
-  text-align: left;
-  cursor: pointer;
-}
-
-.site-menu button:hover { background: var(--soft); }
-
-/* HOME SEARCH */
-main {
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 35px 18px 30px;
-}
-
-.hero {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.logo {
-  height: 85px;
-  margin-bottom: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.logo-o {
-  width: 65px;
-  height: 65px;
-  position: relative;
-  display: inline-block;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: conic-gradient(
-    from -43deg,
-    var(--red) 0deg 105deg,
-    var(--yellow) 105deg 225deg,
-    var(--blue) 225deg 360deg
-  );
-}
-
-.logo-o::after {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  border-radius: 50%;
-  background: var(--bg);
-}
-
-.logo-oe,
-.logo-r {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 80px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -5px;
-}
-
-.logo-oe { color: var(--red); margin-left: 6px; }
-.logo-r { color: var(--green); margin-left: 2px; letter-spacing: -3px; }
-
-.search-wrap {
-  position: relative;
-  width: min(100%, 760px);
-}
-
-.search-box {
-  width: 100%;
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 20px;
-  border: 1px solid var(--border);
-  border-radius: 32px;
-  background: transparent;
-  transition: box-shadow .18s, border-color .18s;
-}
-
-.search-box:hover,
-.search-box:focus-within {
-  border-color: transparent;
-  box-shadow: var(--shadow);
-}
-
-.search-icon {
-  width: 23px;
-  height: 23px;
-  color: var(--muted);
-  flex-shrink: 0;
-}
-
-#searchInput {
-  width: 100%;
-  min-width: 0;
-  padding: 15px 0;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 16px;
-}
-
-#searchInput::placeholder { color: var(--muted); }
-
-.search-action {
-  display: grid;
-  place-items: center;
-  padding: 5px;
-  border: 0;
-  background: transparent;
-  color: var(--blue);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.search-action svg { width: 23px; height: 23px; }
-
-.suggestions {
-  display: none;
-  position: absolute;
-  top: 64px;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  overflow: hidden;
-  padding: 8px 0;
-  border-radius: 18px;
-  background: var(--bg);
-  box-shadow: var(--shadow);
-}
-
-.suggestions.show { display: block; }
-
-.suggestion {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  width: 100%;
-  padding: 12px 20px;
-  border: 0;
-  background: transparent;
-  color: var(--text);
-  text-align: left;
-  cursor: pointer;
-}
-
-.suggestion:hover { background: var(--soft); }
-
-.search-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.search-buttons button {
-  min-height: 48px;
-  padding: 12px 17px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: var(--soft);
-  color: var(--text);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.search-buttons button:hover { border-color: var(--border); }
-
-#notice {
-  min-height: 18px;
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* HILANGKAN PINTASAN DAN KONTEN BAWAH UNTUK SEMENTARA */
-.shortcuts,
-#oer-bola,
-#reels,
-.about-section,
-footer {
-  display: none !important;
-}
-
-/* DIALOG */
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  background: #0008;
-}
-
-.overlay.show { display: flex; }
-
-.dialog {
-  width: min(100%, 470px);
-  max-height: 85vh;
-  overflow: auto;
-  padding: 22px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--bg);
-  box-shadow: var(--shadow);
-}
-
-.dialog-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 16px;
-}
-
-.dialog-head h2 { font-size: 19px; margin: 0; }
-
-.close-button {
-  width: 35px;
-  height: 35px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--soft);
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.dialog-list { display: grid; gap: 8px; }
-
-.dialog-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  overflow-wrap: anywhere;
-}
-
-.dialog-item:hover { background: var(--soft); }
-
-.dialog-item button {
-  margin-left: auto;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  color: var(--muted);
-}
-
-.dialog-empty {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.dialog-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--text);
-}
-
-.primary-button {
-  width: 100%;
-  padding: 11px 16px;
-  border: 0;
-  border-radius: 9px;
-  background: var(--blue);
-  color: white;
-  cursor: pointer;
-  text-align: center;
-  font-weight: 600;
-}
-
-.settings-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.settings-group:last-of-type { border-bottom: 0; }
-
-.settings-text h4 { margin: 0 0 4px; font-size: 15px; }
-.settings-text p { margin: 0; font-size: 12px; color: var(--muted); }
-
-@media (max-width: 700px) {
-  header { min-height: 56px; padding: 8px 5px; }
-  main { padding: 35px 18px 30px; }
-  .logo { height: 85px; margin-bottom: 22px; }
-  .search-box { min-height: 54px; padding: 0 15px; gap: 10px; }
-  #searchInput { font-size: 15px; }
-  .search-buttons { width: 100%; gap: 8px; }
-  .search-buttons button { flex: 1; padding: 11px 8px; font-size: 13px; }
-}
-
-@media (max-width: 380px) {
-  .logo-o { width: 55px; height: 55px; }
-  .logo-o::after { inset: 10px; }
-  .logo-oe, .logo-r { font-size: 68px; }
-  .search-buttons button { font-size: 12px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    transition: none !important;
-  }
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;transition:none!important}
 }
 </style>
 </head>
 
-<body>
+<body class="login-locked">
 <header>
   <div class="account-area">
-    <button class="account-button" id="accountMenuButton"
-            type="button" aria-label="Menu akun"
-            aria-expanded="false">
-      <span class="avatar" id="loginButton" title="Profil OoeR">
-        <svg viewBox="0 0 24 24" width="22" height="22"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
+    <button class="account-button" id="accountMenuButton" type="button"
+      aria-label="Menu akun" aria-expanded="false">
+      <span class="avatar" id="avatar">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
       </span>
-      <span class="account-info">
-        <span class="account-label" id="accountLabel">OoeR Account</span>
-        <span class="account-sub" id="accountSubStatus">Belum masuk</span>
-      </span>
-      <span class="chevron">⌄</span>
     </button>
-
     <div class="account-menu" id="accountMenu">
-      <div class="account-menu-header" id="accountMenuHeaderEmail">
-        Status: Tamu (Belum Masuk)
-      </div>
-
-      <button type="button" id="menuGoogleLogin">🌐
-        <span id="googleAuthText">Masuk dengan Google</span>
-      </button>
-
-      <button type="button" id="menuORAccount">◉ OR Account</button>
+      <div class="account-menu-header" id="accountMenuHeader">Memeriksa sesi...</div>
+      <button type="button" id="menuGoogleLogin">🌐 <span id="googleAuthText">Masuk dengan Google</span></button>
       <button type="button" id="menuHistory">◷ Riwayat pencarian</button>
       <button type="button" id="menuFavorites">☆ Favorit saya</button>
     </div>
   </div>
 
-  <button class="menu-toggle" id="siteMenuButton"
-          type="button" aria-label="Buka menu"
-          aria-expanded="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" aria-hidden="true">
+  <button class="menu-toggle" id="siteMenuButton" type="button" aria-label="Buka menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
-
   <div class="site-menu" id="siteMenu">
     <button type="button" id="siteSettings">⚙️ Pengaturan</button>
     <button type="button" id="siteBusiness">💼 Bisnis</button>
@@ -600,27 +290,18 @@ footer {
 <main id="home">
   <section class="hero" aria-label="Pencarian OoeR">
     <div class="logo" role="img" aria-label="OoeR">
-      <span class="logo-o" aria-hidden="true"></span>
-      <span class="logo-oe">oe</span>
-      <span class="logo-r">R</span>
+      <span class="logo-o"></span><span class="logo-oe">oe</span><span class="logo-r">R</span>
     </div>
 
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2"
-             aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <path d="m16 16 4 4"></path>
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path>
         </svg>
-
-        <input id="searchInput" type="search"
-               placeholder="Cari atau masukkan alamat"
-               autocomplete="off" aria-label="Cari atau masukkan alamat">
-
-        <button class="search-action" type="button" id="voiceButton"
-                aria-label="Pencarian suara" title="Pencarian suara">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <input id="searchInput" type="search" placeholder="Cari atau masukkan alamat"
+          autocomplete="off" aria-label="Cari atau masukkan alamat">
+        <button class="search-action" type="button" id="voiceButton" aria-label="Pencarian suara" title="Pencarian suara">
+          <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path>
           </svg>
         </button>
@@ -633,103 +314,52 @@ footer {
       <button type="button" id="luckyButton">Jelajahi OoeR</button>
       <button type="button" id="aiButton">AI Chat</button>
     </div>
-
     <p id="notice" aria-live="polite"></p>
   </section>
 </main>
 
-<!-- DIALOG RIWAYAT -->
-<div class="overlay" id="historyOverlay" role="dialog"
-     aria-modal="true" aria-labelledby="historyTitle">
+<div class="overlay" id="historyOverlay" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="historyTitle">Riwayat pencarian</h2>
-      <button class="close-button" type="button"
-              data-close="historyOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="historyTitle">Riwayat pencarian</h2><button class="close-button" data-close="historyOverlay">×</button></div>
     <div class="dialog-list" id="historyList"></div>
-    <button class="primary-button" type="button" id="clearHistoryButton">
-      Hapus riwayat
-    </button>
+    <button class="primary-button" id="clearHistoryButton">Hapus riwayat</button>
   </div>
 </div>
 
-<!-- DIALOG FAVORIT -->
-<div class="overlay" id="favoritesOverlay" role="dialog"
-     aria-modal="true" aria-labelledby="favoritesTitle">
+<div class="overlay" id="favoritesOverlay" role="dialog" aria-modal="true" aria-labelledby="favoritesTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="favoritesTitle">Favorit</h2>
-      <button class="close-button" type="button"
-              data-close="favoritesOverlay" aria-label="Tutup">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="favoritesTitle">Favorit</h2><button class="close-button" data-close="favoritesOverlay">×</button></div>
     <div class="dialog-list" id="favoritesList"></div>
-    <p class="dialog-empty">
-      Simpan pencarian sebagai favorit melalui tombol di bawah hasil pencarian.
-    </p>
+    <p class="dialog-empty">Favorit tersimpan di perangkat ini.</p>
   </div>
 </div>
 
-<!-- DIALOG PENGATURAN -->
-<div class="overlay" id="settingsOverlay" role="dialog"
-     aria-modal="true" aria-labelledby="settingsTitle">
+<div class="overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="settingsTitle">Pengaturan OoeR</h2>
-      <button class="close-button" type="button"
-              data-close="settingsOverlay" aria-label="Tutup">×</button>
-    </div>
-
+    <div class="dialog-head"><h2 id="settingsTitle">Pengaturan OoeR</h2><button class="close-button" data-close="settingsOverlay">×</button></div>
     <div class="settings-group">
-      <div class="settings-text">
-        <h4>Tema tampilan</h4>
-        <p>Sesuaikan tampilan terang atau gelap.</p>
-      </div>
-      <button class="primary-button" id="themeButton" type="button"
-              style="width:auto;padding:8px 12px;font-size:12px;">
-        Mode terang
-      </button>
+      <div class="settings-text"><h4>Tema tampilan</h4><p>Sesuaikan tampilan terang atau gelap.</p></div>
+      <button class="primary-button" id="themeButton" style="width:auto;padding:8px 12px;font-size:12px">Mode terang</button>
     </div>
-
     <div class="settings-group">
-      <div class="settings-text">
-        <h4>Riwayat pencarian</h4>
-        <p>Kelola riwayat pencarian Anda.</p>
-      </div>
-      <button class="primary-button" id="settingsHistoryBtn" type="button"
-              style="width:auto;padding:8px 12px;font-size:12px;">
-        Buka
-      </button>
+      <div class="settings-text"><h4>Riwayat pencarian</h4><p>Kelola riwayat pencarian Anda.</p></div>
+      <button class="primary-button" id="settingsHistoryBtn" style="width:auto;padding:8px 12px;font-size:12px">Buka</button>
     </div>
   </div>
 </div>
 
-<!-- DIALOG OR ACCOUNT -->
-<div class="overlay" id="orAccountOverlay" role="dialog"
-     aria-modal="true" aria-labelledby="orAccountTitle">
-  <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="orAccountTitle">Masuk dengan OR Account</h2>
-      <button class="close-button" type="button"
-              data-close="orAccountOverlay" aria-label="Tutup">×</button>
+<!-- Login wajib: tidak ada tombol tutup dan klik latar tidak menutupnya -->
+<div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="login-card">
+    <div class="login-logo" aria-label="OoeR">
+      <span class="o"></span><span class="oe">oe</span><span class="r">R</span>
     </div>
-
-    <p style="font-size:13px;color:var(--muted);line-height:1.6;">
-      Masukkan identitas akun untuk menampilkan profil pada perangkat ini.
-      Formulir ini belum memverifikasi kata sandi atau identitas melalui server.
-    </p>
-
-    <form id="orAccountForm">
-      <label for="orUsername">Nama pengguna / ID akun</label>
-      <input class="dialog-input" id="orUsername" required
-             maxlength="80" placeholder="Nama pengguna">
-
-      <label for="orCredential">Email / nomor WhatsApp</label>
-      <input class="dialog-input" id="orCredential" required
-             maxlength="120" placeholder="Email atau nomor terdaftar">
-
-      <button class="primary-button" type="submit">Simpan profil lokal</button>
-    </form>
+    <h1 id="loginTitle">Masuk ke OoeR</h1>
+    <p>Untuk menggunakan OoeR, daftar atau masuk dengan akun Google kamu.</p>
+    <button type="button" class="google-button" id="gateGoogleLogin">
+      <span class="google-mark">G</span><span id="gateGoogleText">Lanjutkan dengan Google</span>
+    </button>
+    <p id="loginMessage" role="status" aria-live="polite"></p>
   </div>
 </div>
 
@@ -737,10 +367,9 @@ footer {
 (() => {
   "use strict";
 
-  /* Konfigurasi OoeR yang sudah ada dipertahankan.
-     Supabase belum dipakai untuk autentikasi di halaman ini. */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  const SITE_URL = "https://oer-p.github.io/Media-oer/";
 
   const $ = id => document.getElementById(id);
   const form = $("searchForm");
@@ -749,27 +378,32 @@ footer {
   const notice = $("notice");
   const accountMenu = $("accountMenu");
   const siteMenu = $("siteMenu");
-  const siteMenuButton = $("siteMenuButton");
+  const loginGate = $("loginGate");
 
   let supabaseClient = null;
+  let currentSession = null;
+  let authReady = false;
+  let authBusy = false;
 
   if (window.supabase?.createClient) {
     try {
-      supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+          flowType: "pkce"
+        }
+      });
     } catch (error) {
-      console.error("Supabase tidak dapat diinisialisasi:", error);
+      console.error("Supabase gagal diinisialisasi:", error);
     }
   }
 
   function readStorage(key, fallback = []) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "null");
-      if (Array.isArray(fallback)) {
-        return Array.isArray(value) ? value : fallback;
-      }
+      if (Array.isArray(fallback)) return Array.isArray(value) ? value : fallback;
       return value ?? fallback;
     } catch {
       return fallback;
@@ -777,62 +411,164 @@ footer {
   }
 
   function writeStorage(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn("Penyimpanan lokal tidak tersedia:", error);
-    }
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (error) { console.warn("Penyimpanan lokal tidak tersedia:", error); }
   }
 
-  function updateAccountUI() {
-    const savedUser = readStorage("oer_active_user", null);
-    const avatar = $("loginButton");
-    const headerEmail = $("accountMenuHeaderEmail");
-    const googleText = $("googleAuthText");
+  function lockPage() {
+    document.body.classList.add("login-locked");
+    loginGate.classList.add("show");
+    $("accountMenuHeader").textContent = "Status: Tamu (Belum masuk)";
+  }
 
-    avatar?.classList.toggle("account-connected", Boolean(savedUser));
+  function unlockPage(session) {
+    currentSession = session;
+    document.body.classList.remove("login-locked");
+    loginGate.classList.remove("show");
 
-    if (savedUser) {
-      if (headerEmail) {
-        headerEmail.textContent = "Profil lokal: " + savedUser.name;
-      }
-      if (googleText) googleText.textContent = "Keluar dari profil lokal";
+    const user = session.user;
+    const name = user.user_metadata?.full_name ||
+      user.user_metadata?.name || user.email || "Pengguna OoeR";
+    const picture = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+
+    $("accountMenuHeader").textContent = name + (user.email ? " · " + user.email : "");
+    $("googleAuthText").textContent = "Keluar dari Google";
+    $("avatar").classList.add("account-connected");
+
+    const avatar = $("avatar");
+    avatar.replaceChildren();
+
+    if (picture) {
+      const img = document.createElement("img");
+      img.src = picture;
+      img.alt = "Foto profil";
+      img.referrerPolicy = "no-referrer";
+      img.onerror = () => {
+        avatar.textContent = (name[0] || "O").toUpperCase();
+      };
+      avatar.appendChild(img);
     } else {
-      if (headerEmail) {
-        headerEmail.textContent = "Status: Tamu (Belum masuk)";
-      }
-      if (googleText) googleText.textContent = "Masuk dengan Google";
+      avatar.textContent = (name[0] || "O").toUpperCase();
     }
   }
 
-  function openOverlay(id) {
-    $(id)?.classList.add("show");
+  function showLoginError(message) {
+    $("loginMessage").textContent = message;
   }
 
-  function closeOverlay(id) {
-    $(id)?.classList.remove("show");
+  async function signInWithGoogle() {
+    if (authBusy) return;
+
+    if (!supabaseClient) {
+      showLoginError("Supabase belum berhasil dimuat. Periksa koneksi internet lalu muat ulang.");
+      return;
+    }
+
+    authBusy = true;
+    const button = $("gateGoogleLogin");
+    button.disabled = true;
+    $("gateGoogleText").textContent = "Menghubungkan ke Google...";
+    showLoginError("");
+
+    try {
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: SITE_URL,
+          queryParams: { prompt: "select_account" }
+        }
+      });
+
+      if (error) throw error;
+      /* Supabase mengarahkan pengguna ke Google. */
+    } catch (error) {
+      console.error("Google OAuth error:", error);
+      showLoginError("Login gagal dimulai: " + (error.message || "Periksa konfigurasi Google OAuth."));
+      authBusy = false;
+      button.disabled = false;
+      $("gateGoogleText").textContent = "Lanjutkan dengan Google";
+    }
   }
 
-  /* MENU AKUN */
+  async function signOut() {
+    if (!supabaseClient) return;
+    const confirmed = confirm("Keluar dari akun Google OoeR?");
+    if (!confirmed) return;
+
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      alert("Gagal keluar: " + error.message);
+      return;
+    }
+    currentSession = null;
+    lockPage();
+    accountMenu.classList.remove("show");
+  }
+
+  $("gateGoogleLogin").addEventListener("click", signInWithGoogle);
+
+  $("menuGoogleLogin").addEventListener("click", async () => {
+    accountMenu.classList.remove("show");
+    if (currentSession) await signOut();
+    else await signInWithGoogle();
+  });
+
+  /* Memeriksa sesi server Supabase saat halaman dibuka. */
+  async function initializeAuth() {
+    if (!supabaseClient) {
+      authReady = true;
+      lockPage();
+      showLoginError("Supabase belum tersedia. Muat ulang halaman atau periksa koneksi.");
+      return;
+    }
+
+    try {
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) throw error;
+
+      authReady = true;
+      if (data.session?.user) unlockPage(data.session);
+      else lockPage();
+    } catch (error) {
+      console.error("Gagal memeriksa sesi:", error);
+      authReady = true;
+      lockPage();
+      showLoginError("Sesi belum dapat diperiksa. Periksa koneksi lalu muat ulang.");
+    }
+  }
+
+  if (supabaseClient) {
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      currentSession = session;
+
+      if (session?.user) {
+        unlockPage(session);
+        $("loginMessage").textContent = "";
+      } else if (authReady || event === "SIGNED_OUT") {
+        lockPage();
+      }
+    });
+  }
+
+  /* Menu akun dan menu situs */
   $("accountMenuButton").addEventListener("click", event => {
     event.stopPropagation();
+    if (!currentSession) {
+      lockPage();
+      return;
+    }
     accountMenu.classList.toggle("show");
-    $("accountMenuButton").setAttribute(
-      "aria-expanded",
-      accountMenu.classList.contains("show") ? "true" : "false"
-    );
   });
 
   accountMenu.addEventListener("click", event => event.stopPropagation());
 
-  /* MENU GARIS TIGA */
-  siteMenuButton.addEventListener("click", event => {
+  $("siteMenuButton").addEventListener("click", event => {
     event.stopPropagation();
+    if (!currentSession) {
+      lockPage();
+      return;
+    }
     siteMenu.classList.toggle("show");
-    siteMenuButton.setAttribute(
-      "aria-expanded",
-      siteMenu.classList.contains("show") ? "true" : "false"
-    );
   });
 
   siteMenu.addEventListener("click", event => event.stopPropagation());
@@ -840,8 +576,6 @@ footer {
   document.addEventListener("click", () => {
     accountMenu.classList.remove("show");
     siteMenu.classList.remove("show");
-    $("accountMenuButton").setAttribute("aria-expanded", "false");
-    siteMenuButton.setAttribute("aria-expanded", "false");
     hideSuggestions();
   });
 
@@ -851,92 +585,57 @@ footer {
   });
 
   $("siteBusiness").addEventListener("click", () => {
-    siteMenu.classList.remove("show");
-    window.location.href =
-      "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
+    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR";
   });
 
   $("siteCookies").addEventListener("click", () => {
-    siteMenu.classList.remove("show");
     alert("Pengaturan Cookie akan ditambahkan pada tahap berikutnya.");
   });
 
   $("siteHelp").addEventListener("click", () => {
-    siteMenu.classList.remove("show");
-    window.location.href =
-      "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
+    window.location.href = "mailto:oerplatfrom@gmail.com?subject=Bantuan%20OoeR";
   });
 
-  /* LOGIN/PROFIL LOKAL
-     Ini bukan login Google atau verifikasi server sesungguhnya. */
-  $("menuGoogleLogin").addEventListener("click", () => {
-    const activeUser = readStorage("oer_active_user", null);
+  function openOverlay(id) { $(id)?.classList.add("show"); }
+  function closeOverlay(id) { $(id)?.classList.remove("show"); }
 
-    if (activeUser) {
-      localStorage.removeItem("oer_active_user");
-      updateAccountUI();
-      alert("Profil lokal telah dilepas dari perangkat ini.");
-    } else {
-      alert(
-        "Login Google asli belum diaktifkan. Gunakan integrasi OAuth resmi sebelum menganggap akun terverifikasi."
-      );
+  /* Jangan biarkan pengguna melewati login melalui latar atau Escape. */
+  loginGate.addEventListener("click", event => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (!currentSession && loginGate.classList.contains("show")) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+      return;
     }
 
-    accountMenu.classList.remove("show");
-  });
+    if (event.key === "Escape") {
+      document.querySelectorAll(".overlay.show").forEach(el => el.classList.remove("show"));
+      accountMenu.classList.remove("show");
+      siteMenu.classList.remove("show");
+    }
+  }, true);
 
-  $("menuORAccount").addEventListener("click", () => {
-    accountMenu.classList.remove("show");
-    openOverlay("orAccountOverlay");
-  });
-
-  $("orAccountForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    const username = $("orUsername").value.trim();
-    const credential = $("orCredential").value.trim();
-
-    if (!username || !credential) return;
-
-    writeStorage("oer_active_user", {
-      name: username,
-      email: credential,
-      provider: "local-profile"
-    });
-
-    updateAccountUI();
-    closeOverlay("orAccountOverlay");
-    $("orAccountForm").reset();
-
-    alert(
-      "Profil tersimpan di perangkat ini. Identitas belum diverifikasi oleh server."
-    );
-  });
-
-  /* RIWAYAT PENCARIAN */
+  /* Riwayat pencarian */
   function getHistory() {
-    return readStorage("oer_search_history", [])
-      .filter(item => typeof item === "string");
+    return readStorage("oer_search_history", []).filter(item => typeof item === "string");
   }
 
   function saveHistory(query) {
-    const history = getHistory().filter(
-      item => item.toLowerCase() !== query.toLowerCase()
-    );
+    const history = getHistory().filter(item => item.toLowerCase() !== query.toLowerCase());
     history.unshift(query);
     writeStorage("oer_search_history", history.slice(0, 20));
   }
 
-  function hideSuggestions() {
-    suggestions.classList.remove("show");
-  }
+  function hideSuggestions() { suggestions.classList.remove("show"); }
 
   function renderSuggestions() {
     const query = input.value.trim().toLowerCase();
-    const items = getHistory()
-      .filter(item => !query || item.toLowerCase().includes(query))
-      .slice(0, 5);
-
+    const items = getHistory().filter(item => !query || item.toLowerCase().includes(query)).slice(0, 5);
     suggestions.replaceChildren();
 
     if (!items.length) {
@@ -948,20 +647,16 @@ footer {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "suggestion";
-
       const icon = document.createElement("span");
       icon.textContent = "◷";
-
       const label = document.createElement("span");
       label.textContent = item;
-
       button.append(icon, label);
       button.addEventListener("click", event => {
         event.stopPropagation();
         input.value = item;
         performSearch();
       });
-
       suggestions.appendChild(button);
     });
 
@@ -969,8 +664,12 @@ footer {
   }
 
   function performSearch() {
-    const query = input.value.trim();
+    if (!currentSession) {
+      lockPage();
+      return;
+    }
 
+    const query = input.value.trim();
     if (!query) {
       notice.textContent = "Masukkan kata yang ingin dicari.";
       input.focus();
@@ -980,40 +679,31 @@ footer {
     saveHistory(query);
     hideSuggestions();
 
-    const normalizedQuery = query.toLowerCase();
-
+    const normalized = query.toLowerCase();
+    const mlbbKeywords = [
+      "meta mlbb","mlbb meta","meta mobile legends","mobile legends meta",
+      "tier list mlbb","mlbb 2026","meta 2026","mlbb tier list",
+      "hero meta mlbb","mlbb_ooer","mlbb ooer","mlbb","mobile legends"
+    ];
     const gameKeywords = [
-      "game", "games", "oer game", "oer games", "pubg mobile",
-      "free fire", "genshin impact", "minecraft", "roblox",
-      "valorant", "tekken", "god of war", "need for speed",
-      "gran turismo", "stardew valley", "among us"
+      "game","games","oer game","oer games","pubg mobile","free fire",
+      "genshin impact","minecraft","roblox","valorant","tekken","god of war",
+      "need for speed","gran turismo","stardew valley","among us"
     ];
 
-    const mlbbMetaKeywords = [
-      "meta mlbb", "mlbb meta", "meta mobile legends",
-      "mobile legends meta", "tier list mlbb", "mlbb 2026",
-      "meta 2026", "mlbb tier list", "hero meta mlbb",
-      "mlbb_ooer", "mlbb ooer"
-    ];
-
-    if (
-      mlbbMetaKeywords.some(keyword => normalizedQuery.includes(keyword)) ||
-      normalizedQuery === "mlbb" ||
-      normalizedQuery === "mobile legends"
-    ) {
-      window.location.href =
-        new URL("./Mlbb_ooer.html", location.href).href;
+    if (mlbbKeywords.some(keyword => normalized === keyword || normalized.includes(keyword))) {
+      location.href = new URL("./Mlbb_ooer.html", location.href).href;
       return;
     }
 
-    if (gameKeywords.includes(normalizedQuery)) {
-      window.location.href = new URL("./games.html", location.href).href;
+    if (gameKeywords.includes(normalized)) {
+      location.href = new URL("./games.html", location.href).href;
       return;
     }
 
-    const searchUrl = new URL("./search.html", location.href);
-    searchUrl.searchParams.set("q", query);
-    window.location.href = searchUrl.href;
+    const url = new URL("./search.html", location.href);
+    url.searchParams.set("q", query);
+    location.href = url.href;
   }
 
   form.addEventListener("submit", event => {
@@ -1025,30 +715,29 @@ footer {
   input.addEventListener("focus", renderSuggestions);
 
   $("luckyButton").addEventListener("click", () => {
-    window.location.href = "./search.html";
+    if (!currentSession) return lockPage();
+    location.href = "./search.html";
   });
 
   $("aiButton").addEventListener("click", () => {
-    window.location.href =
-      "https://oer-p.github.io/Media-oer/ai_chat.html";
+    if (!currentSession) return lockPage();
+    location.href = "https://oer-p.github.io/Media-oer/ai_chat.html";
   });
 
-  /* PENCARIAN SUARA */
+  /* Pencarian suara */
   $("voiceButton").addEventListener("click", () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!currentSession) return lockPage();
 
-    if (!SpeechRecognition) {
-      notice.textContent =
-        "Pencarian suara tidak didukung browser ini. Silakan ketik pencarian.";
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Recognition) {
+      notice.textContent = "Pencarian suara tidak didukung browser ini. Silakan ketik pencarian.";
       return;
     }
 
-    const recognition = new SpeechRecognition();
+    const recognition = new Recognition();
     recognition.lang = "id-ID";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-
     notice.textContent = "Mendengarkan...";
 
     recognition.onresult = event => {
@@ -1056,25 +745,19 @@ footer {
       notice.textContent = "";
       performSearch();
     };
-
     recognition.onerror = () => {
       notice.textContent = "Suara tidak berhasil dikenali. Coba lagi.";
     };
-
     recognition.onend = () => {
-      if (notice.textContent === "Mendengarkan...") {
-        notice.textContent = "";
-      }
+      if (notice.textContent === "Mendengarkan...") notice.textContent = "";
     };
-
     recognition.start();
   });
 
-  /* RIWAYAT DAN FAVORIT */
+  /* Dialog riwayat */
   function renderHistory() {
     const list = $("historyList");
     list.replaceChildren();
-
     const history = getHistory();
 
     if (!history.length) {
@@ -1104,10 +787,7 @@ footer {
       remove.textContent = "×";
       remove.setAttribute("aria-label", "Hapus riwayat ini");
       remove.addEventListener("click", () => {
-        writeStorage(
-          "oer_search_history",
-          getHistory().filter(item => item !== query)
-        );
+        writeStorage("oer_search_history", getHistory().filter(item => item !== query));
         renderHistory();
       });
 
@@ -1117,14 +797,12 @@ footer {
   }
 
   function getFavorites() {
-    return readStorage("oer_favorites", [])
-      .filter(item => typeof item === "string");
+    return readStorage("oer_favorites", []).filter(item => typeof item === "string");
   }
 
   function renderFavorites() {
     const list = $("favoritesList");
     list.replaceChildren();
-
     const favorites = getFavorites();
 
     if (!favorites.length) {
@@ -1145,6 +823,7 @@ footer {
       label.style.cursor = "pointer";
       label.addEventListener("click", () => {
         input.value = query;
+        closeOverlay("favoritesOverlay");
         performSearch();
       });
 
@@ -1153,10 +832,7 @@ footer {
       remove.textContent = "×";
       remove.setAttribute("aria-label", "Hapus favorit");
       remove.addEventListener("click", () => {
-        writeStorage(
-          "oer_favorites",
-          getFavorites().filter(item => item !== query)
-        );
+        writeStorage("oer_favorites", getFavorites().filter(item => item !== query));
         renderFavorites();
       });
 
@@ -1190,34 +866,27 @@ footer {
     openOverlay("historyOverlay");
   });
 
-  /* TEMA */
+  /* Tema */
   const themeButton = $("themeButton");
 
   function updateThemeButton() {
-    themeButton.textContent =
-      document.body.classList.contains("light")
-        ? "Aktifkan mode gelap"
-        : "Aktifkan mode terang";
+    themeButton.textContent = document.body.classList.contains("light")
+      ? "Aktifkan mode gelap" : "Aktifkan mode terang";
   }
 
   if (readStorage("oer_dark_mode", true) === false) {
     document.body.classList.add("light");
   }
-
   updateThemeButton();
 
   themeButton.addEventListener("click", () => {
     document.body.classList.toggle("light");
-    const isDark = !document.body.classList.contains("light");
-    writeStorage("oer_dark_mode", isDark);
+    writeStorage("oer_dark_mode", !document.body.classList.contains("light"));
     updateThemeButton();
   });
 
-  /* TUTUP DIALOG */
   document.querySelectorAll("[data-close]").forEach(button => {
-    button.addEventListener("click", () => {
-      closeOverlay(button.dataset.close);
-    });
+    button.addEventListener("click", () => closeOverlay(button.dataset.close));
   });
 
   document.querySelectorAll(".overlay").forEach(overlay => {
@@ -1226,18 +895,9 @@ footer {
     });
   });
 
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-      document.querySelectorAll(".overlay.show").forEach(overlay => {
-        overlay.classList.remove("show");
-      });
-
-      accountMenu.classList.remove("show");
-      siteMenu.classList.remove("show");
-    }
-  });
-
-  updateAccountUI();
+  /* Mulai dengan layar terkunci sampai sesi Supabase diperiksa. */
+  lockPage();
+  initializeAuth();
 })();
 </script>
 </body>
