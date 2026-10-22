@@ -2,611 +2,417 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#17191d">
-<meta name="description" content="OoeR Search — cari pengetahuan, gambar, buku, arsip, dan informasi.">
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://oer-p.github.io/Media-oer/search.html">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#131314">
+<meta name="description" content="OoeR Search — Telusuri informasi, AI, gambar, dan pengetahuan.">
 <title>OoeR Search</title>
 
 <style>
 :root {
   color-scheme: dark;
-  --bg: #0e1013;
-  --card-bg: #17181c;
-  --pill-bg: #26282f;
-  --panel: #202329;
-  --text: #f1f3f4;
-  --muted: #8e93a0;
-  --border: #32363f;
-  --blue: #8ab4f8;
-  --white: #ffffff;
+  --bg: #131314;           /* Warna background Google Dark Mode */
+  --card-bg: #1e1f20;      /* Background kartu knowledge/panel */
+  --card-sub: #282a2c;
+  --search-bg: #282a2d;    /* Background pill search input */
+  --text: #e8eaed;         /* Putih terang Google */
+  --muted: #9aa0a6;        /* Abu-abu teks sekunder */
+  --border: #3c4043;
+  --link-blue: #8ab4f8;    /* Biru link Google */
+  --chip-bg: #303134;
 }
-* { box-sizing: border-box; }
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-button, input { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; color: inherit; }
+
 a { color: inherit; text-decoration: none; }
-button:focus-visible, a:focus-visible, input:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 3px;
-}
-[hidden] { display: none !important; }
+button, input { font: inherit; }
+button { cursor: pointer; border: 0; background: transparent; }
 
-/* Bar browser atas */
-.browser-bar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 52px;
-  padding: 6px 14px;
-  background: #111216;
-  border-bottom: 1px solid #282a30;
-}
-.browser-address {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  flex: 1;
-  min-width: 0;
-  height: 36px;
-  padding: 0 13px;
-  background: #23252b;
-  border: 1px solid #32353d;
-  border-radius: 20px;
-}
-.address-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  color: #c5cad4;
-}
-.browser-button {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.browser-button:hover {
-  background: #2b2e36;
-}
-
-/* KARTU HEADER & SEARCH OOER SESUAI GAMBAR */
-.ooer-hero-container {
-  width: min(850px, calc(100% - 28px));
-  margin: 20px auto 0;
-}
-.ooer-card {
-  background-color: var(--card-bg);
-  border-radius: 28px;
-  padding: 24px 22px 26px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  border: 1px solid #23252c;
-}
-
-/* Baris atas kartu: Logo OoeR dan Aksi (Lonceng + Avatar) */
-.ooer-top-row {
+/* HEADER ATAS */
+.google-header {
+  padding: 12px 16px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
-  padding: 0 4px;
 }
-.ooer-brand {
+.google-brand {
+  font-size: 26px;
+  font-weight: 700;
   color: #ffffff;
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: -0.8px;
-  text-decoration: none;
-  line-height: 1;
+  letter-spacing: -0.5px;
+  margin: 0 auto 0 0;
 }
-.ooer-header-actions {
+.header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
-.ooer-icon-btn {
-  background: transparent;
-  border: none;
+.icon-btn {
   color: #cfd3dc;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 6px;
   border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
 }
-.ooer-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-
-/* Avatar huruf "L" */
-.ooer-avatar {
-  width: 38px;
-  height: 38px;
-  background-color: #6366f1; /* Warna ungu-biru elegan */
+.avatar-btn {
+  width: 34px;
+  height: 34px;
+  background-color: #5c6bc0; /* Ungu kebiruan Google L */
   color: #ffffff;
   border-radius: 50%;
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 17px;
-  cursor: pointer;
-  transition: transform 0.2s, opacity 0.2s;
-}
-.ooer-avatar:hover {
-  transform: scale(1.05);
-  opacity: 0.95;
-}
-
-/* Kapsul Pencarian (Search Pill) */
-.ooer-search-pill {
-  background-color: var(--pill-bg);
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  gap: 12px;
-  border: 1px solid transparent;
-  transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
-}
-.ooer-search-pill:focus-within {
-  background-color: #2e3038;
-  border-color: #424652;
-  box-shadow: 0 0 0 2px rgba(138, 180, 248, 0.15);
-}
-
-.ooer-search-icon {
-  color: #9ba0ad;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-#query {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--text);
-  font-size: 17px;
-}
-#query::placeholder {
-  color: #888d9a;
-}
-
-.ooer-pill-tools {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.clear-query {
-  background: transparent;
-  border: 0;
-  color: #888d9a;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 50%;
-  line-height: 1;
-  transition: color 0.2s;
-}
-.clear-query:hover {
-  color: #ffffff;
-}
-
-.ooer-divider {
-  width: 1px;
-  height: 20px;
-  background-color: #414550;
-}
-
-.voice-button {
-  background: transparent;
-  border: 0;
-  color: #9ba0ad;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 50%;
-  transition: color 0.2s;
-}
-.voice-button:hover {
-  color: #ffffff;
-}
-
-.search-note {
-  min-height: 17px;
-  margin: 12px 6px 0;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-/* KONTEN HASIL PENCARIAN */
-.content {
-  width: min(850px, calc(100% - 28px));
-  margin: 16px auto 45px;
-}
-.tabs {
-  display: flex;
-  gap: 5px;
-  overflow-x: auto;
-  border-bottom: 1px solid #2b2e36;
-  scrollbar-width: thin;
-}
-.tab {
-  flex-shrink: 0;
-  padding: 12px 14px;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  background: transparent;
-  color: #a7adb9;
-  font-size: 13px;
-}
-.tab.active {
-  border-bottom-color: var(--blue);
-  color: var(--blue);
-  font-weight: bold;
-}
-.result-meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 18px 0 7px;
-  color: var(--muted);
-  font-size: 12px;
-}
-.message {
-  padding: 28px 12px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-.message strong {
-  display: block;
-  margin-bottom: 7px;
-  color: var(--text);
+  font-weight: 600;
   font-size: 16px;
 }
-.ai-overview-stream {
-  padding: 18px 0 22px;
-  border-bottom: 1px solid #282b32;
-  margin-bottom: 15px;
+
+/* SEARCH PILL GOOGLE */
+.search-wrapper {
+  padding: 4px 14px 10px;
 }
-.ai-overview-header {
+.search-pill {
+  background-color: var(--search-bg);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  height: 48px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.search-icon-left {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+#query {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 16px;
+  min-width: 0;
+}
+.pill-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+}
+.tool-btn {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.tool-btn:active { color: var(--text); }
+
+/* TABS / CHIPS FILTER DI BAWAH SEARCH BAR */
+.nav-tabs {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-item {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0 12px;
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab-item.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 3px 3px 0 0;
+}
+
+/* CONTAINER HASIL PENCARIAN */
+.main-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 12px 14px 40px;
+}
+
+/* STATUS MESSAGE */
+.status-msg {
+  padding: 24px 12px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* KNOWLEDGE GRAPH / ENTITY PANEL (PERSIS SEPERTI GAME HALO) */
+.entity-card {
+  background-color: var(--card-bg);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.entity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.entity-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.entity-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--card-sub);
+}
+.entity-title-group h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.entity-title-group span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.entity-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--blue);
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 8px;
 }
-.ai-overview-text {
+.btn-follow {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
   color: #e8eaed;
-  font-size: 14px;
-  line-height: 1.8;
-  margin: 0 0 12px;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-.ai-state {
   font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
+  font-weight: 600;
+  background: transparent;
 }
-.ai-retry {
-  margin-top: 10px;
-  padding: 7px 12px;
-  border: 1px solid #414750;
-  border-radius: 8px;
-  background: #24272d;
-  color: var(--blue);
-  font-size: 12px;
+
+/* GAMBAR 2 KOLOM (HALO STYLE POSTER) */
+.entity-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  overflow: hidden;
 }
-.ai-retry:disabled { opacity: .6; cursor: wait; }
-.section-heading {
-  margin: 20px 0 8px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #2b2e36;
-  font-size: 15px;
-  font-weight: 700;
-}
-.result-card {
-  padding: 17px 0;
-  border-bottom: 1px solid #26282f;
-}
-.source-label {
+.entity-gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #2a2c30;
   display: block;
-  margin-bottom: 6px;
-  color: var(--muted);
+}
+
+/* OVERVIEW / RINGKASAN */
+.overview-box {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.overview-heading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+.overview-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #d2d5da;
+  margin: 0 0 10px;
+}
+.overview-source {
+  color: var(--link-blue);
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* KARTU HASIL ORGANIK (STANDARD GOOGLE RESULTS) */
+.organic-card {
+  padding: 14px 0;
+  border-bottom: 1px solid #23252a;
+}
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 4px;
+}
+.result-favicon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #333;
+}
+.result-site-info {
+  display: flex;
+  flex-direction: column;
+}
+.result-sitename {
   font-size: 12px;
+  color: #dadce0;
+  line-height: 1.2;
+}
+.result-siteurl {
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280px;
 }
 .result-title {
-  display: inline-block;
-  margin-bottom: 7px;
-  color: var(--blue);
+  color: var(--link-blue);
   font-size: 18px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-.result-title:hover { text-decoration: underline; }
-.result-description {
-  margin: 0;
-  color: #d2d5da;
-  font-size: 13px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-.result-url {
+  line-height: 1.35;
+  margin: 2px 0 6px;
   display: block;
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 11px;
-  overflow-wrap: anywhere;
 }
 .result-layout {
   display: flex;
+  gap: 12px;
   align-items: flex-start;
-  gap: 13px;
-  width: 100%;
 }
-.result-copy { flex: 1; min-width: 0; }
-.result-image {
-  width: 120px;
-  height: 92px;
+.result-snippet {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #bdc1c6;
+  margin: 0;
+  flex: 1;
+}
+.result-thumb {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #272a30;
   flex-shrink: 0;
-  object-fit: cover;
-  border-radius: 9px;
-  background: #25282f;
-  border: 1px solid #32363f;
 }
 
-/* Grid Gambar */
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  padding: 14px 0 20px;
-}
-.image-card {
-  display: block;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: #1c1e24;
-}
-.image-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: #272a31;
-}
-.image-caption {
-  padding: 9px;
-  font-size: 12px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-.image-credit {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-.source-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 14px 0;
-}
-.source-links a {
-  padding: 8px 10px;
-  border: 1px solid #373b44;
-  border-radius: 8px;
-  color: #b5d0ff;
-  font-size: 12px;
-}
-.source-links a:hover { background: #22262e; }
-
+/* FOOTER */
 footer {
-  padding: 24px 14px;
-  border-top: 1px solid #23252c;
-  color: #8c929e;
   text-align: center;
-  font-size: 11px;
-  line-height: 1.8;
+  padding: 24px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid #23252a;
 }
-footer a { color: var(--blue); }
-
-@media (max-width: 600px) {
-  .browser-bar { padding: 6px 10px; }
-  .ooer-card { padding: 20px 16px 22px; border-radius: 22px; }
-  .ooer-brand { font-size: 30px; }
-  .ooer-search-pill { padding: 6px 14px; }
-  #query { font-size: 16px; }
-  .tab { padding: 11px; font-size: 12px; }
-  .result-title { font-size: 16px; }
-  .result-layout { flex-direction: column-reverse; }
-  .result-image { width: 100%; height: 150px; }
-  .image-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
+footer a { color: var(--link-blue); }
 </style>
 </head>
-
 <body>
 
-<!-- Bar Browser Atas -->
-<div class="browser-bar">
-  <a class="browser-button" href="./" aria-label="Beranda">⌂</a>
-  <div class="browser-address">
-    <span aria-hidden="true">🔒</span>
-    <span class="address-text">oer-p.github.io/Media-oer/search.html</span>
-  </div>
-  <button class="browser-button" id="newTabButton" type="button"
-    title="Pencarian baru" aria-label="Pencarian baru">＋</button>
-  <button class="browser-button" id="reloadButton" type="button"
-    title="Muat ulang" aria-label="Muat ulang">↻</button>
-</div>
-
-<!-- KARTU HEADER & PENCARIAN GAYA BARU (OOER) -->
-<section class="ooer-hero-container">
-  <div class="ooer-card">
-    
-    <!-- Baris Atas: Logo OoeR, Lonceng Notifikasi/Riwayat, dan Avatar Akun L -->
-    <div class="ooer-top-row">
-      <a class="ooer-brand" href="./" aria-label="Beranda OoeR">OoeR</a>
-      
-      <div class="ooer-header-actions">
-        <!-- Lonceng (Membuka Riwayat Pencarian) -->
-        <button class="ooer-icon-btn" id="historyButton" type="button"
-          title="Riwayat Pencarian & Notifikasi" aria-label="Riwayat pencarian">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
-        </button>
-
-        <!-- Avatar Akun "L" (Membuka Tentang OoeR) -->
-        <button class="ooer-avatar" id="aboutButton" type="button"
-          title="Tentang OoeR" aria-label="Tentang OoeR">L</button>
-      </div>
+  <!-- HEADER BRANDING -->
+  <header class="google-header">
+    <a class="google-brand" href="./" id="brandTitle">Google</a>
+    <div class="header-actions">
+      <!-- Tombol Lonceng / Riwayat -->
+      <button class="icon-btn" id="historyButton" title="Riwayat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </button>
+      <!-- Avatar Akun "L" -->
+      <button class="avatar-btn" id="aboutButton">L</button>
     </div>
+  </header>
 
-    <!-- Kotak Pencarian Kapsul (Search Pill) -->
-    <form id="searchForm" class="ooer-search-pill" role="search">
-      <!-- Ikon Kaca Pembesar -->
-      <span class="ooer-search-icon" aria-hidden="true">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- FORM PENCARIAN -->
+  <div class="search-wrapper">
+    <form id="searchForm" class="search-pill" role="search">
+      <span class="search-icon-left">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
       </span>
-
-      <!-- Input Text -->
-      <input id="query" name="q" type="search"
-        placeholder="Cari di OoeR..." autocomplete="off"
-        aria-label="Cari di OoeR">
-
-      <!-- Alat Samping: Tombol Hapus (X), Pembatas, dan Mic -->
-      <div class="ooer-pill-tools">
-        <button class="clear-query" id="clearButton" type="button"
-          title="Hapus teks" aria-label="Hapus pencarian">✕</button>
-        <div class="ooer-divider" aria-hidden="true"></div>
-        <button class="voice-button" id="voiceButton" type="button"
-          title="Pencarian suara" aria-label="Pencarian suara">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-            <line x1="12" y1="19" x2="12" y2="23"></line>
-            <line x1="8" y1="23" x2="16" y2="23"></line>
+      <input id="query" name="q" type="search" placeholder="Telusuri..." autocomplete="off">
+      <div class="pill-tools">
+        <button type="button" class="tool-btn" id="clearButton" title="Hapus">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
+        <button type="button" class="tool-btn" id="voiceButton" title="Suara">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          </svg>
+        </button>
+        <!-- Ikon Google Lens / Kamera -->
+        <span class="tool-btn" style="opacity: 0.85;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </span>
       </div>
     </form>
-
-    <p class="search-note" id="searchNote" aria-live="polite">
-      Pencarian melalui OoeR.
-    </p>
-
   </div>
-</section>
 
-<!-- Konten Hasil -->
-<main class="content">
-  <nav class="tabs" aria-label="Kategori pencarian">
-    <button class="tab active" data-tab="all" type="button"
-      aria-selected="true">Semua</button>
-    <button class="tab" data-tab="knowledge" type="button"
-      aria-selected="false">Pengetahuan</button>
-    <button class="tab" data-tab="images" type="button"
-      aria-selected="false">Gambar</button>
-    <button class="tab" data-tab="books" type="button"
-      aria-selected="false">Buku &amp; Arsip</button>
-    <button class="tab" data-tab="news" type="button"
-      aria-selected="false">Berita</button>
-    <button class="tab" data-tab="videos" type="button"
-      aria-selected="false">Video</button>
+  <!-- TABS FILTER -->
+  <nav class="nav-tabs" id="categoryTabs">
+    <button class="tab-item" data-tab="ai">✨ AI Mode</button>
+    <button class="tab-item active" data-tab="all">Semua</button>
+    <button class="tab-item" data-tab="images">Gambar</button>
+    <button class="tab-item" data-tab="news">Berita</button>
+    <button class="tab-item" data-tab="videos">Video</button>
+    <button class="tab-item" data-tab="books">Buku</button>
   </nav>
 
-  <div class="result-meta">
-    <span id="resultLabel">Pencarian OoeR</span>
-    <span id="resultCount"></span>
-  </div>
-
-  <div id="status" class="message" role="status" aria-live="polite">
-    <strong>Selamat datang di OoeR</strong>
-    Ketik kata kunci untuk mencari halaman OoeR, karya kreator,
-    dan sumber pengetahuan yang tersedia.
-  </div>
-
-  <div id="results"></div>
-  <div id="imageResults" class="image-grid" hidden></div>
-
-  <section id="externalSources" hidden>
-    <h3 class="section-heading">Sumber pencarian lainnya</h3>
-    <p class="result-description">
-      Buka pencarian resmi dari sumber berikut.
-    </p>
-    <div class="source-links" id="sourceLinks"></div>
-  </section>
-</main>
-
-<footer>
-  <div>© <span id="year"></span> OoeR</div>
-  <div>
-    Pencarian OoeR · <a href="./">Beranda</a> ·
-    <a href="./manfaat.html">OoeR Manfaat</a>
-  </div>
-  <div style="margin-top:16px;padding-top:14px;border-top:1px solid #23252c">
-    <a href="mailto:oerplatfrom@gmail.com?subject=Kerja%20Sama%20Bisnis%20OoeR"
-      style="display:inline-flex;align-items:center;gap:7px;color:#8ab4f8;font-size:13px">
-      <span aria-hidden="true">✉</span>
-      <span>Email untuk Bisnis</span>
-    </a>
-    <div style="margin-top:7px;font-size:12px">
-      <a href="mailto:oerplatfrom@gmail.com"
-        style="color:#8c929e">oerplatfrom@gmail.com</a>
+  <!-- KONTEN HASIL -->
+  <main class="main-container">
+    <div id="statusBox" class="status-msg">
+      Masukkan kata kunci pencarian Anda di atas.
     </div>
-    <div style="margin-top:6px;color:#8c929e;font-size:11px">
-      Hubungi OoeR untuk kerja sama dan keperluan bisnis.
-    </div>
-  </div>
-</footer>
+
+    <!-- Area Panel Entitas (Gambar 2 Kolom + Ringkasan) -->
+    <div id="knowledgePanelArea"></div>
+
+    <!-- Area Hasil Organik -->
+    <div id="organicResultsArea"></div>
+  </main>
+
+  <footer>
+    <div>OoeR Search · Tampilan Google Mode Gelap</div>
+  </footer>
 
 <script>
 (() => {
@@ -614,1229 +420,232 @@ footer a { color: var(--blue); }
 
 const $ = id => document.getElementById(id);
 const input = $("query");
-const statusBox = $("status");
-const resultsBox = $("results");
-const imageBox = $("imageResults");
-const sourceSection = $("externalSources");
-const sourceLinks = $("sourceLinks");
-const resultLabel = $("resultLabel");
-const resultCount = $("resultCount");
-const note = $("searchNote");
-const tabs = [...document.querySelectorAll(".tab")];
+const statusBox = $("statusBox");
+const knowledgeArea = $("knowledgePanelArea");
+const organicArea = $("organicResultsArea");
+const tabs = [...document.querySelectorAll(".tab-item")];
 
 let activeTab = "all";
 let currentQuery = "";
 let requestId = 0;
 
-$("year").textContent = new Date().getFullYear();
-
-/* KONEKSI SUPABASE OEER — TETAP TERJAGA */
+/* KONEKSI SUPABASE TETAP AKTIF */
 const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 const AI_ENDPOINT = SUPABASE_URL + "/functions/v1/smooth-handler";
 
-const localPages = [
-  {
-    names: [
-      "manfaat","buah","manfaat buah","manfaatbuah","buah sehat",
-      "manfaat apel","apel","manfaat pisang","pisang","manfaat mangga",
-      "mangga","manfaat jeruk","jeruk","manfaat pepaya","pepaya",
-      "manfaat alpukat","alpukat","buah naga","semangka","nanas",
-      "anggur","stroberi","vitamin buah","nutrisi buah","kandungan buah",
-      "buah dan manfaat","sayur","sayuran","manfaat sayur",
-      "manfaat sayuran","vitamin","nutrisi","kesehatan","makanan sehat",
-      "khasiat buah","khasiat sayuran","gizi"
-    ],
-    title:"OoeR Manfaat — Informasi Buah dan Kesehatan",
-    url:"./manfaat.html",
-    description:"Temukan informasi manfaat buah, sayuran, nutrisi, kandungan gizi, dan panduan hidup sehat di halaman OoeR Manfaat."
-  },
-  {
-    names:[
-      "ooer","oer","oerr","ooe r","oer platform","ooer platform",
-      "apa itu ooer","tentang ooer","situs ooer","web ooer"
-    ],
-    title:"OoeR Platform — Media & Pusat Edukasi Digital",
-    url:"./",
-    description:"OoeR adalah platform web untuk berbagi karya kreator, modul pembelajaran, berita, dan pencarian."
-  },
-  {
-    names:[
-      "ruang belajar","belajar","pendidikan","materi belajar","modul",
-      "kursus","sekolah","kuliah","tutorial","kode"
-    ],
-    title:"Ruang Belajar OoeR",
-    url:"./ruang_belajar_tingkat.html",
-    description:"Jelajahi materi belajar bertingkat, tutorial pemrograman, dan informasi pendidikan melalui ekosistem OoeR."
-  },
-  {
-    names:[
-      "website","ooer website","portal kreator","karya kreator",
-      "upload","kreator","artikel","aplikasi","apk"
-    ],
-    title:"OoeR Website — Portal Kreator & Publikasi Karya",
-    url:"./website.html",
-    description:"Pusat publikasi tempat kreator, pelajar, dan pengembang membagikan artikel, modul belajar, aplikasi, dan karya seni."
-  },
-  {
-    names:["beranda","home","halaman utama"],
-    title:"Beranda OoeR",
-    url:"./",
-    description:"Kembali ke beranda OoeR untuk menjelajahi fitur dan layanan platform."
-  }
-];
-
-const sources = [
-  {
-    name:"Wikimedia Commons",
-    url:"https://commons.wikimedia.org/w/index.php?search={q}&title=Special:MediaSearch&type=image",
-    kind:"images"
-  },
-  {
-    name:"Openverse",
-    url:"https://openverse.org/search/image?q={q}",
-    kind:"images"
-  },
-  {
-    name:"Unsplash",
-    url:"https://unsplash.com/s/photos/{q}",
-    kind:"images"
-  },
-  {
-    name:"Pexels",
-    url:"https://www.pexels.com/search/{q}/",
-    kind:"images"
-  },
-  {
-    name:"Pixabay",
-    url:"https://pixabay.com/images/search/{q}/",
-    kind:"images"
-  },
-  {
-    name:"Wikipedia Indonesia",
-    url:"https://id.wikipedia.org/w/index.php?search={q}",
-    kind:"knowledge"
-  },
-  {
-    name:"Wikibooks Indonesia",
-    url:"https://id.wikibooks.org/w/index.php?search={q}",
-    kind:"knowledge"
-  },
-  {
-    name:"Wiktionary Indonesia",
-    url:"https://id.wiktionary.org/w/index.php?search={q}",
-    kind:"knowledge"
-  },
-  {
-    name:"Internet Archive",
-    url:"https://archive.org/search?query={q}",
-    kind:"books"
-  },
-  {
-    name:"Google Berita",
-    url:"https://news.google.com/search?q={q}",
-    kind:"news"
-  },
-  {
-    name:"YouTube",
-    url:"https://www.youtube.com/results?search_query={q}",
-    kind:"videos"
-  },
-  {
-    name:"NASA Images",
-    url:"https://images.nasa.gov/search?q={q}",
-    kind:"images"
-  }
-];
-
-function normalize(value) {
-  return String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\p{L}\p{N}\s]/gu, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function safeUrl(value) {
-  try {
-    const url = new URL(value, location.href);
-    return ["https:", "http:"].includes(url.protocol)
-      ? url.href : "";
-  } catch {
-    return "";
-  }
-}
-
 function clearResults() {
-  resultsBox.replaceChildren();
-  imageBox.replaceChildren();
-  sourceLinks.replaceChildren();
-  imageBox.hidden = true;
-  sourceSection.hidden = true;
-  resultCount.textContent = "";
+  knowledgeArea.replaceChildren();
+  organicArea.replaceChildren();
 }
 
-function showStatus(title, description) {
-  statusBox.replaceChildren();
-
-  const strong = document.createElement("strong");
-  strong.textContent = title;
-
-  const message = document.createElement("div");
-  message.textContent = description;
-
-  statusBox.append(strong, message);
+function showStatus(text) {
+  statusBox.textContent = text;
   statusBox.hidden = false;
 }
 
 function setTab(name) {
   activeTab = name;
-
-  tabs.forEach(tab => {
-    const active = tab.dataset.tab === name;
-    tab.classList.toggle("active", active);
-    tab.setAttribute("aria-selected", String(active));
-  });
+  tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === name));
 }
 
-function makeLink(url, text, className) {
-  const link = document.createElement("a");
-  link.href = url;
-  link.textContent = text;
-
-  if (className) link.className = className;
-
-  if (/^https?:\/\//i.test(url)) {
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-  }
-
-  return link;
-}
-
-function extractThumbnail(work) {
-  if (work.thumbnail) return safeUrl(work.thumbnail);
-  if (work.image) return safeUrl(work.image);
-  if (work.gambar) return safeUrl(work.gambar);
-
-  if (work.content) {
-    const match = String(work.content).match(
-      /<img[^>]+src=["']([^"']+)["']/i
-    );
-    if (match && match[1]) return safeUrl(match[1]);
-  }
-
-  return "";
-}
-
-function websiteResults(query) {
-  const q = normalize(query);
-  const terms = q.split(" ").filter(Boolean);
-  let creatorPages = [];
-
+function safeUrl(val) {
   try {
-    let stored = localStorage.getItem("oer_user_websites");
-
-    if (!stored) {
-      stored = localStorage.getItem("oer_creator_works");
-    }
-
-    const works = JSON.parse(stored || "[]");
-
-    if (Array.isArray(works)) {
-      creatorPages = works
-        .filter(work => work && work.title)
-        .map(work => {
-          const thumbnail = extractThumbnail(work);
-          const cleanContent = String(
-            work.content || work.desc || ""
-          ).replace(/<[^>]*>/g, " ");
-
-          const candidateUrl = work.url ||
-            (work.id
-              ? "./website.html?view=" + encodeURIComponent(work.id)
-              : "./website.html");
-
-          return {
-            names:[
-              work.title,
-              work.category,
-              cleanContent,
-              work.slug,
-              work.author
-            ],
-            title:work.title,
-            url:safeUrl(candidateUrl),
-            thumbnail,
-            creator:true,
-            description:
-              "[Karya Kreator · " +
-              (work.category || "Artikel") +
-              "] Oleh " +
-              (work.author || "Kreator") +
-              " — " +
-              cleanContent.substring(0, 180)
-          };
-        })
-        .filter(work => work.url);
-    }
-  } catch (error) {
-    console.warn("Gagal membaca karya kreator lokal:", error);
-  }
-
-  return [...localPages, ...creatorPages]
-    .map(page => {
-      let score = 0;
-      const names = (page.names || []).map(normalize);
-      const title = normalize(page.title);
-
-      for (const name of names) {
-        if (!name) continue;
-
-        if (q === name) {
-          score = Math.max(score, 100);
-        } else if (name.startsWith(q) && q.length >= 3) {
-          score = Math.max(score, 65);
-        } else if (name.includes(q) && q.length >= 3) {
-          score = Math.max(score, 55);
-        } else {
-          const hits = terms.filter(
-            term => term.length > 1 && name.includes(term)
-          ).length;
-
-          if (terms.length && hits) {
-            score = Math.max(
-              score,
-              Math.round(40 * hits / terms.length)
-            );
-          }
-        }
-      }
-
-      if (title === q) score = Math.max(score, 100);
-      return {...page, score};
-    })
-    .filter(page => page.score >= 25)
-    .sort((a, b) => b.score - a.score);
+    const u = new URL(val, location.href);
+    return ["https:", "http:"].includes(u.protocol) ? u.href : "";
+  } catch { return ""; }
 }
 
-async function searchOeRIndex(query, id) {
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/rpc/oeer_search",
-    {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "apikey":SUPABASE_PUBLISHABLE_KEY,
-        "Authorization":"Bearer " + SUPABASE_PUBLISHABLE_KEY
+/* WIKIPEDIA SEARCH */
+async function fetchWiki(query, id) {
+  try {
+    const url = new URL("https://id.wikipedia.org/w/api.php");
+    url.search = new URLSearchParams({
+      action: "query",
+      list: "search",
+      srsearch: query,
+      srnamespace: "0",
+      srlimit: "6",
+      utf8: "1",
+      format: "json",
+      origin: "*"
+    });
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (id !== requestId) return [];
+    return (data.query?.search || []).map(item => ({
+      title: item.title,
+      url: "https://id.wikipedia.org/wiki/" + encodeURIComponent(item.title.replace(/ /g, "_")),
+      snippet: (item.snippet || "").replace(/<[^>]*>/g, ""),
+      source: "Wikipedia"
+    }));
+  } catch { return []; }
+}
+
+/* IMAGE FETCH FOR GOOGLE 2-COLUMN DISPLAY */
+async function fetchImages(query, id) {
+  try {
+    const url = new URL("https://commons.wikimedia.org/w/api.php");
+    url.search = new URLSearchParams({
+      action: "query",
+      generator: "search",
+      gsrsearch: query,
+      gsrnamespace: "6",
+      gsrlimit: "10",
+      prop: "imageinfo",
+      iiprop: "url|mime",
+      iiurlwidth: "600",
+      format: "json",
+      origin: "*"
+    });
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (id !== requestId) return [];
+    return Object.values(data.query?.pages || {})
+      .map(p => p.imageinfo?.[0]?.thumburl)
+      .filter(Boolean)
+      .slice(0, 4);
+  } catch { return []; }
+}
+
+/* AI OVERVIEW */
+async function fetchAI(query) {
+  try {
+    const res = await fetch(AI_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
       },
-      body:JSON.stringify({
-        search_query:query,
-        result_limit:20
-      })
-    }
-  );
-
-  if (!response.ok) {
-    throw Error("Indeks Supabase tidak tersedia (HTTP " + response.status + ")");
-  }
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  return (Array.isArray(data) ? data : [])
-    .map(item => ({
-      title:item.title || item.url || "Hasil pencarian OoeR",
-      url:safeUrl(item.url || ""),
-      thumbnail:safeUrl(
-        item.image || item.gambar || item.thumbnail || ""
-      ),
-      description:item.description || item.content ||
-        "Buka halaman sumber untuk membaca informasi selengkapnya.",
-      indexed:true
-    }))
-    .filter(item => item.url);
+      body: JSON.stringify({ message: `Jelaskan secara ringkas dan informatif mengenai: ${query} (gaya Google Overview ringkas)` })
+    });
+    const data = await res.json();
+    return data.reply || data.answer || data.result || "";
+  } catch { return ""; }
 }
 
-async function fetchOoeRAI(query, searchResults) {
-  const context = (searchResults || [])
-    .slice(0, 7)
-    .map((result, index) => {
-      const item = result.item || result;
+/* RENDER GOOGLE ENTITY CARD (SEPERTI GAME HALO DI FOTO) */
+function renderEntityCard(title, subtitle, desc, sourceUrl, images) {
+  knowledgeArea.replaceChildren();
 
-      return (
-        (index + 1) + ". " + (item.title || "Tanpa judul") +
-        "\nSumber: " + (item.url || "") +
-        "\nRingkasan: " +
-        String(item.description || "").slice(0, 450)
-      );
-    })
-    .join("\n\n");
+  const card = document.createElement("div");
+  card.className = "entity-card";
 
-  const prompt = `Anda adalah OoeR AI, asisten pencarian yang menjawab dalam bahasa Indonesia.
-
-Tugas:
-- Jawab langsung berdasarkan kata atau kalimat pencarian pengguna.
-- Jawab juga jika pengguna hanya memasukkan satu kata, nama orang, tempat, benda, konsep, atau topik.
-- Jelaskan pengertian, konteks, kegunaan, atau fakta relevan sesuai topiknya.
-- Jika informasi tidak pasti atau data tidak cukup, jelaskan dengan jujur.
-- Jangan mengarang fakta, tanggal, kutipan, atau sumber.
-- Gunakan hasil pencarian berikut sebagai konteks tambahan jika relevan.
-- Jawaban harus jelas, berguna, dan tidak bertele-tele.
-- Jangan mengaku telah menelusuri internet jika memang tidak dilakukan.
-
-Kata kunci pengguna:
-${query}
-
-Konteks hasil pencarian OoeR:
-${context || "Belum ada hasil indeks OoeR yang tersedia."}
-
-Tuliskan jawaban untuk kata kunci tersebut sekarang.`;
-
-  const response = await fetch(AI_ENDPOINT, {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "apikey":SUPABASE_PUBLISHABLE_KEY,
-      "Authorization":"Bearer " + SUPABASE_PUBLISHABLE_KEY
-    },
-    body:JSON.stringify({message:prompt})
-  });
-
-  const raw = await response.text();
-  let data = {};
-
-  try {
-    data = raw ? JSON.parse(raw) : {};
-  } catch {
-    throw Error("Respons AI bukan JSON (HTTP " + response.status + ").");
-  }
-
-  if (!response.ok) {
-    const detail = typeof data.error === "string"
-      ? data.error
-      : data.error?.message || data.message ||
-        JSON.stringify(data.error || data);
-
-    throw Error("AI Supabase HTTP " + response.status + ": " + detail);
-  }
-
-  if (data.error) {
-    throw Error(
-      typeof data.error === "string"
-        ? data.error
-        : data.error.message || JSON.stringify(data.error)
-    );
-  }
-
-  const answer =
-    data.reply ||
-    data.answer ||
-    data.response ||
-    data.text ||
-    data.result ||
-    data.output ||
-    data.content ||
-    data.choices?.[0]?.message?.content;
-
-  if (typeof answer !== "string" || !answer.trim()) {
-    console.error("Format respons AI tidak dikenal:", data);
-    throw Error("Jawaban AI tidak ditemukan pada respons Edge Function.");
-  }
-
-  return answer.trim();
-}
-
-function createAIOverview() {
-  const container = document.createElement("section");
-  container.className = "ai-overview-stream";
-
+  // Header Entitas: Icon + Nama + Tombol Follow
   const header = document.createElement("div");
-  header.className = "ai-overview-header";
+  header.className = "entity-header";
+  header.innerHTML = `
+    <div class="entity-brand-row">
+      <div class="entity-icon" style="background:#3c4043;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;">${title.charAt(0)}</div>
+      <div class="entity-title-group">
+        <h2>${title}</h2>
+        <span>${subtitle || "Entitas Pengetahuan"}</span>
+      </div>
+    </div>
+    <div class="entity-actions">
+      <button class="btn-follow">+ Ikuti</button>
+    </div>
+  `;
+  card.append(header);
 
-  const icon = document.createElement("span");
-  icon.textContent = "✨";
-
-  const heading = document.createElement("span");
-  heading.textContent = "Ringkasan AI OoeR";
-
-  header.append(icon, heading);
-
-  const text = document.createElement("p");
-  text.className = "ai-overview-text";
-  text.textContent = "OoeR AI sedang menyiapkan jawaban...";
-
-  const state = document.createElement("div");
-  state.className = "ai-state";
-  state.textContent = "Menghubungkan ke AI OoeR.";
-
-  container.append(header, text, state);
-  return {container, text, state};
-}
-
-async function fetchWiki(api, query, id) {
-  const url = new URL(api);
-
-  url.search = new URLSearchParams({
-    action:"query",
-    list:"search",
-    srsearch:query,
-    srnamespace:"0",
-    srlimit:"8",
-    utf8:"1",
-    format:"json",
-    origin:"*"
-  }).toString();
-
-  const response = await fetch(url);
-  if (!response.ok) throw Error("API pengetahuan tidak tersedia");
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  const base = api.replace("/w/api.php", "/wiki/");
-
-  return (data.query?.search || []).map(item => ({
-    title:item.title,
-    url:base + encodeURIComponent(item.title.replace(/ /g, "_")),
-    description:(item.snippet || "").replace(/<[^>]*>/g, "")
-  }));
-}
-
-async function fetchWiktionary(query, id) {
-  return fetchWiki(
-    "https://id.wiktionary.org/w/api.php",
-    query,
-    id
-  ).then(items => items.map(item => ({
-    ...item,
-    url:"https://id.wiktionary.org/wiki/" +
-      encodeURIComponent(item.title.replace(/ /g, "_"))
-  })));
-}
-
-async function fetchInternetArchive(query, id) {
-  const url = new URL("https://archive.org/advancedsearch.php");
-
-  url.search = new URLSearchParams({
-    q:query,
-    fl:"identifier,title,description",
-    rows:"8",
-    page:"1",
-    output:"json"
-  }).toString();
-
-  const response = await fetch(url);
-  if (!response.ok) throw Error("Internet Archive tidak tersedia");
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  return (data.response?.docs || []).map(item => ({
-    title:item.title || item.identifier,
-    url:"https://archive.org/details/" +
-      encodeURIComponent(item.identifier),
-    description:typeof item.description === "string"
-      ? item.description
-      : "Temukan bahan digital dan arsip di Internet Archive."
-  }));
-}
-
-function queryTokens(query) {
-  const stopWords = new Set([
-    "yang","dan","atau","untuk","dari","dengan","apa","itu","ini",
-    "di","ke","the","a","an","of","in","on","for","to","and",
-    "is","are","how","what"
-  ]);
-
-  return normalize(query)
-    .split(" ")
-    .filter(word => word.length > 1 && !stopWords.has(word));
-}
-
-function imageRelevance(item, query) {
-  const tokens = queryTokens(query);
-  if (!tokens.length) return 0;
-
-  const title = normalize(item.title || "");
-  const description = normalize(item.description || "");
-  let hits = 0;
-
-  for (const token of tokens) {
-    if (title.includes(token)) hits += 2;
-    else if (description.includes(token)) hits += 1;
+  // Gallery 2 Kolom (Persis Foto Halo)
+  if (images && images.length >= 2) {
+    const gallery = document.createElement("div");
+    gallery.className = "entity-gallery";
+    gallery.innerHTML = `
+      <img src="${images[0]}" alt="${title}">
+      <img src="${images[1]}" alt="${title}">
+    `;
+    card.append(gallery);
   }
 
-  if (title === normalize(query)) return 1;
-  if (tokens.length === 1 && title.includes(tokens[0])) return .8;
+  // Bagian Overview
+  const overview = document.createElement("div");
+  overview.className = "overview-box";
+  overview.innerHTML = `
+    <h3 class="overview-heading">Overview</h3>
+    <p class="overview-desc">${desc}</p>
+    <a href="${sourceUrl}" target="_blank" class="overview-source">Sumber · Wikipedia ❯</a>
+  `;
+  card.append(overview);
 
-  return hits / (tokens.length * 2);
+  knowledgeArea.append(card);
 }
 
-function validImageUrl(value) {
-  const url = safeUrl(value);
-  if (!url) return "";
+/* RENDER HASIL ORGANIK STANDAR GOOGLE */
+function renderOrganicResult(item) {
+  const card = document.createElement("article");
+  card.className = "organic-card";
 
-  const lower = url.toLowerCase().split("?")[0];
+  const host = new URL(item.url).hostname;
 
-  if (/\.(pdf|djvu|tif|tiff|doc|docx|ppt|pptx|zip|rar)$/i.test(lower)) {
-    return "";
-  }
+  card.innerHTML = `
+    <div class="result-header">
+      <div class="result-favicon"></div>
+      <div class="result-site-info">
+        <span class="result-sitename">${item.source || host}</span>
+        <span class="result-siteurl">${item.url}</span>
+      </div>
+    </div>
+    <a href="${item.url}" target="_blank" class="result-title">${item.title}</a>
+    <div class="result-layout">
+      <p class="result-snippet">${item.snippet || "Buka tautan untuk membaca selengkapnya."}</p>
+    </div>
+  `;
 
-  return url;
+  organicArea.append(card);
 }
 
-async function fetchCommons(query, id) {
-  const url = new URL("https://commons.wikimedia.org/w/api.php");
-
-  url.search = new URLSearchParams({
-    action:"query",
-    generator:"search",
-    gsrsearch:query,
-    gsrnamespace:"6",
-    gsrlimit:"40",
-    gsrwhat:"text",
-    prop:"imageinfo",
-    iiprop:"url|mime|extmetadata",
-    iiurlwidth:"640",
-    format:"json",
-    origin:"*"
-  }).toString();
-
-  const response = await fetch(url);
-  if (!response.ok) throw Error("Wikimedia Commons HTTP " + response.status);
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  return Object.values(data.query?.pages || {})
-    .map(page => {
-      const info = page.imageinfo?.[0] || {};
-      const mime = String(info.mime || "").toLowerCase();
-      const thumbnail = validImageUrl(info.thumburl || info.url || "");
-      const title = String(page.title || "").replace(/^File:/i, "");
-      const raw = info.extmetadata?.ImageDescription?.value || "";
-
-      const description = String(raw)
-        .replace(/<[^>]*>/g, " ")
-        .replace(/&amp;/g, "&")
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;|&apos;/g, "'")
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 500);
-
-      if (mime && !mime.startsWith("image/")) return null;
-      if (!thumbnail) return null;
-
-      return {
-        title,
-        thumb:thumbnail,
-        pageUrl:safeUrl(info.descriptionurl || "") ||
-          "https://commons.wikimedia.org/wiki/" +
-          encodeURIComponent(page.title || ""),
-        description,
-        source:"Wikimedia Commons"
-      };
-    })
-    .filter(Boolean);
-}
-
-async function fetchOpenverse(query, id) {
-  const url = new URL("https://api.openverse.org/v1/images/");
-
-  url.search = new URLSearchParams({
-    q:query,
-    page_size:"30"
-  }).toString();
-
-  const response = await fetch(url);
-  if (!response.ok) throw Error("Openverse HTTP " + response.status);
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  return (data.results || []).map(item => ({
-    title:item.title || item.creator || "Gambar Openverse",
-    thumb:validImageUrl(item.thumbnail || item.url || ""),
-    pageUrl:safeUrl(item.foreign_landing_url || item.url || ""),
-    description:item.description || "",
-    source:"Openverse"
-  })).filter(item => item.thumb && item.pageUrl);
-}
-
-async function fetchNasa(query, id) {
-  const tokens = queryTokens(query);
-  const spaceWords = [
-    "nasa","antariksa","ruang angkasa","planet","mars","bulan",
-    "bumi","galaksi","bintang","astronaut","astronot","teleskop",
-    "roket","space","earth","moon","jupiter","saturn"
-  ];
-
-  const isSpaceQuery = tokens.some(token =>
-    spaceWords.some(word =>
-      normalize(word).includes(token) ||
-      token.includes(normalize(word))
-    )
-  );
-
-  if (!isSpaceQuery) return [];
-
-  const url = new URL("https://images-api.nasa.gov/search");
-  url.search = new URLSearchParams({
-    q:query,
-    media_type:"image"
-  }).toString();
-
-  const response = await fetch(url);
-  if (!response.ok) throw Error("NASA Images HTTP " + response.status);
-
-  const data = await response.json();
-  if (id !== requestId) return [];
-
-  return (data.collection?.items || [])
-    .slice(0, 20)
-    .map(item => {
-      const info = item.data?.[0] || {};
-      const preview = item.links?.find(link => link.rel === "preview")?.href;
-
-      return {
-        title:info.title || "NASA image",
-        thumb:validImageUrl(preview || ""),
-        pageUrl:safeUrl(item.href || ""),
-        description:info.description || "",
-        source:"NASA"
-      };
-    })
-    .filter(item => item.thumb && item.pageUrl);
-}
-
-async function getRelevantImages(query, id, limit = 4) {
-  const responses = await Promise.allSettled([
-    fetchCommons(query, id),
-    fetchOpenverse(query, id),
-    fetchNasa(query, id)
-  ]);
-
-  if (id !== requestId) return [];
-
-  let all = [];
-
-  responses.forEach((result, index) => {
-    if (result.status === "fulfilled") {
-      all.push(...result.value);
-    } else {
-      console.warn("Sumber gambar ke-" + (index + 1) + ":", result.reason?.message || result.reason);
-    }
-  });
-
-  const seen = new Set();
-
-  all = all.filter(item => {
-    const url = validImageUrl(item.thumb);
-    if (!url || seen.has(url)) return false;
-
-    seen.add(url);
-    item.thumb = url;
-    item.relevance = imageRelevance(item, query);
-    return true;
-  });
-
-  all.sort((a, b) => b.relevance - a.relevance);
-  const relevant = all.filter(item => item.relevance >= .10);
-
-  return (relevant.length ? relevant : all).slice(0, limit);
-}
-
-function renderImageCards(items) {
-  imageBox.replaceChildren();
-
-  const oldHeading = resultsBox.querySelector('[data-section="related-images"]');
-  if (oldHeading) oldHeading.remove();
-
-  if (!items.length) {
-    imageBox.hidden = true;
-    return;
-  }
-
-  const heading = document.createElement("h3");
-  heading.className = "section-heading";
-  heading.textContent = "Gambar terkait";
-  heading.dataset.section = "related-images";
-
-  const aiSection = resultsBox.querySelector(".ai-overview-stream");
-
-  if (aiSection) {
-    aiSection.after(heading, imageBox);
-  } else {
-    resultsBox.prepend(heading, imageBox);
-  }
-
-  imageBox.hidden = false;
-
-  items.slice(0, 4).forEach(item => {
-    const card = makeLink(item.pageUrl, item.title || "Lihat gambar", "image-card");
-
-    const img = document.createElement("img");
-    img.src = item.thumb;
-    img.alt = item.title || "Gambar hasil pencarian";
-    img.loading = "lazy";
-    img.referrerPolicy = "no-referrer";
-
-    img.onerror = () => {
-      img.style.display = "none";
-      if (!card.querySelector(".image-load-error")) {
-        const fallback = document.createElement("div");
-        fallback.className = "image-load-error";
-        fallback.style.cssText =
-          "padding:18px 9px;text-align:center;color:#8e93a0;font-size:12px";
-        fallback.textContent = "Gambar tidak dapat dimuat. Buka sumber.";
-        card.prepend(fallback);
-      }
-    };
-
-    const caption = document.createElement("div");
-    caption.className = "image-caption";
-    caption.textContent = item.title || "Gambar hasil pencarian";
-
-    const credit = document.createElement("div");
-    credit.className = "image-credit";
-    credit.textContent = item.source || "Sumber gambar";
-
-    caption.append(credit);
-    card.append(img, caption);
-    imageBox.append(card);
-  });
-}
-
-function resultCard(item, source) {
-  const article = document.createElement("article");
-  article.className = "result-card";
-
-  const label = document.createElement("span");
-  label.className = "source-label";
-  label.textContent = source;
-
-  const title = makeLink(item.url, item.title || "Hasil pencarian", "result-title");
-
-  const description = document.createElement("p");
-  description.className = "result-description";
-  description.textContent = item.description || "Buka sumber untuk membaca informasi selengkapnya.";
-
-  const url = document.createElement("span");
-  url.className = "result-url";
-  url.textContent = item.url || "";
-
-  const thumbnail = validImageUrl(
-    item.thumbnail || item.image || item.gambar || ""
-  );
-
-  if (thumbnail) {
-    const layout = document.createElement("div");
-    layout.className = "result-layout";
-
-    const copy = document.createElement("div");
-    copy.className = "result-copy";
-    copy.append(label, title, description, url);
-
-    const img = document.createElement("img");
-    img.className = "result-image";
-    img.src = thumbnail;
-    img.alt = "";
-    img.loading = "lazy";
-    img.referrerPolicy = "no-referrer";
-    img.onerror = () => img.remove();
-
-    layout.append(copy, img);
-    article.append(layout);
-  } else {
-    article.append(label, title, description, url);
-  }
-
-  return article;
-}
-
-function addExternalSources(query, tab) {
-  const matching = sources.filter(source =>
-    tab === "all" ||
-    source.kind === tab ||
-    (tab === "knowledge" && source.kind === "books")
-  );
-
-  matching.forEach(source => {
-    const encodedQuery = encodeURIComponent(query).replace(/%20/g, "+");
-    const url = source.url.replaceAll("{q}", encodedQuery);
-    sourceLinks.append(makeLink(url, source.name));
-  });
-
-  sourceSection.hidden = matching.length === 0;
-}
-
-function saveHistory(query) {
-  try {
-    let list = JSON.parse(
-      localStorage.getItem("ooer_search_history") || "[]"
-    );
-
-    if (!Array.isArray(list)) list = [];
-
-    list = [
-      query,
-      ...list.filter(item =>
-        String(item).toLowerCase() !== query.toLowerCase()
-      )
-    ].slice(0, 30);
-
-    localStorage.setItem("ooer_search_history", JSON.stringify(list));
-  } catch (error) {
-    console.warn("Riwayat pencarian tidak dapat disimpan:", error);
-  }
-}
-
-function showHistory() {
-  ++requestId;
-  clearResults();
-  statusBox.hidden = true;
-
-  let list = [];
-
-  try {
-    list = JSON.parse(
-      localStorage.getItem("ooer_search_history") || "[]"
-    );
-  } catch {}
-
-  if (!Array.isArray(list) || !list.length) {
-    showStatus("Riwayat pencarian", "Belum ada riwayat di perangkat ini.");
-    return;
-  }
-
-  list.forEach(query => {
-    resultsBox.append(resultCard({
-      title:query,
-      url:"./search.html?q=" + encodeURIComponent(query),
-      description:"Pilih untuk mengulangi pencarian ini."
-    }, "Riwayat lokal"));
-  });
-
-  resultLabel.textContent = "Riwayat pencarian";
-  resultCount.textContent = list.length + " pencarian";
-  note.textContent = "Riwayat tersimpan di perangkat ini.";
-}
-
-async function runSearch(query, tab = activeTab, updateHistory = true) {
+/* JALANKAN PENCARIAN */
+async function runSearch(query) {
   const q = String(query || "").trim();
-
-  if (!q) {
-    ++requestId;
-    clearResults();
-    showStatus("Mulai pencarian", "Masukkan kata yang ingin dicari.");
-    resultLabel.textContent = "Pencarian OoeR";
-    note.textContent = "Pencarian melalui OoeR.";
-    return;
-  }
+  if (!q) return;
 
   currentQuery = q;
   input.value = q;
-  setTab(tab);
-
-  if (updateHistory) {
-    saveHistory(q);
-
-    const url = new URL(location.href);
-    url.searchParams.set("q", q);
-
-    if (tab === "all") {
-      url.searchParams.delete("tab");
-    } else {
-      url.searchParams.set("tab", tab);
-    }
-
-    history.pushState({q, tab}, "", url);
-  }
-
   const id = ++requestId;
-  note.textContent = "Mencari: " + q;
 
   clearResults();
-  showStatus(
-    "Sedang mencari...",
-    "Memeriksa halaman OoeR, karya kreator, indeks Supabase, dan sumber yang tersedia."
-  );
+  showStatus("Menelusuri...");
 
-  resultLabel.textContent = "Hasil untuk: " + q;
+  // Ambil gambar & artikel wikipedia secara paralel
+  const [wikiResults, images] = await Promise.all([
+    fetchWiki(q, id),
+    fetchImages(q, id)
+  ]);
 
-  let errors = 0;
-  let collected = [];
+  if (id !== requestId) return;
+  statusBox.hidden = true;
 
-  try {
-    if (tab === "images") {
-      let images = [];
+  if (wikiResults.length > 0) {
+    const top = wikiResults[0];
+    // Tampilkan Knowledge Panel jika ada hasil teratas
+    renderEntityCard(top.title, "Topik Terkait", top.snippet, top.url, images);
 
-      try {
-        images = await getRelevantImages(q, id, 4);
-      } catch (error) {
-        console.error("Pencarian gambar:", error);
-        errors++;
-      }
+    // Tampilkan hasil pencarian lainnya di bawah panel
+    wikiResults.slice(1).forEach(renderOrganicResult);
+  } else {
+    showStatus("Tidak ada hasil yang ditemukan untuk: " + q);
+  }
 
-      if (id !== requestId) return;
-
-      clearResults();
+  // Jika tab AI dipilih, kita panggil AI
+  if (activeTab === "ai") {
+    showStatus("AI sedang merangkum...");
+    const aiText = await fetchAI(q);
+    if (aiText) {
       statusBox.hidden = true;
-
-      if (images.length) {
-        renderImageCards(images);
-      } else {
-        showStatus(
-          "Gambar belum berhasil dimuat",
-          "Sumber gambar mungkin sedang tidak tersedia. Coba lagi atau buka salah satu situs gambar di bawah."
-        );
-
-        const empty = document.createElement("div");
-        empty.className = "message";
-        empty.textContent = "Tidak ada gambar yang berhasil diterima dari API pada percobaan ini.";
-        resultsBox.append(empty);
-      }
-
-      addExternalSources(q, "images");
-      resultLabel.textContent = "Gambar · " + q;
-      resultCount.textContent = images.length + " gambar";
-      note.textContent = errors
-        ? "Sebagian sumber gambar gagal merespons."
-        : "Gambar dari sumber terbuka. Periksa lisensi di halaman sumber.";
-      return;
+      renderEntityCard(q, "Jawaban OoeR AI", aiText, "#", images);
     }
-
-    clearResults();
-    statusBox.hidden = true;
-
-    if (tab === "all" || tab === "knowledge") {
-      const local = websiteResults(q);
-
-      local.forEach(item => {
-        collected.push({
-          item,
-          source:item.creator ? "OoeR Website · Karya Kreator" : "Situs OoeR"
-        });
-      });
-
-      try {
-        const indexed = await searchOeRIndex(q, id);
-        if (id !== requestId) return;
-
-        const seen = new Set(collected.map(result => safeUrl(result.item.url)));
-
-        indexed.forEach(item => {
-          const url = safeUrl(item.url);
-          if (!url || seen.has(url)) return;
-
-          seen.add(url);
-          collected.push({
-            item,
-            source:"Indeks OoeR · Supabase"
-          });
-        });
-      } catch (error) {
-        errors++;
-        console.warn("Indeks OoeR:", error.message);
-      }
-
-      const apis = [
-        ["https://id.wikipedia.org/w/api.php", "Wikipedia Indonesia"],
-        ["https://id.wikibooks.org/w/api.php", "Wikibooks Indonesia"]
-      ];
-
-      const wikiResults = await Promise.allSettled(
-        apis.map(api => fetchWiki(api[0], q, id))
-      );
-
-      if (id !== requestId) return;
-
-      wikiResults.forEach((result, index) => {
-        if (result.status === "fulfilled") {
-          result.value.forEach(item => {
-            collected.push({item, source:apis[index][1]});
-          });
-        } else {
-          errors++;
-        }
-      });
-
-      const dictionaryResults = await Promise.allSettled([
-        fetchWiktionary(q, id)
-      ]);
-
-      if (id !== requestId) return;
-
-      dictionaryResults.forEach(result => {
-        if (result.status === "fulfilled") {
-          result.value.forEach(item => {
-            collected.push({item, source:"Wiktionary Indonesia"});
-          });
-        } else {
-          errors++;
-        }
-      });
-    }
-
-    if (tab === "books" || tab === "all") {
-      const archiveResults = await Promise.allSettled([
-        fetchInternetArchive(q, id)
-      ]);
-
-      if (id !== requestId) return;
-
-      archiveResults.forEach(result => {
-        if (result.status === "fulfilled") {
-          result.value.forEach(item => {
-            collected.push({item, source:"Internet Archive"});
-          });
-        } else {
-          errors++;
-        }
-      });
-    }
-
-    if (id !== requestId) return;
-
-    if (tab === "all") {
-      const aiUI = createAIOverview();
-      resultsBox.append(aiUI.container);
-
-      fetchOoeRAI(q, collected)
-        .then(answer => {
-          if (id !== requestId) return;
-          aiUI.text.textContent = answer;
-          aiUI.state.textContent = "Jawaban dari AI OoeR.";
-        })
-        .catch(error => {
-          if (id !== requestId) return;
-
-          console.error("OoeR AI:", error);
-
-          aiUI.text.textContent =
-            "Jawaban AI belum dapat dimuat saat ini. Hasil pencarian tetap tersedia di bawah.";
-
-          aiUI.state.textContent = "Koneksi AI bermasalah: " + error.message;
-
-          const retry = document.createElement("button");
-          retry.type = "button";
-          retry.className = "ai-retry";
-          retry.textContent = "Coba jawaban AI lagi";
-
-          retry.addEventListener("click", async () => {
-            retry.disabled = true;
-            retry.textContent = "Mencoba...";
-            aiUI.state.textContent = "Menghubungkan ke AI OoeR...";
-
-            try {
-              const answer = await fetchOoeRAI(q, collected);
-              if (id !== requestId) return;
-
-              aiUI.text.textContent = answer;
-              aiUI.state.textContent = "Jawaban dari AI OoeR.";
-              retry.remove();
-            } catch (retryError) {
-              if (id !== requestId) return;
-
-              aiUI.state.textContent = "Gagal: " + retryError.message;
-              retry.disabled = false;
-              retry.textContent = "Coba jawaban AI lagi";
-            }
-          });
-
-          aiUI.container.append(retry);
-        });
-
-      getRelevantImages(q, id, 4)
-        .then(images => {
-          if (id !== requestId) return;
-          if (images.length) renderImageCards(images);
-        })
-        .catch(error => console.warn("Gambar terkait:", error));
-    }
-
-    const creatorResults = collected.filter(result =>
-      result.item.creator === true ||
-      /Karya Kreator/i.test(result.source)
-    );
-
-    const otherResults = collected.filter(
-      result => !creatorResults.includes(result)
-    );
-
-    let total = 0;
-
-    if (creatorResults.length) {
-      const heading = document.createElement("h3");
-      heading.className = "section-heading";
-      heading.textContent = "Web Kreator";
-      resultsBox.append(heading);
-
-      creatorResults.forEach(result => {
-        resultsBox.append(resultCard(result.item, result.source));
-        total++;
-      });
-    }
-
-    if (otherResults.length) {
-      const heading = document.createElement("h3");
-      heading.className = "section-heading";
-      heading.textContent = "Artikel dan hasil pencarian";
-      resultsBox.append(heading);
-
-      otherResults.forEach(result => {
-        resultsBox.append(resultCard(result.item, result.source));
-        total++;
-      });
-    }
-
-    if (!total && tab !== "all") {
-      showStatus(
-        "Belum ditemukan hasil",
-        "OoeR belum menemukan hasil dari sumber yang tersedia. Coba kata kunci lain atau gunakan tautan sumber di bawah."
-      );
-    }
-
-    const labels = {
-      all:"Semua",
-      knowledge:"Pengetahuan",
-      books:"Buku & Arsip",
-      news:"Berita",
-      videos:"Video"
-    };
-
-    resultLabel.textContent = (labels[tab] || "Semua") + " · " + q;
-    resultCount.textContent = total + " hasil";
-    addExternalSources(q, tab);
-
-    note.textContent = errors
-      ? "Sebagian sumber tidak merespons. Sumber lainnya tetap bisa dibuka di bawah."
-      : "Pencarian OoeR · Jawaban AI, gambar terkait, karya kreator, dan sumber yang tersedia.";
-
-  } catch (error) {
-    if (id !== requestId) return;
-
-    console.error("Pencarian OoeR:", error);
-    clearResults();
-
-    showStatus(
-      "Pencarian belum berhasil",
-      "Koneksi ke sebagian sumber sedang bermasalah. Coba lagi atau gunakan tautan sumber di bawah."
-    );
-
-    addExternalSources(q, tab);
-    note.textContent = "Sumber pencarian dapat memiliki batas akses atau gangguan.";
   }
 }
 
-/* Event listeners form pencarian */
-$("searchForm").addEventListener("submit", event => {
-  event.preventDefault();
-  runSearch(input.value, activeTab, true);
+/* EVENT LISTENERS */
+$("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  runSearch(input.value);
 });
 
 $("clearButton").addEventListener("click", () => {
@@ -1844,114 +653,31 @@ $("clearButton").addEventListener("click", () => {
   input.focus();
 });
 
-$("historyButton").addEventListener("click", showHistory);
-
-$("aboutButton").addEventListener("click", () => {
-  ++requestId;
-  clearResults();
-  showStatus(
-    "Tentang OoeR Search",
-    "OoeR menghubungkan pencarian halaman OoeR dengan AI, karya kreator, indeks Supabase, dan sumber pengetahuan yang tersedia."
-  );
-});
-
-$("newTabButton").addEventListener("click", () => {
-  location.href = "./search.html";
-});
-
-$("reloadButton").addEventListener("click", () => {
-  if (currentQuery) {
-    runSearch(currentQuery, activeTab, false);
-  } else {
-    location.reload();
-  }
-});
-
-/* Pencarian Suara */
-$("voiceButton").addEventListener("click", () => {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    note.textContent = "Pencarian suara belum didukung browser ini. Silakan ketik kata pencarian.";
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "id-ID";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  note.textContent = "Silakan berbicara...";
-
-  recognition.onresult = event => {
-    const transcript = event.results[0][0].transcript;
-    input.value = transcript;
-    runSearch(transcript, activeTab, true);
-  };
-
-  recognition.onerror = () => {
-    note.textContent = "Pencarian suara gagal. Periksa izin mikrofon atau ketik pencarian.";
-  };
-
-  recognition.onend = () => {
-    if (!currentQuery) note.textContent = "Pencarian melalui OoeR.";
-  };
-
-  try {
-    recognition.start();
-  } catch (error) {
-    note.textContent = "Mikrofon belum dapat digunakan.";
-  }
-});
-
-/* Navigasi Kategori / Tabs */
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
-    const name = tab.dataset.tab;
-    setTab(name);
-
-    if (currentQuery) {
-      runSearch(currentQuery, name, true);
-    } else {
-      ++requestId;
-      clearResults();
-      showStatus("Kategori siap digunakan", "Masukkan kata pencarian untuk melihat hasil.");
-    }
+    setTab(tab.dataset.tab);
+    if (currentQuery) runSearch(currentQuery);
   });
 });
 
-/* Navigasi Popstate */
-window.addEventListener("popstate", () => {
-  const params = new URLSearchParams(location.search);
-  const query = params.get("q") || "";
-  const tab = params.get("tab") || "all";
-  const validTabs = ["all","knowledge","images","books","news","videos"];
-
-  if (query) {
-    runSearch(query, validTabs.includes(tab) ? tab : "all", false);
-  } else {
-    ++requestId;
-    currentQuery = "";
-    input.value = "";
-    setTab("all");
-    clearResults();
-    showStatus("Selamat datang di OoeR", "Ketik kata pencarian untuk mencari.");
-  }
+/* PENCARIAN SUARA */
+$("voiceButton").addEventListener("click", () => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return alert("Pencarian suara belum didukung di browser ini.");
+  const mic = new SR();
+  mic.lang = "id-ID";
+  mic.onresult = e => {
+    input.value = e.results[0][0].transcript;
+    runSearch(input.value);
+  };
+  mic.start();
 });
 
-/* Inisialisasi awal dari parameter URL */
+// Jalankan otomatis jika ada ?q= di URL
 const params = new URLSearchParams(location.search);
-const initial = params.get("q") || "";
-const initialTab = params.get("tab") || "all";
-
-if (initial) {
-  const validTabs = ["all","knowledge","images","books","news","videos"];
-  runSearch(initial, validTabs.includes(initialTab) ? initialTab : "all", false);
-}
+if (params.get("q")) runSearch(params.get("q"));
 
 })();
 </script>
-
 </body>
 </html>
