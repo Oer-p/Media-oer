@@ -140,10 +140,24 @@ main{
 }
 #searchInput::placeholder{color:var(--muted)}
 .search-action{
-  display:grid;place-items:center;padding:5px;border:0;
-  background:transparent;color:var(--blue);cursor:pointer;flex-shrink:0
+  display:grid;place-items:center;padding:7px;border:0;border-radius:50%;
+  background:transparent;color:var(--blue);cursor:pointer;flex-shrink:0;
+  transition:all 0.2s ease
 }
 .search-action svg{width:23px;height:23px}
+/* Efek saat Mic aktif mendengarkan */
+.search-action.listening {
+  color: #ea4335 !important;
+  background: rgba(234, 67, 53, 0.15) !important;
+  transform: scale(1.15);
+  animation: pulseMic 1.2s infinite;
+}
+@keyframes pulseMic {
+  0% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(234, 67, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(234, 67, 53, 0); }
+}
+
 .suggestions{
   display:none;position:absolute;top:64px;left:0;right:0;z-index:50;
   overflow:hidden;padding:8px 0;border-radius:18px;background:var(--bg);
@@ -222,7 +236,7 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .settings-text h4{margin:0 0 4px;font-size:15px}
 .settings-text p{margin:0;font-size:12px;color:var(--muted)}
 
-/* Login Popup (Tampil jika belum login saat klik fitur) */
+/* Login Popup */
 #loginGate{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:20px;
@@ -260,7 +274,7 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .google-mark{font-size:21px;font-weight:bold;color:#4285f4}
 #loginMessage{min-height:20px;margin:14px 0 0;font-size:12px;color:#ffb4ab}
 
-/* Pengunci scroll halus hanya ketika modal popup login muncul */
+/* KUNCI POINTER SUDAH DIHAPUS SUPAYA LAYAR TIDAK PERNAH MACET */
 body.login-locked{overflow:hidden}
 
 @media(max-width:700px){
@@ -355,8 +369,10 @@ body.login-locked{overflow:hidden}
         </svg>
         <input id="searchInput" type="search" placeholder="Cari atau masukkan alamat"
           autocomplete="off" aria-label="Cari atau masukkan alamat">
+        
+        <!-- TOMBOL MIC CANGGIH -->
         <button class="search-action" type="button" id="voiceButton"
-          aria-label="Pencarian suara" title="Pencarian suara">
+          aria-label="Pencarian suara" title="Klik untuk berbicara">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"></path>
           </svg>
@@ -457,13 +473,16 @@ body.login-locked{overflow:hidden}
   const loginGate = $("loginGate");
   const langSelectHome = $("langSelectHome");
   const themeButton = $("themeButton");
+  const voiceBtn = $("voiceButton");
 
   let supabaseClient = null;
   let currentSession = null;
   let authReady = false;
   let authBusy = false;
 
-  /* KAMUS 12 BAHASA */
+  /* ===================================================
+     KAMUS 12 BAHASA + KODE BAHASA MIC
+     =================================================== */
   const UI_DICTIONARY = {
     "Indonesia": {
       placeholder: "Cari atau masukkan alamat",
@@ -487,7 +506,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "Belum ada riwayat pencarian.",
       emptyFav: "Favorit tersimpan di perangkat ini.",
       openBtn: "Buka",
-      emptySearch: "Masukkan kata yang ingin dicari."
+      emptySearch: "Masukkan kata yang ingin dicari.",
+      listeningText: "Mendengarkan suara...",
+      micError: "Suara tidak terdengar, silakan coba lagi.",
+      speechLang: "id-ID"
     },
     "English (US)": {
       placeholder: "Search or enter address",
@@ -511,7 +533,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "No search history yet.",
       emptyFav: "Favorites saved on this device.",
       openBtn: "Open",
-      emptySearch: "Please enter a word to search."
+      emptySearch: "Please enter a word to search.",
+      listeningText: "Listening...",
+      micError: "Could not hear audio, please try again.",
+      speechLang: "en-US"
     },
     "English (UK)": {
       placeholder: "Search or enter address",
@@ -535,7 +560,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "No search history yet.",
       emptyFav: "Favourites saved on this device.",
       openBtn: "Open",
-      emptySearch: "Please enter a word to search."
+      emptySearch: "Please enter a word to search.",
+      listeningText: "Listening...",
+      micError: "Could not hear audio, please try again.",
+      speechLang: "en-GB"
     },
     "Melayu (Malaysia)": {
       placeholder: "Cari atau masukkan alamat",
@@ -559,7 +587,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "Tiada sejarah carian lagi.",
       emptyFav: "Kegemaran disimpan pada peranti ini.",
       openBtn: "Buka",
-      emptySearch: "Sila masukkan kata carian."
+      emptySearch: "Sila masukkan kata carian.",
+      listeningText: "Mendengar...",
+      micError: "Tidak dapat mengecam suara.",
+      speechLang: "ms-MY"
     },
     "Tagalog (Filipina)": {
       placeholder: "Maghanap o maglagay ng address",
@@ -583,7 +614,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "Wala pang kasaysayan ng paghahanap.",
       emptyFav: "Nai-save ang mga paborito sa device na ito.",
       openBtn: "Buksan",
-      emptySearch: "Mangyaring maglagay ng salitang hahanapin."
+      emptySearch: "Mangyaring maglagay ng salitang hahanapin.",
+      listeningText: "Nakikinig...",
+      micError: "Hindi narinig ang boses.",
+      speechLang: "fil-PH"
     },
     "Thailand": {
       placeholder: "ค้นหาหรือป้อนที่อยู่",
@@ -607,7 +641,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "ยังไม่มีประวัติการค้นหา",
       emptyFav: "รายการโปรดที่บันทึกไว้ในอุปกรณ์นี้",
       openBtn: "เปิด",
-      emptySearch: "โปรดป้อนคำค้นหา"
+      emptySearch: "โปรดป้อนคำค้นหา",
+      listeningText: "กำลังฟัง...",
+      micError: "ไม่พบเสียงพูด",
+      speechLang: "th-TH"
     },
     "Vietnam": {
       placeholder: "Tìm kiếm hoặc nhập địa chỉ",
@@ -631,7 +668,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "Chưa có lịch sử tìm kiếm.",
       emptyFav: "Mục yêu thích được lưu trên thiết bị này.",
       openBtn: "Mở",
-      emptySearch: "Vui lòng nhập từ khóa cần tìm."
+      emptySearch: "Vui lòng nhập từ khóa cần tìm.",
+      listeningText: "Đang lắng nghe...",
+      micError: "Không nhận diện được giọng nói.",
+      speechLang: "vi-VN"
     },
     "Jepang": {
       placeholder: "検索またはアドレスを入力",
@@ -655,7 +695,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "検索履歴はまだありません。",
       emptyFav: "この端末に保存されたお気に入り。",
       openBtn: "開く",
-      emptySearch: "検索キーワードを入力してください。"
+      emptySearch: "検索キーワードを入力してください。",
+      listeningText: "聞いています...",
+      micError: "音声を認識できませんでした。",
+      speechLang: "ja-JP"
     },
     "Korea": {
       placeholder: "검색 또는 주소 입력",
@@ -679,7 +722,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "검색 기록이 없습니다.",
       emptyFav: "이 기기에 저장된 즐겨찾기입니다.",
       openBtn: "열기",
-      emptySearch: "검색할 단어를 입력하세요."
+      emptySearch: "검색할 단어를 입력하세요.",
+      listeningText: "듣고 있습니다...",
+      micError: "음성을 인식하지 못했습니다.",
+      speechLang: "ko-KR"
     },
     "Mandarin": {
       placeholder: "搜索或输入网址",
@@ -703,7 +749,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "暂无搜索历史记录。",
       emptyFav: "此设备上保存的收藏。",
       openBtn: "打开",
-      emptySearch: "请输入要搜索的内容。"
+      emptySearch: "请输入要搜索的内容。",
+      listeningText: "正在聆听...",
+      micError: "未能识别语音。",
+      speechLang: "zh-CN"
     },
     "Hindi (India)": {
       placeholder: "खोजें या पता दर्ज करें",
@@ -727,7 +776,10 @@ body.login-locked{overflow:hidden}
       emptyHist: "कोई खोज इतिहास नहीं है।",
       emptyFav: "इस डिवाइस पर सहेजे गए पसंदीदा।",
       openBtn: "खोलें",
-      emptySearch: "कृपया खोजने के लिए शब्द दर्ज करें।"
+      emptySearch: "कृपया खोजने के लिए शब्द दर्ज करें।",
+      listeningText: "सुन रहा हूँ...",
+      micError: "आवाज पहचानी नहीं जा सकी।",
+      speechLang: "hi-IN"
     },
     "Arab": {
       placeholder: "ابحث أو أدخل عنوان الموقع",
@@ -751,9 +803,25 @@ body.login-locked{overflow:hidden}
       emptyHist: "لا يوجد سجل بحث حتى الآن.",
       emptyFav: "المفضلة المحفوظة على هذا الجهاز.",
       openBtn: "فتح",
-      emptySearch: "يرجى إدخال كلمة للبحث."
+      emptySearch: "يرجى إدخال كلمة للبحث.",
+      listeningText: "جارٍ الاستماع...",
+      micError: "لم يتم التعرف على الصوت.",
+      speechLang: "ar-SA"
     }
   };
+
+  /* FITUR BICARA (TEXT-TO-SPEECH) */
+  function oerSpeak(text, lang) {
+    if (!window.speechSynthesis) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      const dict = UI_DICTIONARY[lang] || UI_DICTIONARY["Indonesia"];
+      utter.lang = dict.speechLang || "id-ID";
+      utter.rate = 1.0;
+      window.speechSynthesis.speak(utter);
+    } catch(e) {}
+  }
 
   function updateThemeButton() {
     if (!themeButton) return;
@@ -813,7 +881,7 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  // Pastikan saat ditekan tombol kembali dari Search, Home LANGSUNG responsif!
+  // Event saat pengguna kembali dari search: Bebas macet & Sinkron
   window.addEventListener("pageshow", () => {
     document.body.classList.remove("login-locked");
     const currentLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
@@ -946,8 +1014,8 @@ body.login-locked{overflow:hidden}
     }
 
     currentSession = null;
-    lockPage();
     if (accountMenu) accountMenu.classList.remove("show");
+    applyLanguage(langSelectHome ? langSelectHome.value : "Indonesia");
   }
 
   if ($("gateGoogleLogin")) $("gateGoogleLogin").addEventListener("click", signInWithGoogle);
@@ -983,7 +1051,7 @@ body.login-locked{overflow:hidden}
         unlockPage(session);
         showLoginError("");
       } else if (authReady || event === "SIGNED_OUT") {
-        lockPage();
+        document.body.classList.remove("login-locked");
       }
     });
   }
@@ -1174,36 +1242,56 @@ body.login-locked{overflow:hidden}
     });
   });
 
-  /* Pencarian suara */
-  if ($("voiceButton")) {
-    $("voiceButton").addEventListener("click", () => {
-      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!Recognition) {
-        if (notice) notice.textContent = "Pencarian suara tidak didukung browser ini.";
+  /* ===================================================
+     FITUR MIC CANGGIH: MENDENGAR SESUAI BAHASA AKTIF & BISA BICARA
+     =================================================== */
+  if (voiceBtn) {
+    voiceBtn.addEventListener("click", () => {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+      const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
+
+      if (!SpeechRec) {
+        alert("Browser ini belum mendukung mikrofon.");
         return;
       }
 
-      const recognition = new Recognition();
-      const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
-      recognition.lang = curLang === "Indonesia" ? "id-ID" : "en-US";
-      recognition.interimResults = false;
-      if (notice) notice.textContent = "Mendengarkan...";
+      const mic = new SpeechRec();
+      mic.lang = dict.speechLang || "id-ID";
+      mic.interimResults = false;
+      mic.maxAlternatives = 1;
 
-      recognition.onresult = event => {
-        if (input) input.value = event.results[0][0].transcript;
+      // Saat mic mulai mendengar
+      mic.onstart = () => {
+        voiceBtn.classList.add("listening");
+        if (notice) notice.textContent = dict.listeningText;
+      };
+
+      // Saat suara berhasil ditangkap
+      mic.onresult = event => {
+        const hasilSuara = event.results[0][0].transcript;
+        if (input) input.value = hasilSuara;
         if (notice) notice.textContent = "";
+        
+        // Beri respon suara kecil & langsung cari otomatis!
+        oerSpeak(hasilSuara, curLang);
         performSearch();
       };
 
-      recognition.onerror = () => {
-        if (notice) notice.textContent = "Suara tidak berhasil dikenali.";
+      // Jika suara tidak terdeteksi
+      mic.onerror = () => {
+        if (notice) notice.textContent = dict.micError;
       };
 
-      recognition.onend = () => {
-        if (notice && notice.textContent === "Mendengarkan...") notice.textContent = "";
+      // Saat mic selesai
+      mic.onend = () => {
+        voiceBtn.classList.remove("listening");
+        if (notice && notice.textContent === dict.listeningText) {
+          notice.textContent = "";
+        }
       };
 
-      recognition.start();
+      mic.start();
     });
   }
 
