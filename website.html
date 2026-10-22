@@ -3,133 +3,323 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#17191d">
-<title>OoeR Website — Portal Kreator</title>
+<meta name="theme-color" content="#0f1115">
+<title>OoeR Space — Portal Kreator</title>
 <style>
-:root{--bg:#17191d;--panel:#202329;--text:#f1f3f4;--muted:#aeb4bf;--border:#373b44;--blue:#8ab4f8}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+  :root {
+    --bg: #0f1115;
+    --panel: #1a1d24;
+    --panel2: #22262f;
+    --text: #f1f3f5;
+    --muted: #9aa0a6;
+    --border: #2e333d;
+    --blue: #8ab4f8;
+    --green: #34a853;
+    --red: #ea4335;
+    --yellow: #fbbc05;
+  }
 
-/* HEADER DIATUR AGAR TIDAK MENUMPUK DI HP */
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:#111317;flex-wrap:nowrap;gap:10px;}
-.brand{font-size:18px;font-weight:800;color:var(--blue);text-decoration:none;white-space:nowrap;}
-.header-actions{display:flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap;}
-.header-actions a{color:var(--blue);text-decoration:none;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
 
-.container{max-width:900px;margin:20px auto;padding:0 16px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
-input,select{width:100%;padding:12px;margin-top:8px;margin-bottom:16px;background:#17191d;border:1px solid var(--border);color:var(--text);border-radius:8px;font:inherit}
+  /* ========== HEADER ========== */
+  header {
+    background: #111317;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .header-right a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .btn-logout {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+  }
 
-textarea {
-  width: 100%;
-  min-height: 350px;
-  padding: 16px;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  background: #111317;
-  border: 1px solid var(--border);
-  color: #9cdcfe;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 15px;
-  line-height: 1.6;
-  resize: vertical;
-}
+  /* ========== LAYOUT ========== */
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
 
-button{padding:10px 18px;border:0;border-radius:8px;background:var(--blue);color:#17191d;font-weight:bold;cursor:pointer}
-button:hover{opacity:0.9}
+  /* ========== CARD ========== */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
 
-.tabs-editor{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
-.tab-btn{background:#2e3239;color:var(--text);padding:8px 14px;font-size:13px;border-radius:6px;cursor:pointer;}
-.tab-btn.active{background:var(--blue);color:#17191d;font-weight:bold;}
-.add-tab-btn{background:#34a853;color:#fff;padding:8px 12px;font-size:13px;border-radius:6px;}
+  h1, h2, h3 { font-weight: 700; }
+  h2 { font-size: 22px; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
 
-.read-container {
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 30px 20px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  box-sizing: border-box;
-}
-.read-container h1, .read-title {
-  font-size: 26px;
-  line-height: 1.35;
-  word-break: break-word;
-  margin-bottom: 14px;
-  color: var(--text);
-}
-.read-meta {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 12px;
-}
-.read-banner {
-  width: 100%;
-  max-height: 350px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 24px;
-  border: 1px solid var(--border);
-  display: none;
-}
-.read-content {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #d2d5da;
-  word-break: break-word;
-}
-.read-content h2 { font-size: 20px; color: var(--blue); margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-.read-content p { margin-bottom: 18px; text-align: justify; }
-.read-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 14px 0; border: 1px solid var(--border); }
-.read-content blockquote { border-left: 4px solid var(--blue); padding: 12px 16px; margin: 20px 0; background: #252932; border-radius: 0 8px 8px 0; font-style: italic; color: #e8eaed; }
-.read-content .code-box { background: #111317; color: #9cdcfe; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); }
+  /* ========== FORM ========== */
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #d2d5da;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #14171c;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+  textarea {
+    min-height: 320px;
+    font-family: ui-monospace, monospace;
+    line-height: 1.6;
+    resize: vertical;
+  }
 
-.read-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 35px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-}
+  .row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .row > div { flex: 1; min-width: 200px; }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--green); color: white; }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-secondary { background: var(--panel2); color: var(--text); border: 1px solid var(--border); }
+  .btn-blue { background: var(--blue); color: #0f1115; }
+
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* ========== TABS EDITOR ========== */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .tab {
+    background: var(--panel2);
+    color: var(--text);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .tab.active {
+    background: var(--blue);
+    color: #0f1115;
+    font-weight: 700;
+  }
+  .tab-add {
+    background: var(--green);
+    color: white;
+  }
+
+  /* ========== DASHBOARD LIST ========== */
+  .article-card {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .article-info { flex: 1; min-width: 0; }
+  .article-title {
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .article-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .article-actions button, .article-actions a {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-state p { margin-bottom: 16px; }
+
+  /* ========== READER ========== */
+  .reader {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .reader h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .reader-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .reader-banner {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 28px;
+    display: none;
+  }
+  .reader-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #d2d5da;
+  }
+  .reader-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 16px 0;
+  }
+  .reader-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ========== AUTH ========== */
+  .auth-box {
+    max-width: 420px;
+    margin: 60px auto;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
 
 <header>
   <a class="brand" href="./">OoeR Space</a>
-  <div id="headerUserArea" class="header-actions"></div>
+  <div class="header-right" id="headerUserArea"></div>
 </header>
 
 <main class="container">
-  <!-- AREA AUTENTIKASI KREATOR -->
-  <div id="authArea" class="card">
+
+  <!-- ========== LOGIN ========== -->
+  <div id="authArea" class="auth-box card" style="display:none;">
     <h2>Masuk sebagai Kreator</h2>
-    <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Masukkan nama kreator kamu untuk mulai menulis dan mempublikasikan karya.</p>
-    <input type="text" id="creatorNameInput" placeholder="Contoh: Leilani">
-    <button type="button" onclick="loginCreator()">Masuk ke Portal</button>
+    <p class="subtitle">Masukkan nama kreator untuk mulai menulis dan mempublikasikan karya.</p>
+    <input type="text" id="creatorNameInput" placeholder="Contoh: Leilani" style="text-align:center;">
+    <button class="btn btn-blue" style="width:100%;" onclick="loginCreator()">Masuk ke Portal</button>
   </div>
 
-  <!-- AREA EDITOR ARTIKEL -->
+  <!-- ========== DASHBOARD (Daftar Karya) ========== -->
+  <div id="dashboardArea" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2>Karya Saya</h2>
+        <p class="subtitle" style="margin:0;">Artikel yang sudah kamu publikasikan</p>
+      </div>
+      <button class="btn btn-primary" onclick="showEditor()">+ Tulis Karya Baru</button>
+    </div>
+
+    <div id="myArticlesList"></div>
+  </div>
+
+  <!-- ========== EDITOR ========== -->
   <div id="editorArea" class="card" style="display:none;">
-    <h2 id="editorHeading">Tulis Karya Baru</h2>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 id="editorHeading">Tulis Karya Baru</h2>
+      <button class="btn btn-secondary" onclick="showDashboard()">← Kembali</button>
+    </div>
+
     <input type="hidden" id="editArticleId">
-    
-    <label>Judul Artikel:</label>
+
+    <label>Judul Artikel</label>
     <input type="text" id="articleTitle" placeholder="Contoh: Ekosistem OoeR">
 
-    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:180px;">
-        <label>Kategori:</label>
+    <div class="row">
+      <div>
+        <label>Kategori</label>
         <select id="articleCategory">
           <option value="📰 Berita & Umum">📰 Berita & Umum</option>
           <option value="💻 Teknologi & Kode">💻 Teknologi & Kode</option>
@@ -137,8 +327,8 @@ button:hover{opacity:0.9}
           <option value="🎨 Seni & Kreatif">🎨 Seni & Kreatif</option>
         </select>
       </div>
-      <div style="flex:1;min-width:180px;">
-        <label>Tema Tampilan:</label>
+      <div>
+        <label>Tema Tampilan</label>
         <select id="articleTheme">
           <option value="theme-dark">Dark Elegant</option>
           <option value="theme-clean">Clean White</option>
@@ -147,40 +337,34 @@ button:hover{opacity:0.9}
       </div>
     </div>
 
-    <label>URL Foto Sampul (Banner Utama):</label>
+    <label>URL Foto Sampul (Banner Utama)</label>
     <input type="text" id="articleImage" placeholder="https://images.unsplash.com/...">
 
-    <label style="display:block;margin-top:10px;">Isi Konten Artikel (Pilih halaman atau tambah dengan tombol +):</label>
-    <div class="tabs-editor" id="editorTabsContainer"></div>
-    
+    <label>Isi Konten Artikel</label>
+    <div class="tabs" id="editorTabsContainer"></div>
     <textarea id="articleContentBox" placeholder="Tulis konten HTML atau teks di sini..."></textarea>
 
-    <div style="display:flex;gap:10px;margin-top:10px;">
-      <button type="button" onclick="publishArticle()" style="background:#34a853;color:#fff;">Publikasikan Artikel ✨</button>
-      <button type="button" onclick="resetEditor()" style="background:#ea4335;color:#fff;">Batal</button>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="publishArticle()">Publikasikan Artikel ✨</button>
+      <button class="btn btn-danger" onclick="resetEditor()">Batal</button>
     </div>
-
-    <hr style="border:0;border-top:1px solid var(--border);margin:30px 0;">
-
-    <h3>Karya Saya yang Dipublikasikan</h3>
-    <div id="myArticlesList" style="margin-top:12px;"></div>
   </div>
 
-  <!-- AREA PEMBACA ARTIKEL (READER VIEW) -->
+  <!-- ========== READER ========== -->
   <div id="readerArea" style="display:none;">
-    <div id="readerWrapper" class="read-container">
-      <h1 id="readTitle" class="read-title"></h1>
-      <div id="readMeta" class="read-meta"></div>
-      <img id="readBanner" class="read-banner" alt="Foto Sampul Artikel">
-      <div id="readContent" class="read-content"></div>
-      
-      <div class="read-nav">
-        <button type="button" id="prevPageBtn" onclick="changeReaderPage(-1)" style="display:none;">← Halaman</button>
-        <span id="pageIndicator" style="font-size:12px;color:var(--muted);"></span>
-        <button type="button" id="nextPageBtn" onclick="changeReaderPage(1)" style="display:none;">Halaman →</button>
+    <div class="reader">
+      <h1 id="readTitle"></h1>
+      <div id="readMeta" class="reader-meta"></div>
+      <img id="readBanner" class="reader-banner" alt="Banner">
+      <div id="readContent" class="reader-content"></div>
+      <div class="reader-nav">
+        <button class="btn btn-secondary" id="prevPageBtn" onclick="changeReaderPage(-1)" style="display:none;">← Halaman</button>
+        <span id="pageIndicator" style="font-size:13px;color:var(--muted);"></span>
+        <button class="btn btn-secondary" id="nextPageBtn" onclick="changeReaderPage(1)" style="display:none;">Halaman →</button>
       </div>
     </div>
   </div>
+
 </main>
 
 <script>
@@ -189,51 +373,72 @@ let currentEditorIndex = 0;
 let currentReaderPages = [];
 let currentReaderIndex = 0;
 
-function loginCreator(){
+function loginCreator() {
   const name = document.getElementById("creatorNameInput").value.trim();
-  if(!name){ alert("Masukkan nama kreator terlebih dahulu!"); return; }
+  if (!name) { alert("Masukkan nama kreator terlebih dahulu!"); return; }
   localStorage.setItem("oer_logged_user", name);
   checkAuthStatus();
 }
 
-function checkAuthStatus(){
-  const user = localStorage.getItem("oer_logged_user");
-  if(user){
-    document.getElementById("authArea").style.display = "none";
-    document.getElementById("editorArea").style.display = "block";
-    document.getElementById("headerUserArea").innerHTML = `<span><b>${user}</b></span> <a href="search.html">🔍 Search</a> <button onclick="logout()" style="padding:3px 8px;font-size:11px;background:#ea4335;color:#fff;border-radius:4px;">Keluar</button>`;
-    renderMyArticles();
-  } else {
-    document.getElementById("authArea").style.display = "block";
-    document.getElementById("editorArea").style.display = "none";
-    document.getElementById("headerUserArea").innerHTML = `<a href="search.html">🔍 Search</a>`;
-  }
-}
-
-function logout(){
+function logout() {
   localStorage.removeItem("oer_logged_user");
   checkAuthStatus();
 }
 
-function renderEditorTabs(){
+function checkAuthStatus() {
+  const user = localStorage.getItem("oer_logged_user");
+  const header = document.getElementById("headerUserArea");
+
+  if (user) {
+    document.getElementById("authArea").style.display = "none";
+    header.innerHTML = `
+      <span><b>${user}</b></span>
+      <a href="search.html">🔍 Search</a>
+      <button class="btn-logout" onclick="logout()">Keluar</button>
+    `;
+    showDashboard();
+  } else {
+    document.getElementById("authArea").style.display = "block";
+    document.getElementById("dashboardArea").style.display = "none";
+    document.getElementById("editorArea").style.display = "none";
+    document.getElementById("readerArea").style.display = "none";
+    header.innerHTML = `<a href="search.html">🔍 Search</a>`;
+  }
+}
+
+function showDashboard() {
+  document.getElementById("dashboardArea").style.display = "block";
+  document.getElementById("editorArea").style.display = "none";
+  document.getElementById("readerArea").style.display = "none";
+  renderMyArticles();
+}
+
+function showEditor() {
+  document.getElementById("dashboardArea").style.display = "none";
+  document.getElementById("editorArea").style.display = "block";
+  document.getElementById("readerArea").style.display = "none";
+  resetEditor();
+}
+
+function renderEditorTabs() {
   const container = document.getElementById("editorTabsContainer");
   let html = "";
   articlePages.forEach((_, idx) => {
-    let activeClass = idx === currentEditorIndex ? "tab-btn active" : "tab-btn";
-    html += `<button type="button" class="${activeClass}" onclick="switchEditorTab(${idx})">Hal ${idx + 1}</button>`;
+    const active = idx === currentEditorIndex ? "tab active" : "tab";
+    html += `<button type="button" class="\( {active}" onclick="switchEditorTab( \){idx})">Hal ${idx + 1}</button>`;
   });
-  html += `<button type="button" class="add-tab-btn" onclick="addNewPage()">+ Tambah</button>`;
+  html += `<button type="button" class="tab tab-add" onclick="addNewPage()">+ Tambah</button>`;
   container.innerHTML = html;
 }
 
-function switchEditorTab(index){
+function switchEditorTab(index) {
   saveCurrentPageContent();
   currentEditorIndex = index;
   document.getElementById("articleContentBox").value = articlePages[index] || "";
   renderEditorTabs();
 }
 
-function addNewPage(){
+function addNewPage() {
   saveCurrentPageContent();
   articlePages.push("");
   currentEditorIndex = articlePages.length - 1;
@@ -241,18 +446,18 @@ function addNewPage(){
   renderEditorTabs();
 }
 
-function saveCurrentPageContent(){
+function saveCurrentPageContent() {
   articlePages[currentEditorIndex] = document.getElementById("articleContentBox").value;
 }
 
-function resetEditorPages(){
+function resetEditorPages() {
   articlePages = [""];
   currentEditorIndex = 0;
   document.getElementById("articleContentBox").value = "";
   renderEditorTabs();
 }
 
-function publishArticle(){
+function publishArticle() {
   saveCurrentPageContent();
   const idField = document.getElementById("editArticleId").value;
   const title = document.getElementById("articleTitle").value.trim();
@@ -261,16 +466,9 @@ function publishArticle(){
   const image = document.getElementById("articleImage").value.trim();
   const author = localStorage.getItem("oer_logged_user") || "Kreator";
 
-  if(!title){
-    alert("Judul artikel tidak boleh kosong!");
-    return;
-  }
-
+  if (!title) { alert("Judul artikel tidak boleh kosong!"); return; }
   const hasContent = articlePages.some(p => p.trim() !== "");
-  if(!hasContent){
-    alert("Minimal isi salah satu halaman artikel!");
-    return;
-  }
+  if (!hasContent) { alert("Minimal isi salah satu halaman artikel!"); return; }
 
   const uniqueId = idField || ("art_" + Date.now());
   const articleObj = {
@@ -281,7 +479,7 @@ function publishArticle(){
   };
 
   let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
-  if(idField){
+  if (idField) {
     list = list.map(item => item.id === idField ? articleObj : item);
   } else {
     list.unshift(articleObj);
@@ -292,46 +490,51 @@ function publishArticle(){
   location.href = `website.html?view=${uniqueId}`;
 }
 
-function resetEditor(){
+function resetEditor() {
   document.getElementById("editArticleId").value = "";
   document.getElementById("articleTitle").value = "";
   document.getElementById("articleImage").value = "";
-  resetEditorPages();
   document.getElementById("editorHeading").innerText = "Tulis Karya Baru";
+  resetEditorPages();
 }
 
-function renderMyArticles(){
+function renderMyArticles() {
   const user = localStorage.getItem("oer_logged_user");
   let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
-  const myContainer = document.getElementById("myArticlesList");
-  
+  const container = document.getElementById("myArticlesList");
   const userArticles = list.filter(item => item.author === user);
-  if(!userArticles.length){
-    myContainer.innerHTML = `<p style="color:var(--muted);font-size:14px;">Belum ada artikel yang dipublikasikan.</p>`;
+
+  if (!userArticles.length) {
+    container.innerHTML = `
+      <div class="empty-state card">
+        <p>Belum ada artikel yang dipublikasikan.</p>
+        <button class="btn btn-primary" onclick="showEditor()">+ Tulis Karya Pertama</button>
+      </div>`;
     return;
   }
 
   let html = "";
   userArticles.forEach(art => {
-    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
-      <div style="overflow:hidden;padding-right:8px;">
-        <a href="website.html?view=${art.id}" style="color:var(--blue);text-decoration:none;font-weight:bold;font-size:14px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${art.title}</a>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${art.date} • ${art.category}</div>
-      </div>
-      <div style="display:flex;gap:4px;flex-shrink:0;">
-        <a href="website.html?view=${art.id}" style="padding:4px 8px;font-size:11px;background:var(--blue);color:#17191d;text-decoration:none;border-radius:4px;font-weight:bold;">Lihat</a>
-        <button onclick="editArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#fbbc05;color:#000;">Edit</button>
-        <button onclick="deleteArticle('${art.id}')" style="padding:4px 8px;font-size:11px;background:#ea4335;color:#fff;">Hapus</button>
-      </div>
-    </div>`;
+    html += `
+      <div class="article-card">
+        <div class="article-info">
+          <a class="article-title" href="website.html?view=\( {art.id}"> \){art.title}</a>
+          <div class="article-meta">${art.date} • ${art.category}</div>
+        </div>
+        <div class="article-actions">
+          <a href="website.html?view=${art.id}" style="background:var(--blue);color:#0f1115;">Lihat</a>
+          <button style="background:var(--yellow);color:#000;" onclick="editArticle('${art.id}')">Edit</button>
+          <button style="background:var(--red);color:#fff;" onclick="deleteArticle('${art.id}')">Hapus</button>
+        </div>
+      </div>`;
   });
-  myContainer.innerHTML = html;
+  container.innerHTML = html;
 }
 
-function editArticle(id){
+function editArticle(id) {
   let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
   const art = list.find(item => item.id === id);
-  if(!art) return;
+  if (!art) return;
 
   document.getElementById("editArticleId").value = art.id;
   document.getElementById("articleTitle").value = art.title;
@@ -344,29 +547,32 @@ function editArticle(id){
   document.getElementById("articleContentBox").value = articlePages[0];
   renderEditorTabs();
   document.getElementById("editorHeading").innerText = "Edit Artikel";
-  window.scrollTo({top: 0, behavior: 'smooth'});
+
+  document.getElementById("dashboardArea").style.display = "none";
+  document.getElementById("editorArea").style.display = "block";
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function deleteArticle(id){
-  if(!confirm("Yakin ingin menghapus artikel ini?")) return;
+function deleteArticle(id) {
+  if (!confirm("Yakin ingin menghapus artikel ini?")) return;
   let list = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
   list = list.filter(item => item.id !== id);
   localStorage.setItem("oer_user_websites", JSON.stringify(list));
   renderMyArticles();
 }
 
-function updateReaderView(){
+function updateReaderView() {
   document.getElementById("readContent").innerHTML = currentReaderPages[currentReaderIndex] || "";
   document.getElementById("pageIndicator").innerText = `Hal ${currentReaderIndex + 1} / ${currentReaderPages.length}`;
-  document.getElementById("prevPageBtn").style.display = currentReaderIndex > 0 ? "block" : "none";
-  document.getElementById("nextPageBtn").style.display = currentReaderIndex < currentReaderPages.length - 1 ? "block" : "none";
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.getElementById("prevPageBtn").style.display = currentReaderIndex > 0 ? "inline-block" : "none";
+  document.getElementById("nextPageBtn").style.display = currentReaderIndex < currentReaderPages.length - 1 ? "inline-block" : "none";
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function changeReaderPage(dir){
+function changeReaderPage(dir) {
   currentReaderIndex += dir;
-  if(currentReaderIndex < 0) currentReaderIndex = 0;
-  if(currentReaderIndex >= currentReaderPages.length) currentReaderIndex = currentReaderPages.length - 1;
+  if (currentReaderIndex < 0) currentReaderIndex = 0;
+  if (currentReaderIndex >= currentReaderPages.length) currentReaderIndex = currentReaderPages.length - 1;
   updateReaderView();
 }
 
@@ -374,20 +580,28 @@ window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(location.search);
   const viewId = params.get("view");
 
-  if(viewId){
+  if (viewId) {
     let all = JSON.parse(localStorage.getItem("oer_user_websites") || "[]");
     const target = all.find(a => a.id === viewId);
 
-    if(target){
+    if (target) {
       document.getElementById("authArea").style.display = "none";
+      document.getElementById("dashboardArea").style.display = "none";
       document.getElementById("editorArea").style.display = "none";
       document.getElementById("readerArea").style.display = "block";
-      document.getElementById("headerUserArea").innerHTML = `<a href="website.html">← Portal</a> <a href="search.html">🔍 Search</a>`;
+      document.getElementById("headerUserArea").innerHTML = `
+        <a href="website.html">← Portal</a>
+        <a href="search.html">🔍 Search</a>
+      `;
 
       document.getElementById("readTitle").innerText = target.title;
-      document.getElementById("readMeta").innerHTML = `<span>Kategori: <b>${target.category}</b></span> • <span>Penulis: <b>${target.author}</b></span> • <span>${target.date}</span>`;
-      
-      if(target.image){
+      document.getElementById("readMeta").innerHTML = `
+        <span>Kategori: <b>${target.category}</b></span> • 
+        <span>Penulis: <b>${target.author}</b></span> • 
+        <span>${target.date}</span>
+      `;
+
+      if (target.image) {
         const img = document.getElementById("readBanner");
         img.src = target.image;
         img.style.display = "block";
@@ -402,7 +616,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   } else {
     checkAuthStatus();
-    resetEditorPages();
   }
 });
 </script>
