@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -44,14 +43,17 @@ body.light{
   --bg:#f1f3f4;--soft:#e8eaed;--shadow:0 2px 12px #20212420
 }
 a{color:inherit;text-decoration:none}
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible{
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
   outline:2px solid var(--blue);outline-offset:3px
 }
 header{
-  position:relative;z-index:100;width:100%;min-height:60px;padding:8px;
+  position:relative;z-index:100;width:100%;min-height:60px;padding:8px 16px;
   display:flex;align-items:center;justify-content:space-between
+}
+.header-right{
+  display:flex;align-items:center;gap:10px
 }
 .account-area{position:relative;display:flex;align-items:center}
 .account-button,.menu-toggle{
@@ -85,6 +87,20 @@ header{
 .menu-toggle svg{width:25px;height:25px}
 .site-menu{top:55px;right:10px;width:min(260px,calc(100vw - 20px));padding:8px}
 .site-menu.show{display:grid}
+
+/* KOTAK BAHASA PERMANEN DI HEADER */
+.lang-box-home{
+  display:flex;align-items:center;background:var(--soft);
+  border:1px solid var(--border);border-radius:20px;padding:3px 8px
+}
+.lang-dropdown-home{
+  background:transparent;color:var(--blue);border:none;
+  font-size:12px;font-weight:600;outline:none;cursor:pointer
+}
+.lang-dropdown-home option, .lang-dropdown-home optgroup{
+  background:var(--bg);color:var(--text)
+}
+
 main{
   width:100%;flex:1;display:flex;flex-direction:column;align-items:center;
   padding:35px 18px 30px
@@ -205,10 +221,6 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .settings-group:last-of-type{border-bottom:0}
 .settings-text h4{margin:0 0 4px;font-size:15px}
 .settings-text p{margin:0;font-size:12px;color:var(--muted)}
-.dialog-input{
-  width:100%;padding:12px;margin:8px 0;border:1px solid var(--border);
-  border-radius:10px;background:var(--bg);color:var(--text)
-}
 
 /* Login wajib */
 #loginGate{
@@ -252,7 +264,7 @@ body.login-locked header,
 body.login-locked main{pointer-events:none;user-select:none}
 
 @media(max-width:700px){
-  header{min-height:56px;padding:8px 5px}
+  header{min-height:56px;padding:8px 10px}
   main{padding:35px 18px 30px}
   .search-box{min-height:54px;padding:0 15px;gap:10px}
   #searchInput{font-size:15px}
@@ -264,11 +276,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   .logo-o:after{inset:10px}
   .logo-oe,.logo-r{font-size:68px}
   .search-buttons button{font-size:12px;padding:11px 6px}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{
-    scroll-behavior:auto!important;transition:none!important
-  }
 }
 </style>
 </head>
@@ -290,21 +297,48 @@ body.login-locked main{pointer-events:none;user-select:none}
     <div class="account-menu" id="accountMenu">
       <div class="account-menu-header" id="accountMenuHeader">Memeriksa sesi...</div>
       <button type="button" id="menuGoogleLogin">🌐 <span id="googleAuthText">Masuk dengan Google</span></button>
-      <button type="button" id="menuHistory">◷ Riwayat pencarian</button>
-      <button type="button" id="menuFavorites">☆ Favorit saya</button>
+      <button type="button" id="menuHistory">◷ <span id="txtMenuHistory">Riwayat pencarian</span></button>
+      <button type="button" id="menuFavorites">☆ <span id="txtMenuFavorites">Favorit saya</span></button>
     </div>
   </div>
 
-  <button class="menu-toggle" id="siteMenuButton" type="button" aria-label="Buka menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <path d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-  </button>
+  <div class="header-right">
+    <!-- DROPDOWN BAHASA PERMANEN DENGAN NEGARA ASIA & BARAT -->
+    <div class="lang-box-home" title="Ganti Bahasa (Permanen)">
+      <select id="langSelectHome" class="lang-dropdown-home">
+        <optgroup label="Asia Tenggara">
+          <option value="Indonesia">🇮🇩 ID (Indonesia)</option>
+          <option value="Melayu (Malaysia)">🇲🇾 MY (Melayu)</option>
+          <option value="Tagalog (Filipina)">🇵🇭 PH (Filipino)</option>
+          <option value="Thailand">🇹🇭 TH (ไทย)</option>
+          <option value="Vietnam">🇻🇳 VN (Tiếng Việt)</option>
+        </optgroup>
+        <optgroup label="Asia Timur & Selatan">
+          <option value="Jepang">🇯🇵 JP (日本語)</option>
+          <option value="Korea">🇰🇷 KR (한국어)</option>
+          <option value="Mandarin">🇨🇳 ZH (中文)</option>
+          <option value="Hindi (India)">🇮🇳 IN (हिन्दी)</option>
+          <option value="Arab">🇸🇦 AR (العربية)</option>
+        </optgroup>
+        <optgroup label="Global / Barat">
+          <option value="English (US)">🇺🇸 US (English)</option>
+          <option value="English (UK)">🇬🇧 UK (English)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <button class="menu-toggle" id="siteMenuButton" type="button" aria-label="Buka menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
   <div class="site-menu" id="siteMenu">
-    <button type="button" id="siteSettings">⚙️ Pengaturan</button>
-    <button type="button" id="siteBusiness">💼 Bisnis</button>
-    <button type="button" id="siteCookies">🍪 Cookie</button>
-    <button type="button" id="siteHelp">❓ Bantuan</button>
+    <button type="button" id="siteSettings">⚙️ <span id="txtSiteSettings">Pengaturan</span></button>
+    <button type="button" id="siteBusiness">💼 <span id="txtSiteBusiness">Bisnis</span></button>
+    <button type="button" id="siteCookies">🍪 <span id="txtSiteCookies">Cookie</span></button>
+    <button type="button" id="siteHelp">❓ <span id="txtSiteHelp">Bantuan</span></button>
   </div>
 </header>
 
@@ -331,11 +365,11 @@ body.login-locked main{pointer-events:none;user-select:none}
       <div class="suggestions" id="suggestions"></div>
     </form>
 
-    <!-- Tiga tombol utama, tepat di bawah kolom pencarian -->
+    <!-- Tiga tombol utama -->
     <div class="search-buttons" aria-label="Menu utama OoeR">
       <button type="button" id="netnetButton">◉ NetNet</button>
       <button type="button" id="aiButton">✦ OoeR AI</button>
-      <button type="button" id="luckyButton">⌕ Jelajahi</button>
+      <button type="button" id="luckyButton">⌕ <span id="txtLuckyButton">Jelajahi</span></button>
     </div>
 
     <p id="notice" aria-live="polite"></p>
@@ -360,7 +394,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       <button class="close-button" data-close="favoritesOverlay" aria-label="Tutup">×</button>
     </div>
     <div class="dialog-list" id="favoritesList"></div>
-    <p class="dialog-empty">Favorit tersimpan di perangkat ini.</p>
+    <p class="dialog-empty" id="txtFavEmpty">Favorit tersimpan di perangkat ini.</p>
   </div>
 </div>
 
@@ -372,16 +406,16 @@ body.login-locked main{pointer-events:none;user-select:none}
     </div>
     <div class="settings-group">
       <div class="settings-text">
-        <h4>Tema tampilan</h4>
-        <p>Sesuaikan tampilan terang atau gelap.</p>
+        <h4 id="txtThemeTitle">Tema tampilan</h4>
+        <p id="txtThemeDesc">Sesuaikan tampilan terang atau gelap.</p>
       </div>
       <button class="primary-button" id="themeButton"
         style="width:auto;padding:8px 12px;font-size:12px">Mode terang</button>
     </div>
     <div class="settings-group">
       <div class="settings-text">
-        <h4>Riwayat pencarian</h4>
-        <p>Kelola riwayat pencarian Anda.</p>
+        <h4 id="txtHistTitle">Riwayat pencarian</h4>
+        <p id="txtHistDesc">Kelola riwayat pencarian Anda.</p>
       </div>
       <button class="primary-button" id="settingsHistoryBtn"
         style="width:auto;padding:8px 12px;font-size:12px">Buka</button>
@@ -396,7 +430,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       <span class="o"></span><span class="oe">oe</span><span class="r">R</span>
     </div>
     <h1 id="loginTitle">Masuk ke OoeR</h1>
-    <p>Untuk menggunakan OoeR, daftar atau masuk dengan akun Google kamu.</p>
+    <p id="txtLoginDesc">Untuk menggunakan OoeR, daftar atau masuk dengan akun Google kamu.</p>
     <button type="button" class="google-button" id="gateGoogleLogin">
       <span class="google-mark">G</span>
       <span id="gateGoogleText">Lanjutkan dengan Google</span>
@@ -412,6 +446,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const SITE_URL = "https://oer-p.github.io/Media-oer/";
+  const AI_TRANSLATE_ENDPOINT = SUPABASE_URL + "/functions/v1/chat-groq";
 
   const $ = id => document.getElementById(id);
   const form = $("searchForm");
@@ -421,11 +456,158 @@ body.login-locked main{pointer-events:none;user-select:none}
   const accountMenu = $("accountMenu");
   const siteMenu = $("siteMenu");
   const loginGate = $("loginGate");
+  const langSelectHome = $("langSelectHome");
 
   let supabaseClient = null;
   let currentSession = null;
   let authReady = false;
   let authBusy = false;
+
+  /* ===================================================
+     SISTEM BAHASA PERMANEN & PENERJEMAH UI HOMEPAGE
+     =================================================== */
+
+  // Kamus kilat untuk teks utama (0 Token, Instan 0 Milidetik)
+  const UI_DICTIONARY = {
+    "Indonesia": {
+      placeholder: "Cari atau masukkan alamat",
+      explore: "Jelajahi",
+      loginTitle: "Masuk ke OoeR",
+      loginDesc: "Untuk menggunakan OoeR, daftar atau masuk dengan akun Google kamu.",
+      loginBtn: "Lanjutkan dengan Google",
+      history: "Riwayat pencarian",
+      favorites: "Favorit saya",
+      settings: "Pengaturan",
+      business: "Bisnis",
+      cookies: "Cookie",
+      help: "Bantuan"
+    },
+    "English (US)": {
+      placeholder: "Search or enter address",
+      explore: "Explore",
+      loginTitle: "Sign in to OoeR",
+      loginDesc: "To use OoeR, sign up or sign in with your Google account.",
+      loginBtn: "Continue with Google",
+      history: "Search history",
+      favorites: "My favorites",
+      settings: "Settings",
+      business: "Business",
+      cookies: "Cookies",
+      help: "Help"
+    },
+    "English (UK)": {
+      placeholder: "Search or enter address",
+      explore: "Explore",
+      loginTitle: "Sign in to OoeR",
+      loginDesc: "To use OoeR, sign up or sign in with your Google account.",
+      loginBtn: "Continue with Google",
+      history: "Search history",
+      favorites: "My favourites",
+      settings: "Settings",
+      business: "Business",
+      cookies: "Cookies",
+      help: "Help"
+    },
+    "Melayu (Malaysia)": {
+      placeholder: "Cari atau masukkan alamat",
+      explore: "Terokai",
+      loginTitle: "Log masuk ke OoeR",
+      loginDesc: "Untuk menggunakan OoeR, daftar atau log masuk dengan akaun Google anda.",
+      loginBtn: "Teruskan dengan Google",
+      history: "Sejarah carian",
+      favorites: "Kegemaran saya",
+      settings: "Tetapan",
+      business: "Perniagaan",
+      cookies: "Kuki",
+      help: "Bantuan"
+    },
+    "Tagalog (Filipina)": {
+      placeholder: "Maghanap o maglagay ng address",
+      explore: "Galugarin",
+      loginTitle: "Mag-sign in sa OoeR",
+      loginDesc: "Upang magamit ang OoeR, mag-sign in gamit ang iyong Google account.",
+      loginBtn: "Magpatuloy sa Google",
+      history: "Kasaysayan ng paghahanap",
+      favorites: "Aking mga paborito",
+      settings: "Mga Setting",
+      business: "Negosyo",
+      cookies: "Cookies",
+      help: "Tulong"
+    },
+    "Jepang": {
+      placeholder: "検索またはアドレスを入力",
+      explore: "探索する",
+      loginTitle: "OoeRにログイン",
+      loginDesc: "OoeRを利用するには、Googleアカウントでログインしてください。",
+      loginBtn: "Googleで続行",
+      history: "検索履歴",
+      favorites: "お気に入り",
+      settings: "設定",
+      business: "ビジネス",
+      cookies: "クッキー",
+      help: "ヘルプ"
+    },
+    "Arab": {
+      placeholder: "ابحث أو أدخل العنوان",
+      explore: "استكشاف",
+      loginTitle: "تسجيل الدخول إلى OoeR",
+      loginDesc: "لاستخدام OoeR، يرجى تسجيل الدخول باستخدام حساب Google الخاص بك.",
+      loginBtn: "المتابعة باستخدام Google",
+      history: "سجل البحث",
+      favorites: "المفضلة لدي",
+      settings: "الإعدادات",
+      business: "الأعمال",
+      cookies: "ملفات تعريف الارتباط",
+      help: "مساعدة"
+    },
+    "Mandarin": {
+      placeholder: "搜索或输入地址",
+      explore: "探索",
+      loginTitle: "登录 OoeR",
+      loginDesc: "使用 OoeR，请使用您的 Google 帐号登录。",
+      loginBtn: "使用 Google 继续",
+      history: "搜索历史",
+      favorites: "我的收藏",
+      settings: "设置",
+      business: "商务",
+      cookies: "Cookie",
+      help: "帮助"
+    }
+  };
+
+  function applyLanguage(lang) {
+    const dict = UI_DICTIONARY[lang] || UI_DICTIONARY["English (US)"];
+    
+    // Ganti teks placeholder dan tombol UI di layar
+    input.placeholder = dict.placeholder;
+    input.setAttribute("aria-label", dict.placeholder);
+    $("txtLuckyButton").textContent = dict.explore;
+    $("loginTitle").textContent = dict.loginTitle;
+    $("txtLoginDesc").textContent = dict.loginDesc;
+    $("gateGoogleText").textContent = dict.loginBtn;
+    $("txtMenuHistory").textContent = dict.history;
+    $("txtMenuFavorites").textContent = dict.favorites;
+    $("txtSiteSettings").textContent = dict.settings;
+    $("txtSiteBusiness").textContent = dict.business;
+    $("txtSiteCookies").textContent = dict.cookies;
+    $("txtSiteHelp").textContent = dict.help;
+  }
+
+  // 1. Muat bahasa yang tersimpan di HP/Komputer
+  const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
+  langSelectHome.value = savedLang;
+  applyLanguage(savedLang);
+
+  // 2. Kunci permanen saat pengguna memilih bahasa baru di Home
+  langSelectHome.addEventListener("change", () => {
+    const chosen = langSelectHome.value;
+    localStorage.setItem("ooer_user_lang", chosen);
+    applyLanguage(chosen);
+  });
+
+  /* ===================================================
+     SUPABASE AUTH
+     =================================================== */
 
   if (window.supabase?.createClient) {
     try {
@@ -799,6 +981,7 @@ body.login-locked main{pointer-events:none;user-select:none}
       return;
     }
 
+    // Arahkan ke halaman search (bahasa sudah otomatis terbaca dari localStorage)
     const url = new URL("./search.html", location.href);
     url.searchParams.set("q", query);
     location.href = url.href;
