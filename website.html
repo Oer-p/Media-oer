@@ -8,15 +8,30 @@
 <meta name="description" content="OoeR Space — buat, terbitkan, dan bagikan artikelmu.">
 <title>OoeR Space — Portal Kreator</title>
 <style>
-:root{--bg:#0f1115;--panel:#1a1d24;--panel2:#22262f;--text:#f1f3f5;--muted:#9aa0a6;--border:#2e333d;--blue:#8ab4f8;--green:#34a853;--red:#ea4335}
+:root{
+  --bg:#0f1115;--panel:#1a1d24;--panel2:#22262f;
+  --text:#f1f3f5;--muted:#9aa0a6;--border:#2e333d;
+  --blue:#8ab4f8;--green:#34a853;--red:#ea4335
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.6}
+html{min-height:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  line-height:1.6
+}
 button,input,select,textarea{font:inherit;max-width:100%}
 button{cursor:pointer}
 a{color:var(--blue)}
-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:#111317;border-bottom:1px solid var(--border)}
+header{
+  position:sticky;top:0;z-index:10;display:flex;
+  align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 18px;background:#111317;
+  border-bottom:1px solid var(--border)
+}
 .brand{font-size:19px;font-weight:850;color:var(--blue);text-decoration:none}
-.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px}
+.header-right{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.header-right a{font-size:13px}
 .container{max-width:1000px;margin:auto;padding:24px 16px 80px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:15px;padding:22px;margin-bottom:18px}
 h1,h2,h3,p{overflow-wrap:anywhere}
@@ -25,14 +40,22 @@ h2{font-size:21px;margin:0 0 8px}
 h3{margin:0 0 6px}
 .muted{color:var(--muted);font-size:13px}
 .subtitle{color:var(--muted);font-size:14px;margin:0 0 18px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border:1px solid var(--border);border-radius:9px;background:var(--panel2);color:var(--text);font-weight:650;text-decoration:none;font-size:13px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 14px;border:1px solid var(--border);
+  border-radius:9px;background:var(--panel2);color:var(--text);
+  font-weight:650;text-decoration:none;font-size:13px
+}
 .btn.primary{background:var(--green);border-color:var(--green);color:#fff}
 .btn.danger{background:var(--red);color:#fff}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-input,select{width:100%;padding:11px 12px;background:#14171c;color:var(--text);border:1px solid var(--border);border-radius:9px;margin:5px 0 14px}
+input,select{
+  width:100%;padding:11px 12px;background:#14171c;color:var(--text);
+  border:1px solid var(--border);border-radius:9px;margin:5px 0 14px
+}
 label{display:block;font-size:13px;font-weight:700;color:#d2d5da}
-.field{margin-bottom:8px}
-.field small{display:block;color:var(--muted);font-size:12px}
+.field{margin-bottom:14px}
+.field small{display:block;color:var(--muted);font-size:12px;margin-top:5px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 .status{padding:10px 12px;border-radius:9px;margin:12px 0;background:#193322;color:#b8f3c6;font-size:13px;overflow-wrap:anywhere}
@@ -52,12 +75,61 @@ label{display:block;font-size:13px;font-weight:700;color:#d2d5da}
 .article-actions{display:flex;gap:6px;flex-wrap:wrap}
 .article-actions .btn{padding:7px 9px;font-size:12px}
 .empty{text-align:center;padding:35px 14px;color:var(--muted)}
-#editorContent{min-height:300px;max-height:65vh;overflow:auto;padding:15px;border:1px solid var(--border);border-radius:0 0 10px 10px;background:#14171c;color:var(--text);outline:none;line-height:1.8;overflow-wrap:anywhere}
-#editorContent:focus{border-color:var(--blue)}
-#editorContent img{max-width:100%;height:auto}
-.toolbar{display:flex;gap:5px;flex-wrap:wrap;padding:9px;border:1px solid var(--border);border-radius:10px 10px 0 0;background:var(--panel2)}
-.toolbar button{background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-weight:700}
-#editorContent:empty:before{content:attr(data-placeholder);color:#777;pointer-events:none}
+
+/* Header editor: logo kiri, Preview dan Kembali kanan. */
+body.editor-mode #searchLink,
+body.editor-mode #authBtn,
+body.editor-mode #logoutBtn{display:none!important}
+#editorHeaderActions{display:none;align-items:center;gap:8px}
+body.editor-mode #editorHeaderActions{display:flex}
+
+/* Editor mengikuti sketsa: toolbar, judul, lalu kanvas panjang. */
+#editorArea{padding:0;overflow:visible}
+.editor-toolbar{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  padding:0 0 12px;margin-bottom:12px;
+  border-bottom:1px solid var(--border)
+}
+.editor-toolbar button{
+  min-width:39px;min-height:39px;padding:7px 10px;
+  background:var(--panel2);color:var(--text);
+  border:1px solid var(--border);border-radius:8px;
+  font-weight:750
+}
+.editor-toolbar button:active{background:#343b48}
+#postTitle{
+  width:100%;margin:0 0 10px;padding:12px 2px;
+  border:0;border-bottom:1px solid var(--border);
+  border-radius:0;background:transparent;color:var(--text);
+  font-size:clamp(21px,4vw,30px);font-weight:650;
+  outline:none
+}
+#postTitle:focus{border-bottom-color:var(--blue)}
+#postTitle::placeholder{color:#777}
+#editorContent{
+  display:block;width:100%;min-height:100vh;height:auto;
+  padding:16px 2px 35px;border:0;border-radius:0;
+  background:transparent;color:var(--text);
+  outline:none;line-height:1.9;font-size:17px;
+  overflow-wrap:anywhere;white-space:normal
+}
+#editorContent:focus{outline:none}
+#editorContent:empty:before{
+  content:attr(data-placeholder);color:#777;pointer-events:none
+}
+#editorContent img{max-width:100%;height:auto;border-radius:8px}
+#editorContent blockquote{
+  border-left:3px solid var(--blue);padding-left:14px;color:#c6cbd3
+}
+#editorContent h2{font-size:1.5em;margin:20px 0 10px}
+#editorContent p{margin:0 0 14px}
+#editorContent a{overflow-wrap:anywhere}
+.editor-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;padding-top:14px;
+  border-top:1px solid var(--border)
+}
+.editor-bottom .btn{min-height:43px;padding:11px 16px}
 .reader{max-width:820px;margin:10px auto;background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .reader-cover{width:100%;max-height:420px;object-fit:cover;display:none}
 .reader-inner{padding:clamp(18px,5vw,46px)}
@@ -70,10 +142,21 @@ label{display:block;font-size:13px;font-weight:700;color:#d2d5da}
 .reader-content blockquote{border-left:3px solid var(--blue);padding-left:14px;color:#c6cbd3}
 .foot{text-align:center;color:var(--muted);font-size:12px;margin:28px 0}
 @media(max-width:600px){
-header{padding:11px 12px}.brand{font-size:16px}
-.container{padding:17px 12px 55px}.card{padding:16px}
-.row{grid-template-columns:1fr}.reader-inner{padding:20px 16px}
-.articles{grid-template-columns:1fr}.article-cover{height:190px}
+  header{padding:11px 12px}
+  .brand{font-size:16px}
+  .header-right{gap:6px}
+  .header-right .btn{padding:8px 10px;font-size:12px}
+  .container{padding:17px 12px 55px}
+  .card{padding:15px}
+  .row{grid-template-columns:1fr}
+  .reader-inner{padding:20px 16px}
+  .articles{grid-template-columns:1fr}
+  .article-cover{height:190px}
+  #editorArea{padding:0}
+  #editorContent{min-height:100vh;padding:15px 1px 35px;font-size:17px}
+  .editor-toolbar{gap:5px;padding-bottom:10px}
+  .editor-toolbar button{min-width:37px;min-height:38px;padding:6px 9px}
+  .editor-bottom{position:static}
 }
 </style>
 </head>
@@ -81,9 +164,13 @@ header{padding:11px 12px}.brand{font-size:16px}
 <header>
   <a class="brand" href="website.html">OoeR Space</a>
   <div class="header-right">
-    <a href="search.html">⌕ Search OoeR</a>
+    <a id="searchLink" href="search.html">⌕ Search OoeR</a>
     <button class="btn" id="authBtn" type="button">Masuk dengan Google</button>
     <button class="btn danger hidden" id="logoutBtn" type="button">Keluar</button>
+    <div id="editorHeaderActions">
+      <button class="btn" id="previewBtn" type="button">Preview</button>
+      <button class="btn" id="backBtn" type="button">← Kembali</button>
+    </div>
   </div>
 </header>
 
@@ -118,58 +205,35 @@ header{padding:11px 12px}.brand{font-size:16px}
   </section>
 
   <section id="editorArea" class="card hidden">
-    <div class="dashboard-head">
-      <h2 id="editorHeading">Tulis postingan</h2>
-      <button class="btn" id="backBtn" type="button">← Kembali</button>
-    </div>
     <form id="postForm">
       <input type="hidden" id="postId">
+      <input type="hidden" id="postSlug">
+
+      <div class="editor-toolbar" aria-label="Pemformatan artikel">
+        <button type="button" data-cmd="bold" title="Tebal"><b>B</b></button>
+        <button type="button" data-cmd="italic" title="Miring"><i>I</i></button>
+        <button type="button" data-cmd="underline" title="Garis bawah"><u>U</u></button>
+        <button type="button" data-cmd="formatBlock" data-value="h2" title="Subjudul">H2</button>
+        <button type="button" data-cmd="formatBlock" data-value="p" title="Paragraf">¶</button>
+        <button type="button" data-cmd="insertUnorderedList" title="Daftar">•</button>
+        <button type="button" data-cmd="insertOrderedList" title="Daftar bernomor">1.</button>
+        <button type="button" id="linkBtn" title="Tambahkan tautan">↗</button>
+        <button type="button" id="quoteBtn" title="Kutipan">❞</button>
+      </div>
+
       <div class="field">
-        <label for="postTitle">Judul artikel</label>
-        <input id="postTitle" maxlength="180" required placeholder="Tulis judul yang menarik">
+        <input id="postTitle" maxlength="180" required placeholder="Judul artikel" aria-label="Judul artikel">
       </div>
-      <div class="row">
-        <div class="field">
-          <label for="postSlug">Tautan artikel</label>
-          <input id="postSlug" maxlength="100" pattern="[a-z0-9-]+" required placeholder="judul-artikel">
-          <small>Huruf kecil, angka, dan tanda hubung.</small>
-        </div>
-        <div class="field">
-          <label for="postCategory">Kategori</label>
-          <select id="postCategory">
-            <option>Berita &amp; Umum</option>
-            <option>Teknologi &amp; Kode</option>
-            <option>Pendidikan</option>
-            <option>Seni &amp; Kreatif</option>
-            <option>Hiburan</option>
-            <option>Lainnya</option>
-          </select>
-        </div>
-      </div>
+
       <div class="field">
-        <label for="postCover">Foto sampul (opsional)</label>
-        <input id="postCover" type="file" accept="image/jpeg,image/png,image/webp">
-        <small>JPG, PNG, atau WebP. Maksimal 4 MB.</small>
+        <div id="editorContent" contenteditable="true" role="textbox"
+          aria-label="Isi artikel" aria-multiline="true"
+          data-placeholder="Mulai menulis…"></div>
       </div>
-      <div class="field">
-        <label>Isi artikel</label>
-        <div class="toolbar" aria-label="Pemformatan artikel">
-          <button type="button" data-cmd="bold" title="Tebal">B</button>
-          <button type="button" data-cmd="italic" title="Miring"><i>I</i></button>
-          <button type="button" data-cmd="underline" title="Garis bawah"><u>U</u></button>
-          <button type="button" data-cmd="formatBlock" data-value="h2">H2</button>
-          <button type="button" data-cmd="formatBlock" data-value="p">¶</button>
-          <button type="button" data-cmd="insertUnorderedList">• Daftar</button>
-          <button type="button" data-cmd="insertOrderedList">1. Daftar</button>
-          <button type="button" id="linkBtn">↗ Tautan</button>
-          <button type="button" id="quoteBtn">❞ Kutipan</button>
-        </div>
-        <div id="editorContent" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Mulai menulis artikel di sini…"></div>
-        <small>Jangan tempel skrip atau kode yang tidak tepercaya ke dalam artikel.</small>
-      </div>
-      <div class="actions">
+
+      <div class="editor-bottom">
         <button class="btn" type="button" id="saveDraftBtn">Simpan draf</button>
-        <button class="btn primary" type="button" id="publishBtn">Terbitkan</button>
+        <button class="btn primary" type="button" id="publishBtn">Publikasikan</button>
       </div>
     </form>
     <div id="editorStatus" class="status" role="status"></div>
@@ -196,7 +260,7 @@ header{padding:11px 12px}.brand{font-size:16px}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* Gunakan publishable/anon key. Jangan masukkan service_role key ke HTML. */
+/* Publishable key aman untuk frontend; jangan pernah gunakan service_role. */
 const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
 const TABLE = "ooer_posts";
@@ -206,6 +270,9 @@ const $ = id => document.getElementById(id);
 let db = null;
 let currentUser = null;
 let coverUrl = "";
+let currentCategory = "Berita & Umum";
+let previewing = false;
+let editingStatus = "draft";
 
 const params = new URLSearchParams(location.search);
 const publicSlug = params.get("post");
@@ -227,7 +294,7 @@ function slugify(s) {
 function dateLabel(v) {
   if (!v) return "";
   return new Date(v).toLocaleDateString("id-ID", {
-    day: "numeric", month: "short", year: "numeric"
+    day:"numeric",month:"short",year:"numeric"
   });
 }
 function authorName(user) {
@@ -235,8 +302,14 @@ function authorName(user) {
   return m.full_name || m.name || m.user_name ||
     user?.email?.split("@")[0] || "Kreator OoeR";
 }
+function setEditorMode(on) {
+  document.body.classList.toggle("editor-mode", !!on);
+}
+function updateSlug() {
+  $("postSlug").value = slugify($("postTitle").value);
+}
 
-/* Sanitasi konten artikel sebelum ditampilkan atau disimpan. */
+/* Sanitasi HTML sebelum konten artikel ditampilkan. */
 function cleanHTML(input) {
   const parsed = new DOMParser().parseFromString(String(input || ""), "text/html");
   const allowed = new Set([
@@ -277,18 +350,18 @@ function cleanHTML(input) {
           (child.tagName === "IMG" && name === "alt") ||
           (child.tagName === "A" && name === "title")
         ) {
-          /* Atribut aman yang diizinkan. */
+          /* Atribut yang diizinkan. */
         } else {
           child.removeAttribute(a.name);
         }
       });
       if (child.tagName === "A") {
-        child.setAttribute("rel", "nofollow noopener noreferrer");
-        child.setAttribute("target", "_blank");
+        child.setAttribute("rel","nofollow noopener noreferrer");
+        child.setAttribute("target","_blank");
       }
       if (child.tagName === "IMG") {
-        child.setAttribute("loading", "lazy");
-        child.setAttribute("referrerpolicy", "no-referrer");
+        child.setAttribute("loading","lazy");
+        child.setAttribute("referrerpolicy","no-referrer");
       }
       clean(child);
     });
@@ -299,10 +372,9 @@ function cleanHTML(input) {
 
 function openLogin() {
   show("authArea", true);
-  $("authArea").scrollIntoView({ behavior: "smooth", block: "center" });
+  $("authArea").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-/* Masuk memakai Google OAuth melalui proyek Supabase yang sama. */
 $("authBtn").addEventListener("click", () => {
   if (currentUser) showDashboard();
   else openLogin();
@@ -310,68 +382,66 @@ $("authBtn").addEventListener("click", () => {
 
 $("googleLoginBtn").addEventListener("click", async () => {
   if (!db) {
-    status("authStatus", "Supabase belum dikonfigurasi.", true);
+    status("authStatus","Supabase belum dikonfigurasi.",true);
     return;
   }
   const button = $("googleLoginBtn");
   button.disabled = true;
-  status("authStatus", "Menghubungkan ke Google…");
+  status("authStatus","Menghubungkan ke Google…");
   try {
-    const { error } = await db.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: location.origin + location.pathname
-      }
+    const {error} = await db.auth.signInWithOAuth({
+      provider:"google",
+      options:{redirectTo:location.origin + location.pathname}
     });
     if (error) throw error;
   } catch (err) {
-    status("authStatus", err.message || "Gagal masuk dengan Google.", true);
+    status("authStatus",err.message || "Gagal masuk dengan Google.",true);
     button.disabled = false;
   }
 });
 
 $("logoutBtn").addEventListener("click", async () => {
   if (!db) return;
-  const { error } = await db.auth.signOut();
+  const {error} = await db.auth.signOut();
   if (error) {
     alert("Gagal keluar: " + error.message);
     return;
   }
   currentUser = null;
-  show("dashboardArea", false);
-  show("editorArea", false);
-  show("logoutBtn", false);
+  show("dashboardArea",false);
+  show("editorArea",false);
+  show("logoutBtn",false);
   $("authBtn").textContent = "Masuk dengan Google";
   $("userLabel").textContent = "";
-  if (!publicSlug) show("authArea", true);
+  setEditorMode(false);
+  if (!publicSlug) show("authArea",true);
 });
 
 async function loadSession() {
   if (!db) return;
-  const { data, error } = await db.auth.getSession();
+  const {data,error} = await db.auth.getSession();
   if (error) {
-    status("authStatus", error.message, true);
+    status("authStatus",error.message,true);
     return;
   }
   currentUser = data.session?.user || null;
-  $("authBtn").textContent = currentUser
-    ? authorName(currentUser)
-    : "Masuk dengan Google";
-  $("userLabel").textContent = currentUser
-    ? "Masuk sebagai " + authorName(currentUser)
-    : "";
-  show("logoutBtn", !!currentUser);
-  show("authArea", !currentUser && !publicSlug);
-  show("dashboardArea", !!currentUser && !publicSlug);
-  show("editorArea", false);
+  $("authBtn").textContent = currentUser ? authorName(currentUser) : "Masuk dengan Google";
+  $("userLabel").textContent = currentUser ? "Masuk sebagai " + authorName(currentUser) : "";
+  show("logoutBtn",!!currentUser);
+  show("authArea",!currentUser && !publicSlug);
+  show("dashboardArea",!!currentUser && !publicSlug);
+  show("editorArea",false);
+  setEditorMode(false);
   if (currentUser && !publicSlug) await loadPosts();
 }
 
 function showDashboard() {
-  show("readerArea", false);
-  show("editorArea", false);
-  show("dashboardArea", !!currentUser);
-  show("authArea", !currentUser);
+  previewing = false;
+  setEditorMode(false);
+  show("readerArea",false);
+  show("editorArea",false);
+  show("dashboardArea",!!currentUser);
+  show("authArea",!currentUser);
   if (currentUser) loadPosts();
   else openLogin();
 }
@@ -380,53 +450,50 @@ function showEditor() {
     openLogin();
     return;
   }
-  show("dashboardArea", false);
-  show("readerArea", false);
-  show("editorArea", true);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  previewing = false;
+  show("dashboardArea",false);
+  show("readerArea",false);
+  show("editorArea",true);
+  setEditorMode(true);
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 function resetEditor() {
   $("postForm").reset();
   $("postId").value = "";
-  $("postSlug").dataset.edited = "";
+  $("postSlug").value = "";
   coverUrl = "";
+  currentCategory = "Berita & Umum";
+  editingStatus = "draft";
   $("editorContent").innerHTML = "";
-  $("editorHeading").textContent = "Tulis postingan";
-  status("editorStatus", "");
+  status("editorStatus","");
 }
 
 $("newPostBtn").addEventListener("click", () => {
   resetEditor();
   showEditor();
 });
-$("backBtn").addEventListener("click", showDashboard);
-$("refreshBtn").addEventListener("click", loadPosts);
-$("statusFilter").addEventListener("change", loadPosts);
+$("refreshBtn").addEventListener("click",loadPosts);
+$("statusFilter").addEventListener("change",loadPosts);
 
-$("postTitle").addEventListener("input", () => {
-  if (!$("postSlug").dataset.edited)
-    $("postSlug").value = slugify($("postTitle").value);
-});
-$("postSlug").addEventListener("input", () => {
-  $("postSlug").dataset.edited = "1";
-  $("postSlug").value = slugify($("postSlug").value);
-});
+$("postTitle").addEventListener("input",updateSlug);
 
-$("editorContent").addEventListener("paste", e => {
+/* Simpan teks biasa saat ditempel agar skrip tersembunyi tidak ikut masuk. */
+$("editorContent").addEventListener("paste",e => {
   e.preventDefault();
   const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-  document.execCommand("insertText", false, text);
+  document.execCommand("insertText",false,text);
 });
+
 document.querySelectorAll("[data-cmd]").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click",() => {
     $("editorContent").focus();
     const cmd = btn.dataset.cmd;
     if (cmd === "formatBlock")
-      document.execCommand(cmd, false, btn.dataset.value);
-    else document.execCommand(cmd, false, null);
+      document.execCommand(cmd,false,btn.dataset.value);
+    else document.execCommand(cmd,false,null);
   });
 });
-$("linkBtn").addEventListener("click", () => {
+$("linkBtn").addEventListener("click",() => {
   const url = prompt("Masukkan URL tautan (https://…):");
   if (!url) return;
   try {
@@ -437,49 +504,49 @@ $("linkBtn").addEventListener("click", () => {
     return;
   }
   $("editorContent").focus();
-  document.execCommand("createLink", false, url);
+  document.execCommand("createLink",false,url);
 });
-$("quoteBtn").addEventListener("click", () => {
+$("quoteBtn").addEventListener("click",() => {
   $("editorContent").focus();
-  document.execCommand("formatBlock", false, "blockquote");
+  document.execCommand("formatBlock",false,"blockquote");
 });
 
-/* Unggah sampul ke Supabase Storage. Bucket harus sudah dibuat. */
-$("postCover").addEventListener("change", async e => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  if (!["image/jpeg","image/png","image/webp"].includes(file.type)) {
-    status("editorStatus", "Gunakan JPG, PNG, atau WebP.", true);
-    e.target.value = "";
+/* Preview menampilkan artikel saat ini tanpa menyimpannya dahulu. */
+$("previewBtn").addEventListener("click",() => {
+  const title = $("postTitle").value.trim() || "Pratinjau artikel";
+  const content = cleanHTML($("editorContent").innerHTML);
+  if (!content.replace(/<[^>]*>/g,"").trim() && !content.includes("<img")) {
+    status("editorStatus","Tulis isi artikel sebelum melihat preview.",true);
     return;
   }
-  if (file.size > 4 * 1024 * 1024) {
-    status("editorStatus", "Ukuran gambar maksimal 4 MB.", true);
-    e.target.value = "";
-    return;
-  }
-  if (!currentUser) {
-    status("editorStatus", "Masuk terlebih dahulu.", true);
-    return;
-  }
-  status("editorStatus", "Mengunggah sampul…");
-  try {
-    const ext = file.type === "image/png" ? "png" :
-      file.type === "image/webp" ? "webp" : "jpg";
-    const path = currentUser.id + "/" + crypto.randomUUID() + "." + ext;
-    const { data, error } = await db.storage.from(BUCKET).upload(path, file, {
-      upsert: false, contentType: file.type
-    });
-    if (error) throw error;
-    coverUrl = db.storage.from(BUCKET).getPublicUrl(data.path).data.publicUrl;
-    status("editorStatus", "Sampul berhasil diunggah.");
-  } catch (err) {
-    status("editorStatus", "Gagal mengunggah sampul: " + err.message, true);
+  $("readTitle").textContent = title;
+  $("readMeta").textContent = "Pratinjau · Belum dipublikasikan";
+  $("readContent").innerHTML = content;
+  $("readCover").style.display = "none";
+  previewing = true;
+  show("editorArea",false);
+  show("dashboardArea",false);
+  show("readerArea",true);
+  setEditorMode(true);
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* Kembali dari preview menuju editor; dari editor menuju daftar karya. */
+$("backBtn").addEventListener("click",() => {
+  if (previewing) {
+    previewing = false;
+    show("readerArea",false);
+    show("editorArea",true);
+    setEditorMode(true);
+    window.scrollTo({top:0,behavior:"smooth"});
+  } else {
+    showDashboard();
   }
 });
 
-$("saveDraftBtn").addEventListener("click", () => savePost(false));
-$("publishBtn").addEventListener("click", () => savePost(true));
+/* Simpan draf dan publikasikan. Slug dibuat otomatis dari judul. */
+$("saveDraftBtn").addEventListener("click",() => savePost(false));
+$("publishBtn").addEventListener("click",() => savePost(true));
 
 async function savePost(publish) {
   if (!currentUser) {
@@ -491,32 +558,33 @@ async function savePost(publish) {
   const content = cleanHTML($("editorContent").innerHTML);
 
   if (!title) {
-    status("editorStatus", "Judul wajib diisi.", true);
+    status("editorStatus","Judul wajib diisi.",true);
+    $("postTitle").focus();
     return;
   }
   if (!slug) {
-    status("editorStatus", "Alamat artikel tidak valid.", true);
+    status("editorStatus","Judul belum bisa dijadikan tautan artikel.",true);
     return;
   }
-  if (!content.replace(/<[^>]*>/g, "").trim() && !content.includes("<img")) {
-    status("editorStatus", "Isi artikel masih kosong.", true);
+  if (!content.replace(/<[^>]*>/g,"").trim() && !content.includes("<img")) {
+    status("editorStatus","Isi artikel masih kosong.",true);
     return;
   }
 
   const id = $("postId").value;
   const payload = {
-    owner_id: currentUser.id,
-    author_name: authorName(currentUser),
+    owner_id:currentUser.id,
+    author_name:authorName(currentUser),
     title,
     slug,
-    category: $("postCategory").value,
-    cover_url: coverUrl || null,
-    content_html: content,
-    status: publish ? "published" : "draft"
+    category:currentCategory,
+    cover_url:coverUrl || null,
+    content_html:content,
+    status:publish ? "published" : "draft"
   };
   if (publish) payload.published_at = new Date().toISOString();
 
-  status("editorStatus", publish ? "Menerbitkan artikel…" : "Menyimpan draf…");
+  status("editorStatus",publish ? "Menerbitkan artikel…" : "Menyimpan draf…");
   $("saveDraftBtn").disabled = true;
   $("publishBtn").disabled = true;
 
@@ -524,32 +592,30 @@ async function savePost(publish) {
     let result;
     if (id) {
       result = await db.from(TABLE).update(payload)
-        .eq("id", id).eq("owner_id", currentUser.id).select().single();
+        .eq("id",id).eq("owner_id",currentUser.id).select().single();
     } else {
       result = await db.from(TABLE).insert(payload).select().single();
     }
     if (result.error) throw result.error;
 
     $("postId").value = result.data.id;
-    status("editorStatus", publish
-      ? "Artikel berhasil diterbitkan."
-      : "Draf berhasil disimpan.");
+    editingStatus = result.data.status;
+    status("editorStatus",publish ? "Artikel berhasil diterbitkan." : "Draf berhasil disimpan.");
     await loadPosts();
 
     if (publish) {
       const url = new URL(location.href);
       url.search = "";
-      url.searchParams.set("post", result.data.slug);
-      status("editorStatus", "Artikel publik: " + url.toString());
+      url.searchParams.set("post",result.data.slug);
+      status("editorStatus","Artikel berhasil diterbitkan. Tautan: " + url.toString());
       if (confirm("Artikel berhasil diterbitkan. Buka halaman publik sekarang?"))
         location.href = url.toString();
     }
   } catch (err) {
     const msg = err.message || "Gagal menyimpan.";
     status("editorStatus",
-      msg.toLowerCase().includes("duplicate") ||
-      msg.toLowerCase().includes("unique")
-        ? "Alamat artikel sudah dipakai. Pilih slug lain."
+      msg.toLowerCase().includes("duplicate") || msg.toLowerCase().includes("unique")
+        ? "Alamat artikel sudah dipakai. Ubah judul agar tautannya berbeda."
         : "Gagal menyimpan: " + msg,
       true
     );
@@ -561,23 +627,20 @@ async function savePost(publish) {
 
 async function loadPosts() {
   if (!db || !currentUser) return;
-  status("dashboardStatus", "Memuat postingan…");
+  status("dashboardStatus","Memuat postingan…");
   const filter = $("statusFilter").value;
   let query = db.from(TABLE)
     .select("id,title,slug,category,cover_url,status,created_at,updated_at,published_at")
-    .eq("owner_id", currentUser.id)
-    .order("updated_at", { ascending: false });
-  if (filter !== "all") query = query.eq("status", filter);
+    .eq("owner_id",currentUser.id)
+    .order("updated_at",{ascending:false});
+  if (filter !== "all") query = query.eq("status",filter);
 
-  const { data, error } = await query;
+  const {data,error} = await query;
   if (error) {
-    status("dashboardStatus", "Gagal memuat postingan: " + error.message, true);
+    status("dashboardStatus","Gagal memuat postingan: " + error.message,true);
     return;
   }
-
-  status("dashboardStatus", data.length
-    ? data.length + " postingan ditemukan."
-    : "Belum ada postingan pada filter ini.");
+  status("dashboardStatus",data.length ? data.length + " postingan ditemukan." : "Belum ada postingan pada filter ini.");
 
   const root = $("myArticles");
   root.replaceChildren();
@@ -585,13 +648,12 @@ async function loadPosts() {
   if (!data.length) {
     const empty = document.createElement("div");
     empty.className = "empty";
-    empty.textContent = "Belum ada postingan. ";
-    const br = document.createElement("br");
+    empty.textContent = "Belum ada postingan.";
     const button = document.createElement("button");
     button.className = "btn primary";
     button.textContent = "＋ Tulis postingan pertama";
-    button.onclick = () => { resetEditor(); showEditor(); };
-    empty.append(br, document.createElement("br"), button);
+    button.onclick = () => {resetEditor();showEditor();};
+    empty.append(document.createElement("br"),button);
     root.append(empty);
     return;
   }
@@ -617,16 +679,13 @@ async function loadPosts() {
     title.className = "article-title";
     title.textContent = post.title;
     title.href = post.status === "published"
-      ? "website.html?post=" + encodeURIComponent(post.slug)
-      : "#";
-    if (post.status !== "published")
-      title.addEventListener("click", e => e.preventDefault());
+      ? "website.html?post=" + encodeURIComponent(post.slug) : "#";
+    if (post.status !== "published") title.addEventListener("click",e => e.preventDefault());
 
     const meta = document.createElement("div");
     meta.className = "article-meta";
     meta.textContent = (post.category || "Umum") + " · " +
-      (post.status === "published" ? "Publik" : "Draf") + " · " +
-      dateLabel(post.updated_at);
+      (post.status === "published" ? "Publik" : "Draf") + " · " + dateLabel(post.updated_at);
 
     const actions = document.createElement("div");
     actions.className = "article-actions";
@@ -644,80 +703,95 @@ async function loadPosts() {
       view.href = "website.html?post=" + encodeURIComponent(post.slug);
       actions.append(view);
 
-      const copy = document.createElement("button");
-      copy.className = "btn";
-      copy.textContent = "Bagikan";
-      copy.onclick = async () => {
-        const url = new URL(view.href, location.href).href;
-        try {
-          await navigator.clipboard.writeText(url);
-          alert("Tautan disalin.");
-        } catch {
-          prompt("Salin tautan:", url);
-        }
+      const menu = document.createElement("details");
+      menu.style.position = "relative";
+      const summary = document.createElement("summary");
+      summary.className = "btn";
+      summary.textContent = "⋮";
+      summary.style.cursor = "pointer";
+      const menuItems = document.createElement("div");
+      menuItems.style.cssText = "position:absolute;right:0;top:100%;z-index:5;min-width:190px;padding:8px;background:#22262f;border:1px solid #3a414d;border-radius:9px;display:grid;gap:6px";
+      const linkText = location.origin + location.pathname + "?post=" + encodeURIComponent(post.slug);
+      const copyLink = document.createElement("button");
+      copyLink.className = "btn";
+      copyLink.textContent = "Salin tautan artikel";
+      copyLink.onclick = async () => {
+        try {await navigator.clipboard.writeText(linkText);alert("Tautan disalin: " + linkText);}
+        catch {prompt("Salin tautan artikel:",linkText);}
+        menu.open = false;
       };
-      actions.append(copy);
+      const share = document.createElement("button");
+      share.className = "btn";
+      share.textContent = "Bagikan artikel";
+      share.onclick = async () => {
+        try {
+          if (navigator.share) await navigator.share({title:post.title,url:linkText});
+          else {await navigator.clipboard.writeText(linkText);alert("Tautan disalin.");}
+        } catch (e) {
+          if (e.name !== "AbortError") prompt("Salin tautan artikel:",linkText);
+        }
+        menu.open = false;
+      };
+      menuItems.append(copyLink,share);
+      menu.append(summary,menuItems);
+      actions.append(menu);
     }
 
     const del = document.createElement("button");
     del.className = "btn danger";
     del.textContent = "Hapus";
-    del.onclick = () => deletePost(post.id, post.title);
+    del.onclick = () => deletePost(post.id,post.title);
     actions.append(del);
 
-    body.append(title, meta, actions);
+    body.append(title,meta,actions);
     card.append(body);
     root.append(card);
   }
 }
 
 async function editPost(id) {
-  status("dashboardStatus", "Memuat artikel…");
-  const { data, error } = await db.from(TABLE).select("*")
-    .eq("id", id).eq("owner_id", currentUser.id).single();
+  status("dashboardStatus","Memuat artikel…");
+  const {data,error} = await db.from(TABLE).select("*")
+    .eq("id",id).eq("owner_id",currentUser.id).single();
   if (error) {
-    status("dashboardStatus", error.message, true);
+    status("dashboardStatus",error.message,true);
     return;
   }
-
   resetEditor();
   $("postId").value = data.id;
   $("postTitle").value = data.title;
   $("postSlug").value = data.slug;
-  $("postSlug").dataset.edited = "1";
-  $("postCategory").value = data.category || "Berita & Umum";
+  currentCategory = data.category || "Berita & Umum";
   coverUrl = data.cover_url || "";
+  editingStatus = data.status || "draft";
   $("editorContent").innerHTML = cleanHTML(data.content_html || "");
-  $("editorHeading").textContent = "Edit postingan";
-  status("editorStatus", data.status === "published"
-    ? "Artikel sudah publik. Simpan draf untuk menariknya dari publik atau terbitkan lagi untuk memperbarui."
+  status("editorStatus",data.status === "published"
+    ? "Artikel sudah publik. Publikasikan lagi untuk memperbarui isinya."
     : "Draf dimuat.");
   showEditor();
 }
 
-async function deletePost(id, title) {
-  if (!confirm('Hapus artikel "' + title + '"? Tindakan ini tidak dapat dibatalkan.'))
-    return;
-  const { error } = await db.from(TABLE).delete()
-    .eq("id", id).eq("owner_id", currentUser.id);
+async function deletePost(id,title) {
+  if (!confirm('Hapus artikel "' + title + '"? Tindakan ini tidak dapat dibatalkan.')) return;
+  const {error} = await db.from(TABLE).delete()
+    .eq("id",id).eq("owner_id",currentUser.id);
   if (error) {
-    status("dashboardStatus", "Gagal menghapus: " + error.message, true);
+    status("dashboardStatus","Gagal menghapus: " + error.message,true);
     return;
   }
   await loadPosts();
 }
 
 async function loadPublicPost(slug) {
-  show("authArea", false);
-  show("dashboardArea", false);
-  show("editorArea", false);
-  show("readerArea", true);
+  setEditorMode(false);
+  show("authArea",false);
+  show("dashboardArea",false);
+  show("editorArea",false);
+  show("readerArea",true);
 
-  const { data, error } = await db.from(TABLE)
+  const {data,error} = await db.from(TABLE)
     .select("title,slug,category,cover_url,content_html,author_name,published_at,created_at")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .maybeSingle();
+    .eq("slug",slug).eq("status","published").maybeSingle();
 
   if (error || !data) {
     $("readTitle").textContent = "Artikel tidak ditemukan";
@@ -740,54 +814,43 @@ async function loadPublicPost(slug) {
     img.removeAttribute("src");
     img.style.display = "none";
   }
-
   document.title = data.title + " — OoeR Space";
   const meta = document.querySelector('meta[name="description"]');
   if (meta) meta.content = data.title + " — Artikel di OoeR Space.";
 }
 
-$("shareBtn").addEventListener("click", async () => {
+$("shareBtn").addEventListener("click",async () => {
   const url = location.href;
   if (navigator.share) {
-    try {
-      await navigator.share({ title: document.title, url });
-    } catch (e) {}
+    try {await navigator.share({title:document.title,url});} catch (e) {}
   } else {
-    try {
-      await navigator.clipboard.writeText(url);
-      alert("Tautan artikel disalin.");
-    } catch {
-      prompt("Salin tautan artikel:", url);
-    }
+    try {await navigator.clipboard.writeText(url);alert("Tautan artikel disalin.");}
+    catch {prompt("Salin tautan artikel:",url);}
   }
 });
 
 (async function init() {
   if (!window.supabase) {
-    show("configWarning", true);
-    status("configWarning", "Pustaka Supabase gagal dimuat.", true);
+    show("configWarning",true);
+    status("configWarning","Pustaka Supabase gagal dimuat.",true);
+    return;
+  }
+  if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.startsWith("GANTI_")) {
+    show("configWarning",true);
+    status("configWarning","Konfigurasi belum lengkap. Isi SUPABASE_ANON_KEY dengan publishable/anon key proyek Supabase. Jangan gunakan service_role key.",true);
+    show("authArea",!publicSlug);
     return;
   }
 
-  if (!SUPABASE_ANON_KEY ||
-      SUPABASE_ANON_KEY.startsWith("GANTI_")) {
-    show("configWarning", true);
-    status("configWarning",
-      "Konfigurasi belum lengkap. Isi SUPABASE_ANON_KEY dengan publishable/anon key proyek Supabase. Jangan gunakan service_role key.",
-      true);
-    show("authArea", !publicSlug);
-    return;
-  }
-
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  db = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
   if (publicSlug) {
     await loadPublicPost(slugify(publicSlug));
   } else {
     await loadSession();
-    db.auth.onAuthStateChange((event, session) => {
+    db.auth.onAuthStateChange((event,session) => {
       currentUser = session?.user || null;
-      setTimeout(() => loadSession(), 0);
+      setTimeout(() => loadSession(),0);
     });
   }
 })();
