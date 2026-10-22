@@ -4,1104 +4,330 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#131314">
-<meta name="description" content="OoeR Search — Telusuri informasi, AI, gambar, dan pengetahuan.">
-<title>OoeR Search</title>
+<title>OoeR Search — Cerdas & Lengkap</title>
 
-<!-- Library Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
   color-scheme: dark;
-  --bg: #131314;           /* Hitam Google Dark Mode */
-  --card-bg: #1e1f20;      /* Kartu Knowledge / Panel */
-  --card-sub: #282a2c;
-  --search-bg: #282a2d;    /* Kapsul pencarian */
-  --text: #ffffff;         /* Teks putih bersih */
-  --muted: #9aa0a6;        /* Abu-abu teks sekunder */
+  --bg: #131314;
+  --card-bg: #1e1f20;
+  --search-bg: #282a2d;
+  --text: #ffffff;
+  --muted: #9aa0a6;
   --border: #3c4043;
-  --link-blue: #8ab4f8;    /* Biru link khas */
+  --link-blue: #8ab4f8;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  margin: 0; min-height: 100vh; background-color: var(--bg);
+  color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
 button { cursor: pointer; border: 0; background: transparent; }
 
-/* HEADER ATAS */
 .ooer-header {
-  position: relative;
-  height: 56px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
+  height: 56px; padding: 0 16px; display: flex;
+  align-items: center; justify-content: space-between;
 }
 .back-btn {
-  color: #cfd3dc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  transition: background 0.2s;
+  color: #cfd3dc; display: flex; align-items: center;
+  justify-content: center; width: 36px; height: 36px; border-radius: 50%;
 }
-.back-btn:hover { background: rgba(255,255,255,0.08); }
-
 .ooer-brand {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 26px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.5px;
-  user-select: none;
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 26px; font-weight: 700; color: #fff; user-select: none;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.icon-btn {
-  color: #cfd3dc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-}
-.icon-btn:hover { background: rgba(255,255,255,0.08); }
-
-.avatar-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: #5c6bc0;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 15px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-.avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* DROPDOWN POP-UP AKUN & NOTIF */
-.dropdown-panel {
-  position: absolute;
-  top: 56px;
-  right: 14px;
-  width: min(320px, calc(100vw - 28px));
-  background-color: #23252a;
-  border: 1px solid #3c4043;
-  border-radius: 20px;
-  padding: 16px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.65);
-  z-index: 100;
-}
-.dropdown-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #3c4043;
-  padding-bottom: 10px;
-  margin-bottom: 12px;
-}
-.dropdown-header h4 { margin: 0; font-size: 15px; color: #fff; }
-.close-dropdown { color: #9aa0a6; font-size: 18px; padding: 2px 6px; }
-
-.account-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.account-large-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #5c6bc0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 19px;
-  font-weight: bold;
-  color: #fff;
-  overflow: hidden;
-}
-.account-large-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.account-info {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.account-info strong {
-  font-size: 14px;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.account-info span {
-  font-size: 12px;
-  color: #9aa0a6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.account-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-top: 1px solid #3c4043;
-  padding-top: 12px;
-}
-.account-link-btn {
-  text-align: center;
-  padding: 9px 12px;
-  background: #303134;
-  color: #e8eaed;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 500;
-}
-.account-logout-btn {
-  width: 100%;
-  padding: 9px 12px;
-  background: transparent;
-  color: #f28b82;
-  border: 1px solid #5f6368;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* SEARCH PILL */
 .search-wrapper { padding: 4px 14px 10px; }
 .search-pill {
-  background-color: var(--search-bg);
-  border-radius: 28px;
-  display: flex;
-  align-items: center;
-  padding: 0 10px 0 14px;
-  height: 48px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-.search-icon-left {
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
+  background-color: var(--search-bg); border-radius: 28px;
+  display: flex; align-items: center; padding: 0 10px 0 14px; height: 48px;
 }
 #query {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text);
-  font-size: 15px;
-  min-width: 0;
+  flex: 1; background: transparent; border: none; outline: none;
+  color: var(--text); font-size: 15px; min-width: 0;
 }
-.pill-tools {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--muted);
-}
-.tool-btn {
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  transition: color 0.2s;
-}
-.tool-btn:hover { color: #ffffff; }
+.pill-tools { display: flex; align-items: center; gap: 6px; }
 
-/* DROPDOWN & TOMBOL GANTI BAHASA */
-.lang-selector-box {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: #1e1f20;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2px 6px 2px 8px;
+/* DROPDOWN BAHASA */
+.lang-box {
+  background: #1e1f20; border: 1px solid var(--border);
+  border-radius: 20px; padding: 2px 8px;
 }
-.lang-dropdown {
-  background: transparent;
-  color: #8ab4f8;
-  border: none;
-  font-size: 12px;
-  font-weight: 600;
-  outline: none;
-  cursor: pointer;
-  max-width: 95px;
+.lang-select {
+  background: transparent; color: #8ab4f8; border: none;
+  font-size: 12px; font-weight: 600; outline: none; cursor: pointer;
 }
-.lang-dropdown option, .lang-dropdown optgroup {
-  background-color: #23252a;
-  color: #ffffff;
-}
-.btn-translate-action {
-  color: #8ab4f8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-}
-.btn-translate-action:hover {
-  color: #ffffff;
-}
+.lang-select option { background: #202124; color: #fff; }
 
 /* TABS KATEGORI */
 .nav-tabs {
-  display: flex;
-  gap: 22px;
-  overflow-x: auto;
-  padding: 0 16px;
-  border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
+  display: flex; gap: 20px; overflow-x: auto; padding: 0 16px;
+  border-bottom: 1px solid var(--border); scrollbar-width: none;
 }
 .nav-tabs::-webkit-scrollbar { display: none; }
 .tab-item {
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 0 12px;
-  white-space: nowrap;
-  position: relative;
+  color: var(--muted); font-size: 14px; font-weight: 500;
+  padding: 10px 0 12px; white-space: nowrap; position: relative;
 }
-.tab-item.active {
-  color: #ffffff;
-  font-weight: 600;
-}
+.tab-item.active { color: #ffffff; font-weight: 600; }
 .tab-item.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background-color: #ffffff;
-  border-radius: 3px 3px 0 0;
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background-color: #ffffff; border-radius: 3px 3px 0 0;
 }
 
-/* CONTAINER HASIL */
-.main-container {
-  max-width: 650px;
-  margin: 0 auto;
-  padding: 12px 14px 40px;
+.main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
+.status-msg { padding: 20px 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+/* KARTU OVERVIEW & AI */
+.ai-card {
+  background-color: var(--card-bg); border-radius: 18px;
+  padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
 }
-.status-msg {
-  padding: 24px 12px;
-  color: var(--muted);
-  font-size: 14px;
-  text-align: center;
+.ai-header-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: #8ab4f8; margin-bottom: 8px;
+}
+.ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; }
+
+/* GRID GAMBAR */
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  margin-bottom: 16px; border-radius: 14px; overflow: hidden;
+}
+.gallery-grid img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #282a2c; border-radius: 8px;
 }
 
-/* KNOWLEDGE PANEL / 2 KOLOM GAMBAR */
-.entity-card {
-  background-color: var(--card-bg);
-  border-radius: 18px;
-  padding: 16px;
-  margin-bottom: 14px;
+/* KARTU ARTIKEL / BERITA */
+.article-card {
+  padding: 14px 0; border-bottom: 1px solid #282a2d;
 }
-.entity-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.entity-brand-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.entity-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #fff;
-  background: #3c4043;
-}
-.entity-title-group h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #ffffff;
-}
-.entity-title-group span {
-  font-size: 13px;
-  color: var(--muted);
-}
-.btn-follow {
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 6px 14px;
-  color: #e8eaed;
-  font-size: 12px;
-  font-weight: 600;
-}
+.article-source { font-size: 11px; color: #9aa0a6; margin-bottom: 2px; }
+.article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; display: block; }
+.article-snippet { font-size: 13px; line-height: 1.5; color: #bdc1c6; }
 
-/* GRID 2 GAMBAR POSTER */
-.entity-gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 16px;
-  border-radius: 14px;
-  overflow: hidden;
+/* VIDEO CARD */
+.video-card {
+  background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 12px;
 }
-.entity-gallery img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  background: #2a2c30;
-  display: block;
-}
-
-/* OVERVIEW */
-.overview-box {
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-}
-.overview-heading {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 8px;
-  color: #ffffff;
-}
-.overview-desc {
-  font-size: 13px;
-  line-height: 1.6;
-  color: #d2d5da;
-  margin: 0 0 10px;
-}
-.overview-source {
-  color: var(--link-blue);
-  font-size: 13px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* HASIL ORGANIK */
-.organic-card {
-  padding: 14px 0;
-  border-bottom: 1px solid #23252a;
-}
-.result-header {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 4px;
-}
-.result-sitename {
-  font-size: 12px;
-  color: #dadce0;
-}
-.result-siteurl {
-  font-size: 11px;
-  color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 280px;
-}
-.result-title {
-  color: var(--link-blue);
-  font-size: 18px;
-  line-height: 1.35;
-  margin: 2px 0 6px;
-  display: block;
-}
-.result-snippet {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #bdc1c6;
-  margin: 0;
-}
-
-footer {
-  text-align: center;
-  padding: 24px 14px;
-  font-size: 12px;
-  color: var(--muted);
-  border-top: 1px solid #23252a;
-}
-footer a { color: var(--link-blue); }
+.video-card video { width: 100%; border-radius: 8px; max-height: 240px; background: #000; }
+.video-title { font-size: 14px; margin-top: 6px; color: #e8eaed; }
 </style>
 </head>
 <body>
 
-  <!-- HEADER OOER -->
-  <header class="ooer-header">
-    <div class="header-left">
-      <a class="back-btn" href="./" title="Kembali ke Beranda">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-      </a>
-    </div>
+<header class="ooer-header">
+  <a class="back-btn" href="./" title="Kembali ke Beranda">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  <a class="ooer-brand" href="./">OoeR</a>
+</header>
 
-    <!-- NAMA OOER PUTIH BERSIH DI TITIK TENGAH -->
-    <a class="ooer-brand" href="./" id="brandTitle">OoeR</a>
-
-    <div class="header-actions">
-      <!-- Lonceng Notifikasi & Riwayat -->
-      <button class="icon-btn" id="historyButton" title="Notifikasi & Riwayat" type="button">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-        </svg>
-      </button>
-
-      <!-- Avatar Akun -->
-      <button class="avatar-btn" id="accountButton" type="button" title="Akun OoeR">
-        <span id="avatarText">O</span>
-        <img id="avatarImg" src="" alt="Avatar" style="display:none;">
-      </button>
-    </div>
-
-    <!-- DROPDOWN NOTIFIKASI & RIWAYAT -->
-    <div id="notifDropdown" class="dropdown-panel" hidden>
-      <div class="dropdown-header">
-        <h4>Notifikasi & Riwayat</h4>
-        <button type="button" class="close-dropdown" id="closeNotif">✕</button>
-      </div>
-      <div id="notifList"></div>
-    </div>
-
-    <!-- DROPDOWN KELOLA AKUN -->
-    <div id="accountDropdown" class="dropdown-panel" hidden>
-      <div class="account-card-header">
-        <div class="account-large-avatar" id="dropdownAvatarLarge">
-          <span id="largeAvatarText">O</span>
-          <img id="largeAvatarImg" src="" alt="Avatar" style="display:none;">
-        </div>
-        <div class="account-info">
-          <strong id="dropdownUserName">Memeriksa akun...</strong>
-          <span id="dropdownUserEmail"></span>
-        </div>
-      </div>
-      <div class="account-actions">
-        <a href="./" class="account-link-btn">🏠 Halaman Utama</a>
-        <button type="button" id="logoutBtn" class="account-logout-btn">Keluar (Logout)</button>
+<div class="search-wrapper">
+  <form id="searchForm" class="search-pill">
+    <input id="query" name="q" type="search" placeholder="Telusuri di OoeR..." autocomplete="off">
+    <div class="pill-tools">
+      <div class="lang-box">
+        <select id="langSelect" class="lang-select">
+          <option value="Indonesia">🇮🇩 ID</option>
+          <option value="English (US)">🇺🇸 US</option>
+          <option value="Melayu (Malaysia)">🇲🇾 MY</option>
+          <option value="Jepang">🇯🇵 JP</option>
+          <option value="Arab">🇸🇦 AR</option>
+        </select>
       </div>
     </div>
-  </header>
+  </form>
+</div>
 
-  <!-- FORM PENCARIAN -->
-  <div class="search-wrapper">
-    <form id="searchForm" class="search-pill" role="search">
-      <span class="search-icon-left">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
-      
-      <!-- Input Search -->
-      <input id="query" name="q" type="search" placeholder="Telusuri di OoeR..." autocomplete="off">
-      
-      <div class="pill-tools">
-        <!-- TOMBOL & PILIHAN GANTI BAHASA LENGKAP -->
-        <div class="lang-selector-box" title="Ganti Bahasa (Permanen)">
-          <select id="langSelect" class="lang-dropdown">
-            <optgroup label="Asia Tenggara">
-              <option value="Indonesia">🇮🇩 ID (Indonesia)</option>
-              <option value="Melayu (Malaysia)">🇲🇾 MY (Melayu)</option>
-              <option value="Tagalog (Filipina)">🇵🇭 PH (Filipino)</option>
-              <option value="Thailand">🇹🇭 TH (ไทย)</option>
-              <option value="Vietnam">🇻🇳 VN (Tiếng Việt)</option>
-            </optgroup>
-            <optgroup label="Asia Timur & Selatan">
-              <option value="Jepang">🇯🇵 JP (日本語)</option>
-              <option value="Korea">🇰🇷 KR (한국어)</option>
-              <option value="Mandarin">🇨🇳 ZH (中文)</option>
-              <option value="Hindi (India)">🇮🇳 IN (हिन्दी)</option>
-              <option value="Arab">🇸🇦 AR (العربية)</option>
-            </optgroup>
-            <optgroup label="Global / Barat">
-              <option value="English (US)">🇺🇸 US (English)</option>
-              <option value="English (UK)">🇬🇧 UK (English)</option>
-            </optgroup>
-          </select>
-          <button type="button" class="btn-translate-action" id="translateButton" title="Klik untuk Terjemahkan Sekarang">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/>
-            </svg>
-          </button>
-        </div>
+<!-- SEMUA MENU KATEGORI -->
+<nav class="nav-tabs">
+  <button class="tab-item active" data-tab="all">Semua</button>
+  <button class="tab-item" data-tab="ai">✨ OoeR AI</button>
+  <button class="tab-item" data-tab="images">Gambar</button>
+  <button class="tab-item" data-tab="news">Berita</button>
+  <button class="tab-item" data-tab="videos">Video</button>
+  <button class="tab-item" data-tab="books">Buku</button>
+</nav>
 
-        <button type="button" class="tool-btn" id="clearButton" title="Hapus">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        <button type="button" class="tool-btn" id="voiceButton" title="Suara">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-          </svg>
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <!-- TABS FILTER -->
-  <nav class="nav-tabs">
-    <button class="tab-item" data-tab="ai">✨ OoeR AI</button>
-    <button class="tab-item active" data-tab="all">Semua</button>
-    <button class="tab-item" data-tab="images">Gambar</button>
-    <button class="tab-item" data-tab="news">Berita</button>
-    <button class="tab-item" data-tab="videos">Video</button>
-    <button class="tab-item" data-tab="books">Buku</button>
-  </nav>
-
-  <!-- KONTEN HASIL -->
-  <main class="main-container">
-    <div id="statusBox" class="status-msg">
-      Masukkan kata kunci pencarian Anda di atas.
-    </div>
-
-    <!-- Panel Entitas (Gambar 2 Kolom + Ringkasan) -->
-    <div id="knowledgePanelArea"></div>
-
-    <!-- Hasil Organik -->
-    <div id="organicResultsArea"></div>
-  </main>
-
-  <footer>
-    <div>OoeR Search · Ekosistem Media OoeR</div>
-  </footer>
+<main class="main-container">
+  <div id="statusBox" class="status-msg">Ketik kata kunci untuk mencari...</div>
+  <div id="resultsArea"></div>
+</main>
 
 <script>
 (() => {
-"use strict";
+  "use strict";
 
-const $ = id => document.getElementById(id);
-const input = $("query");
-const statusBox = $("statusBox");
-const knowledgeArea = $("knowledgePanelArea");
-const organicArea = $("organicResultsArea");
-const tabs = [...document.querySelectorAll(".tab-item")];
+  const $ = id => document.getElementById(id);
+  const input = $("query");
+  const statusBox = $("statusBox");
+  const resultsArea = $("resultsArea");
+  const langSelect = $("langSelect");
+  const tabs = document.querySelectorAll(".tab-item");
 
-const langSelect = $("langSelect");
-const translateButton = $("translateButton");
+  let currentTab = "all";
+  let activeData = null;
 
-let activeTab = "all";
-let currentQuery = "";
-let requestId = 0;
+  // Endpoint Kolektor OpenRouter + Memori Permanen
+  const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/ooer-collector";
 
-/* KONEKSI SUPABASE & ENDPOINT RESMI GROQ OOER */
-const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
-
-// MENGGUNAKAN EDGE FUNCTION HYPER-TASK
-const AI_TRANSLATE_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/hyper-task";
-
-let supabaseClient = null;
-if (window.supabase?.createClient) {
-  try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: "pkce" }
-    });
-  } catch (err) {
-    console.error("Inisialisasi Supabase gagal:", err);
-  }
-}
-
-/* ===================================================
-   PENGATURAN BAHASA PERMANEN (LOCALSTORAGE)
-   =================================================== */
-
-// 1. Muat bahasa permanen yang tersimpan di HP/komputer pengguna
-const savedLang = localStorage.getItem("ooer_user_lang");
-if (savedLang) {
+  // Muat bahasa permanen
+  const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.value = savedLang;
-}
 
-// 2. Setiap kali pengguna memilih bahasa baru di dropdown, KUNCI permanen!
-langSelect.addEventListener("change", () => {
-  localStorage.setItem("ooer_user_lang", langSelect.value);
-  translateCurrentScreen();
-});
-
-/* ===================================================
-   SINKRONISASI AKUN DARI HOME (GOOGLE SUPABASE AUTH)
-   =================================================== */
-let currentUser = null;
-
-async function syncAccountSession() {
-  if (!supabaseClient) return;
-  try {
-    const { data } = await supabaseClient.auth.getSession();
-    const session = data?.session;
-    if (session?.user) {
-      applyUserData(session.user);
-    } else {
-      $("dropdownUserName").textContent = "Tamu (Belum Masuk)";
-      $("dropdownUserEmail").textContent = "Masuk di Halaman Utama";
-      $("logoutBtn").textContent = "Masuk dengan Google";
-      $("avatarText").textContent = "O";
-    }
-  } catch (err) {
-    console.warn("Gagal membaca session akun:", err);
-  }
-}
-
-function applyUserData(user) {
-  currentUser = user;
-  const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Pengguna OoeR";
-  const picture = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-  const initial = (name[0] || "O").toUpperCase();
-
-  $("dropdownUserName").textContent = name;
-  $("dropdownUserEmail").textContent = user.email || "";
-  $("logoutBtn").textContent = "Keluar dari Google";
-
-  if (picture) {
-    $("avatarImg").src = picture;
-    $("avatarImg").style.display = "block";
-    $("avatarText").style.display = "none";
-
-    $("largeAvatarImg").src = picture;
-    $("largeAvatarImg").style.display = "block";
-    $("largeAvatarText").style.display = "none";
-  } else {
-    $("avatarText").textContent = initial;
-    $("largeAvatarText").textContent = initial;
-  }
-}
-
-if (supabaseClient) {
-  supabaseClient.auth.onAuthStateChange((_, session) => {
-    if (session?.user) applyUserData(session.user);
+  langSelect.addEventListener("change", () => {
+    localStorage.setItem("ooer_user_lang", langSelect.value);
+    if (input.value.trim()) runSearch(input.value);
   });
-}
-syncAccountSession();
 
-$("logoutBtn").addEventListener("click", async () => {
-  if (currentUser && supabaseClient) {
-    if (confirm("Keluar dari akun Google OoeR?")) {
-      await supabaseClient.auth.signOut();
-      location.href = "./";
+  function showStatus(text) {
+    statusBox.textContent = text;
+    statusBox.hidden = false;
+  }
+
+  // RENDER SESUAI MENU TAB YANG DIKLIK
+  function renderView() {
+    if (!activeData) return;
+    resultsArea.replaceChildren();
+
+    // 1. TAB SEMUA (Gabungan Cerdas)
+    if (currentTab === "all") {
+      // Kotak AI Overview
+      const aiBox = document.createElement("div");
+      aiBox.className = "ai-card";
+      aiBox.innerHTML = `
+        <div class="ai-header-badge">${activeData.is_memory ? "⚡ Memori OoeR Permanen" : "✨ Ringkasan OoeR AI"}</div>
+        <div class="ai-text">${activeData.answer}</div>
+      `;
+      resultsArea.appendChild(aiBox);
+
+      // Gambar 2-4 Kolom
+      if (activeData.images && activeData.images.length > 0) {
+        const gal = document.createElement("div");
+        gal.className = "gallery-grid";
+        activeData.images.slice(0, 4).forEach(src => {
+          gal.innerHTML += `<img src="${src}" alt="Gambar">`;
+        });
+        resultsArea.appendChild(gal);
+      }
+
+      // Daftar Artikel Web
+      if (activeData.articles) {
+        activeData.articles.forEach(art => {
+          resultsArea.innerHTML += `
+            <div class="article-card">
+              <div class="article-source">${art.source}</div>
+              <a href="${art.url}" target="_blank" class="article-title">${art.title}</a>
+              <div class="article-snippet">${art.snippet}</div>
+            </div>
+          `;
+        });
+      }
     }
-  } else {
-    location.href = "./";
-  }
-});
 
-/* ===================================================
-   POP-UP AKUN & NOTIFIKASI
-   =================================================== */
-const notifDropdown = $("notifDropdown");
-const accountDropdown = $("accountDropdown");
-
-$("accountButton").addEventListener("click", (e) => {
-  e.stopPropagation();
-  notifDropdown.hidden = true;
-  accountDropdown.hidden = !accountDropdown.hidden;
-});
-
-$("historyButton").addEventListener("click", (e) => {
-  e.stopPropagation();
-  accountDropdown.hidden = true;
-  notifDropdown.hidden = !notifDropdown.hidden;
-  if (!notifDropdown.hidden) renderNotifPanel();
-});
-
-$("closeNotif").addEventListener("click", () => {
-  notifDropdown.hidden = true;
-});
-
-document.addEventListener("click", (e) => {
-  if (!accountDropdown.contains(e.target) && e.target !== $("accountButton")) {
-    accountDropdown.hidden = true;
-  }
-  if (!notifDropdown.contains(e.target) && e.target !== $("historyButton")) {
-    notifDropdown.hidden = true;
-  }
-});
-
-function getHomeHistory() {
-  try {
-    return JSON.parse(localStorage.getItem("oer_search_history") || "[]");
-  } catch { return []; }
-}
-
-function saveHomeHistory(term) {
-  try {
-    let hist = getHomeHistory().filter(i => i.toLowerCase() !== term.toLowerCase());
-    hist.unshift(term);
-    localStorage.setItem("oer_search_history", JSON.stringify(hist.slice(0, 20)));
-  } catch {}
-}
-
-function renderNotifPanel() {
-  const container = $("notifList");
-  container.innerHTML = "";
-
-  const hist = getHomeHistory();
-
-  let html = `
-    <div style="font-size:12px; color:#9aa0a6; margin-bottom:6px;">Pemberitahuan</div>
-    <div style="font-size:13px; color:#fff; background:#18191c; padding:10px 12px; border-radius:12px; margin-bottom:12px; border:1px solid #3c4043;">
-      ✨ Akun & Riwayat OoeR aktif terhubung.
-    </div>
-    <div style="font-size:12px; color:#9aa0a6; margin-bottom:8px;">Riwayat Pencarian Terakhir</div>
-  `;
-
-  if (hist.length > 0) {
-    html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
-    hist.slice(0, 6).forEach(item => {
-      html += `<button type="button" class="hist-item-btn" style="text-align:left; background:transparent; color:#8ab4f8; font-size:13px; padding:3px 0;" data-search="${item}">🕒 ${item}</button>`;
-    });
-    html += `</div>`;
-  } else {
-    html += `<p style="font-size:12px; color:#5f6368; margin:0;">Belum ada riwayat tersimpan.</p>`;
-  }
-
-  container.innerHTML = html;
-
-  container.querySelectorAll(".hist-item-btn").forEach(btn => {
-    btn.onclick = () => {
-      notifDropdown.hidden = true;
-      runSearch(btn.dataset.search);
-    };
-  });
-}
-
-/* ===================================================
-   FITUR PENERJEMAH GROQ AI VIA HYPER-TASK (0 TOKEN CACHE)
-   =================================================== */
-
-async function translateTextWithGroq(text, targetLang) {
-  if (!text || !text.trim()) return text;
-  if (targetLang === "Indonesia") return text;
-
-  const cacheKey = `ooer_tr_${targetLang}_${text.trim()}`;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) {
-    return cached; // 0 Token!
-  }
-
-  try {
-    const res = await fetch(AI_TRANSLATE_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
-      },
-      body: JSON.stringify({
-        message: `Terjemahkan teks berikut ke bahasa ${targetLang}. HANYA berikan hasil terjemahan murni tanpa penjelasan pembuka atau tanda kutip:\n\n${text}`,
-        max_tokens: 600
-      })
-    });
-    const data = await res.json();
-    if (data.reply) {
-      const cleanResult = data.reply.trim().replace(/^["']|["']$/g, '');
-      try {
-        localStorage.setItem(cacheKey, cleanResult);
-      } catch (e) {}
-      return cleanResult;
+    // 2. TAB OoeR AI (Fokus Jawaban AI Mendalam)
+    else if (currentTab === "ai") {
+      resultsArea.innerHTML = `
+        <div class="ai-card">
+          <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
+          <div class="ai-text">${activeData.answer}</div>
+        </div>
+      `;
     }
-    return text;
-  } catch (err) {
-    console.warn("Gagal terjemah dengan Groq:", err);
-    return text;
-  }
-}
 
-async function translateCurrentScreen() {
-  const target = langSelect.value;
-  if (target === "Indonesia") return;
+    // 3. TAB GAMBAR (Galeri Penuh)
+    else if (currentTab === "images") {
+      const gal = document.createElement("div");
+      gal.className = "gallery-grid";
+      (activeData.images || []).forEach(src => {
+        gal.innerHTML += `<img src="${src}" style="aspect-ratio:1/1;" alt="Galeri">`;
+      });
+      resultsArea.appendChild(gal);
+    }
 
-  const currentText = input.value.trim();
+    // 4. TAB BERITA & ARTIKEL
+    else if (currentTab === "news" || currentTab === "books") {
+      (activeData.articles || []).forEach(art => {
+        resultsArea.innerHTML += `
+          <div class="article-card">
+            <div class="article-source">${currentTab === 'books' ? '📚 Pustaka Terbuka' : '📰 Warta Media'}</div>
+            <a href="${art.url}" target="_blank" class="article-title">${art.title}</a>
+            <div class="article-snippet">${art.snippet}</div>
+          </div>
+        `;
+      });
+    }
 
-  translateButton.style.opacity = "0.4";
-  showStatus(`Menerjemahkan ke bahasa ${target}...`);
-
-  // 1. Terjemahkan teks input search
-  if (currentText) {
-    const tQuery = await translateTextWithGroq(currentText, target);
-    input.value = tQuery;
-  }
-
-  // 2. Terjemahkan judul & overview
-  const overviewTitle = document.querySelector(".entity-title-group h2");
-  const overviewDesc = document.querySelector(".overview-desc");
-  if (overviewTitle && overviewDesc) {
-    const [tTitle, tDesc] = await Promise.all([
-      translateTextWithGroq(overviewTitle.innerText, target),
-      translateTextWithGroq(overviewDesc.innerText, target)
-    ]);
-    overviewTitle.innerText = tTitle;
-    overviewDesc.innerText = tDesc;
-  }
-
-  // 3. Terjemahkan artikel organik di bawahnya
-  const organicCards = document.querySelectorAll(".organic-card");
-  for (const card of organicCards) {
-    const titleEl = card.querySelector(".result-title");
-    const snippetEl = card.querySelector(".result-snippet");
-    if (titleEl && snippetEl) {
-      const [tTitle, tSnippet] = await Promise.all([
-        translateTextWithGroq(titleEl.innerText, target),
-        translateTextWithGroq(snippetEl.innerText, target)
-      ]);
-      titleEl.innerText = tTitle;
-      snippetEl.innerText = tSnippet;
+    // 5. TAB VIDEO
+    else if (currentTab === "videos") {
+      if (!activeData.videos || activeData.videos.length === 0) {
+        resultsArea.innerHTML = `<div class="status-msg">Belum ada video terbuka untuk topik ini.</div>`;
+      } else {
+        activeData.videos.forEach(vid => {
+          resultsArea.innerHTML += `
+            <div class="video-card">
+              <video src="${vid.url}" controls></video>
+              <div class="video-title">🎬 ${vid.title}</div>
+            </div>
+          `;
+        });
+      }
     }
   }
 
-  statusBox.hidden = true;
-  translateButton.style.opacity = "1";
-}
+  // PENCARIAN UTAMA
+  async function runSearch(keyword) {
+    const q = keyword.trim();
+    if (!q) return;
 
-translateButton.addEventListener("click", translateCurrentScreen);
+    input.value = q;
+    showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
+    resultsArea.replaceChildren();
 
-/* ===================================================
-   MESIN PENCARIAN (WIKIPEDIA + GAMBAR + AI OOER)
-   =================================================== */
-function clearResults() {
-  knowledgeArea.replaceChildren();
-  organicArea.replaceChildren();
-}
+    try {
+      const res = await fetch(COLLECTOR_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: q,
+          lang: langSelect.value
+        })
+      });
 
-function showStatus(text) {
-  statusBox.textContent = text;
-  statusBox.hidden = false;
-}
-
-function setTab(name) {
-  activeTab = name;
-  tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === name));
-}
-
-async function fetchWiki(query, id) {
-  try {
-    const url = new URL("https://id.wikipedia.org/w/api.php");
-    url.search = new URLSearchParams({
-      action: "query", list: "search", srsearch: query, srnamespace: "0",
-      srlimit: "6", utf8: "1", format: "json", origin: "*"
-    });
-    const res = await fetch(url);
-    const data = await res.json();
-    if (id !== requestId) return [];
-    return (data.query?.search || []).map(item => ({
-      title: item.title,
-      url: "https://id.wikipedia.org/wiki/" + encodeURIComponent(item.title.replace(/ /g, "_")),
-      snippet: (item.snippet || "").replace(/<[^>]*>/g, ""),
-      source: "Wikipedia"
-    }));
-  } catch { return []; }
-}
-
-async function fetchImages(query, id) {
-  try {
-    const url = new URL("https://commons.wikimedia.org/w/api.php");
-    url.search = new URLSearchParams({
-      action: "query", generator: "search", gsrsearch: query, gsrnamespace: "6",
-      gsrlimit: "10", prop: "imageinfo", iiprop: "url|mime", iiurlwidth: "600",
-      format: "json", origin: "*"
-    });
-    const res = await fetch(url);
-    const data = await res.json();
-    if (id !== requestId) return [];
-    return Object.values(data.query?.pages || {})
-      .map(p => p.imageinfo?.[0]?.thumburl)
-      .filter(Boolean)
-      .slice(0, 4);
-  } catch { return []; }
-}
-
-async function fetchAI(query) {
-  try {
-    const targetLang = langSelect.value;
-    const res = await fetch(AI_TRANSLATE_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY
-      },
-      body: JSON.stringify({ 
-        message: `Jelaskan secara ringkas dan informatif mengenai: ${query} (dalam bahasa ${targetLang})`,
-        max_tokens: 600
-      })
-    });
-    const data = await res.json();
-    return data.reply || "";
-  } catch { return ""; }
-}
-
-/* RENDER PANEL ENTITAS */
-function renderEntityCard(title, subtitle, desc, sourceUrl, images) {
-  knowledgeArea.replaceChildren();
-
-  const card = document.createElement("div");
-  card.className = "entity-card";
-
-  const header = document.createElement("div");
-  header.className = "entity-header";
-  header.innerHTML = `
-    <div class="entity-brand-row">
-      <div class="entity-icon">${title.charAt(0)}</div>
-      <div class="entity-title-group">
-        <h2>${title}</h2>
-        <span>${subtitle || "Entitas Pengetahuan"}</span>
-      </div>
-    </div>
-    <button class="btn-follow">+ Ikuti</button>
-  `;
-  card.append(header);
-
-  if (images && images.length >= 2) {
-    const gallery = document.createElement("div");
-    gallery.className = "entity-gallery";
-    gallery.innerHTML = `
-      <img src="${images[0]}" alt="${title}">
-      <img src="${images[1]}" alt="${title}">
-    `;
-    card.append(gallery);
-  }
-
-  const overview = document.createElement("div");
-  overview.className = "overview-box";
-  overview.innerHTML = `
-    <h3 class="overview-heading">Overview</h3>
-    <p class="overview-desc">${desc}</p>
-    <a href="${sourceUrl}" target="_blank" class="overview-source">Sumber · Wikipedia ❯</a>
-  `;
-  card.append(overview);
-
-  knowledgeArea.append(card);
-}
-
-function renderOrganicResult(item) {
-  const card = document.createElement("article");
-  card.className = "organic-card";
-  card.innerHTML = `
-    <div class="result-header">
-      <span class="result-sitename">${item.source}</span>
-      <span class="result-siteurl">${item.url}</span>
-    </div>
-    <a href="${item.url}" target="_blank" class="result-title">${item.title}</a>
-    <p class="result-snippet">${item.snippet}</p>
-  `;
-  organicArea.append(card);
-}
-
-async function runSearch(query) {
-  const q = String(query || "").trim();
-  if (!q) return;
-
-  currentQuery = q;
-  input.value = q;
-  saveHomeHistory(q);
-  const id = ++requestId;
-
-  clearResults();
-  showStatus("Menelusuri...");
-
-  const [wikiResults, images] = await Promise.all([
-    fetchWiki(q, id),
-    fetchImages(q, id)
-  ]);
-
-  if (id !== requestId) return;
-  statusBox.hidden = true;
-
-  if (wikiResults.length > 0) {
-    const top = wikiResults[0];
-    renderEntityCard(top.title, "Topik Terkait", top.snippet, top.url, images);
-    wikiResults.slice(1).forEach(renderOrganicResult);
-
-    // Jika bahasa permanen BUKAN Indonesia, langsung terjemahkan otomatis!
-    if (langSelect.value !== "Indonesia") {
-      translateCurrentScreen();
-    }
-  } else {
-    showStatus("Tidak ada hasil yang ditemukan untuk: " + q);
-  }
-
-  if (activeTab === "ai") {
-    showStatus("OoeR AI sedang merangkum...");
-    const aiText = await fetchAI(q);
-    if (aiText) {
+      const data = await res.json();
+      activeData = data;
       statusBox.hidden = true;
-      renderEntityCard(q, "Jawaban OoeR AI", aiText, "#", images);
+      renderView();
+    } catch (err) {
+      showStatus("Gagal memuat data pencarian.");
     }
   }
-}
 
-/* EVENT FORM */
-$("searchForm").addEventListener("submit", e => {
-  e.preventDefault();
-  runSearch(input.value);
-});
-
-$("clearButton").addEventListener("click", () => {
-  input.value = "";
-  input.focus();
-});
-
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    setTab(tab.dataset.tab);
-    if (currentQuery) runSearch(currentQuery);
+  // GANTI TAB
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentTab = tab.dataset.tab;
+      renderView();
+    });
   });
-});
 
-/* PENCARIAN SUARA */
-$("voiceButton").addEventListener("click", () => {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return alert("Pencarian suara belum didukung di browser ini.");
-  const mic = new SR();
-  mic.lang = "id-ID";
-  mic.onresult = e => {
-    input.value = e.results[0][0].transcript;
+  $("searchForm").addEventListener("submit", e => {
+    e.preventDefault();
     runSearch(input.value);
-  };
-  mic.start();
-});
+  });
 
-const params = new URLSearchParams(location.search);
-if (params.get("q")) runSearch(params.get("q"));
-
+  const params = new URLSearchParams(location.search);
+  if (params.get("q")) runSearch(params.get("q"));
 })();
 </script>
 </body>
