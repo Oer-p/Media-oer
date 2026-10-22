@@ -222,7 +222,7 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .settings-text h4{margin:0 0 4px;font-size:15px}
 .settings-text p{margin:0;font-size:12px;color:var(--muted)}
 
-/* Login wajib */
+/* Login Popup (Tampil jika belum login saat klik fitur) */
 #loginGate{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:20px;
@@ -260,10 +260,8 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .google-mark{font-size:21px;font-weight:bold;color:#4285f4}
 #loginMessage{min-height:20px;margin:14px 0 0;font-size:12px;color:#ffb4ab}
 
-/* Pengunci pointer saat layar login terbuka */
+/* Pengunci scroll halus hanya ketika modal popup login muncul */
 body.login-locked{overflow:hidden}
-body.login-locked header,
-body.login-locked main{pointer-events:none;user-select:none}
 
 @media(max-width:700px){
   header{min-height:56px;padding:8px 10px}
@@ -425,7 +423,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   </div>
 </div>
 
-<!-- Login wajib -->
+<!-- Login Popup -->
 <div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="login-card">
     <div class="login-logo" aria-label="OoeR">
@@ -465,9 +463,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   let authReady = false;
   let authBusy = false;
 
-  /* ===================================================
-     KAMUS LENGKAP 12 BAHASA
-     =================================================== */
+  /* KAMUS 12 BAHASA */
   const UI_DICTIONARY = {
     "Indonesia": {
       placeholder: "Cari atau masukkan alamat",
@@ -761,8 +757,8 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   function updateThemeButton() {
     if (!themeButton) return;
-    const currentLang = langSelectHome ? langSelectHome.value : "Indonesia";
-    const dict = UI_DICTIONARY[currentLang] || UI_DICTIONARY["Indonesia"];
+    const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
+    const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
     themeButton.textContent = document.body.classList.contains("light") ? dict.darkMode : dict.lightMode;
   }
 
@@ -804,7 +800,7 @@ body.login-locked main{pointer-events:none;user-select:none}
     }
   }
 
-  // Muat bahasa awal
+  // Muat bahasa permanen
   const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
   if (langSelectHome) langSelectHome.value = savedLang;
   applyLanguage(savedLang);
@@ -817,19 +813,16 @@ body.login-locked main{pointer-events:none;user-select:none}
     });
   }
 
-  // Deteksi jika pengguna kembali dari search agar Home TIDAK MACET
-  window.addEventListener("pageshow", (event) => {
+  // Pastikan saat ditekan tombol kembali dari Search, Home LANGSUNG responsif!
+  window.addEventListener("pageshow", () => {
+    document.body.classList.remove("login-locked");
     const currentLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
     if (langSelectHome) langSelectHome.value = currentLang;
     applyLanguage(currentLang);
-    // Pastikan kunci pointer dilepas jika pengguna sudah login
     if (currentSession) unlockPage(currentSession);
   });
 
-  /* ===================================================
-     SUPABASE AUTH
-     =================================================== */
-
+  /* SUPABASE AUTH */
   if (window.supabase?.createClient) {
     try {
       supabaseClient = window.supabase.createClient(
@@ -852,10 +845,7 @@ body.login-locked main{pointer-events:none;user-select:none}
   function readStorage(key, fallback = []) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || "null");
-      if (Array.isArray(fallback)) {
-        return Array.isArray(value) ? value : fallback;
-      }
-      return value ?? fallback;
+      return Array.isArray(fallback) ? (Array.isArray(value) ? value : fallback) : (value ?? fallback);
     } catch {
       return fallback;
     }
@@ -870,7 +860,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   }
 
   function lockPage() {
-    document.body.classList.add("login-locked");
     if (loginGate) loginGate.classList.add("show");
     const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
     const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
@@ -885,10 +874,8 @@ body.login-locked main{pointer-events:none;user-select:none}
     const curLang = langSelectHome ? langSelectHome.value : "Indonesia";
     const dict = UI_DICTIONARY[curLang] || UI_DICTIONARY["Indonesia"];
     const user = session.user;
-    const name = user.user_metadata?.full_name ||
-      user.user_metadata?.name || user.email || "Pengguna OoeR";
-    const picture = user.user_metadata?.avatar_url ||
-      user.user_metadata?.picture;
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "Pengguna OoeR";
+    const picture = user.user_metadata?.avatar_url || user.user_metadata?.picture;
 
     if ($("accountMenuHeader")) {
       $("accountMenuHeader").textContent = name + (user.email ? " · " + user.email : "");
@@ -903,9 +890,7 @@ body.login-locked main{pointer-events:none;user-select:none}
         img.src = picture;
         img.alt = "Foto profil";
         img.referrerPolicy = "no-referrer";
-        img.onerror = () => {
-          avatar.textContent = (name[0] || "O").toUpperCase();
-        };
+        img.onerror = () => { avatar.textContent = (name[0] || "O").toUpperCase(); };
         avatar.appendChild(img);
       } else {
         avatar.textContent = (name[0] || "O").toUpperCase();
@@ -919,7 +904,6 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   async function signInWithGoogle() {
     if (authBusy) return;
-
     if (!supabaseClient) {
       showLoginError("Supabase belum berhasil dimuat. Periksa koneksi internet.");
       return;
@@ -953,8 +937,7 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   async function signOut() {
     if (!supabaseClient) return;
-    const confirmed = confirm("Keluar dari akun Google OoeR?");
-    if (!confirmed) return;
+    if (!confirm("Keluar dari akun Google OoeR?")) return;
 
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
@@ -980,20 +963,16 @@ body.login-locked main{pointer-events:none;user-select:none}
   async function initializeAuth() {
     if (!supabaseClient) {
       authReady = true;
-      lockPage();
       return;
     }
 
     try {
       const { data, error } = await supabaseClient.auth.getSession();
       if (error) throw error;
-
       authReady = true;
       if (data.session?.user) unlockPage(data.session);
-      else lockPage();
     } catch (error) {
       authReady = true;
-      lockPage();
     }
   }
 
@@ -1013,7 +992,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   if ($("accountMenuButton")) {
     $("accountMenuButton").addEventListener("click", event => {
       event.stopPropagation();
-      if (!currentSession) { lockPage(); return; }
       if (accountMenu) {
         accountMenu.classList.toggle("show");
         $("accountMenuButton").setAttribute(
@@ -1029,7 +1007,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   if ($("siteMenuButton")) {
     $("siteMenuButton").addEventListener("click", event => {
       event.stopPropagation();
-      if (!currentSession) { lockPage(); return; }
       if (siteMenu) siteMenu.classList.toggle("show");
     });
   }
@@ -1074,20 +1051,12 @@ body.login-locked main{pointer-events:none;user-select:none}
   if (loginGate) loginGate.addEventListener("click", event => { event.stopPropagation(); });
 
   document.addEventListener("keydown", event => {
-    if (!currentSession && loginGate && loginGate.classList.contains("show")) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-      return;
-    }
-
     if (event.key === "Escape") {
       document.querySelectorAll(".overlay.show").forEach(el => el.classList.remove("show"));
       if (accountMenu) accountMenu.classList.remove("show");
       if (siteMenu) siteMenu.classList.remove("show");
     }
-  }, true);
+  });
 
   /* Riwayat pencarian */
   function getHistory() {
@@ -1134,7 +1103,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   }
 
   function performSearch() {
-    if (!currentSession) { lockPage(); return; }
     if (!input) return;
     const query = input.value.trim();
 
@@ -1189,8 +1157,6 @@ body.login-locked main{pointer-events:none;user-select:none}
 
   mainButtons.forEach(button => {
     button.addEventListener("click", () => {
-      if (!currentSession) { lockPage(); return; }
-
       mainButtons.forEach(item => item.classList.remove("selected"));
       button.classList.add("selected");
 
@@ -1211,8 +1177,6 @@ body.login-locked main{pointer-events:none;user-select:none}
   /* Pencarian suara */
   if ($("voiceButton")) {
     $("voiceButton").addEventListener("click", () => {
-      if (!currentSession) { lockPage(); return; }
-
       const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!Recognition) {
         if (notice) notice.textContent = "Pencarian suara tidak didukung browser ini.";
