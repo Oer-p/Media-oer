@@ -221,9 +221,7 @@
 
 <body class="bg-ooer-bg text-gray-100 font-sans flex flex-col h-screen overflow-hidden">
 
-    <!-- Header -->
     <header class="bg-ooer-card border-b border-ooer-border px-4 py-3 flex items-center justify-between shadow-md z-20 flex-shrink-0">
-
         <div class="flex items-center space-x-3">
             <a href="index.html"
                class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-ooer-input transition flex items-center justify-center"
@@ -252,7 +250,6 @@
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-
                 <span class="text-xs text-gray-300 font-medium">Gemini AI</span>
             </div>
 
@@ -266,7 +263,6 @@
         </div>
     </header>
 
-    <!-- Area Chat -->
     <main id="chat-container"
           class="flex-1 overflow-y-auto p-4 space-y-4 max-w-3xl mx-auto w-full">
 
@@ -289,7 +285,6 @@
             </p>
         </div>
 
-        <!-- Pesan pembuka -->
         <div class="flex items-start space-x-3">
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
                 AI
@@ -311,10 +306,7 @@
         </div>
     </main>
 
-    <!-- Bagian input -->
     <footer class="bg-ooer-bg border-t border-ooer-border p-3 sm:p-4 max-w-3xl mx-auto w-full flex-shrink-0">
-
-        <!-- Prompt cepat -->
         <div id="quick-prompts"
              class="flex items-center space-x-2 overflow-x-auto pb-2 mb-2 no-scrollbar text-xs">
 
@@ -347,7 +339,6 @@
             </button>
         </div>
 
-        <!-- Form chat -->
         <form id="chat-form"
               onsubmit="handleSubmit(event)"
               class="relative flex items-end bg-ooer-card border border-ooer-border rounded-2xl p-1.5 focus-within:border-ooer-blue transition">
@@ -401,16 +392,18 @@
         let recognition = null;
 
         // ==========================================
-        // SUPABASE EDGE FUNCTION
-        // Fungsi yang dipanggil: smooth-handler
+        // KONFIGURASI SUPABASE EDGE FUNCTION
+        // URL proyek diperbaiki sesuai alamat Supabase
         // ==========================================
 
         const SUPABASE_URL =
-            'https://jhopfzmyxuafdbwvkjbf.supabase.co';
+            'https://jhopfzmyxuafdbwwkjbf.supabase.co';
 
         const SUPABASE_PUBLISHABLE_KEY =
             'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
 
+        // Mengikuti URL Edge Function yang kamu kirim:
+        // /functions/v1/smooth-handler
         const EDGE_FUNCTION_NAME = 'smooth-handler';
 
         function adjustTextareaHeight(el) {
@@ -446,7 +439,6 @@
             e.preventDefault();
 
             const text = userInput.value.trim();
-
             if (!text || isGenerating) return;
 
             if (welcomeCard) {
@@ -460,17 +452,14 @@
             checkInputStatus();
 
             appendUserBubble(text);
-
             const typingId = appendTypingIndicator();
 
             try {
                 const aiResponse = await fetchGeminiResponse(text);
-
                 removeElement(typingId);
                 appendAIBubble(aiResponse);
             } catch (error) {
                 console.error('OoeR AI Error:', error);
-
                 removeElement(typingId);
 
                 appendAIBubble(
@@ -500,7 +489,6 @@
             bubble.appendChild(paragraph);
             msgDiv.appendChild(bubble);
             chatContainer.appendChild(msgDiv);
-
             scrollToBottom();
         }
 
@@ -521,8 +509,6 @@
             markdown.className =
                 'markdown-body text-sm text-gray-200 leading-relaxed select-text';
 
-            // Marked menghasilkan HTML dari teks model.
-            // Sanitasi HTML agar jawaban model tidak menyisipkan skrip.
             markdown.innerHTML = renderSafeMarkdown(text);
 
             const actions = document.createElement('div');
@@ -579,7 +565,6 @@
                 ? marked.parse(text, { breaks: true, gfm: true })
                 : escapeHTML(text).replace(/\n/g, '<br>');
 
-            // Menghapus elemen yang berpotensi menjalankan skrip.
             const parser = new DOMParser();
             const doc = parser.parseFromString(rawHTML, 'text/html');
 
@@ -621,7 +606,6 @@
                 <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
                     AI
                 </div>
-
                 <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-4 shadow flex items-center space-x-1.5">
                     <span class="w-2 h-2 bg-gray-400 rounded-full dot-1"></span>
                     <span class="w-2 h-2 bg-gray-400 rounded-full dot-2"></span>
@@ -631,35 +615,41 @@
 
             chatContainer.appendChild(typingDiv);
             scrollToBottom();
-
             return id;
         }
 
         // ==========================================
         // KONEKSI KE SUPABASE EDGE FUNCTION
-        //
-        // Permintaan: { "message": "..." }
-        // Balasan:    { "reply": "..." }
-        //
-        // Juga menerima format { "answer": "..." }
-        // untuk kompatibilitas dengan fungsi versi lama.
+        // Request: { "message": "..." }
+        // Response: { "reply": "..." } atau { "answer": "..." }
         // ==========================================
 
         async function fetchGeminiResponse(prompt) {
             const endpoint =
                 `${SUPABASE_URL}/functions/v1/${EDGE_FUNCTION_NAME}`;
 
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': SUPABASE_PUBLISHABLE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
-                },
-                body: JSON.stringify({
-                    message: prompt
-                })
-            });
+            let response;
+
+            try {
+                response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_PUBLISHABLE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+                    },
+                    body: JSON.stringify({
+                        message: prompt
+                    })
+                });
+            } catch (error) {
+                console.error('Gagal menghubungi Edge Function:', error);
+
+                throw new Error(
+                    'Browser tidak dapat menghubungi Supabase. Periksa alamat proyek, koneksi internet, dan pengaturan CORS Edge Function. URL yang dipanggil: ' +
+                    endpoint
+                );
+            }
 
             const rawText = await response.text();
             let data = {};
@@ -720,15 +710,10 @@
                 return;
             }
 
-            if (
-                !confirm(
-                    'Apakah Anda yakin ingin menghapus seluruh riwayat chat ini?'
-                )
-            ) {
+            if (!confirm('Apakah Anda yakin ingin menghapus seluruh riwayat chat ini?')) {
                 return;
             }
 
-            // Hanya membersihkan percakapan pada halaman ini.
             chatContainer.innerHTML = '';
 
             if (welcomeCard) {
@@ -743,12 +728,10 @@
                 <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-ooer-blue to-ooer-green flex-shrink-0 flex items-center justify-center text-white font-bold text-xs shadow">
                     AI
                 </div>
-
                 <div class="bg-ooer-card border border-ooer-border rounded-2xl rounded-tl-none p-3.5 max-w-[88%] sm:max-w-[80%] shadow">
                     <p class="text-sm text-gray-200">
                         Halo! Saya OoeR AI. Ada yang bisa saya bantu untuk Anda hari ini?
                     </p>
-
                     <div class="mt-2 flex justify-end">
                         <button type="button"
                                 onclick="copyMessageText(this)"
@@ -766,7 +749,6 @@
 
         async function copyMessageText(btn) {
             const bubble = btn.closest('.bg-ooer-card');
-
             if (!bubble) return;
 
             const content = bubble.querySelector('.markdown-body')
@@ -809,7 +791,6 @@
 
                 const success = document.execCommand('copy');
                 textArea.remove();
-
                 return success;
             } catch (error) {
                 console.error('Gagal menyalin teks:', error);
@@ -852,8 +833,7 @@
                 };
 
                 recognition.onresult = function(event) {
-                    const transcript =
-                        event.results[0][0].transcript;
+                    const transcript = event.results[0][0].transcript;
 
                     userInput.value +=
                         (userInput.value ? ' ' : '') + transcript;
@@ -896,16 +876,12 @@
 
         function removeElement(id) {
             const el = document.getElementById(id);
-
-            if (el) {
-                el.remove();
-            }
+            if (el) el.remove();
         }
 
         function scrollToBottom() {
             requestAnimationFrame(() => {
-                chatContainer.scrollTop =
-                    chatContainer.scrollHeight;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             });
         }
 
@@ -919,9 +895,7 @@
             }[tag] || tag));
         }
 
-        // Pemeriksaan awal halaman.
         checkInputStatus();
     </script>
 </body>
 </html>
-
