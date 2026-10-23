@@ -1474,6 +1474,85 @@ body.login-locked{overflow:hidden}
 
   initializeAuth();
 })();
+  // Fungsi Utama Pencarian Otak OoeR
+async function cariOoeR(kataKunci) {
+  const statusEl = document.getElementById("status-brain"); // elemen '✦ OoeR Brain...'
+  const hasilContainer = document.getElementById("hasil-pencarian");
+
+  statusEl.innerText = "✦ OoeR Brain: Memeriksa database...";
+  
+  // 1. PEMBERSIHAN KATA & PENCARIAN FLEKSIBEL DI SUPABASE
+  // Mengambil kata penting pertama/utama agar tidak kaku
+  const kataBersih = kataKunci.trim().toLowerCase();
+  
+  // Cari di Supabase dengan kemiripan (ILIKE)
+  const { data, error } = await supabase
+    .from('ooer_ai_vault')
+    .select('query, answer')
+    .ilike('query', `%${kataBersih}%`)
+    .limit(3);
+
+  // 2. JIKA DATA DITEMUKAN DI SUPABASE
+  if (data && data.length > 0) {
+    statusEl.innerText = "✦ OoeR Brain: Ditemukan di Database (Cepat)";
+    tampilkanHasilCerdas(data[0].query, data[0].answer);
+    return;
+  }
+
+  // 3. JIKA TIDAK ADA DI SUPABASE -> PANGGIL AI UNTUK CARI KELUAR
+  statusEl.innerText = "✦ OoeR Brain: Mencari jawaban baru via AI...";
+  
+  try {
+    const responAI = await panggilAILuar(kataKunci); // Fungsi API AI Anda
+    
+    // Tampilkan langsung hasil dari AI
+    tampilkanHasilCerdas(kataKunci, responAI);
+
+    // SIMPAN OTOMATIS KE SUPABASE (Sebagai stok berikutnya)
+    await supabase.from('ooer_ai_vault').insert([
+      { query: kataKunci, answer: responAI }
+    ]);
+    
+    statusEl.innerText = "✦ OoeR Brain: Jawaban disimpan ke stok!";
+  } catch (err) {
+    statusEl.innerText = "✦ OoeR: Gagal mengambil data.";
+  }
+}
+
+// FUNGSI PINTAR: MENGGABUNGKAN TEKS DAN DETEKSI FOTO OTOMATIS
+function tampilkanHasilCerdas(judul, teksJawaban) {
+  const container = document.getElementById("hasil-pencarian");
+  
+  // Regex untuk mendeteksi link gambar (jpg, png, pexels, dll) di dalam teks
+  const regexGambar = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)|https:\/\/images\.pexels\.com\/[^\s]+)/gi;
+  const linkFoto = teksJawaban.match(regexGambar);
+
+  // Bersihkan link foto dari teks agar teks jawaban rapi
+  let teksBersih = teksJawaban.replace(regexGambar, '');
+
+  // Buat Tampilan Kartu (Gabungan Foto + Teks)
+  let html = `
+    <div style="background:#1e1e24; border-radius:12px; padding:15px; margin-top:15px; color:#fff;">
+      <h3 style="color:#4285F4; margin-top:0;">${judul}</h3>
+  `;
+
+  // JIKA ADA FOTO: Tampilkan foto di bagian atas/samping!
+  if (linkFoto && linkFoto.length > 0) {
+    html += `
+      <div style="margin-bottom:12px; text-align:center;">
+        <img src="${linkFoto[0]}" alt="Ilustrasi" style="max-width:100%; height:200px; object-fit:cover; border-radius:8px;" />
+      </div>
+    `;
+  }
+
+  // Tampilkan Teks Jawaban
+  html += `
+      <p style="line-height:1.6; font-size:14px; color:#e0e0e0;">${teksBersih}</p>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  }
 </script>
 </body>
 </html>
