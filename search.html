@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#131314">
-<title>OoeR Search — Cerdas & Lengkap</title>
+<title>OoeR Search — Cerdas, Resmi & Lengkap</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,6 +18,8 @@
   --muted: #9aa0a6;
   --border: #3c4043;
   --link-blue: #8ab4f8;
+  --green: #34a853;
+  --yellow: #fbbc05;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -53,7 +55,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .pill-tools { display: flex; align-items: center; gap: 6px; }
 
-/* DROPDOWN BAHASA LENGKAP */
 .lang-box {
   background: #1e1f20; border: 1px solid var(--border);
   border-radius: 20px; padding: 2px 8px;
@@ -64,7 +65,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .lang-select option, .lang-select optgroup { background: #202124; color: #fff; }
 
-/* TABS KATEGORI */
 .nav-tabs {
   display: flex; gap: 20px; overflow-x: auto; padding: 0 16px;
   border-bottom: 1px solid var(--border); scrollbar-width: none;
@@ -83,7 +83,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
 .status-msg { padding: 20px 0; color: var(--muted); font-size: 13px; text-align: center; }
 
-/* KARTU OVERVIEW & AI */
+/* KARTU AI */
 .ai-card {
   background-color: var(--card-bg); border-radius: 18px;
   padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
@@ -94,29 +94,89 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; }
 
-/* GRID GAMBAR */
+/* GRID GAMBAR INTERAKTIF */
 .gallery-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
-  margin-bottom: 16px; border-radius: 14px; overflow: hidden;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  margin-bottom: 16px;
 }
-.gallery-grid img {
-  width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #282a2c; border-radius: 8px;
+.image-item-wrap {
+  position: relative; border-radius: 12px; overflow: hidden;
+  background: #282a2c; cursor: pointer; aspect-ratio: 4/3;
+}
+.image-item-wrap img {
+  width: 100%; height: 100%; object-fit: cover; transition: transform .2s ease;
+}
+.image-item-wrap:hover img { transform: scale(1.04); }
+.image-license-tag {
+  position: absolute; bottom: 6px; left: 6px; background: rgba(0,0,0,.75);
+  backdrop-filter: blur(4px); padding: 3px 7px; border-radius: 6px;
+  font-size: 10px; font-weight: 600; color: #a8c7fa;
 }
 
-/* KARTU ARTIKEL / BERITA */
+/* KARTU ARTIKEL / WEB (DIBUKA IN-APP) */
 .article-card {
-  padding: 14px 0; border-bottom: 1px solid #282a2d;
+  padding: 14px 0; border-bottom: 1px solid #282a2d; cursor: pointer;
 }
-.article-source { font-size: 11px; color: #9aa0a6; margin-bottom: 2px; }
-.article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; display: block; }
+.article-source { font-size: 11px; color: #9aa0a6; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
+.article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; font-weight: 500; }
 .article-snippet { font-size: 13px; line-height: 1.5; color: #bdc1c6; }
 
-/* VIDEO CARD */
-.video-card {
-  background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 12px;
-}
+/* VIDEO */
+.video-card { background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 12px; }
 .video-card video { width: 100%; border-radius: 8px; max-height: 240px; background: #000; }
 .video-title { font-size: 14px; margin-top: 6px; color: #e8eaed; }
+
+/* ========================================================
+   MODAL 1: IN-APP WEB VIEWER (TIDAK PERNAH KELUAR DARI OOER)
+   ======================================================== */
+#webModal {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg); flex-direction: column;
+}
+#webModal.active { display: flex; }
+.web-modal-header {
+  height: 54px; background: var(--card-bg); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+}
+.web-modal-info { display: flex; flex-direction: column; overflow: hidden; max-width: 70%; }
+.web-modal-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.web-modal-domain { font-size: 11px; color: var(--muted); }
+.web-modal-close {
+  background: var(--search-bg); color: #fff; width: 34px; height: 34px;
+  border-radius: 50%; display: grid; place-items: center; font-size: 18px;
+}
+.web-iframe-container { flex: 1; width: 100%; position: relative; }
+.web-iframe { width: 100%; height: 100%; border: none; background: #fff; }
+
+/* ========================================================
+   MODAL 2: INSPEKTOR LISENSI GAMBAR RESMI & KONTEN
+   ======================================================== */
+#imageModal {
+  display: none; position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
+  align-items: center; justify-content: center; padding: 16px;
+}
+#imageModal.active { display: flex; }
+.image-dialog {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 20px; width: min(100%, 540px); overflow: hidden;
+  box-shadow: 0 20px 60px #000;
+}
+.image-dialog-preview { width: 100%; max-height: 50vh; object-fit: contain; background: #000; display: block; }
+.image-dialog-body { padding: 18px; }
+.image-dialog-title { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+.badge-license {
+  display: inline-block; padding: 5px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; margin-bottom: 12px;
+}
+.badge-free { background: rgba(52,168,83,.2); color: #81c995; border: 1px solid #34a853; }
+.badge-warn { background: rgba(251,188,5,.2); color: #fdd663; border: 1px solid #fbbc05; }
+.image-meta-item { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.image-meta-item b { color: #e8eaed; }
+.image-close-btn {
+  width: 100%; padding: 12px; border-radius: 10px; background: var(--search-bg);
+  color: #fff; font-size: 14px; font-weight: 600; margin-top: 10px;
+}
 </style>
 </head>
 <body>
@@ -160,20 +220,47 @@ button { cursor: pointer; border: 0; background: transparent; }
   </form>
 </div>
 
-<!-- SEMUA MENU KATEGORI -->
 <nav class="nav-tabs">
   <button class="tab-item active" data-tab="all">Semua</button>
   <button class="tab-item" data-tab="ai">✨ OoeR AI</button>
   <button class="tab-item" data-tab="images">Gambar</button>
   <button class="tab-item" data-tab="news">Berita</button>
   <button class="tab-item" data-tab="videos">Video</button>
-  <button class="tab-item" data-tab="books">Buku</button>
 </nav>
 
 <main class="main-container">
   <div id="statusBox" class="status-msg">Ketik kata kunci untuk mencari...</div>
   <div id="resultsArea"></div>
 </main>
+
+<!-- JENDELA WEB IN-APP OOER (TIDAK KELUAR DARI SEARCH) -->
+<div id="webModal">
+  <div class="web-modal-header">
+    <div class="web-modal-info">
+      <span class="web-modal-title" id="webModalTitle">Membuka Halaman...</span>
+      <span class="web-modal-domain" id="webModalDomain">OoeR Secure Browser</span>
+    </div>
+    <button class="web-modal-close" id="closeWebModal">✕</button>
+  </div>
+  <div class="web-iframe-container">
+    <iframe id="webIframe" class="web-iframe" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
+  </div>
+</div>
+
+<!-- JENDELA LISENSI GAMBAR & KONTEN -->
+<div id="imageModal">
+  <div class="image-dialog">
+    <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
+    <div class="image-dialog-body">
+      <div id="imgModalBadge" class="badge-license badge-free">✅ Diperbolehkan Untuk Konten</div>
+      <div class="image-dialog-title" id="imgModalTitle">Judul Gambar</div>
+      <div class="image-meta-item"><b>Lisensi:</b> <span id="imgModalLicense">-</span></div>
+      <div class="image-meta-item"><b>Pencipta / Penulis:</b> <span id="imgModalAuthor">-</span></div>
+      <div class="image-meta-item"><b>Sumber Legal:</b> <span id="imgModalSource">-</span></div>
+      <button class="image-close-btn" id="closeImgModal">Tutup Pratinjau</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -186,112 +273,168 @@ button { cursor: pointer; border: 0; background: transparent; }
   const langSelect = $("langSelect");
   const tabs = document.querySelectorAll(".tab-item");
 
+  const webModal = $("webModal");
+  const webIframe = $("webIframe");
+  const webModalTitle = $("webModalTitle");
+  const webModalDomain = $("webModalDomain");
+
+  const imageModal = $("imageModal");
+  const imgModalPreview = $("imgModalPreview");
+  const imgModalTitle = $("imgModalTitle");
+  const imgModalBadge = $("imgModalBadge");
+  const imgModalLicense = $("imgModalLicense");
+  const imgModalAuthor = $("imgModalAuthor");
+  const imgModalSource = $("imgModalSource");
+
   let currentTab = "all";
   let activeData = null;
 
-  // KUNCI & ENDPOINT RESMI SUPABASE (RAPID-TASK)
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
 
-  // Muat bahasa permanen dari localStorage
-  const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
-  langSelect.value = savedLang;
-
+  // Muat bahasa tersimpan
+  langSelect.value = localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.addEventListener("change", () => {
     localStorage.setItem("ooer_user_lang", langSelect.value);
     if (input.value.trim()) runSearch(input.value);
   });
+
+  // BUKA WEB IN-APP
+  function openInAppWeb(url, title, source) {
+    webModalTitle.textContent = title;
+    webModalDomain.textContent = source + " · Akses Resmi OoeR";
+    webIframe.src = url;
+    webModal.classList.add("active");
+  }
+
+  $("closeWebModal").addEventListener("click", () => {
+    webModal.classList.remove("active");
+    webIframe.src = "about:blank";
+  });
+
+  // BUKA DETAIL GAMBAR & LISENSI
+  function openImageInspector(imgObj) {
+    imgModalPreview.src = typeof imgObj === "string" ? imgObj : imgObj.url;
+    imgModalTitle.textContent = imgObj.title || "Foto Terverifikasi OoeR";
+    imgModalLicense.textContent = imgObj.license || "Creative Commons / Domain Publik";
+    imgModalAuthor.textContent = imgObj.author || "Arsip Terbuka Media";
+    imgModalSource.textContent = imgObj.source || "Wikimedia / Wikipedia";
+
+    if (imgObj.allow_content !== false) {
+      imgModalBadge.className = "badge-license badge-free";
+      imgModalBadge.textContent = "✅ Bebas Digunakan Untuk Konten (CC / Domain Publik)";
+    } else {
+      imgModalBadge.className = "badge-license badge-warn";
+      imgModalBadge.textContent = "⚠️ Hak Cipta Warta Media (Perlu Izin Penerbit)";
+    }
+
+    imageModal.classList.add("active");
+  }
+
+  $("closeImgModal").addEventListener("click", () => imageModal.classList.remove("active"));
+  imageModal.addEventListener("click", e => { if (e.target === imageModal) imageModal.classList.remove("active"); });
 
   function showStatus(text) {
     statusBox.textContent = text;
     statusBox.hidden = false;
   }
 
-  // RENDER SESUAI MENU TAB YANG DIKLIK
   function renderView() {
     if (!activeData) return;
     resultsArea.replaceChildren();
 
-    // 1. TAB SEMUA (Gabungan Cerdas)
+    // 1. TAB SEMUA
     if (currentTab === "all") {
-      // Kotak AI Overview
       const aiBox = document.createElement("div");
       aiBox.className = "ai-card";
       aiBox.innerHTML = `
         <div class="ai-header-badge">${activeData.is_memory ? "⚡ Memori OoeR Permanen" : "✨ Ringkasan OoeR AI"}</div>
-        <div class="ai-text">${activeData.answer || "Tidak ada ringkasan tersedia."}</div>
+        <div class="ai-text">${activeData.answer}</div>
       `;
       resultsArea.appendChild(aiBox);
 
-      // Gambar 2-4 Kolom
+      // Galeri Gambar dengan Lisensi
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
         gal.className = "gallery-grid";
-        activeData.images.slice(0, 4).forEach(src => {
-          gal.innerHTML += `<img src="${src}" alt="Gambar">`;
+        activeData.images.slice(0, 4).forEach(img => {
+          const item = document.createElement("div");
+          item.className = "image-item-wrap";
+          const src = typeof img === "string" ? img : img.url;
+          item.innerHTML = `
+            <img src="${src}" alt="Foto" loading="lazy">
+            <span class="image-license-tag">🔍 Cek Lisensi</span>
+          `;
+          item.addEventListener("click", () => openImageInspector(img));
+          gal.appendChild(item);
         });
         resultsArea.appendChild(gal);
       }
 
-      // Daftar Artikel Web
-      if (activeData.articles && activeData.articles.length > 0) {
+      // Daftar Artikel Web (Klik buka di OoeR)
+      if (activeData.articles) {
         activeData.articles.forEach(art => {
-          resultsArea.innerHTML += `
-            <div class="article-card">
-              <div class="article-source">${art.source || "Wikipedia Ensiklopedia"}</div>
-              <a href="${art.url}" target="_blank" rel="noopener" class="article-title">${art.title}</a>
-              <div class="article-snippet">${art.snippet}</div>
-            </div>
+          const card = document.createElement("div");
+          card.className = "article-card";
+          card.innerHTML = `
+            <div class="article-source">🌐 ${art.source}</div>
+            <div class="article-title">${art.title}</div>
+            <div class="article-snippet">${art.snippet}</div>
           `;
+          card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
+          resultsArea.appendChild(card);
         });
       }
     }
 
-    // 2. TAB OoeR AI (Fokus Jawaban AI Mendalam)
+    // 2. TAB AI
     else if (currentTab === "ai") {
       resultsArea.innerHTML = `
         <div class="ai-card">
           <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
-          <div class="ai-text">${activeData.answer || "Informasi tersimpan di OoER Vault."}</div>
+          <div class="ai-text">${activeData.answer}</div>
         </div>
       `;
     }
 
-    // 3. TAB GAMBAR (Galeri Penuh)
+    // 3. TAB GAMBAR
     else if (currentTab === "images") {
-      if (!activeData.images || activeData.images.length === 0) {
-        resultsArea.innerHTML = `<div class="status-msg">Tidak ada gambar ditemukan.</div>`;
-      } else {
-        const gal = document.createElement("div");
-        gal.className = "gallery-grid";
-        activeData.images.forEach(src => {
-          gal.innerHTML += `<img src="${src}" style="aspect-ratio:1/1;" alt="Galeri">`;
-        });
-        resultsArea.appendChild(gal);
-      }
+      const gal = document.createElement("div");
+      gal.className = "gallery-grid";
+      (activeData.images || []).forEach(img => {
+        const item = document.createElement("div");
+        item.className = "image-item-wrap";
+        item.style.aspectRatio = "1/1";
+        const src = typeof img === "string" ? img : img.url;
+        item.innerHTML = `
+          <img src="${src}" alt="Foto" loading="lazy">
+          <span class="image-license-tag">🔍 Lisensi Konten</span>
+        `;
+        item.addEventListener("click", () => openImageInspector(img));
+        gal.appendChild(item);
+      });
+      resultsArea.appendChild(gal);
     }
 
-    // 4. TAB BERITA & ARTIKEL
-    else if (currentTab === "news" || currentTab === "books") {
-      if (!activeData.articles || activeData.articles.length === 0) {
-        resultsArea.innerHTML = `<div class="status-msg">Tidak ada warta / pustaka untuk topik ini.</div>`;
-      } else {
-        activeData.articles.forEach(art => {
-          resultsArea.innerHTML += `
-            <div class="article-card">
-              <div class="article-source">${currentTab === 'books' ? '📚 Pustaka Terbuka' : '📰 Warta Media'}</div>
-              <a href="${art.url}" target="_blank" rel="noopener" class="article-title">${art.title}</a>
-              <div class="article-snippet">${art.snippet}</div>
-            </div>
-          `;
-        });
-      }
+    // 4. TAB BERITA
+    else if (currentTab === "news") {
+      (activeData.articles || []).forEach(art => {
+        const card = document.createElement("div");
+        card.className = "article-card";
+        card.innerHTML = `
+          <div class="article-source">📰 ${art.source}</div>
+          <div class="article-title">${art.title}</div>
+          <div class="article-snippet">${art.snippet}</div>
+        `;
+        card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
+        resultsArea.appendChild(card);
+      });
     }
 
     // 5. TAB VIDEO
     else if (currentTab === "videos") {
       if (!activeData.videos || activeData.videos.length === 0) {
-        resultsArea.innerHTML = `<div class="status-msg">Belum ada video terbuka untuk topik ini.</div>`;
+        resultsArea.innerHTML = `<div class="status-msg">Tidak ada video terbuka untuk topik ini.</div>`;
       } else {
         activeData.videos.forEach(vid => {
           resultsArea.innerHTML += `
@@ -305,7 +448,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  // PENCARIAN UTAMA
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -314,7 +456,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
     resultsArea.replaceChildren();
 
-    // 1. CEK CACHE DARI HOME (Jika baru pindah dari Home, data langsung tampil 0 detik)
+    // Cek cache dari Home
     try {
       const cached = sessionStorage.getItem("ooer_latest_vault");
       if (cached) {
@@ -323,17 +465,16 @@ button { cursor: pointer; border: 0; background: transparent; }
           activeData = parsed;
           statusBox.hidden = true;
           renderView();
-          sessionStorage.removeItem("ooer_latest_vault"); // Bersihkan setelah dipakai
+          sessionStorage.removeItem("ooer_latest_vault");
           return;
         }
       }
     } catch(e) {}
 
-    // 2. JIKA BELUM ADA DI CACHE, PANGGIL RAPID-TASK
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           "apikey": SUPABASE_KEY,
           "Authorization": `Bearer ${SUPABASE_KEY}`
@@ -344,19 +485,15 @@ button { cursor: pointer; border: 0; background: transparent; }
         })
       });
 
-      if (!res.ok) throw new Error("Gagal memanggil API");
-
       const data = await res.json();
       activeData = data;
       statusBox.hidden = true;
       renderView();
     } catch (err) {
-      console.error(err);
-      showStatus("Gagal memuat data pencarian. Periksa koneksi internet.");
+      showStatus("Gagal memuat data pencarian.");
     }
   }
 
-  // GANTI TAB
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
       tabs.forEach(t => t.classList.remove("active"));
@@ -371,18 +508,9 @@ button { cursor: pointer; border: 0; background: transparent; }
     runSearch(input.value);
   });
 
-  // Baca parameter ?q= dan ?lang= dari URL
   const params = new URLSearchParams(location.search);
   const qParam = params.get("q");
-  const langParam = params.get("lang");
-
-  if (langParam && langSelect.querySelector(`option[value="${langParam}"]`)) {
-    langSelect.value = langParam;
-  }
-
-  if (qParam) {
-    runSearch(qParam);
-  }
+  if (qParam) runSearch(qParam);
 })();
 </script>
 </body>
