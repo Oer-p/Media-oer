@@ -99,16 +99,12 @@ button { cursor: pointer; border: 0; background: transparent; }
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-.skeleton-card {
-  background-color: var(--card-bg); border-radius: 18px;
-  padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
-}
 .skeleton-line { height: 14px; margin-bottom: 10px; border-radius: 6px; }
 .skeleton-line.short { width: 35%; }
 .skeleton-line.medium { width: 70%; }
 .skeleton-line.full { width: 100%; }
 
-/* KARTU AI */
+/* KARTU AI & KURSOR STREAMING */
 .ai-card {
   background-color: var(--card-bg); border-radius: 18px;
   padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
@@ -122,7 +118,23 @@ button { cursor: pointer; border: 0; background: transparent; }
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 12px; font-weight: 600; color: #8ab4f8; margin-bottom: 8px;
 }
-.ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; }
+.ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; word-break: break-word; }
+
+/* KURSOR BERKEDIP TYPEWRITER */
+.ai-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  background-color: #8ab4f8;
+  margin-left: 4px;
+  vertical-align: middle;
+  border-radius: 2px;
+  animation: blinkCursor 0.75s infinite;
+}
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 
 /* GRID GAMBAR */
 .gallery-grid {
@@ -154,7 +166,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 
 /* KARTU VIDEO */
 .video-card { background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 14px; }
-.video-title { font-size: 14px; margin-top: 10px; color: #e8eaed; }
 
 /* MODAL LISENSI GAMBAR */
 #imageModal {
@@ -274,12 +285,12 @@ button { cursor: pointer; border: 0; background: transparent; }
 
   let currentTab = "all";
   let activeData = null;
+  let typewriterTimer = null; // Timer pengontrol ketikan
 
   /* KONFIGURASI SUPABASE & EDGE FUNCTIONS */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
-  const GROK_TRANSLATOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/Grok.ai";
 
   const supabase = (window.supabase && window.supabase.createClient)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
@@ -370,15 +381,47 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  /* RENDER TAMPILAN PROGRESIF (TAMPILKAN YANG SIAP DULUAN) */
+  /* 🖋️ MESIN TYPEWRITER KATA-PER-KATA (STREAMING SIMULATION) */
+  function streamTypewriterText(targetEl, fullText, speed = 16, onComplete) {
+    if (!targetEl) return;
+    if (typewriterTimer) clearInterval(typewriterTimer);
+
+    targetEl.textContent = "";
+    const cursor = document.createElement("span");
+    cursor.className = "ai-cursor";
+    targetEl.appendChild(cursor);
+
+    // Pecah berdasarkan kata & spasi agar mirip aliran token AI asli
+    const tokens = fullText.split(/(\s+)/);
+    let index = 0;
+
+    typewriterTimer = setInterval(() => {
+      if (index < tokens.length) {
+        const textNode = document.createTextNode(tokens[index]);
+        targetEl.insertBefore(textNode, cursor);
+        index++;
+      } else {
+        clearInterval(typewriterTimer);
+        typewriterTimer = null;
+        cursor.remove(); // Hilangkan kursor setelah selesai
+        if (onComplete) onComplete();
+      }
+    }, speed);
+  }
+
+  /* RENDER PROGRESIF DENGAN DUKUNGAN STREAMING */
   function renderView() {
     if (!activeData) return;
-    resultsArea.replaceChildren();
+    if (typewriterTimer) {
+      clearInterval(typewriterTimer);
+      typewriterTimer = null;
+    }
 
+    resultsArea.replaceChildren();
     const d = UI_DICT[langSelect.value] || UI_DICT["Indonesia"];
 
     if (currentTab === "all") {
-      // 1. KARTU AI (Jika belum siap, tampilkan skeleton khusus AI saja, bukan menutup seluruh layar!)
+      // 1. KARTU AI
       const aiBox = document.createElement("div");
       aiBox.className = "ai-card";
       aiBox.id = "mainAiCard";
@@ -393,12 +436,24 @@ button { cursor: pointer; border: 0; background: transparent; }
       } else {
         aiBox.innerHTML = `
           <div class="ai-header-badge">${activeData.is_memory ? d.mem : d.sum}</div>
-          <div class="ai-text">${activeData.answer || ""}</div>
+          <div class="ai-text" id="aiTextBody"></div>
         `;
       }
       resultsArea.appendChild(aiBox);
 
-      // 2. GALERI FOTO (MUNCUL DALAM 0.2 DETIK)
+      // Jalankan animasi ketik jika teks siap dan belum pernah diketik
+      const textContainer = aiBox.querySelector("#aiTextBody");
+      if (textContainer && activeData.answer) {
+        if (!activeData.hasStreamed) {
+          streamTypewriterText(textContainer, activeData.answer, 16, () => {
+            activeData.hasStreamed = true;
+          });
+        } else {
+          textContainer.textContent = activeData.answer;
+        }
+      }
+
+      // 2. GALERI FOTO (KILAT 0.2 DETIK)
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
         gal.className = "gallery-grid";
@@ -416,7 +471,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         resultsArea.appendChild(gal);
       }
 
-      // 3. DAFTAR ARTIKEL (MUNCUL DALAM 0.2 DETIK)
+      // 3. DAFTAR ARTIKEL (KILAT 0.2 DETIK)
       if (activeData.articles && activeData.articles.length > 0) {
         activeData.articles.forEach(art => {
           const card = document.createElement("div");
@@ -434,12 +489,25 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
 
     } else if (currentTab === "ai") {
-      resultsArea.innerHTML = `
-        <div class="ai-card">
-          <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
-          <div class="ai-text">${activeData.aiLoading ? d.aiLoading : (activeData.answer || "")}</div>
-        </div>
+      const aiCard = document.createElement("div");
+      aiCard.className = "ai-card";
+      aiCard.innerHTML = `
+        <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
+        <div class="ai-text" id="deepAiText">${activeData.aiLoading ? d.aiLoading : ""}</div>
       `;
+      resultsArea.appendChild(aiCard);
+
+      const target = aiCard.querySelector("#deepAiText");
+      if (target && !activeData.aiLoading && activeData.answer) {
+        if (!activeData.hasStreamed) {
+          streamTypewriterText(target, activeData.answer, 16, () => {
+            activeData.hasStreamed = true;
+          });
+        } else {
+          target.textContent = activeData.answer;
+        }
+      }
+
     } else if (currentTab === "images") {
       const gal = document.createElement("div");
       gal.className = "gallery-grid";
@@ -456,6 +524,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         gal.appendChild(item);
       });
       resultsArea.appendChild(gal);
+
     } else if (currentTab === "news") {
       (activeData.articles || []).forEach(art => {
         const card = document.createElement("div");
@@ -470,6 +539,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         });
         resultsArea.appendChild(card);
       });
+
     } else if (currentTab === "videos") {
       resultsArea.replaceChildren();
       const queryClean = encodeURIComponent(input.value.trim() || "video");
@@ -493,7 +563,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  /* 🚀 MESIN PENCARIAN UTAMA MULTI-JALUR */
+  /* 🚀 MESIN PENCARIAN MULTI-JALUR */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -502,27 +572,28 @@ button { cursor: pointer; border: 0; background: transparent; }
     statusBox.hidden = true;
 
     // ⚡ 1. CEK FAST-CACHE DI HP (0.01 DETIK - INSTAN)
-    const cacheKey = `ooer_v1_${q.toLowerCase()}_${langSelect.value}`;
+    const cacheKey = `ooer_v2_${q.toLowerCase()}_${langSelect.value}`;
     const localHit = sessionStorage.getItem(cacheKey);
     if (localHit) {
       try {
         activeData = JSON.parse(localHit);
+        activeData.hasStreamed = true; // Langsung tampilkan jika dari cache
         renderView();
         return;
       } catch (e) {}
     }
 
-    // Siapkan wadah data awal agar antarmuka tidak kosong
+    // Wadah awal agar UI tidak kosong
     activeData = {
       query: q,
       answer: "",
       aiLoading: true,
+      hasStreamed: false,
       images: [],
       articles: [],
       videos: []
     };
 
-    // Render wadah pertama kali (menampilkan kartu AI loading)
     renderView();
 
     // ⚡ 2. JALUR KILAT (0.2 DETIK): Ambil Artikel & Gambar Langsung
@@ -530,7 +601,6 @@ button { cursor: pointer; border: 0; background: transparent; }
       if (instant.articles.length > 0 || instant.images.length > 0) {
         if (activeData.articles.length === 0) activeData.articles = instant.articles;
         if (activeData.images.length === 0) activeData.images = instant.images;
-        // Langsung segarkan tampilan artikel & gambar tanpa menunggu AI!
         renderView();
       }
     });
@@ -563,7 +633,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
 
-    // ⚡ 4. JIKA BELUM ADA DI VAULT, PANGGIL COLLECTOR
+    // ⚡ 4. JIKA BELUM ADA DI VAULT, AMBIL DARI COLLECTOR
     if (!aiCompleted) {
       try {
         const res = await fetch(COLLECTOR_URL, {
