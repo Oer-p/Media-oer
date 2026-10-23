@@ -1264,9 +1264,9 @@ body.login-locked{overflow:hidden}
     button.addEventListener("click", () => {
       mainButtons.forEach(item => item.classList.remove("selected"));
       button.classList.add("selected");
-
+     
       if (button.id === "netnetButton") {
-        if (notice) notice.textContent = "NetNet sedang disiapkan.";
+        location.href = "./netnet.html";
         return;
       }
       if (button.id === "aiButton") {
