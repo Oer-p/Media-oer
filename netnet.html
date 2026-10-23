@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#131314">
+<title>NetNet — Alat Konverter File Gratis OoeR</title>
+
+<!-- Pustaka JavaScript Client-Side Resmi (Gratis & Aman) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<style>
+:root {
+  --bg: #131314;
+  --card: #1e1f20;
+  --soft: #282a2d;
+  --border: #3c4043;
+  --text: #e8eaed;
+  --muted: #9aa0a6;
+  --blue: #4285f4;
+  --green: #34a853;
+  --red: #ea4335;
+  --yellow: #fbbc05;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex; flex-direction: column;
+}
+header {
+  height: 56px; padding: 0 16px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--border);
+}
+.back-btn {
+  color: var(--text); display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%; text-decoration: none;
+}
+.brand { font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+.brand span { color: var(--blue); }
+
+main { max-width: 650px; margin: 0 auto; width: 100%; padding: 20px 16px; flex: 1; }
+
+.privacy-badge {
+  background: rgba(52, 168, 83, 0.15); border: 1px solid var(--green); color: #81c995;
+  padding: 10px 14px; border-radius: 12px; font-size: 12px; display: flex; align-items: center;
+  gap: 8px; margin-bottom: 20px;
+}
+
+/* Navigasi Pilihan Tab Konversi */
+.tool-nav {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
+}
+.tool-btn {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  color: var(--muted); padding: 12px 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; text-align: center; transition: all .2s;
+}
+.tool-btn.active {
+  background: var(--soft); color: #fff; border-color: var(--blue);
+}
+
+/* Area Unggah File */
+.upload-box {
+  border: 2px dashed var(--border); border-radius: 20px; padding: 35px 20px;
+  text-align: center; background: var(--card); cursor: pointer; transition: border-color .2s;
+  margin-bottom: 20px;
+}
+.upload-box:hover { border-color: var(--blue); }
+.upload-icon { font-size: 38px; margin-bottom: 10px; }
+.upload-text { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.upload-hint { font-size: 12px; color: var(--muted); }
+input[type="file"] { display: none; }
+
+/* Status & Hasil */
+.action-area { display: flex; flex-direction: column; gap: 12px; }
+.primary-btn {
+  background: var(--blue); color: white; border: none; padding: 14px;
+  border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer;
+  width: 100%; display: none; align-items: center; justify-content: center; gap: 8px;
+}
+.primary-btn:hover { background: #3367d6; }
+.status-text { font-size: 13px; color: var(--muted); text-align: center; min-height: 20px; }
+
+/* Galeri Preview */
+.preview-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px; margin-top: 15px;
+}
+.preview-item {
+  aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: #000;
+  border: 1px solid var(--border); position: relative;
+}
+.preview-item img { width: 100%; height: 100%; object-fit: cover; }
+
+.select-format {
+  background: var(--soft); border: 1px solid var(--border); color: #fff;
+  padding: 10px 14px; border-radius: 10px; outline: none; font-size: 14px; margin-bottom: 12px; width: 100%;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="./" title="Kembali ke OoeR">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  <div class="brand"><span>◉</span> NetNet Converter</div>
+  <div style="width: 36px;"></div>
+</header>
+
+<main>
+  <div class="privacy-badge">
+    🔒 <b>100% Aman & Gratis:</b> Semua proses konversi berjalan langsung di perangkat Anda tanpa diunggah ke internet.
+  </div>
+
+  <!-- Pilihan 3 Alat Utama -->
+  <div class="tool-nav">
+    <button class="tool-btn active" data-mode="img2pdf">
+      <span style="font-size: 20px;">🖼️ ➔ 📄</span>
+      Gambar ke PDF
+    </button>
+    <button class="tool-btn" data-mode="pdf2img">
+      <span style="font-size: 20px;">📄 ➔ 🖼️</span>
+      PDF ke JPG
+    </button>
+    <button class="tool-btn" data-mode="img2img">
+      <span style="font-size: 20px;">🔄</span>
+      Format Gambar
+    </button>
+  </div>
+
+  <!-- Kotak Upload -->
+  <div class="upload-box" id="dropArea">
+    <div class="upload-icon" id="modeIcon">🖼️</div>
+    <div class="upload-text" id="modeTitle">Pilih Gambar (JPG, PNG, WebP)</div>
+    <div class="upload-hint" id="modeHint">Bisa pilih banyak gambar sekaligus</div>
+    <input type="file" id="fileInput" multiple accept="image/*">
+  </div>
+
+  <!-- Menu Pilihan Format Tambahan (Hanya untuk Mode Ubah Gambar) -->
+  <div id="formatOptionArea" style="display: none;">
+    <label style="font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block;">Ubah Format Menjadi:</label>
+    <select class="select-format" id="targetFormatSelect">
+      <option value="image/jpeg">JPG / JPEG (.jpg)</option>
+      <option value="image/png">PNG (.png)</option>
+      <option value="image/webp">WebP (.webp)</option>
+    </select>
+  </div>
+
+  <div class="action-area">
+    <button class="primary-btn" id="convertBtn">Mulai Konversi</button>
+    <div class="status-text" id="statusMessage"></div>
+    <div class="preview-grid" id="previewContainer"></div>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  // Inisialisasi PDF.js Worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+  const $ = id => document.getElementById(id);
+  const dropArea = $("dropArea");
+  const fileInput = $("fileInput");
+  const convertBtn = $("convertBtn");
+  const statusMessage = $("statusMessage");
+  const previewContainer = $("previewContainer");
+  const modeIcon = $("modeIcon");
+  const modeTitle = $("modeTitle");
+  const modeHint = $("modeHint");
+  const formatOptionArea = $("formatOptionArea");
+  const targetFormatSelect = $("targetFormatSelect");
+  const toolBtns = document.querySelectorAll(".tool-btn");
+
+  let currentMode = "img2pdf"; // img2pdf | pdf2img | img2img
+  let selectedFiles = [];
+
+  // Pilihan Tab
+  toolBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      toolBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentMode = btn.dataset.mode;
+      resetState();
+
+      if (currentMode === "img2pdf") {
+        modeIcon.textContent = "🖼️";
+        modeTitle.textContent = "Pilih Gambar (JPG, PNG, WebP)";
+        modeHint.textContent = "Bisa pilih banyak gambar sekaligus untuk digabung";
+        fileInput.accept = "image/*";
+        fileInput.multiple = true;
+        formatOptionArea.style.display = "none";
+      } else if (currentMode === "pdf2img") {
+        modeIcon.textContent = "📄";
+        modeTitle.textContent = "Pilih Dokumen PDF";
+        modeHint.textContent = "Tiap halaman akan diekstrak menjadi foto JPG";
+        fileInput.accept = "application/pdf";
+        fileInput.multiple = false;
+        formatOptionArea.style.display = "none";
+      } else if (currentMode === "img2img") {
+        modeIcon.textContent = "🔄";
+        modeTitle.textContent = "Pilih Gambar yang Ingin Diubah Formatnya";
+        modeHint.textContent = "Ubah WebP ke JPG, PNG ke JPG, dll.";
+        fileInput.accept = "image/*";
+        fileInput.multiple = false;
+        formatOptionArea.style.display = "block";
+      }
+    });
+  });
+
+  dropArea.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", e => {
+    selectedFiles = Array.from(e.target.files);
+    if (!selectedFiles.length) return;
+
+    previewContainer.replaceChildren();
+    statusMessage.textContent = `${selectedFiles.length} file dipilih. Siap dikonversi!`;
+    convertBtn.style.display = "flex";
+
+    // Buat pratinjau thumbnail sederhana jika gambar
+    if (currentMode !== "pdf2img") {
+      selectedFiles.slice(0, 10).forEach(file => {
+        const url = URL.createObjectURL(file);
+        const div = document.createElement("div");
+        div.className = "preview-item";
+        div.innerHTML = `<img src="${url}">`;
+        previewContainer.appendChild(div);
+      });
+    }
+  });
+
+  function resetState() {
+    selectedFiles = [];
+    fileInput.value = "";
+    convertBtn.style.display = "none";
+    statusMessage.textContent = "";
+    previewContainer.replaceChildren();
+  }
+
+  // Tombol Proses Konversi
+  convertBtn.addEventListener("click", async () => {
+    if (!selectedFiles.length) return;
+
+    convertBtn.disabled = true;
+    convertBtn.textContent = "Sedang Memproses...";
+
+    try {
+      if (currentMode === "img2pdf") {
+        await processImagesToPDF();
+      } else if (currentMode === "pdf2img") {
+        await processPDFToImages();
+      } else if (currentMode === "img2img") {
+        await processImageToImage();
+      }
+    } catch (err) {
+      statusMessage.textContent = "Terjadi kesalahan: " + err.message;
+    } finally {
+      convertBtn.disabled = false;
+      convertBtn.textContent = "Mulai Konversi";
+    }
+  });
+
+  /* 1. GAMBAR KE PDF (GABUNG FOTO JADI SATU PDF) */
+  async function processImagesToPDF() {
+    statusMessage.textContent = "Menggabungkan foto ke dokumen PDF...";
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const dataUrl = await fileToDataURL(file);
+
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise(r => img.onload = r);
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      // Hitung skala agar pas di halaman
+      const ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
+      const w = img.width * ratio;
+      const h = img.height * ratio;
+      const x = (pageWidth - w) / 2;
+      const y = (pageHeight - h) / 2;
+
+      if (i > 0) doc.addPage();
+      doc.addImage(dataUrl, "JPEG", x, y, w, h);
+    }
+
+    doc.save("NetNet-Dokumen.pdf");
+    statusMessage.textContent = "✅ Sukses! File PDF berhasil diunduh.";
+  }
+
+  /* 2. PDF KE GAMBAR JPG (EKSTRAK HALAMAN) */
+  async function processPDFToImages() {
+    statusMessage.textContent = "Membaca halaman PDF...";
+    const file = selectedFiles[0];
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    statusMessage.textContent = `Menemukan ${pdf.numPages} halaman. Mengubah ke JPG...`;
+    const zip = new JSZip();
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 2.0 }); // Skala tajam
+
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d");
+
+      await page.render({ canvasContext: ctx, viewport }).promise;
+
+      // Konversi canvas ke JPG Blob
+      const blob = await new Promise(r => canvas.toBlob(r, "image/jpeg", 0.92));
+      zip.file(`Halaman-${pageNum}.jpg`, blob);
+    }
+
+    statusMessage.textContent = "Mengompresi ke ZIP...";
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+
+    // Download otomatis file ZIP
+    downloadBlob(zipBlob, "NetNet-Hasil-Halaman.zip");
+    statusMessage.textContent = "✅ Sukses! Seluruh halaman tersimpan dalam format ZIP.";
+  }
+
+  /* 3. UBAH FORMAT GAMBAR (WEBP / PNG / JPG) */
+  async function processImageToImage() {
+    statusMessage.textContent = "Mengonversi format gambar...";
+    const file = selectedFiles[0];
+    const targetMime = targetFormatSelect.value;
+    const ext = targetMime === "image/png" ? "png" : targetMime === "image/webp" ? "webp" : "jpg";
+
+    const dataUrl = await fileToDataURL(file);
+    const img = new Image();
+    img.src = dataUrl;
+    await new Promise(r => img.onload = r);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    const blob = await new Promise(r => canvas.toBlob(r, targetMime, 0.95));
+    downloadBlob(blob, `NetNet-Converted.${ext}`);
+    statusMessage.textContent = `✅ Sukses! Gambar berhasil diubah ke format .${ext}`;
+  }
+
+  function fileToDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+})();
+</script>
+</body>
+</html>
