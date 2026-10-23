@@ -32,7 +32,7 @@ a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
 button { cursor: pointer; border: 0; background: transparent; }
 
-/* HEADER SESUAI SKETSA */
+/* HEADER */
 .ooer-header {
   height: 56px; padding: 0 16px; display: flex;
   align-items: center; justify-content: space-between; position: relative;
@@ -48,7 +48,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 26px; font-weight: 700; color: #fff; user-select: none;
 }
 
-/* DROPDOWN MENU TITIK TIGA (⋮) */
+/* DROPDOWN MENU (⋮) */
 .menu-dropdown {
   display: none; position: absolute; top: 52px; right: 14px;
   background: var(--card-bg); border: 1px solid var(--border);
@@ -69,7 +69,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .menu-item select option { background: #202124; color: #fff; }
 
-/* SEARCH BAR DENGAN TOMBOL MIC */
+/* SEARCH PILL */
 .search-wrapper { padding: 4px 14px 10px; }
 .search-pill {
   background-color: var(--search-bg); border-radius: 28px;
@@ -90,7 +90,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 @keyframes pulseMic { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-/* 4 TAB UTAMA */
+/* TABS */
 .nav-tabs {
   display: flex; gap: 20px; overflow-x: auto; padding: 0 16px;
   border-bottom: 1px solid var(--border); scrollbar-width: none;
@@ -109,18 +109,18 @@ button { cursor: pointer; border: 0; background: transparent; }
 .main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
 .status-msg { padding: 16px 0; color: var(--muted); font-size: 13px; text-align: center; }
 
-/* KARTU AI & STREAMING TYPEWRITER */
+/* KARTU KHUSUS TAB OR AI */
 .ai-card {
   background-color: var(--card-bg); border-radius: 18px;
-  padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
+  padding: 20px; margin-bottom: 16px; border: 1px solid #2d3033;
 }
 .ai-header-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 600; color: #8ab4f8; margin-bottom: 8px;
+  font-size: 13px; font-weight: 600; color: #8ab4f8; margin-bottom: 12px;
 }
-.ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; word-break: break-word; }
+.ai-text { font-size: 15px; line-height: 1.7; color: #e3e3e3; white-space: pre-line; word-break: break-word; }
 .ai-cursor {
-  display: inline-block; width: 7px; height: 15px; background-color: #8ab4f8;
+  display: inline-block; width: 7px; height: 16px; background-color: #8ab4f8;
   margin-left: 4px; vertical-align: middle; border-radius: 2px; animation: blinkCursor 0.75s infinite;
 }
 @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -138,7 +138,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 10px; font-weight: 600; color: #81c995;
 }
 
-/* SARAN KATA DI SELA-SELA ARTIKEL (SESUAI GAMBAR) */
+/* SARAN KATA DI SELA ARTIKEL */
 .suggested-box {
   background: #18191a; border: 1px solid var(--border); border-radius: 14px;
   padding: 12px 14px; margin: 16px 0;
@@ -158,7 +158,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; font-weight: 500; }
 .article-snippet { font-size: 13px; line-height: 1.5; color: #bdc1c6; }
 
-/* KARTU BERITA SESUAI SKETSA: TEKS DI KIRI, GAMBAR DI KANAN */
+/* KARTU BERITA */
 .news-card {
   display: flex; gap: 14px; align-items: flex-start; padding: 14px 0;
   border-bottom: 1px solid #282a2d; cursor: pointer;
@@ -171,7 +171,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   background: #282a2c; flex-shrink: 0;
 }
 
-/* SKELETON & SENTINEL SCROLL */
+/* SKELETON & LOADER */
 .skeleton {
   background: linear-gradient(90deg, #1e1f20 25%, #2a2c2e 50%, #1e1f20 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px;
@@ -211,7 +211,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 </head>
 <body>
 
-<!-- HEADER DENGAN MENU TITIK TIGA -->
 <header class="ooer-header">
   <a class="back-btn" href="./" title="Kembali ke Beranda">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -221,7 +220,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   <a class="ooer-brand" href="./">OoeR</a>
   <button class="menu-dots-btn" id="menuDotsBtn" title="Menu OoeR">⋮</button>
 
-  <!-- DROPDOWN DARI MENU TITIK TIGA -->
   <div class="menu-dropdown" id="menuDropdown">
     <div class="menu-item" id="itemPrivacy">
       <span>🛡️</span>
@@ -257,7 +255,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </header>
 
-<!-- SEARCH BAR DENGAN TOMBOL MIC -->
 <div class="search-wrapper">
   <form id="searchForm" class="search-pill">
     <input id="query" name="q" type="search" placeholder="Teks pencarian..." autocomplete="off">
@@ -265,7 +262,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   </form>
 </div>
 
-<!-- 4 TAB SESUAI SKETSA -->
 <nav class="nav-tabs">
   <button class="tab-item" data-tab="ai" id="tabAi">Or Ai</button>
   <button class="tab-item active" data-tab="all" id="tabAll">Semua</button>
@@ -277,14 +273,12 @@ button { cursor: pointer; border: 0; background: transparent; }
   <div id="statusBox" class="status-msg">Ketik kata kunci atau tekan mic untuk mencari...</div>
   <div id="resultsArea"></div>
 
-  <!-- SENSOR SCROLL TANPA BATAS (SENTINEL) -->
   <div id="scrollSentinel"></div>
   <div id="scrollLoading" class="scroll-loader" style="display:none;">
     ⚡ Memuat lebih banyak secara otomatis...
   </div>
 </main>
 
-<!-- MODAL LISENSI GAMBAR -->
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -330,7 +324,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   let isFetchingMore = false;
   let hasMoreData = true;
 
-  /* KONFIGURASI SUPABASE */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
@@ -345,7 +338,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     "Mandarin": "zh", "Arab": "ar", "English (US)": "en"
   };
 
-  /* TOGGLE MENU TITIK TIGA (⋮) */
   menuDotsBtn.addEventListener("click", e => {
     e.stopPropagation();
     menuDropdown.classList.toggle("active");
@@ -353,7 +345,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   document.addEventListener("click", () => menuDropdown.classList.remove("active"));
 
   $("itemPrivacy").addEventListener("click", () => {
-    alert("🛡️ Info Privasi OoeR:\n- 0 Cookie Pelacak Iklan\n- 0 Penjualan Data ke Pihak Ketiga\n- Privasi Anda Dijamin Bersih 100%");
+    alert("🛡️ Info Privasi OoeR:\n- 0 Cookie Pelacak Iklan\n- 0 Penjualan Data ke Pihak Ketiga\n- 100% Bersih & Terbuka");
   });
 
   $("itemHistory").addEventListener("click", () => {
@@ -376,7 +368,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     localStorage.setItem("ooer_search_history", JSON.stringify(history));
   }
 
-  /* 🎙️ FITUR PENCARIAN SUARA (MIC ASLI) */
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
@@ -405,11 +396,10 @@ button { cursor: pointer; border: 0; background: transparent; }
     recognition.onend = () => micBtn.classList.remove("listening");
   } else {
     micBtn.addEventListener("click", () => {
-      alert("Pencarian suara belum didukung di browser ini. Silakan ketik langsung di kolom.");
+      alert("Browser ini belum mendukung pencarian suara langsung.");
     });
   }
 
-  /* PRATINJAU LISENSI GAMBAR */
   function openImageInspector(imgObj) {
     imgModalPreview.src = typeof imgObj === "string" ? imgObj : imgObj.url;
     imgModalTitle.textContent = imgObj.title || "Foto Terverifikasi OoeR";
@@ -422,7 +412,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   $("closeImgModal").addEventListener("click", () => imageModal.classList.remove("active"));
   imageModal.addEventListener("click", e => { if (e.target === imageModal) imageModal.classList.remove("active"); });
 
-  /* 🖋️ TYPEWRITER STREAMING */
   function streamTypewriterText(targetEl, fullText, speed = 16, onComplete) {
     if (!targetEl) return;
     if (typewriterTimer) clearInterval(typewriterTimer);
@@ -449,7 +438,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     }, speed);
   }
 
-  /* ⚡ JALUR KILAT + PAGINASI (OFFSET) UNTUK INFINITE SCROLL */
   async function fetchOpenData(keyword, lang, offset = 0) {
     const langCode = WIKI_LANG_MAP[lang] || "id";
     const apiUrl = `https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(keyword)}&gsrlimit=8&gsroffset=${offset}&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=600&exintro=1&explaintext=1&exsentences=2&format=json&origin=*`;
@@ -483,30 +471,26 @@ button { cursor: pointer; border: 0; background: transparent; }
         }
       });
 
-      return {
-        articles,
-        images,
-        hasMore: !!data.continue
-      };
+      return { articles, images, hasMore: !!data.continue };
     } catch (e) {
       return { articles: [], images: [], hasMore: false };
     }
   }
 
-  /* RENDER VIEW SESUAI SKETSA */
+  /* RENDER VIEW */
   function renderView() {
     if (!activeData) return;
     if (typewriterTimer) { clearInterval(typewriterTimer); typewriterTimer = null; }
 
     resultsArea.replaceChildren();
 
-    // 1. TAB KHUSUS: Or Ai
+    // 1. TAB KHUSUS: Or Ai (AI HANYA MENJAWAB DI SINI!)
     if (currentTab === "ai") {
       const aiCard = document.createElement("div");
       aiCard.className = "ai-card";
       aiCard.innerHTML = `
-        <div class="ai-header-badge">✦ Khusus Jawaban Or Ai</div>
-        <div class="ai-text" id="deepAiText">${activeData.aiLoading ? "Or Ai sedang merangkum jawaban..." : ""}</div>
+        <div class="ai-header-badge">✨ Ruang Jawaban Khusus Or Ai</div>
+        <div class="ai-text" id="deepAiText">${activeData.aiLoading ? "Or Ai sedang merangkum jawaban mendalam..." : ""}</div>
       `;
       resultsArea.appendChild(aiCard);
 
@@ -520,36 +504,9 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
 
-    // 2. TAB: SEMUA (AI -> GAMBAR -> WEB -> SARAN KATA -> WEB)
+    // 2. TAB: SEMUA (BERSIH DARI KOTAK AI! LANGSUNG GAMBAR & WEB)
     else if (currentTab === "all") {
-      // Kotak Or Ai
-      const aiBox = document.createElement("div");
-      aiBox.className = "ai-card";
-      if (activeData.aiLoading) {
-        aiBox.innerHTML = `
-          <div class="ai-header-badge">✨ Or Ai sedang merangkum...</div>
-          <div class="skeleton skeleton-line short"></div>
-          <div class="skeleton skeleton-line full"></div>
-          <div class="skeleton skeleton-line medium"></div>
-        `;
-      } else {
-        aiBox.innerHTML = `
-          <div class="ai-header-badge">✨ Ringkasan Or Ai</div>
-          <div class="ai-text" id="mainAiText"></div>
-        `;
-      }
-      resultsArea.appendChild(aiBox);
-
-      const aiText = aiBox.querySelector("#mainAiText");
-      if (aiText && activeData.answer) {
-        if (!activeData.hasStreamed) {
-          streamTypewriterText(aiText, activeData.answer, 16, () => { activeData.hasStreamed = true; });
-        } else {
-          aiText.textContent = activeData.answer;
-        }
-      }
-
-      // Galeri Gambar Legal
+      // Galeri Foto Legal di Bagian Atas
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
         gal.className = "gallery-grid";
@@ -580,7 +537,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         resultsArea.appendChild(card);
       });
 
-      // SARAN KATA (SESUAI GAMBAR SKETSA ANDA)
+      // Saran Kata Terkait di Sela-Sela Artikel
       if (activeData.articles && activeData.articles.length > 0) {
         const suggestBox = document.createElement("div");
         suggestBox.className = "suggested-box";
@@ -632,7 +589,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       resultsArea.appendChild(gal);
     }
 
-    // 4. TAB: BERITA (LAYOUT SKETSA: TEKS DI KIRI, GAMBAR DI KANAN)
+    // 4. TAB: BERITA (TEKS DI KIRI, GAMBAR DI KANAN)
     else if (currentTab === "news") {
       (activeData.articles || []).forEach(art => {
         const card = document.createElement("div");
@@ -650,9 +607,9 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  /* ⚡ UNIVERSAL INFINITE SCROLL (SCROLL TANPA BATAS) */
+  /* INFINITE SCROLL */
   async function loadMoreContent() {
-    if (isFetchingMore || !hasMoreData || !activeData) return;
+    if (isFetchingMore || !hasMoreData || !activeData || currentTab === "ai") return;
 
     isFetchingMore = true;
     scrollLoading.style.display = "block";
@@ -665,7 +622,6 @@ button { cursor: pointer; border: 0; background: transparent; }
       activeData.images = [...(activeData.images || []), ...more.images];
       hasMoreData = more.hasMore;
 
-      // Sisipkan langsung ke halaman tanpa me-reset tampilan
       if (currentTab === "images") {
         const grid = $("infiniteImagesGrid");
         if (grid) {
@@ -716,7 +672,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     isFetchingMore = false;
   }
 
-  // INTERSECTION OBSERVER UNTUK DETEKSI SCROLL SAMPAI BAWAH
   const observer = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
       loadMoreContent();
@@ -725,7 +680,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
   observer.observe(scrollSentinel);
 
-  /* 🚀 MESIN PENCARIAN UTAMA */
+  /* MESIN PENCARIAN */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -736,8 +691,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     currentOffset = 0;
     hasMoreData = true;
 
-    // Cache Cepat
-    const cacheKey = `ooer_v4_${q.toLowerCase()}_${langSelect.value}`;
+    const cacheKey = `ooer_v5_${q.toLowerCase()}_${langSelect.value}`;
     const localHit = sessionStorage.getItem(cacheKey);
     if (localHit) {
       try {
@@ -759,7 +713,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     renderView();
 
-    // Jalur Kilat (0.2 Detik)
+    // ⚡ Jalur Cepat (0.2 Detik) untuk gambar & artikel
     fetchOpenData(q, langSelect.value, 0).then(fast => {
       if (fast.articles.length > 0 || fast.images.length > 0) {
         activeData.articles = fast.articles;
@@ -768,7 +722,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     });
 
-    // Panggil Vault / AI
+    // Ambil jawaban AI di latar belakang (Khusus jika pengguna buka tab Or Ai)
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -780,14 +734,13 @@ button { cursor: pointer; border: 0; background: transparent; }
         if (vData && vData.answer) {
           activeData.answer = vData.answer;
           activeData.aiLoading = false;
-          renderView();
+          if (currentTab === "ai") renderView();
           sessionStorage.setItem(cacheKey, JSON.stringify(activeData));
           return;
         }
       } catch (e) {}
     }
 
-    // Collector Fallback
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -797,12 +750,12 @@ button { cursor: pointer; border: 0; background: transparent; }
       const data = await res.json();
       activeData.answer = data.answer || "Informasi ditemukan melalui indeks terbuka OoeR.";
       activeData.aiLoading = false;
-      renderView();
+      if (currentTab === "ai") renderView();
       sessionStorage.setItem(cacheKey, JSON.stringify(activeData));
     } catch (err) {
       activeData.aiLoading = false;
       if (!activeData.answer) activeData.answer = "Informasi dirangkum melalui arsip terbuka OoeR.";
-      renderView();
+      if (currentTab === "ai") renderView();
     }
   }
 
