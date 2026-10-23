@@ -20,6 +20,7 @@
   --link-blue: #8ab4f8;
   --green: #34a853;
   --yellow: #fbbc05;
+  --red: #ea4335;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -87,7 +88,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
 .status-msg { padding: 16px 0; color: var(--muted); font-size: 13px; text-align: center; }
 
-/* SKELETON ANIMASI CEPAT (SHIMMER) */
+/* ANIMASI KERANGKA SKELETON (SHIMMER) */
 .skeleton {
   background: linear-gradient(90deg, #1e1f20 25%, #2a2c2e 50%, #1e1f20 75%);
   background-size: 200% 100%;
@@ -142,7 +143,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 10px; font-weight: 600; color: #a8c7fa;
 }
 
-/* KARTU ARTIKEL */
+/* KARTU ARTIKEL (BEBAS BLOKIR) */
 .article-card {
   padding: 14px 0; border-bottom: 1px solid #282a2d; cursor: pointer;
   animation: fadeIn 0.25s ease;
@@ -151,30 +152,9 @@ button { cursor: pointer; border: 0; background: transparent; }
 .article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; font-weight: 500; }
 .article-snippet { font-size: 13px; line-height: 1.5; color: #bdc1c6; }
 
-/* VIDEO */
-.video-card { background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 12px; }
-.video-card video { width: 100%; border-radius: 8px; max-height: 240px; background: #000; }
-.video-title { font-size: 14px; margin-top: 6px; color: #e8eaed; }
-
-/* MODAL IN-APP WEB VIEWER */
-#webModal {
-  display: none; position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg); flex-direction: column;
-}
-#webModal.active { display: flex; }
-.web-modal-header {
-  height: 54px; background: var(--card-bg); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-}
-.web-modal-info { display: flex; flex-direction: column; overflow: hidden; max-width: 70%; }
-.web-modal-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.web-modal-domain { font-size: 11px; color: var(--muted); }
-.web-modal-close {
-  background: var(--search-bg); color: #fff; width: 34px; height: 34px;
-  border-radius: 50%; display: grid; place-items: center; font-size: 18px;
-}
-.web-iframe-container { flex: 1; width: 100%; position: relative; }
-.web-iframe { width: 100%; height: 100%; border: none; background: #fff; }
+/* KARTU VIDEO */
+.video-card { background: var(--card-bg); padding: 14px; border-radius: 14px; margin-bottom: 14px; }
+.video-title { font-size: 14px; margin-top: 10px; color: #e8eaed; }
 
 /* MODAL LISENSI GAMBAR */
 #imageModal {
@@ -259,19 +239,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   <div id="resultsArea"></div>
 </main>
 
-<div id="webModal">
-  <div class="web-modal-header">
-    <div class="web-modal-info">
-      <span class="web-modal-title" id="webModalTitle">Membuka Halaman...</span>
-      <span class="web-modal-domain" id="webModalDomain">OoeR Secure Browser</span>
-    </div>
-    <button class="web-modal-close" id="closeWebModal">✕</button>
-  </div>
-  <div class="web-iframe-container">
-    <iframe id="webIframe" class="web-iframe" sandbox="allow-same-origin allow-scripts allow-forms allow-popups"></iframe>
-  </div>
-</div>
-
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -297,11 +264,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   const langSelect = $("langSelect");
   const tabs = document.querySelectorAll(".tab-item");
 
-  const webModal = $("webModal");
-  const webIframe = $("webIframe");
-  const webModalTitle = $("webModalTitle");
-  const webModalDomain = $("webModalDomain");
-
   const imageModal = $("imageModal");
   const imgModalPreview = $("imgModalPreview");
   const imgModalTitle = $("imgModalTitle");
@@ -323,20 +285,20 @@ button { cursor: pointer; border: 0; background: transparent; }
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
 
-  /* KAMUS TERJEMAHAN LENGKAP */
+  /* KAMUS TERJEMAHAN 12 BAHASA LENGKAP */
   const UI_DICT = {
-    "Indonesia": { all: "Semua", ai: "✨ OoeR AI", img: "Gambar", news: "Berita", vid: "Video", license: "🔍 Cek Lisensi", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Cepat OoeR", noVid: "Tidak ada video terbuka untuk topik ini.", ph: "Telusuri di OoeR...", loading: "Menghubungkan ke Gudang Memori & Menjelajah Web...", translating: "Menerjemahkan dengan Grok.ai..." },
-    "English (US)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check License", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", loading: "Accessing Memory Vault & Searching Web...", translating: "Translating with Grok.ai..." },
-    "English (UK)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check Licence", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", loading: "Accessing Memory Vault & Searching Web...", translating: "Translating with Grok.ai..." },
-    "Melayu (Malaysia)": { all: "Semua", ai: "✨ OoeR AI", img: "Imej", news: "Berita", vid: "Video", license: "🔍 Semak Lesen", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Pantas OoeR", noVid: "Tiada video dibuka untuk topik ini.", ph: "Cari di OoeR...", loading: "Menyambung ke Gudang Memori & Meneroka Web...", translating: "Menterjemah dengan Grok.ai..." },
-    "Tagalog (Filipina)": { all: "Lahat", ai: "✨ OoeR AI", img: "Mga Larawan", news: "Balita", vid: "Mga Video", license: "🔍 Suriin ang Lisensya", sum: "✨ Buod ng OoeR AI", mem: "⚡ Mabilisang Memorya ng OoeR", noVid: "Walang bukas na video para sa paksang ito.", ph: "Maghanap sa OoeR...", loading: "Kumukonekta sa Memory Vault...", translating: "Isinasalin gamit ang Grok.ai..." },
-    "Thailand": { all: "ทั้งหมด", ai: "✨ OoeR AI", img: "รูปภาพ", news: "ข่าว", vid: "วิดีโอ", license: "🔍 ตรวจสอบใบอนุญาต", sum: "✨ บทสรุป OoeR AI", mem: "⚡ หน่วยความจำด่วน OoeR", noVid: "ไม่มีวิดีโอสำหรับหัวข้อนี้", ph: "ค้นหาใน OoeR...", loading: "กำลังเชื่อมต่อคลังความจำ...", translating: "กำลังแปลภาษาด้วย Grok.ai..." },
-    "Vietnam": { all: "Tất cả", ai: "✨ OoeR AI", img: "Hình ảnh", news: "Tin tức", vid: "Video", license: "🔍 Kiểm tra giấy phép", sum: "✨ Tóm tắt OoeR AI", mem: "⚡ Bộ nhớ nhanh OoeR", noVid: "Không có video cho chủ đề này.", ph: "Tìm kiếm trên OoeR...", loading: "Đang kết nối kho dữ liệu...", translating: "Đang dịch bằng Grok.ai..." },
-    "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 高速メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索...", loading: "メモリに接続中...", translating: "Grok.ai で翻訳中..." },
-    "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 빠른 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색...", loading: "메모리 볼트에 연결 중...", translating: "Grok.ai로 번역 중..." },
-    "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 极速记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索...", loading: "正在连接记忆库并搜索...", translating: "正在通过 Grok.ai 翻译..." },
-    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR त्वरित मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें...", loading: "मेमोरी वॉल्ट से जुड़ रहा है...", translating: "Grok.ai द्वारा अनुवाद किया जा रहा है..." },
-    "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR السريعة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR...", loading: "جارٍ الاتصال بمستودع الذاكرة...", translating: "جارٍ الترجمة بواسطة Grok.ai..." }
+    "Indonesia": { all: "Semua", ai: "✨ OoeR AI", img: "Gambar", news: "Berita", vid: "Video", license: "🔍 Cek Lisensi", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Cepat OoeR", noVid: "Tidak ada video terbuka untuk topik ini.", ph: "Telusuri di OoeR...", translating: "Menerjemahkan dengan Grok.ai..." },
+    "English (US)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check License", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", translating: "Translating with Grok.ai..." },
+    "English (UK)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check Licence", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", translating: "Translating with Grok.ai..." },
+    "Melayu (Malaysia)": { all: "Semua", ai: "✨ OoeR AI", img: "Imej", news: "Berita", vid: "Video", license: "🔍 Semak Lesen", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Pantas OoeR", noVid: "Tiada video dibuka untuk topik ini.", ph: "Cari di OoeR...", translating: "Menterjemah dengan Grok.ai..." },
+    "Tagalog (Filipina)": { all: "Lahat", ai: "✨ OoeR AI", img: "Mga Larawan", news: "Balita", vid: "Mga Video", license: "🔍 Suriin ang Lisensya", sum: "✨ Buod ng OoeR AI", mem: "⚡ Mabilisang Memorya ng OoeR", noVid: "Walang bukas na video para sa paksang ito.", ph: "Maghanap sa OoeR...", translating: "Isinasalin gamit ang Grok.ai..." },
+    "Thailand": { all: "ทั้งหมด", ai: "✨ OoeR AI", img: "รูปภาพ", news: "ข่าว", vid: "วิดีโอ", license: "🔍 ตรวจสอบใบอนุญาต", sum: "✨ บทสรุป OoeR AI", mem: "⚡ หน่วยความจำด่วน OoeR", noVid: "ไม่มีวิดีโอสำหรับหัวข้อนี้", ph: "ค้นหาใน OoeR...", translating: "กำลังแปลภาษาด้วย Grok.ai..." },
+    "Vietnam": { all: "Tất cả", ai: "✨ OoeR AI", img: "Hình ảnh", news: "Tin tức", vid: "Video", license: "🔍 Kiểm tra giấy phép", sum: "✨ Tóm tắt OoeR AI", mem: "⚡ Bộ nhớ nhanh OoeR", noVid: "Không có video cho chủ đề này.", ph: "Tìm kiếm trên OoeR...", translating: "Đang dịch bằng Grok.ai..." },
+    "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 高速メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索...", translating: "Grok.ai で翻訳中..." },
+    "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 빠른 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색...", translating: "Grok.ai로 번역 중..." },
+    "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 极速记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索...", translating: "正在通过 Grok.ai 翻译..." },
+    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR त्वरित मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें...", translating: "Grok.ai द्वारा अनुवाद किया जा रहा है..." },
+    "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR السريعة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR...", translating: "جارٍ الترجمة بواسطة Grok.ai..." }
   };
 
   function applyUILanguage(lang) {
@@ -349,7 +311,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (input) input.placeholder = d.ph;
   }
 
-  // TAMPILKAN ANIMASI KERANGKA (SKELETON) INSTAN
   function showSkeleton() {
     statusBox.hidden = true;
     resultsArea.innerHTML = `
@@ -372,12 +333,11 @@ button { cursor: pointer; border: 0; background: transparent; }
     `;
   }
 
-  // PENERJEMAH GROK.AI CEPAT DENGAN TIMEOUT
   async function terjemahkanDenganGrok(teks, targetLang) {
     if (targetLang === "Indonesia" || !teks) return teks;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4500); // batas tunggu 4.5 detik
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
 
     try {
       const res = await fetch(GROK_TRANSLATOR_URL, {
@@ -388,7 +348,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           "apikey": SUPABASE_KEY
         },
         body: JSON.stringify({
-          message: `Translate this summary into ${targetLang} naturally and concisely without greetings:\n\n${teks}`,
+          message: `Translate this summary into ${targetLang} naturally and concisely without intro:\n\n${teks}`,
           max_tokens: 600
         }),
         signal: controller.signal
@@ -402,7 +362,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  // DETEKSI BAHASA DARI URL ATAU LOCALSTORAGE
   const params = new URLSearchParams(location.search);
   const langFromUrl = params.get("lang");
   const currentSavedLang = langFromUrl || localStorage.getItem("ooer_user_lang") || "Indonesia";
@@ -425,18 +384,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     } else if (input.value.trim()) {
       runSearch(input.value);
     }
-  });
-
-  function openInAppWeb(url, title, source) {
-    webModalTitle.textContent = title;
-    webModalDomain.textContent = source + " · Akses Resmi OoeR";
-    webIframe.src = url;
-    webModal.classList.add("active");
-  }
-
-  $("closeWebModal").addEventListener("click", () => {
-    webModal.classList.remove("active");
-    webIframe.src = "about:blank";
   });
 
   function openImageInspector(imgObj) {
@@ -498,10 +445,13 @@ button { cursor: pointer; border: 0; background: transparent; }
           card.className = "article-card";
           card.innerHTML = `
             <div class="article-source">🌐 ${art.source || "Web"}</div>
-            <div class="article-title">${art.title || ""}</div>
+            <div class="article-title">${art.title || ""} ↗</div>
             <div class="article-snippet">${art.snippet || ""}</div>
           `;
-          card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
+          // Langsung buka di tab baru agar tidak diblokir oleh web besar!
+          card.addEventListener("click", () => {
+            window.open(art.url, "_blank", "noopener,noreferrer");
+          });
           resultsArea.appendChild(card);
         });
       }
@@ -534,23 +484,69 @@ button { cursor: pointer; border: 0; background: transparent; }
         card.className = "article-card";
         card.innerHTML = `
           <div class="article-source">📰 ${art.source || "News"}</div>
-          <div class="article-title">${art.title || ""}</div>
+          <div class="article-title">${art.title || ""} ↗</div>
           <div class="article-snippet">${art.snippet || ""}</div>
         `;
-        card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
+        card.addEventListener("click", () => {
+          window.open(art.url, "_blank", "noopener,noreferrer");
+        });
         resultsArea.appendChild(card);
       });
     } else if (currentTab === "videos") {
       if (!activeData.videos || activeData.videos.length === 0) {
         resultsArea.innerHTML = `<div class="status-msg">${d.noVid}</div>`;
       } else {
+        resultsArea.replaceChildren();
+
         activeData.videos.forEach(vid => {
-          resultsArea.innerHTML += `
-            <div class="video-card">
-              <video src="${vid.url}" controls></video>
-              <div class="video-title">🎬 ${vid.title || "Video"}</div>
-            </div>
-          `;
+          const card = document.createElement("div");
+          card.className = "video-card";
+          const url = vid.url || "";
+          
+          // Pemutar Cerdas Bebas Blokir:
+          const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
+
+          if (ytMatch && ytMatch[1]) {
+            // YouTube: Gunakan domain sematan resmi youtube-nocookie
+            const videoId = ytMatch[1];
+            card.innerHTML = `
+              <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;">
+                <iframe 
+                  src="https://www.youtube-nocookie.com/embed/${videoId}" 
+                  title="${vid.title || 'Video'}" 
+                  style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Video OoeR"}</div>
+            `;
+          } else if (url.endsWith(".mp4") || url.endsWith(".webm")) {
+            // File mentah MP4/WEBM
+            card.innerHTML = `
+              <video src="${url}" controls style="width:100%; border-radius:12px; max-height:240px; background:#000;"></video>
+              <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Video"}</div>
+            `;
+          } else {
+            // Video Platform Lain (TikTok, Instagram, Web): Kartu Pratinjau + Tombol Buka
+            const thumb = vid.thumbnail || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80";
+            card.innerHTML = `
+              <div style="position:relative; cursor:pointer; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#282a2d;">
+                <img src="${thumb}" style="width:100%; height:100%; object-fit:cover;" alt="Cover">
+                <div style="position:absolute; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.45);">
+                  <span style="background:var(--red); color:#fff; padding:10px 18px; border-radius:24px; font-weight:600; font-size:13px; display:flex; align-items:center; gap:6px;">
+                    ▶ Putar di Platform Asli
+                  </span>
+                </div>
+              </div>
+              <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Tonton Video"} ↗</div>
+            `;
+            card.addEventListener("click", () => {
+              window.open(url, "_blank", "noopener,noreferrer");
+            });
+          }
+
+          resultsArea.appendChild(card);
         });
       }
     }
@@ -563,7 +559,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     input.value = q;
     showSkeleton();
 
-    // 1. CEK CEPAT DI SUPABASE VAULT (Prioritas Kecepatan)
+    // 1. CEK CEPAT DI SUPABASE VAULT
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -582,7 +578,6 @@ button { cursor: pointer; border: 0; background: transparent; }
             videos: vData.videos || []
           };
 
-          // Terjemahkan dengan Grok jika bahasa bukan Indonesia
           if (langSelect.value !== "Indonesia") {
             activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
           }
@@ -590,7 +585,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           statusBox.hidden = true;
           renderView();
 
-          // Update hit count di latar belakang tanpa menunda tampilan!
+          // Update hit count di latar belakang tanpa menunda tampilan
           supabase.from("ooer_ai_vault").update({
             hit_count: (vData.hit_count || 1) + 1
           }).eq("id", vData.id).then(() => {});
@@ -602,7 +597,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
 
-    // 2. JIKA BELUM ADA DI VAULT, AMBIL DARI RAPID TASK COLLECTOR
+    // 2. JIKA BELUM ADA, AMBIL DARI COLLECTOR
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -620,7 +615,6 @@ button { cursor: pointer; border: 0; background: transparent; }
       const data = await res.json();
       activeData = data;
 
-      // Jika Edge Function belum menerjemahkan, jalankan Grok Translator
       if (langSelect.value !== "Indonesia" && activeData.answer && !activeData.is_translated) {
         activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
       }
@@ -647,7 +641,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     runSearch(input.value);
   });
 
-  // JALANKAN PENCARIAN DARI PARAMETER URL
   const qParam = params.get("q");
   if (qParam) {
     runSearch(decodeURIComponent(qParam));
