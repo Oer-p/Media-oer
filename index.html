@@ -88,7 +88,6 @@ header{
 .site-menu{top:55px;right:10px;width:min(260px,calc(100vw - 20px));padding:8px}
 .site-menu.show{display:grid}
 
-/* KOTAK BAHASA PERMANEN DI HEADER */
 .lang-box-home{
   display:flex;align-items:center;background:var(--soft);
   border:1px solid var(--border);border-radius:20px;padding:3px 8px
@@ -145,7 +144,6 @@ main{
   transition:all 0.2s ease
 }
 .search-action svg{width:23px;height:23px}
-/* Efek saat Mic aktif mendengarkan */
 .search-action.listening {
   color: #ea4335 !important;
   background: rgba(234, 67, 53, 0.15) !important;
@@ -170,7 +168,6 @@ main{
 }
 .suggestion:hover{background:var(--soft)}
 
-/* Tiga tombol utama */
 .search-buttons{
   display:flex;justify-content:center;align-items:center;
   gap:10px;margin-top:20px;flex-wrap:wrap
@@ -193,7 +190,6 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 }
 .shortcuts,#oer-bola,#reels,.about-section,footer{display:none!important}
 
-/* Dialog umum */
 .overlay{
   display:none;position:fixed;inset:0;z-index:200;
   align-items:center;justify-content:center;padding:18px;background:#0009
@@ -236,7 +232,6 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .settings-text h4{margin:0 0 4px;font-size:15px}
 .settings-text p{margin:0;font-size:12px;color:var(--muted)}
 
-/* Login Popup */
 #loginGate{
   display:none;position:fixed;inset:0;z-index:99999;
   align-items:center;justify-content:center;padding:20px;
@@ -316,7 +311,6 @@ body.login-locked{overflow:hidden}
   </div>
 
   <div class="header-right">
-    <!-- DROPDOWN 12 BAHASA LENGKAP -->
     <div class="lang-box-home" title="Ganti Bahasa (Permanen)">
       <select id="langSelectHome" class="lang-dropdown-home">
         <optgroup label="Asia Tenggara">
@@ -369,7 +363,6 @@ body.login-locked{overflow:hidden}
         <input id="searchInput" type="search" placeholder="Cari atau masukkan alamat"
           autocomplete="off" aria-label="Cari atau masukkan alamat">
         
-        <!-- TOMBOL MIC CANGGIH -->
         <button class="search-action" type="button" id="voiceButton"
           aria-label="Pencarian suara" title="Klik untuk berbicara">
           <svg viewBox="0 0 24 24" fill="currentColor">
@@ -380,7 +373,6 @@ body.login-locked{overflow:hidden}
       <div class="suggestions" id="suggestions"></div>
     </form>
 
-    <!-- Tiga tombol utama -->
     <div class="search-buttons" aria-label="Menu utama OoeR">
       <button type="button" id="netnetButton">◉ NetNet</button>
       <button type="button" id="aiButton">✦ OoeR AI</button>
@@ -438,7 +430,6 @@ body.login-locked{overflow:hidden}
   </div>
 </div>
 
-<!-- Login Popup -->
 <div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="login-card">
     <div class="login-logo" aria-label="OoeR">
@@ -461,8 +452,6 @@ body.login-locked{overflow:hidden}
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const SITE_URL = "https://oer-p.github.io/Media-oer/";
-
-  // ENDPOINT OTAK PENYIMPANAN AI (OOER-COLLECTOR)
   const OOER_BRAIN_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
 
   const $ = id => document.getElementById(id);
@@ -482,9 +471,6 @@ body.login-locked{overflow:hidden}
   let authReady = false;
   let authBusy = false;
 
-  /* ===================================================
-     KAMUS 12 BAHASA + KODE BAHASA MIC
-     =================================================== */
   const UI_DICTIONARY = {
     "Indonesia": {
       placeholder: "Cari atau masukkan alamat",
@@ -812,7 +798,6 @@ body.login-locked{overflow:hidden}
     }
   };
 
-  /* FITUR BICARA (TEXT-TO-SPEECH) */
   function oerSpeak(text, lang) {
     if (!window.speechSynthesis) return;
     try {
@@ -870,7 +855,6 @@ body.login-locked{overflow:hidden}
     }
   }
 
-  // Muat bahasa permanen
   const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
   if (langSelectHome) langSelectHome.value = savedLang;
   applyLanguage(savedLang);
@@ -883,7 +867,6 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  // Event saat pengguna kembali dari search: Bebas macet & Sinkron
   window.addEventListener("pageshow", () => {
     document.body.classList.remove("login-locked");
     const currentLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
@@ -892,7 +875,7 @@ body.login-locked{overflow:hidden}
     if (currentSession) unlockPage(currentSession);
   });
 
-  /* SUPABASE AUTH */
+  /* SUPABASE INITIALIZE */
   if (window.supabase?.createClient) {
     try {
       supabaseClient = window.supabase.createClient(
@@ -1058,7 +1041,6 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  /* Menu akun dan menu situs */
   if ($("accountMenuButton")) {
     $("accountMenuButton").addEventListener("click", event => {
       event.stopPropagation();
@@ -1128,7 +1110,6 @@ body.login-locked{overflow:hidden}
     }
   });
 
-  /* Riwayat pencarian */
   function getHistory() {
     return readStorage("oer_search_history", []).filter(item => typeof item === "string");
   }
@@ -1172,12 +1153,31 @@ body.login-locked{overflow:hidden}
     suggestions.classList.add("show");
   }
 
-  /* ========================================================
-     FUNGSI PENGHUBUNG OTAK AI OOER (RAPID-TASK)
-     Mengirim query & bahasa aktif agar otomatis tersimpan & memori bertambah
-     ======================================================== */
+  /* PENGHUBUNG OTAK AI OOER (CEK MEMORI DULU BARU SYNC) */
   async function triggerOoERBrain(query, lang) {
     try {
+      // 1. Cek langsung ke database vault jika Supabase siap
+      if (supabaseClient) {
+        const { data: vData } = await supabaseClient
+          .from("ooer_ai_vault")
+          .select("*")
+          .ilike("query", query)
+          .maybeSingle();
+
+        if (vData && vData.answer) {
+          sessionStorage.setItem("ooer_latest_vault", JSON.stringify({
+            is_memory: true,
+            query: query,
+            answer: vData.answer,
+            images: vData.images || [],
+            articles: vData.articles || [],
+            videos: vData.videos || []
+          }));
+          return;
+        }
+      }
+
+      // 2. Jika belum ada di stok, panggil Rapid-Task Edge Function
       const response = await fetch(OOER_BRAIN_URL, {
         method: "POST",
         headers: {
@@ -1193,7 +1193,6 @@ body.login-locked{overflow:hidden}
 
       const brainData = await response.json();
 
-      // Simpan hasil cache instan ke sessionStorage agar langsung terbaca di search.html
       if (brainData && !brainData.error) {
         sessionStorage.setItem("ooer_latest_vault", JSON.stringify(brainData));
       }
@@ -1231,16 +1230,12 @@ body.login-locked{overflow:hidden}
       return;
     }
 
-    // Ambil bahasa yang sedang aktif secara permanen
     const activeLang = localStorage.getItem("ooer_user_lang") || (langSelectHome ? langSelectHome.value : "Indonesia");
 
-    // Tampilkan status pencarian ringan jika diperlukan
     if (notice) notice.textContent = "✦ OoeR Brain...";
 
-    // 1. Jalankan proses simpan & panggil otak OoER Vault
     await triggerOoERBrain(query, activeLang);
 
-    // 2. Teruskan pencarian ke halaman search.html dengan parameter query & bahasa
     const url = new URL("./search.html", location.href);
     url.searchParams.set("q", query);
     url.searchParams.set("lang", activeLang);
@@ -1259,7 +1254,6 @@ body.login-locked{overflow:hidden}
     input.addEventListener("focus", renderSuggestions);
   }
 
-  /* Tombol utama OoeR */
   const mainButtons = [
     $("netnetButton"),
     $("aiButton"),
@@ -1285,9 +1279,6 @@ body.login-locked{overflow:hidden}
     });
   });
 
-  /* ===================================================
-     FITUR MIC CANGGIH: MENDENGAR SESUAI BAHASA AKTIF & BISA BICARA
-     =================================================== */
   if (voiceBtn) {
     voiceBtn.addEventListener("click", () => {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1304,29 +1295,24 @@ body.login-locked{overflow:hidden}
       mic.interimResults = false;
       mic.maxAlternatives = 1;
 
-      // Saat mic mulai mendengar
       mic.onstart = () => {
         voiceBtn.classList.add("listening");
         if (notice) notice.textContent = dict.listeningText;
       };
 
-      // Saat suara berhasil ditangkap
       mic.onresult = event => {
         const hasilSuara = event.results[0][0].transcript;
         if (input) input.value = hasilSuara;
         if (notice) notice.textContent = "";
         
-        // Beri respon suara kecil & langsung cari otomatis!
         oerSpeak(hasilSuara, curLang);
         performSearch();
       };
 
-      // Jika suara tidak terdeteksi
       mic.onerror = () => {
         if (notice) notice.textContent = dict.micError;
       };
 
-      // Saat mic selesai
       mic.onend = () => {
         voiceBtn.classList.remove("listening");
         if (notice && notice.textContent === dict.listeningText) {
@@ -1338,7 +1324,6 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  /* Dialog riwayat */
   function renderHistory() {
     const list = $("historyList");
     if (!list) return;
@@ -1383,7 +1368,6 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  /* Favorit */
   function getFavorites() {
     return readStorage("oer_favorites", []).filter(item => typeof item === "string");
   }
@@ -1465,7 +1449,6 @@ body.login-locked{overflow:hidden}
     });
   }
 
-  /* Tema */
   if (readStorage("oer_dark_mode", true) === false) {
     document.body.classList.add("light");
   }
@@ -1489,7 +1472,6 @@ body.login-locked{overflow:hidden}
     });
   });
 
-  /* Inisialisasi awal */
   initializeAuth();
 })();
 </script>
