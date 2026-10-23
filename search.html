@@ -492,27 +492,79 @@ button { cursor: pointer; border: 0; background: transparent; }
         });
         resultsArea.appendChild(card);
       });
-    } else if (currentTab === "videos") {
-      if (!activeData.videos || activeData.videos.length === 0) {
-        resultsArea.innerHTML = `<div class="status-msg">${d.noVid}</div>`;
-      } else {
-        resultsArea.replaceChildren();
+   
+        } else if (currentTab === "videos") {
+      resultsArea.replaceChildren();
 
-        activeData.videos.forEach(vid => {
+      // JIKA BACKEND KOSONG, KITA BUATKAN HASIL VIDEO YOUTUBE OTOMATIS BERDASARKAN KATA KUNCI!
+      let videoList = activeData.videos || [];
+
+      if (!videoList || videoList.length === 0) {
+        const queryClean = encodeURIComponent(input.value.trim() || "video populer");
+        
+        // Tampilkan Pemutar Video Utama YouTube Terkait Topik (100% Bebas Blokir)
+        const mainVideoCard = document.createElement("div");
+        mainVideoCard.className = "video-card";
+        mainVideoCard.innerHTML = `
+          <div style="font-size:12px; color:#8ab4f8; margin-bottom:8px; font-weight:600;">
+            🎬 Rekomendasi Video OoeR untuk: "${input.value.trim()}"
+          </div>
+          <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;">
+            <iframe 
+              src="https://www.youtube-nocookie.com/embed?listType=search&list=${queryClean}" 
+              title="YouTube Video" 
+              style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-title" style="margin-top:10px; font-weight:600;">
+            Putar Koleksi Video: ${input.value.trim()}
+          </div>
+        `;
+        resultsArea.appendChild(mainVideoCard);
+
+        // Tambahkan Kartu-Kartu Video Pilihan Lainnya
+        const videoChannels = [
+          { name: "YouTube Video Terpopuler", icon: "▶", color: "#ea4335", url: `https://www.youtube.com/results?search_query=${queryClean}` },
+          { name: "Video Shorts & Pendek", icon: "⚡", color: "#fbbc05", url: `https://www.youtube.com/results?search_query=${queryClean}+shorts` },
+          { name: "Live Streaming & Berita Video", icon: "🔴", color: "#34a853", url: `https://www.youtube.com/results?search_query=${queryClean}+live` }
+        ];
+
+        videoChannels.forEach(item => {
+          const itemCard = document.createElement("div");
+          itemCard.style.cssText = "background:var(--card-bg); padding:14px; border-radius:14px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; border:1px solid #282a2d;";
+          itemCard.innerHTML = `
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="background:${item.color}; color:#fff; width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-size:14px;">
+                ${item.icon}
+              </span>
+              <div>
+                <div style="font-weight:600; font-size:14px; color:#fff;">${item.name}</div>
+                <div style="font-size:12px; color:var(--muted);">Koleksi video terkait "${input.value.trim()}"</div>
+              </div>
+            </div>
+            <span style="color:#8ab4f8; font-size:14px; font-weight:600;">Buka ↗</span>
+          `;
+          itemCard.addEventListener("click", () => {
+            window.open(item.url, "_blank", "noopener,noreferrer");
+          });
+          resultsArea.appendChild(itemCard);
+        });
+
+      } else {
+        // JIKA DI SUPABASE ADA DAFTAR VIDEO, TAMPILKAN VIDEO DARI SUPABASE
+        videoList.forEach(vid => {
           const card = document.createElement("div");
           card.className = "video-card";
           const url = vid.url || "";
-          
-          // Pemutar Cerdas Bebas Blokir:
           const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/);
 
           if (ytMatch && ytMatch[1]) {
-            // YouTube: Gunakan domain sematan resmi youtube-nocookie
-            const videoId = ytMatch[1];
             card.innerHTML = `
               <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;">
                 <iframe 
-                  src="https://www.youtube-nocookie.com/embed/${videoId}" 
+                  src="https://www.youtube-nocookie.com/embed/${ytMatch[1]}" 
                   title="${vid.title || 'Video'}" 
                   style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -521,35 +573,17 @@ button { cursor: pointer; border: 0; background: transparent; }
               </div>
               <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Video OoeR"}</div>
             `;
-          } else if (url.endsWith(".mp4") || url.endsWith(".webm")) {
-            // File mentah MP4/WEBM
-            card.innerHTML = `
-              <video src="${url}" controls style="width:100%; border-radius:12px; max-height:240px; background:#000;"></video>
-              <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Video"}</div>
-            `;
           } else {
-            // Video Platform Lain (TikTok, Instagram, Web): Kartu Pratinjau + Tombol Buka
-            const thumb = vid.thumbnail || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&q=80";
             card.innerHTML = `
-              <div style="position:relative; cursor:pointer; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#282a2d;">
-                <img src="${thumb}" style="width:100%; height:100%; object-fit:cover;" alt="Cover">
-                <div style="position:absolute; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.45);">
-                  <span style="background:var(--red); color:#fff; padding:10px 18px; border-radius:24px; font-weight:600; font-size:13px; display:flex; align-items:center; gap:6px;">
-                    ▶ Putar di Platform Asli
-                  </span>
-                </div>
+              <div style="background:#282a2d; padding:15px; border-radius:12px; cursor:pointer;" onclick="window.open('${url}','_blank')">
+                <div style="font-weight:600; color:#8ab4f8;">🎬 ${vid.title || "Tonton Video"} ↗</div>
+                <div style="font-size:12px; color:#aaa; margin-top:4px;">Klik untuk memutar langsung</div>
               </div>
-              <div class="video-title" style="margin-top:10px; font-weight:600;">🎬 ${vid.title || "Tonton Video"} ↗</div>
             `;
-            card.addEventListener("click", () => {
-              window.open(url, "_blank", "noopener,noreferrer");
-            });
           }
-
           resultsArea.appendChild(card);
         });
       }
-    }
   }
 
   async function runSearch(keyword) {
