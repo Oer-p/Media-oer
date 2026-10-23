@@ -126,9 +126,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .video-card video { width: 100%; border-radius: 8px; max-height: 240px; background: #000; }
 .video-title { font-size: 14px; margin-top: 6px; color: #e8eaed; }
 
-/* ========================================================
-   MODAL 1: IN-APP WEB VIEWER (TIDAK PERNAH KELUAR DARI OOER)
-   ======================================================== */
+/* MODAL 1: IN-APP WEB VIEWER */
 #webModal {
   display: none; position: fixed; inset: 0; z-index: 9999;
   background: var(--bg); flex-direction: column;
@@ -148,9 +146,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .web-iframe-container { flex: 1; width: 100%; position: relative; }
 .web-iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
-/* ========================================================
-   MODAL 2: INSPEKTOR LISENSI GAMBAR RESMI & KONTEN
-   ======================================================== */
+/* MODAL 2: INSPEKTOR LISENSI GAMBAR RESMI & KONTEN */
 #imageModal {
   display: none; position: fixed; inset: 0; z-index: 10000;
   background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
@@ -233,7 +229,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   <div id="resultsArea"></div>
 </main>
 
-<!-- JENDELA WEB IN-APP OOER (TIDAK KELUAR DARI SEARCH) -->
+<!-- MODAL IN-APP WEB OOER -->
 <div id="webModal">
   <div class="web-modal-header">
     <div class="web-modal-info">
@@ -247,7 +243,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </div>
 
-<!-- JENDELA LISENSI GAMBAR & KONTEN -->
+<!-- MODAL LISENSI GAMBAR RESMI -->
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -289,17 +285,23 @@ button { cursor: pointer; border: 0; background: transparent; }
   let currentTab = "all";
   let activeData = null;
 
+  /* KONFIGURASI SUPABASE DATABASE & EDGE FUNCTION */
+  const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
 
-  // Muat bahasa tersimpan
+  // Inisialisasi Supabase Client
+  const supabase = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+  // Muat preferensi bahasa
   langSelect.value = localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.addEventListener("change", () => {
     localStorage.setItem("ooer_user_lang", langSelect.value);
     if (input.value.trim()) runSearch(input.value);
   });
 
-  // BUKA WEB IN-APP
   function openInAppWeb(url, title, source) {
     webModalTitle.textContent = title;
     webModalDomain.textContent = source + " · Akses Resmi OoeR";
@@ -312,7 +314,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     webIframe.src = "about:blank";
   });
 
-  // BUKA DETAIL GAMBAR & LISENSI
   function openImageInspector(imgObj) {
     imgModalPreview.src = typeof imgObj === "string" ? imgObj : imgObj.url;
     imgModalTitle.textContent = imgObj.title || "Foto Terverifikasi OoeR";
@@ -349,11 +350,10 @@ button { cursor: pointer; border: 0; background: transparent; }
       aiBox.className = "ai-card";
       aiBox.innerHTML = `
         <div class="ai-header-badge">${activeData.is_memory ? "⚡ Memori OoeR Permanen" : "✨ Ringkasan OoeR AI"}</div>
-        <div class="ai-text">${activeData.answer}</div>
+        <div class="ai-text">${activeData.answer || "Tidak ada ringkasan teks."}</div>
       `;
       resultsArea.appendChild(aiBox);
 
-      // Galeri Gambar dengan Lisensi
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
         gal.className = "gallery-grid";
@@ -371,15 +371,14 @@ button { cursor: pointer; border: 0; background: transparent; }
         resultsArea.appendChild(gal);
       }
 
-      // Daftar Artikel Web (Klik buka di OoeR)
-      if (activeData.articles) {
+      if (activeData.articles && activeData.articles.length > 0) {
         activeData.articles.forEach(art => {
           const card = document.createElement("div");
           card.className = "article-card";
           card.innerHTML = `
-            <div class="article-source">🌐 ${art.source}</div>
-            <div class="article-title">${art.title}</div>
-            <div class="article-snippet">${art.snippet}</div>
+            <div class="article-source">🌐 ${art.source || "Web"}</div>
+            <div class="article-title">${art.title || "Sumber Artikel"}</div>
+            <div class="article-snippet">${art.snippet || ""}</div>
           `;
           card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
           resultsArea.appendChild(card);
@@ -392,7 +391,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       resultsArea.innerHTML = `
         <div class="ai-card">
           <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
-          <div class="ai-text">${activeData.answer}</div>
+          <div class="ai-text">${activeData.answer || "Tidak ada analisis AI."}</div>
         </div>
       `;
     }
@@ -422,9 +421,9 @@ button { cursor: pointer; border: 0; background: transparent; }
         const card = document.createElement("div");
         card.className = "article-card";
         card.innerHTML = `
-          <div class="article-source">📰 ${art.source}</div>
-          <div class="article-title">${art.title}</div>
-          <div class="article-snippet">${art.snippet}</div>
+          <div class="article-source">📰 ${art.source || "Warta"}</div>
+          <div class="article-title">${art.title || "Berita Terkait"}</div>
+          <div class="article-snippet">${art.snippet || ""}</div>
         `;
         card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
         resultsArea.appendChild(card);
@@ -440,7 +439,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           resultsArea.innerHTML += `
             <div class="video-card">
               <video src="${vid.url}" controls></video>
-              <div class="video-title">🎬 ${vid.title}</div>
+              <div class="video-title">🎬 ${vid.title || "Video"}</div>
             </div>
           `;
         });
@@ -448,6 +447,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
+  /* PENCARIAN CERDAS: CEK GUDANG MEMORI SUPABASE DULU -> PANGGIL RAPID-TASK -> SIMPAN PERMANEN */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -456,7 +456,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
     resultsArea.replaceChildren();
 
-    // Cek cache dari Home
+    // 1. Cek Memori Cepat dari SessionStorage (jika dari Home)
     try {
       const cached = sessionStorage.getItem("ooer_latest_vault");
       if (cached) {
@@ -471,6 +471,41 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     } catch(e) {}
 
+    // 2. Cek apakah sudah pernah tersimpan di Supabase ooer_ai_vault
+    if (supabase) {
+      try {
+        const { data: vData } = await supabase
+          .from("ooer_ai_vault")
+          .select("*")
+          .ilike("query", q)
+          .maybeSingle();
+
+        if (vData && vData.answer) {
+          activeData = {
+            is_memory: true,
+            query: q,
+            answer: vData.answer,
+            images: vData.images || [],
+            articles: vData.articles || [],
+            videos: vData.videos || []
+          };
+          statusBox.hidden = true;
+          renderView();
+
+          // Naikkan hit_count
+          await supabase
+            .from("ooer_ai_vault")
+            .update({ hit_count: (vData.hit_count || 1) + 1 })
+            .eq("id", vData.id);
+
+          return;
+        }
+      } catch (err) {
+        console.warn("Gagal membaca vault:", err);
+      }
+    }
+
+    // 3. Jika belum pernah ada di stok, panggil AI Collector (Rapid Task)
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -489,6 +524,28 @@ button { cursor: pointer; border: 0; background: transparent; }
       activeData = data;
       statusBox.hidden = true;
       renderView();
+
+      // 4. SAVE AS PERMANEN: Otomatis simpan stok kata & gambar baru ini ke database Supabase
+      if (supabase && data && data.answer) {
+        const { error: insErr } = await supabase
+          .from("ooer_ai_vault")
+          .insert([
+            {
+              query: q,
+              answer: data.answer,
+              images: data.images || [],
+              articles: data.articles || [],
+              videos: data.videos || [],
+              hit_count: 1
+            }
+          ]);
+
+        if (!insErr) {
+          console.log(`[OoeR AI Vault] Stok data "${q}" berhasil disimpan permanen!`);
+        } else {
+          console.warn("[OoeR AI Vault] Gagal menyimpan:", insErr.message);
+        }
+      }
     } catch (err) {
       showStatus("Gagal memuat data pencarian.");
     }
