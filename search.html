@@ -297,7 +297,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 高速メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索...", translating: "Grok.ai で翻訳中..." },
     "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 빠른 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색...", translating: "Grok.ai로 번역 중..." },
     "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 极速记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索...", translating: "正在通过 Grok.ai 翻译..." },
-    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR त्वरित मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें...", translating: "Grok.ai द्वारा अनुवाद किया जा रहा है..." },
+    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR त्वरित मेमोरी", noVid: "इस विषय के लिए कोई video नहीं है।", ph: "OoeR में खोजें...", translating: "Grok.ai द्वारा अनुवाद किया जा रहा है..." },
     "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR السريعة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR...", translating: "جارٍ الترجمة بواسطة Grok.ai..." }
   };
 
@@ -448,7 +448,6 @@ button { cursor: pointer; border: 0; background: transparent; }
             <div class="article-title">${art.title || ""} ↗</div>
             <div class="article-snippet">${art.snippet || ""}</div>
           `;
-          // Langsung buka di tab baru agar tidak diblokir oleh web besar!
           card.addEventListener("click", () => {
             window.open(art.url, "_blank", "noopener,noreferrer");
           });
@@ -492,17 +491,14 @@ button { cursor: pointer; border: 0; background: transparent; }
         });
         resultsArea.appendChild(card);
       });
-   
-        } else if (currentTab === "videos") {
+    } else if (currentTab === "videos") {
       resultsArea.replaceChildren();
 
-      // JIKA BACKEND KOSONG, KITA BUATKAN HASIL VIDEO YOUTUBE OTOMATIS BERDASARKAN KATA KUNCI!
       let videoList = activeData.videos || [];
 
       if (!videoList || videoList.length === 0) {
         const queryClean = encodeURIComponent(input.value.trim() || "video populer");
         
-        // Tampilkan Pemutar Video Utama YouTube Terkait Topik (100% Bebas Blokir)
         const mainVideoCard = document.createElement("div");
         mainVideoCard.className = "video-card";
         mainVideoCard.innerHTML = `
@@ -524,7 +520,6 @@ button { cursor: pointer; border: 0; background: transparent; }
         `;
         resultsArea.appendChild(mainVideoCard);
 
-        // Tambahkan Kartu-Kartu Video Pilihan Lainnya
         const videoChannels = [
           { name: "YouTube Video Terpopuler", icon: "▶", color: "#ea4335", url: `https://www.youtube.com/results?search_query=${queryClean}` },
           { name: "Video Shorts & Pendek", icon: "⚡", color: "#fbbc05", url: `https://www.youtube.com/results?search_query=${queryClean}+shorts` },
@@ -553,7 +548,6 @@ button { cursor: pointer; border: 0; background: transparent; }
         });
 
       } else {
-        // JIKA DI SUPABASE ADA DAFTAR VIDEO, TAMPILKAN VIDEO DARI SUPABASE
         videoList.forEach(vid => {
           const card = document.createElement("div");
           card.className = "video-card";
@@ -584,6 +578,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           resultsArea.appendChild(card);
         });
       }
+    }
   }
 
   async function runSearch(keyword) {
@@ -619,7 +614,6 @@ button { cursor: pointer; border: 0; background: transparent; }
           statusBox.hidden = true;
           renderView();
 
-          // Update hit count di latar belakang tanpa menunda tampilan
           supabase.from("ooer_ai_vault").update({
             hit_count: (vData.hit_count || 1) + 1
           }).eq("id", vData.id).then(() => {});
