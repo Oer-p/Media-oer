@@ -205,7 +205,6 @@ footer {
 </header>
 
 <div class="chat-container" id="chatArea">
-  <!-- Sambutan Awal -->
   <div class="welcome-hero" id="welcomeHero">
     <div class="hero-orb">
       <div class="hero-orb-inner">✦</div>
@@ -247,9 +246,9 @@ footer {
 (() => {
   "use strict";
 
-  // ENDPOINT EDGE FUNCTION SUPABASE (CHAT-GEMINI)
+  // ENDPOINT RESMI EDGE FUNCTION SUPABASE (SMOOTH-HANDLER)
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
-  const CHAT_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/chat-gemini";
+  const CHAT_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/smooth-handler";
 
   const $ = id => document.getElementById(id);
   const chatArea = $("chatArea");
@@ -261,7 +260,6 @@ footer {
 
   let conversationHistory = [];
 
-  // Muat riwayat tersimpan dari LocalStorage jika ada
   try {
     const saved = localStorage.getItem("ooer_chat_history");
     if (saved) {
@@ -300,7 +298,6 @@ footer {
       const tools = document.createElement("div");
       tools.className = "bubble-tools";
 
-      // Tombol Salin
       const btnCopy = document.createElement("button");
       btnCopy.className = "bubble-btn";
       btnCopy.innerHTML = "📋 Salin";
@@ -310,7 +307,6 @@ footer {
         setTimeout(() => btnCopy.innerHTML = "📋 Salin", 2000);
       };
 
-      // Tombol Suara (Bicara)
       const btnSpeak = document.createElement("button");
       btnSpeak.className = "bubble-btn";
       btnSpeak.innerHTML = "🔊 Dengar";
@@ -390,6 +386,7 @@ footer {
         },
         body: JSON.stringify({
           message: text,
+          prompt: text,
           history: conversationHistory.slice(-6)
         })
       });
@@ -397,7 +394,7 @@ footer {
       const data = await response.json();
       removeTypingIndicator();
 
-      const botReply = data.reply || data.answer || data.message || "Maaf, OoeR AI sedang kesulitan memproses respon saat ini.";
+      const botReply = data.reply || data.answer || data.message || data.text || data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, belum ada respon.";
       appendMessageUI("bot", botReply);
       conversationHistory.push({ role: "bot", text: botReply });
       saveHistory();
@@ -410,7 +407,6 @@ footer {
     }
   }
 
-  // Event Listeners
   btnSend.addEventListener("click", () => sendMessage(chatInput.value));
 
   chatInput.addEventListener("keydown", e => {
@@ -420,13 +416,11 @@ footer {
     }
   });
 
-  // Auto-resize input
   chatInput.addEventListener("input", () => {
     chatInput.style.height = "auto";
     chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + "px";
   });
 
-  // Rekomendasi Prompt Pills
   document.querySelectorAll(".chip-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const prompt = btn.dataset.prompt;
@@ -434,7 +428,6 @@ footer {
     });
   });
 
-  // Hapus Chat
   btnClearChat.addEventListener("click", () => {
     if (confirm("Hapus seluruh riwayat percakapan?")) {
       conversationHistory = [];
@@ -447,7 +440,6 @@ footer {
     }
   });
 
-  // Fitur Bicara (Microphone)
   if (btnVoice) {
     btnVoice.addEventListener("click", () => {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
