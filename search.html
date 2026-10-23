@@ -66,8 +66,9 @@ button { cursor: pointer; border: 0; background: transparent; }
 .menu-item:last-child { border-bottom: none; }
 .menu-item:hover { background: #282a2d; }
 .menu-item select {
-  background: transparent; color: #8ab4f8; border: none; font-size: 13px;
-  font-weight: 600; outline: none; width: 100%; cursor: pointer;
+  background: #202124; color: #8ab4f8; border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600; outline: none; width: 100%;
+  padding: 4px 6px; border-radius: 8px; cursor: pointer;
 }
 .menu-item select option { background: #202124; color: #fff; }
 
@@ -92,7 +93,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 @keyframes pulseMic { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-/* TAB NAVIGASI RENGGANG & PAS (FULL WIDTH) */
+/* TAB NAVIGASI */
 .nav-tabs {
   display: flex; width: 100%; padding: 0 8px;
   border-bottom: 1px solid var(--border);
@@ -105,7 +106,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 .tab-item.active {
   color: #8ab4f8; font-weight: 700;
 }
-/* EFEK MENIKUNG & MENJALAR GRADASI WARNA */
 .tab-item.active::after {
   content: ""; position: absolute; bottom: -1px; left: 12%; right: 12%;
   height: 3px; background: linear-gradient(90deg, #8ab4f8 0%, #c58af9 100%);
@@ -177,7 +177,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   background: #282a2c; flex-shrink: 0;
 }
 
-/* SKELETON & LOADER */
+/* SKELETON */
 .skeleton {
   background: linear-gradient(90deg, #1e1f20 25%, #2a2c2e 50%, #1e1f20 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px;
@@ -188,7 +188,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   padding: 18px 0; text-align: center; color: #8ab4f8; font-size: 12px; font-weight: 600;
 }
 
-/* PANEL HALAMAN RIWAYAT MODERN (BUKAN ALERT BROWSER) */
+/* PANEL RIWAYAT */
 #historyModal {
   display: none; position: fixed; inset: 0; z-index: 10001;
   background: rgba(0,0,0,.85); backdrop-filter: blur(8px);
@@ -210,7 +210,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 .history-title { font-size: 16px; font-weight: 700; color: #fff; }
 .close-sheet-btn { font-size: 20px; color: #9aa0a6; }
 
-/* FILTER HAPUS RIWAYAT */
 .history-filters {
   padding: 10px 16px; display: flex; gap: 8px; overflow-x: auto;
   border-bottom: 1px solid #242526; scrollbar-width: none;
@@ -222,9 +221,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .h-filter-btn.danger { background: rgba(234,67,53,.15); color: #ea4335; font-weight: 600; }
 
-.history-list {
-  padding: 10px 16px; overflow-y: auto; flex: 1;
-}
+.history-list { padding: 10px 16px; overflow-y: auto; flex: 1; }
 .history-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 14px; background: #202124; border-radius: 12px; margin-bottom: 8px;
@@ -280,12 +277,12 @@ button { cursor: pointer; border: 0; background: transparent; }
         <div style="font-size:11px; color:#81c995;">0 Iklan • 100% Bersih</div>
       </div>
     </div>
-    <div class="menu-item">
+    <div class="menu-item" id="itemLangWrap">
       <span>🌐</span>
       <select id="langSelect">
         <option value="Indonesia">🇮🇩 Indonesia</option>
-        <option value="Melayu (Malaysia)">🇲🇾 Malaysia</option>
         <option value="English (US)">🇺🇸 English</option>
+        <option value="Melayu (Malaysia)">🇲🇾 Melayu</option>
         <option value="Tagalog (Filipina)">🇵🇭 Filipina</option>
         <option value="Thailand">🇹🇭 Thailand</option>
         <option value="Vietnam">🇻🇳 Vietnam</option>
@@ -312,7 +309,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   </form>
 </div>
 
-<!-- TAB NAVIGASI RENGGANG & PAS FULL WIDTH -->
+<!-- TAB NAVIGASI -->
 <nav class="nav-tabs">
   <button class="tab-item" data-tab="ai" id="tabAi">Or Ai</button>
   <button class="tab-item active" data-tab="all" id="tabAll">Semua</button>
@@ -330,11 +327,11 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </main>
 
-<!-- HALAMAN PANEL RIWAYAT PENCARIAN CERDAS -->
+<!-- HALAMAN PANEL RIWAYAT -->
 <div id="historyModal">
   <div class="history-sheet">
     <div class="history-header">
-      <div class="history-title">🕒 Riwayat Pencarian OoeR</div>
+      <div class="history-title" id="histTitleTxt">🕒 Riwayat Pencarian OoeR</div>
       <button class="close-sheet-btn" id="closeHistoryBtn">✕</button>
     </div>
     <div class="history-filters">
@@ -343,13 +340,11 @@ button { cursor: pointer; border: 0; background: transparent; }
       <button class="h-filter-btn danger" id="delMonthBtn">Hapus Bulan Ini</button>
       <button class="h-filter-btn danger" id="delAllBtn">Hapus Semua</button>
     </div>
-    <div class="history-list" id="historyContainer">
-      <!-- Data riwayat akan dimuat di sini -->
-    </div>
+    <div class="history-list" id="historyContainer"></div>
   </div>
 </div>
 
-<!-- MODAL LISENSI GAMBAR -->
+<!-- MODAL LISENSI -->
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -402,10 +397,85 @@ button { cursor: pointer; border: 0; background: transparent; }
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
+  const GROK_TRANSLATOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/Grok.ai";
 
   const supabase = (window.supabase && window.supabase.createClient)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
+
+  /* KAMUS TERJEMAHAN UI MULTI-BAHASA */
+  const UI_DICT = {
+    "Indonesia": {
+      ai: "Or Ai", all: "Semua", img: "Gambar Legal", news: "Berita",
+      ph: "Teks pencarian...", status: "Ketik kata kunci atau tekan mic untuk mencari...",
+      aiTitle: "✨ Ruang Jawaban Khusus Or Ai", aiLoading: "Or Ai sedang merangkum jawaban mendalam...",
+      suggest: "💡 Saran Kata Terkait:", legalBadge: "✅ Lisensi Legal",
+      source: "Ensiklopedia Bebas Iklan", delMsg: "Memuat bahasa Indonesia..."
+    },
+    "English (US)": {
+      ai: "Or Ai", all: "All", img: "Legal Images", news: "News",
+      ph: "Search in OoeR...", status: "Type keywords or tap mic to search...",
+      aiTitle: "✨ Or Ai Dedicated Answer Space", aiLoading: "Or Ai is compiling in-depth answer...",
+      suggest: "💡 Related Searches:", legalBadge: "✅ Legal License",
+      source: "Ad-Free Open Encyclopedia", delMsg: "Switching to English..."
+    },
+    "Melayu (Malaysia)": {
+      ai: "Or Ai", all: "Semua", img: "Imej Sah", news: "Berita",
+      ph: "Teks carian...", status: "Taip kata kunci atau tekan mic untuk mencari...",
+      aiTitle: "✨ Ruang Jawapan Khas Or Ai", aiLoading: "Or Ai sedang meringkaskan jawapan...",
+      suggest: "💡 Cadangan Kata Berkaitan:", legalBadge: "✅ Lesen Sah",
+      source: "Ensiklopedia Bebas Iklan", delMsg: "Menukar ke Bahasa Melayu..."
+    },
+    "Tagalog (Filipina)": {
+      ai: "Or Ai", all: "Lahat", img: "Mga Larawan", news: "Balita",
+      ph: "Maghanap sa OoeR...", status: "Mag-type o mag-mic para maghanap...",
+      aiTitle: "✨ Or Ai Sagot Space", aiLoading: "Binubuo ng Or Ai ang sagot...",
+      suggest: "💡 Mga Kaugnay na Paghahanap:", legalBadge: "✅ Legal na Lisensya",
+      source: "Bukas na Ensiklopedya", delMsg: "Lumilipat sa Tagalog..."
+    },
+    "Thailand": {
+      ai: "Or Ai", all: "ทั้งหมด", img: "รูปภาพ", news: "ข่าว",
+      ph: "ค้นหาใน OoeR...", status: "พิมพ์คำค้นหาหรือแตะไมโครโฟน...",
+      aiTitle: "✨ พื้นที่คำตอบพิเศษ Or Ai", aiLoading: "Or Ai กำลังสรุปข้อมูลเชิงลึก...",
+      suggest: "💡 การค้นหาที่เกี่ยวข้อง:", legalBadge: "✅ ใบอนุญาตถูกกฎหมาย",
+      source: "สารานุกรมไร้โฆษณา", delMsg: "กำลังเปลี่ยนภาษา..."
+    },
+    "Vietnam": {
+      ai: "Or Ai", all: "Tất cả", img: "Hình ảnh", news: "Tin tức",
+      ph: "Tìm kiếm trên OoeR...", status: "Nhập từ khóa hoặc nhấn mic...",
+      aiTitle: "✨ Không gian trả lời Or Ai", aiLoading: "Or Ai đang tổng hợp câu trả lời...",
+      suggest: "💡 Tìm kiếm liên quan:", legalBadge: "✅ Giấy phép hợp lệ",
+      source: "Bách khoa toàn thư", delMsg: "Đang đổi ngôn ngữ..."
+    },
+    "Jepang": {
+      ai: "Or Ai", all: "すべて", img: "画像", news: "ニュース",
+      ph: "OoeR で検索...", status: "キーワードを入力またはマイクをタップ...",
+      aiTitle: "✨ Or Ai 専用回答スペース", aiLoading: "Or Ai が詳細な回答を要約中...",
+      suggest: "💡 関連する検索ワード:", legalBadge: "✅ 公式ライセンス",
+      source: "広告なし百科事典", delMsg: "言語を切り替え中..."
+    },
+    "Korea": {
+      ai: "Or Ai", all: "전체", img: "이미지", news: "뉴스",
+      ph: "OoeR 에서 검색...", status: "키워드를 입력하거나 마이크를 탭하세요...",
+      aiTitle: "✨ Or Ai 전용 답변 공간", aiLoading: "Or Ai가 심층 답변을 요약하는 중...",
+      suggest: "💡 관련 검색어:", legalBadge: "✅ 공식 라이선스",
+      source: "광고 없는 백과사전", delMsg: "언어 변경 중..."
+    },
+    "Mandarin": {
+      ai: "Or Ai", all: "全部", img: "正版图片", news: "新闻",
+      ph: "在 OoeR 中搜索...", status: "输入关键词或点击麦克风...",
+      aiTitle: "✨ Or Ai 专属回答空间", aiLoading: "Or Ai 正在总结深度答案...",
+      suggest: "💡 相关搜索建议:", legalBadge: "✅ 正版授权",
+      source: "无广告开放百科", delMsg: "正在切换语言..."
+    },
+    "Arab": {
+      ai: "Or Ai", all: "الكل", img: "صور مرخصة", news: "الأخبار",
+      ph: "ابحث في OoeR...", status: "اكتب كلمات البحث أو اضغط على الميكروفون...",
+      aiTitle: "✨ مساحة إجابات Or Ai الخاصة", aiLoading: "Or Ai يجمع إجابة شاملة...",
+      suggest: "💡 عمليات بحث ذات صلة:", legalBadge: "✅ مرخص قانونياً",
+      source: "موسوعة خالية من الإعلانات", delMsg: "جارٍ تغيير اللغة..."
+    }
+  };
 
   const WIKI_LANG_MAP = {
     "Indonesia": "id", "Melayu (Malaysia)": "ms", "Tagalog (Filipina)": "tl",
@@ -413,32 +483,84 @@ button { cursor: pointer; border: 0; background: transparent; }
     "Mandarin": "zh", "Arab": "ar", "English (US)": "en"
   };
 
-  /* 🌐 SETEL & SIMPAN PILIHAN BAHASA */
-  const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
-  langSelect.value = savedLang;
+  /* TERAPKAN BAHASA PADA SEMUA ELEMEN UI */
+  function applyUILanguage(lang) {
+    const d = UI_DICT[lang] || UI_DICT["English (US)"] || UI_DICT["Indonesia"];
+    $("tabAi").textContent = d.ai;
+    $("tabAll").textContent = d.all;
+    $("tabImages").textContent = d.img;
+    $("tabNews").textContent = d.news;
+    if (input) input.placeholder = d.ph;
+    if (statusBox) statusBox.textContent = d.status;
+  }
 
-  langSelect.addEventListener("change", () => {
-    const chosenLang = langSelect.value;
-    localStorage.setItem("ooer_user_lang", chosenLang);
-    menuDropdown.classList.remove("active");
-
-    // Jika sedang mencari kata kunci, langsung cari ulang dengan bahasa baru!
-    if (input.value.trim()) {
-      runSearch(input.value.trim());
+  /* KONEKSI PENERJEMAH GROK AI */
+  async function terjemahkanDenganGrok(teks, targetLang) {
+    if (!teks || targetLang === "Indonesia") return teks;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const res = await fetch(GROK_TRANSLATOR_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          message: `Translate this search answer into ${targetLang} naturally and concisely without intro:\n\n${teks}`,
+          max_tokens: 600
+        }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      const d = await res.json();
+      return d.reply || teks;
+    } catch (e) {
+      return teks;
     }
-  });
+  }
 
+  /* BUKA MENU TITIK TIGA (ANTI-AUTO CLOSE DI HP) */
   menuDotsBtn.addEventListener("click", e => {
     e.stopPropagation();
     menuDropdown.classList.toggle("active");
   });
+
+  // HENTIKAN BUBBLING AGAR DROPDOWN TIDAK TERTUTUP SENDIRI SAAT KLIK SELECT
+  menuDropdown.addEventListener("click", e => {
+    e.stopPropagation();
+  });
+
   document.addEventListener("click", () => menuDropdown.classList.remove("active"));
 
+  /* SETELAN BAHASA AWAL */
+  const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
+  langSelect.value = savedLang;
+  applyUILanguage(savedLang);
+
+  /* EVENT SAAT PENGGUNA MENGGANTI BAHASA */
+  langSelect.addEventListener("change", async () => {
+    const chosenLang = langSelect.value;
+    localStorage.setItem("ooer_user_lang", chosenLang);
+    applyUILanguage(chosenLang);
+    menuDropdown.classList.remove("active");
+
+    // Jika sudah ada kata kunci yang dicari, langsung terjemahkan & cari ulang
+    if (input.value.trim()) {
+      statusBox.textContent = (UI_DICT[chosenLang] || UI_DICT["Indonesia"]).delMsg;
+      statusBox.hidden = false;
+      sessionStorage.clear(); // Bersihkan cache lama agar memuat bahasa baru
+      runSearch(input.value.trim());
+    }
+  });
+
   $("itemPrivacy").addEventListener("click", () => {
+    menuDropdown.classList.remove("active");
     alert("🛡️ Info Privasi OoeR:\n- 0 Cookie Pelacak Iklan\n- 0 Penjualan Data ke Pihak Ketiga\n- 100% Bersih & Terbuka");
   });
 
-  /* 🕒 SISTEM RIWAYAT PENCARIAN BERDASARKAN TANGGAL */
+  /* RIWAYAT PENCARIAN */
   function getHistory() {
     return JSON.parse(localStorage.getItem("ooer_history_v2") || "[]");
   }
@@ -504,13 +626,9 @@ button { cursor: pointer; border: 0; background: transparent; }
   closeHistoryBtn.addEventListener("click", () => historyModal.classList.remove("active"));
   historyModal.addEventListener("click", e => { if (e.target === historyModal) historyModal.classList.remove("active"); });
 
-  /* TOMBOL FILTER HAPUS RIWAYAT (HARI INI, MINGGU INI, BULAN INI, SEMUA) */
   $("delTodayBtn").addEventListener("click", () => {
     const now = new Date();
-    const updated = getHistory().filter(item => {
-      const d = new Date(item.time);
-      return d.toDateString() !== now.toDateString();
-    });
+    const updated = getHistory().filter(item => (new Date(item.time)).toDateString() !== now.toDateString());
     localStorage.setItem("ooer_history_v2", JSON.stringify(updated));
     renderHistoryList();
   });
@@ -537,7 +655,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   });
 
-  /* 🎙️ FITUR MIC PENCARIAN SUARA */
+  /* MIC PENCARIAN SUARA */
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
@@ -545,7 +663,8 @@ button { cursor: pointer; border: 0; background: transparent; }
     recognition.interimResults = false;
 
     micBtn.addEventListener("click", () => {
-      recognition.lang = langSelect.value === "Indonesia" ? "id-ID" : "en-US";
+      const code = WIKI_LANG_MAP[langSelect.value] || "id";
+      recognition.lang = code === "id" ? "id-ID" : (code === "en" ? "en-US" : code);
       try {
         recognition.start();
         micBtn.classList.add("listening");
@@ -608,7 +727,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     }, speed);
   }
 
-  /* ⚡ AMBIL DATA DENGAN TINGKAT RELEVANSI LEBIH AKURAT */
+  /* TARIK DATA SESUAI BAHASA TERPILIH */
   async function fetchOpenData(keyword, lang, offset = 0) {
     const langCode = WIKI_LANG_MAP[lang] || "id";
     const apiUrl = `https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(keyword)}&gsrsort=relevance&gsrlimit=8&gsroffset=${offset}&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=600&exintro=1&explaintext=1&exsentences=2&format=json&origin=*`;
@@ -620,6 +739,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
       const articles = [];
       const images = [];
+      const d = UI_DICT[lang] || UI_DICT["Indonesia"];
 
       Object.values(data.query.pages).forEach(page => {
         if (page.extract) {
@@ -627,7 +747,7 @@ button { cursor: pointer; border: 0; background: transparent; }
             title: page.title,
             snippet: page.extract,
             url: `https://${langCode}.wikipedia.org/?curid=${page.pageid}`,
-            source: "Ensiklopedia Bebas Iklan",
+            source: d.source,
             thumbnail: page.thumbnail ? page.thumbnail.source : null
           });
         }
@@ -653,14 +773,15 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (typewriterTimer) { clearInterval(typewriterTimer); typewriterTimer = null; }
 
     resultsArea.replaceChildren();
+    const d = UI_DICT[langSelect.value] || UI_DICT["Indonesia"];
 
-    // 1. TAB: Or Ai (KHUSUS MENJAWAB DI SINI)
+    // 1. TAB: Or Ai
     if (currentTab === "ai") {
       const aiCard = document.createElement("div");
       aiCard.className = "ai-card";
       aiCard.innerHTML = `
-        <div class="ai-header-badge">✨ Ruang Jawaban Khusus Or Ai</div>
-        <div class="ai-text" id="deepAiText">${activeData.aiLoading ? "Or Ai sedang merangkum jawaban mendalam..." : ""}</div>
+        <div class="ai-header-badge">${d.aiTitle}</div>
+        <div class="ai-text" id="deepAiText">${activeData.aiLoading ? d.aiLoading : ""}</div>
       `;
       resultsArea.appendChild(aiCard);
 
@@ -674,7 +795,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
 
-    // 2. TAB: SEMUA (BERSIH TOTAL DARI KOTAK AI)
+    // 2. TAB: SEMUA
     else if (currentTab === "all") {
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
@@ -684,7 +805,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           item.className = "image-item-wrap";
           item.innerHTML = `
             <img src="${img.url}" alt="Foto" loading="lazy">
-            <span class="image-license-tag">✅ Lisensi Legal</span>
+            <span class="image-license-tag">${d.legalBadge}</span>
           `;
           item.addEventListener("click", () => openImageInspector(img));
           gal.appendChild(item);
@@ -709,11 +830,11 @@ button { cursor: pointer; border: 0; background: transparent; }
         const suggestBox = document.createElement("div");
         suggestBox.className = "suggested-box";
         suggestBox.innerHTML = `
-          <div class="suggested-title">💡 Saran Kata Terkait:</div>
+          <div class="suggested-title">${d.suggest}</div>
           <div class="suggested-chips">
-            <button class="s-chip" data-q="${input.value.trim()} sejarah">${input.value.trim()} sejarah</button>
-            <button class="s-chip" data-q="${input.value.trim()} habitat">${input.value.trim()} habitat</button>
-            <button class="s-chip" data-q="${input.value.trim()} fakta menarik">${input.value.trim()} fakta menarik</button>
+            <button class="s-chip" data-q="${input.value.trim()} info">${input.value.trim()} info</button>
+            <button class="s-chip" data-q="${input.value.trim()} wiki">${input.value.trim()} wiki</button>
+            <button class="s-chip" data-q="${input.value.trim()} facts">${input.value.trim()} facts</button>
           </div>
         `;
         suggestBox.querySelectorAll(".s-chip").forEach(btn => {
@@ -736,7 +857,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       });
     }
 
-    // 3. TAB: GAMBAR LEGAL (INFINITE GRID)
+    // 3. TAB: GAMBAR LEGAL
     else if (currentTab === "images") {
       const gal = document.createElement("div");
       gal.className = "gallery-grid";
@@ -747,7 +868,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         item.style.aspectRatio = "1/1";
         item.innerHTML = `
           <img src="${img.url}" alt="Foto" loading="lazy">
-          <span class="image-license-tag">✅ Legal</span>
+          <span class="image-license-tag">${d.legalBadge}</span>
         `;
         item.addEventListener("click", () => openImageInspector(img));
         gal.appendChild(item);
@@ -755,7 +876,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       resultsArea.appendChild(gal);
     }
 
-    // 4. TAB: BERITA (TEKS DI KIRI, GAMBAR DI KANAN)
+    // 4. TAB: BERITA
     else if (currentTab === "news") {
       (activeData.articles || []).forEach(art => {
         const card = document.createElement("div");
@@ -786,6 +907,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       activeData.articles = [...(activeData.articles || []), ...more.articles];
       activeData.images = [...(activeData.images || []), ...more.images];
       hasMoreData = more.hasMore;
+      const d = UI_DICT[langSelect.value] || UI_DICT["Indonesia"];
 
       if (currentTab === "images") {
         const grid = $("infiniteImagesGrid");
@@ -796,7 +918,7 @@ button { cursor: pointer; border: 0; background: transparent; }
             item.style.aspectRatio = "1/1";
             item.innerHTML = `
               <img src="${img.url}" alt="Foto" loading="lazy">
-              <span class="image-license-tag">✅ Legal</span>
+              <span class="image-license-tag">${d.legalBadge}</span>
             `;
             item.addEventListener("click", () => openImageInspector(img));
             grid.appendChild(item);
@@ -845,6 +967,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
   observer.observe(scrollSentinel);
 
+  /* MESIN PENCARIAN BERBASIS BAHASA AKTIF */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -855,8 +978,10 @@ button { cursor: pointer; border: 0; background: transparent; }
     currentOffset = 0;
     hasMoreData = true;
 
-    const cacheKey = `ooer_v6_${q.toLowerCase()}_${langSelect.value}`;
+    const currentLang = langSelect.value;
+    const cacheKey = `ooer_v7_${q.toLowerCase()}_${currentLang}`;
     const localHit = sessionStorage.getItem(cacheKey);
+
     if (localHit) {
       try {
         activeData = JSON.parse(localHit);
@@ -877,7 +1002,8 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     renderView();
 
-    fetchOpenData(q, langSelect.value, 0).then(fast => {
+    // ⚡ 1. Tarik Data Wikipedia sesuai Bahasa Terpilih
+    fetchOpenData(q, currentLang, 0).then(fast => {
       if (fast.articles.length > 0 || fast.images.length > 0) {
         activeData.articles = fast.articles;
         activeData.images = fast.images;
@@ -885,6 +1011,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     });
 
+    // ⚡ 2. Cek Vault Supabase
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -895,6 +1022,9 @@ button { cursor: pointer; border: 0; background: transparent; }
 
         if (vData && vData.answer) {
           activeData.answer = vData.answer;
+          if (currentLang !== "Indonesia") {
+            activeData.answer = await terjemahkanDenganGrok(activeData.answer, currentLang);
+          }
           activeData.aiLoading = false;
           if (currentTab === "ai") renderView();
           sessionStorage.setItem(cacheKey, JSON.stringify(activeData));
@@ -903,20 +1033,27 @@ button { cursor: pointer; border: 0; background: transparent; }
       } catch (e) {}
     }
 
+    // ⚡ 3. Panggil Collector jika belum ada di Vault
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` },
-        body: JSON.stringify({ query: q, lang: langSelect.value })
+        body: JSON.stringify({ query: q, lang: currentLang })
       });
       const data = await res.json();
-      activeData.answer = data.answer || "Informasi ditemukan melalui indeks terbuka OoeR.";
+      let answerText = data.answer || "Informasi ditemukan melalui indeks terbuka OoeR.";
+
+      if (currentLang !== "Indonesia") {
+        answerText = await terjemahkanDenganGrok(answerText, currentLang);
+      }
+
+      activeData.answer = answerText;
       activeData.aiLoading = false;
       if (currentTab === "ai") renderView();
       sessionStorage.setItem(cacheKey, JSON.stringify(activeData));
     } catch (err) {
       activeData.aiLoading = false;
-      if (!activeData.answer) activeData.answer = "Informasi dirangkum melalui arsip terbuka OoeR.";
+      if (!activeData.answer) activeData.answer = "Information compiled via OoeR Open Archive.";
       if (currentTab === "ai") renderView();
     }
   }
