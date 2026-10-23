@@ -53,16 +53,16 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .pill-tools { display: flex; align-items: center; gap: 6px; }
 
-/* DROPDOWN BAHASA */
+/* DROPDOWN BAHASA LENGKAP */
 .lang-box {
   background: #1e1f20; border: 1px solid var(--border);
   border-radius: 20px; padding: 2px 8px;
 }
 .lang-select {
   background: transparent; color: #8ab4f8; border: none;
-  font-size: 12px; font-weight: 600; outline: none; cursor: pointer;
+  font-size: 12px; font-weight: 600; outline: none; cursor: pointer; max-width: 95px;
 }
-.lang-select option { background: #202124; color: #fff; }
+.lang-select option, .lang-select optgroup { background: #202124; color: #fff; }
 
 /* TABS KATEGORI */
 .nav-tabs {
@@ -136,11 +136,24 @@ button { cursor: pointer; border: 0; background: transparent; }
     <div class="pill-tools">
       <div class="lang-box">
         <select id="langSelect" class="lang-select">
-          <option value="Indonesia">🇮🇩 ID</option>
-          <option value="English (US)">🇺🇸 US</option>
-          <option value="Melayu (Malaysia)">🇲🇾 MY</option>
-          <option value="Jepang">🇯🇵 JP</option>
-          <option value="Arab">🇸🇦 AR</option>
+          <optgroup label="Asia Tenggara">
+            <option value="Indonesia">🇮🇩 ID</option>
+            <option value="Melayu (Malaysia)">🇲🇾 MY</option>
+            <option value="Tagalog (Filipina)">🇵🇭 PH</option>
+            <option value="Thailand">🇹🇭 TH</option>
+            <option value="Vietnam">🇻🇳 VN</option>
+          </optgroup>
+          <optgroup label="Asia Timur & Selatan">
+            <option value="Jepang">🇯🇵 JP</option>
+            <option value="Korea">🇰🇷 KR</option>
+            <option value="Mandarin">🇨🇳 ZH</option>
+            <option value="Hindi (India)">🇮🇳 IN</option>
+            <option value="Arab">🇸🇦 AR</option>
+          </optgroup>
+          <optgroup label="Global / Barat">
+            <option value="English (US)">🇺🇸 US</option>
+            <option value="English (UK)">🇬🇧 UK</option>
+          </optgroup>
         </select>
       </div>
     </div>
@@ -176,10 +189,11 @@ button { cursor: pointer; border: 0; background: transparent; }
   let currentTab = "all";
   let activeData = null;
 
-  // Endpoint Kolektor OpenRouter + Memori Permanen
-  const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/ooer-collector";
+  // KUNCI & ENDPOINT RESMI SUPABASE (RAPID-TASK)
+  const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
 
-  // Muat bahasa permanen
+  // Muat bahasa permanen dari localStorage
   const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.value = savedLang;
 
@@ -205,7 +219,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       aiBox.className = "ai-card";
       aiBox.innerHTML = `
         <div class="ai-header-badge">${activeData.is_memory ? "⚡ Memori OoeR Permanen" : "✨ Ringkasan OoeR AI"}</div>
-        <div class="ai-text">${activeData.answer}</div>
+        <div class="ai-text">${activeData.answer || "Tidak ada ringkasan tersedia."}</div>
       `;
       resultsArea.appendChild(aiBox);
 
@@ -220,12 +234,12 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
 
       // Daftar Artikel Web
-      if (activeData.articles) {
+      if (activeData.articles && activeData.articles.length > 0) {
         activeData.articles.forEach(art => {
           resultsArea.innerHTML += `
             <div class="article-card">
-              <div class="article-source">${art.source}</div>
-              <a href="${art.url}" target="_blank" class="article-title">${art.title}</a>
+              <div class="article-source">${art.source || "Wikipedia Ensiklopedia"}</div>
+              <a href="${art.url}" target="_blank" rel="noopener" class="article-title">${art.title}</a>
               <div class="article-snippet">${art.snippet}</div>
             </div>
           `;
@@ -238,32 +252,40 @@ button { cursor: pointer; border: 0; background: transparent; }
       resultsArea.innerHTML = `
         <div class="ai-card">
           <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
-          <div class="ai-text">${activeData.answer}</div>
+          <div class="ai-text">${activeData.answer || "Informasi tersimpan di OoER Vault."}</div>
         </div>
       `;
     }
 
     // 3. TAB GAMBAR (Galeri Penuh)
     else if (currentTab === "images") {
-      const gal = document.createElement("div");
-      gal.className = "gallery-grid";
-      (activeData.images || []).forEach(src => {
-        gal.innerHTML += `<img src="${src}" style="aspect-ratio:1/1;" alt="Galeri">`;
-      });
-      resultsArea.appendChild(gal);
+      if (!activeData.images || activeData.images.length === 0) {
+        resultsArea.innerHTML = `<div class="status-msg">Tidak ada gambar ditemukan.</div>`;
+      } else {
+        const gal = document.createElement("div");
+        gal.className = "gallery-grid";
+        activeData.images.forEach(src => {
+          gal.innerHTML += `<img src="${src}" style="aspect-ratio:1/1;" alt="Galeri">`;
+        });
+        resultsArea.appendChild(gal);
+      }
     }
 
     // 4. TAB BERITA & ARTIKEL
     else if (currentTab === "news" || currentTab === "books") {
-      (activeData.articles || []).forEach(art => {
-        resultsArea.innerHTML += `
-          <div class="article-card">
-            <div class="article-source">${currentTab === 'books' ? '📚 Pustaka Terbuka' : '📰 Warta Media'}</div>
-            <a href="${art.url}" target="_blank" class="article-title">${art.title}</a>
-            <div class="article-snippet">${art.snippet}</div>
-          </div>
-        `;
-      });
+      if (!activeData.articles || activeData.articles.length === 0) {
+        resultsArea.innerHTML = `<div class="status-msg">Tidak ada warta / pustaka untuk topik ini.</div>`;
+      } else {
+        activeData.articles.forEach(art => {
+          resultsArea.innerHTML += `
+            <div class="article-card">
+              <div class="article-source">${currentTab === 'books' ? '📚 Pustaka Terbuka' : '📰 Warta Media'}</div>
+              <a href="${art.url}" target="_blank" rel="noopener" class="article-title">${art.title}</a>
+              <div class="article-snippet">${art.snippet}</div>
+            </div>
+          `;
+        });
+      }
     }
 
     // 5. TAB VIDEO
@@ -292,22 +314,45 @@ button { cursor: pointer; border: 0; background: transparent; }
     showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
     resultsArea.replaceChildren();
 
+    // 1. CEK CACHE DARI HOME (Jika baru pindah dari Home, data langsung tampil 0 detik)
+    try {
+      const cached = sessionStorage.getItem("ooer_latest_vault");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed.query && parsed.query.toLowerCase() === q.toLowerCase()) {
+          activeData = parsed;
+          statusBox.hidden = true;
+          renderView();
+          sessionStorage.removeItem("ooer_latest_vault"); // Bersihkan setelah dipakai
+          return;
+        }
+      }
+    } catch(e) {}
+
+    // 2. JIKA BELUM ADA DI CACHE, PANGGIL RAPID-TASK
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        },
         body: JSON.stringify({
           query: q,
           lang: langSelect.value
         })
       });
 
+      if (!res.ok) throw new Error("Gagal memanggil API");
+
       const data = await res.json();
       activeData = data;
       statusBox.hidden = true;
       renderView();
     } catch (err) {
-      showStatus("Gagal memuat data pencarian.");
+      console.error(err);
+      showStatus("Gagal memuat data pencarian. Periksa koneksi internet.");
     }
   }
 
@@ -326,8 +371,18 @@ button { cursor: pointer; border: 0; background: transparent; }
     runSearch(input.value);
   });
 
+  // Baca parameter ?q= dan ?lang= dari URL
   const params = new URLSearchParams(location.search);
-  if (params.get("q")) runSearch(params.get("q"));
+  const qParam = params.get("q");
+  const langParam = params.get("lang");
+
+  if (langParam && langSelect.querySelector(`option[value="${langParam}"]`)) {
+    langSelect.value = langParam;
+  }
+
+  if (qParam) {
+    runSearch(qParam);
+  }
 })();
 </script>
 </body>
