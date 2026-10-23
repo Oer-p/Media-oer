@@ -48,7 +48,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 26px; font-weight: 700; color: #fff; user-select: none;
 }
 
-/* DROPDOWN MENU (⋮) */
+/* MENU TITIK TIGA (⋮) */
 .menu-dropdown {
   display: none; position: absolute; top: 52px; right: 14px;
   background: var(--card-bg); border: 1px solid var(--border);
@@ -70,9 +70,8 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 13px; font-weight: 600; outline: none; width: 100%;
   padding: 4px 6px; border-radius: 8px; cursor: pointer;
 }
-.menu-item select option { background: #202124; color: #fff; }
 
-/* SEARCH BAR + MIC */
+/* SEARCH BAR */
 .search-wrapper { padding: 4px 14px 10px; }
 .search-pill {
   background-color: var(--search-bg); border-radius: 28px;
@@ -93,7 +92,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 @keyframes pulseMic { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-/* TAB NAVIGASI */
+/* TABS */
 .nav-tabs {
   display: flex; width: 100%; padding: 0 8px;
   border-bottom: 1px solid var(--border);
@@ -103,9 +102,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 15px; font-weight: 600; padding: 12px 2px;
   white-space: nowrap; position: relative; transition: color .2s ease;
 }
-.tab-item.active {
-  color: #8ab4f8; font-weight: 700;
-}
+.tab-item.active { color: #8ab4f8; font-weight: 700; }
 .tab-item.active::after {
   content: ""; position: absolute; bottom: -1px; left: 12%; right: 12%;
   height: 3px; background: linear-gradient(90deg, #8ab4f8 0%, #c58af9 100%);
@@ -114,6 +111,21 @@ button { cursor: pointer; border: 0; background: transparent; }
 
 .main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
 .status-msg { padding: 16px 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+/* KARTU PROMO KE TAB OR AI (JIKA PERTANYAAN PANJANG) */
+.ai-pointer-card {
+  background: linear-gradient(135deg, rgba(138,180,248,.12) 0%, rgba(197,138,249,.15) 100%);
+  border: 1px solid rgba(138,180,248,.3); border-radius: 16px;
+  padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center;
+  justify-content: space-between; cursor: pointer; transition: transform .2s;
+}
+.ai-pointer-card:hover { transform: scale(1.01); }
+.ai-pointer-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.ai-pointer-sub { font-size: 11px; color: #bdc1c6; }
+.ai-pointer-btn {
+  background: #8ab4f8; color: #131314; font-size: 12px; font-weight: 700;
+  padding: 6px 12px; border-radius: 12px; white-space: nowrap;
+}
 
 /* KARTU OR AI */
 .ai-card {
@@ -184,9 +196,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .skeleton-line { height: 14px; margin-bottom: 10px; border-radius: 6px; }
-.scroll-loader {
-  padding: 18px 0; text-align: center; color: #8ab4f8; font-size: 12px; font-weight: 600;
-}
+.scroll-loader { padding: 18px 0; text-align: center; color: #8ab4f8; font-size: 12px; font-weight: 600; }
 
 /* PANEL RIWAYAT */
 #historyModal {
@@ -220,7 +230,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   border-radius: 14px; font-size: 12px; white-space: nowrap; font-weight: 500;
 }
 .h-filter-btn.danger { background: rgba(234,67,53,.15); color: #ea4335; font-weight: 600; }
-
 .history-list { padding: 10px 16px; overflow-y: auto; flex: 1; }
 .history-item {
   display: flex; align-items: center; justify-content: space-between;
@@ -268,7 +277,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   <a class="ooer-brand" href="./">OoeR</a>
   <button class="menu-dots-btn" id="menuDotsBtn" title="Menu OoeR">⋮</button>
 
-  <!-- MENU TITIK TIGA -->
   <div class="menu-dropdown" id="menuDropdown">
     <div class="menu-item" id="itemPrivacy">
       <span>🛡️</span>
@@ -309,7 +317,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   </form>
 </div>
 
-<!-- TAB NAVIGASI -->
 <nav class="nav-tabs">
   <button class="tab-item" data-tab="ai" id="tabAi">Or Ai</button>
   <button class="tab-item active" data-tab="all" id="tabAll">Semua</button>
@@ -327,11 +334,10 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </main>
 
-<!-- HALAMAN PANEL RIWAYAT -->
 <div id="historyModal">
   <div class="history-sheet">
     <div class="history-header">
-      <div class="history-title" id="histTitleTxt">🕒 Riwayat Pencarian OoeR</div>
+      <div class="history-title">🕒 Riwayat Pencarian OoeR</div>
       <button class="close-sheet-btn" id="closeHistoryBtn">✕</button>
     </div>
     <div class="history-filters">
@@ -344,7 +350,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </div>
 
-<!-- MODAL LISENSI -->
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -403,77 +408,22 @@ button { cursor: pointer; border: 0; background: transparent; }
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
 
-  /* KAMUS TERJEMAHAN UI MULTI-BAHASA */
   const UI_DICT = {
     "Indonesia": {
       ai: "Or Ai", all: "Semua", img: "Gambar Legal", news: "Berita",
       ph: "Teks pencarian...", status: "Ketik kata kunci atau tekan mic untuk mencari...",
       aiTitle: "✨ Ruang Jawaban Khusus Or Ai", aiLoading: "Or Ai sedang merangkum jawaban mendalam...",
       suggest: "💡 Saran Kata Terkait:", legalBadge: "✅ Lisensi Legal",
-      source: "Ensiklopedia Bebas Iklan", delMsg: "Memuat bahasa Indonesia..."
+      source: "Ensiklopedia Bebas Iklan", pointerTitle: "✨ Jawaban Analisis Or Ai Sudah Siap!",
+      pointerSub: "Pertanyaan ini memerlukan penjelasan mendalam dari AI.", pointerBtn: "Buka Or Ai ↗"
     },
     "English (US)": {
       ai: "Or Ai", all: "All", img: "Legal Images", news: "News",
       ph: "Search in OoeR...", status: "Type keywords or tap mic to search...",
       aiTitle: "✨ Or Ai Dedicated Answer Space", aiLoading: "Or Ai is compiling in-depth answer...",
       suggest: "💡 Related Searches:", legalBadge: "✅ Legal License",
-      source: "Ad-Free Open Encyclopedia", delMsg: "Switching to English..."
-    },
-    "Melayu (Malaysia)": {
-      ai: "Or Ai", all: "Semua", img: "Imej Sah", news: "Berita",
-      ph: "Teks carian...", status: "Taip kata kunci atau tekan mic untuk mencari...",
-      aiTitle: "✨ Ruang Jawapan Khas Or Ai", aiLoading: "Or Ai sedang meringkaskan jawapan...",
-      suggest: "💡 Cadangan Kata Berkaitan:", legalBadge: "✅ Lesen Sah",
-      source: "Ensiklopedia Bebas Iklan", delMsg: "Menukar ke Bahasa Melayu..."
-    },
-    "Tagalog (Filipina)": {
-      ai: "Or Ai", all: "Lahat", img: "Mga Larawan", news: "Balita",
-      ph: "Maghanap sa OoeR...", status: "Mag-type o mag-mic para maghanap...",
-      aiTitle: "✨ Or Ai Sagot Space", aiLoading: "Binubuo ng Or Ai ang sagot...",
-      suggest: "💡 Mga Kaugnay na Paghahanap:", legalBadge: "✅ Legal na Lisensya",
-      source: "Bukas na Ensiklopedya", delMsg: "Lumilipat sa Tagalog..."
-    },
-    "Thailand": {
-      ai: "Or Ai", all: "ทั้งหมด", img: "รูปภาพ", news: "ข่าว",
-      ph: "ค้นหาใน OoeR...", status: "พิมพ์คำค้นหาหรือแตะไมโครโฟน...",
-      aiTitle: "✨ พื้นที่คำตอบพิเศษ Or Ai", aiLoading: "Or Ai กำลังสรุปข้อมูลเชิงลึก...",
-      suggest: "💡 การค้นหาที่เกี่ยวข้อง:", legalBadge: "✅ ใบอนุญาตถูกกฎหมาย",
-      source: "สารานุกรมไร้โฆษณา", delMsg: "กำลังเปลี่ยนภาษา..."
-    },
-    "Vietnam": {
-      ai: "Or Ai", all: "Tất cả", img: "Hình ảnh", news: "Tin tức",
-      ph: "Tìm kiếm trên OoeR...", status: "Nhập từ khóa hoặc nhấn mic...",
-      aiTitle: "✨ Không gian trả lời Or Ai", aiLoading: "Or Ai đang tổng hợp câu trả lời...",
-      suggest: "💡 Tìm kiếm liên quan:", legalBadge: "✅ Giấy phép hợp lệ",
-      source: "Bách khoa toàn thư", delMsg: "Đang đổi ngôn ngữ..."
-    },
-    "Jepang": {
-      ai: "Or Ai", all: "すべて", img: "画像", news: "ニュース",
-      ph: "OoeR で検索...", status: "キーワードを入力またはマイクをタップ...",
-      aiTitle: "✨ Or Ai 専用回答スペース", aiLoading: "Or Ai が詳細な回答を要約中...",
-      suggest: "💡 関連する検索ワード:", legalBadge: "✅ 公式ライセンス",
-      source: "広告なし百科事典", delMsg: "言語を切り替え中..."
-    },
-    "Korea": {
-      ai: "Or Ai", all: "전체", img: "이미지", news: "뉴스",
-      ph: "OoeR 에서 검색...", status: "키워드를 입력하거나 마이크를 탭하세요...",
-      aiTitle: "✨ Or Ai 전용 답변 공간", aiLoading: "Or Ai가 심층 답변을 요약하는 중...",
-      suggest: "💡 관련 검색어:", legalBadge: "✅ 공식 라이선스",
-      source: "광고 없는 백과사전", delMsg: "언어 변경 중..."
-    },
-    "Mandarin": {
-      ai: "Or Ai", all: "全部", img: "正版图片", news: "新闻",
-      ph: "在 OoeR 中搜索...", status: "输入关键词或点击麦克风...",
-      aiTitle: "✨ Or Ai 专属回答空间", aiLoading: "Or Ai 正在总结深度答案...",
-      suggest: "💡 相关搜索建议:", legalBadge: "✅ 正版授权",
-      source: "无广告开放百科", delMsg: "正在切换语言..."
-    },
-    "Arab": {
-      ai: "Or Ai", all: "الكل", img: "صور مرخصة", news: "الأخبار",
-      ph: "ابحث في OoeR...", status: "اكتب كلمات البحث أو اضغط على الميكروفون...",
-      aiTitle: "✨ مساحة إجابات Or Ai الخاصة", aiLoading: "Or Ai يجمع إجابة شاملة...",
-      suggest: "💡 عمليات بحث ذات صلة:", legalBadge: "✅ مرخص قانونياً",
-      source: "موسوعة خالية من الإعلانات", delMsg: "جارٍ تغيير اللغة..."
+      source: "Ad-Free Open Encyclopedia", pointerTitle: "✨ Or Ai Analysis Ready!",
+      pointerSub: "This question requires an in-depth AI response.", pointerBtn: "Open Or Ai ↗"
     }
   };
 
@@ -483,7 +433,18 @@ button { cursor: pointer; border: 0; background: transparent; }
     "Mandarin": "zh", "Arab": "ar", "English (US)": "en"
   };
 
-  /* TERAPKAN BAHASA PADA SEMUA ELEMEN UI */
+  /* 🧠 EKSTRAKTOR KATA KUNCI CERDAS DARI PERTANYAAN PANJANG */
+  function extractCleanKeywords(sentence) {
+    const stopwords = ["kenapa","mengapa","apa","apakah","bagaimana","siapa","dimana","kapan","rasanya","bisa","begitu","aneh","yang","dan","di","ke","dari","adalah","yaitu","ini","itu","pada"];
+    let words = sentence.toLowerCase().replace(/[^\w\s]/gi, '').split(/\s+/);
+    let filtered = words.filter(w => !stopwords.includes(w) && w.length > 2);
+    
+    // Pemetaan istilah umum bahasa gaul ke istilah ilmiah
+    let cleanStr = filtered.join(" ");
+    cleanStr = cleanStr.replace(/\bmecin\b|\bmicin\b/g, "monosodium glutamat");
+    return cleanStr || sentence;
+  }
+
   function applyUILanguage(lang) {
     const d = UI_DICT[lang] || UI_DICT["English (US)"] || UI_DICT["Indonesia"];
     $("tabAi").textContent = d.ai;
@@ -494,7 +455,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (statusBox) statusBox.textContent = d.status;
   }
 
-  /* KONEKSI PENERJEMAH GROK AI */
   async function terjemahkanDenganGrok(teks, targetLang) {
     if (!teks || targetLang === "Indonesia") return teks;
     try {
@@ -521,36 +481,24 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  /* BUKA MENU TITIK TIGA (ANTI-AUTO CLOSE DI HP) */
   menuDotsBtn.addEventListener("click", e => {
     e.stopPropagation();
     menuDropdown.classList.toggle("active");
   });
-
-  // HENTIKAN BUBBLING AGAR DROPDOWN TIDAK TERTUTUP SENDIRI SAAT KLIK SELECT
-  menuDropdown.addEventListener("click", e => {
-    e.stopPropagation();
-  });
-
+  menuDropdown.addEventListener("click", e => e.stopPropagation());
   document.addEventListener("click", () => menuDropdown.classList.remove("active"));
 
-  /* SETELAN BAHASA AWAL */
   const savedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.value = savedLang;
   applyUILanguage(savedLang);
 
-  /* EVENT SAAT PENGGUNA MENGGANTI BAHASA */
   langSelect.addEventListener("change", async () => {
     const chosenLang = langSelect.value;
     localStorage.setItem("ooer_user_lang", chosenLang);
     applyUILanguage(chosenLang);
     menuDropdown.classList.remove("active");
-
-    // Jika sudah ada kata kunci yang dicari, langsung terjemahkan & cari ulang
     if (input.value.trim()) {
-      statusBox.textContent = (UI_DICT[chosenLang] || UI_DICT["Indonesia"]).delMsg;
-      statusBox.hidden = false;
-      sessionStorage.clear(); // Bersihkan cache lama agar memuat bahasa baru
+      sessionStorage.clear();
       runSearch(input.value.trim());
     }
   });
@@ -561,13 +509,9 @@ button { cursor: pointer; border: 0; background: transparent; }
   });
 
   /* RIWAYAT PENCARIAN */
-  function getHistory() {
-    return JSON.parse(localStorage.getItem("ooer_history_v2") || "[]");
-  }
-
+  function getHistory() { return JSON.parse(localStorage.getItem("ooer_history_v2") || "[]"); }
   function saveHistoryItem(q) {
-    let hist = getHistory();
-    hist = hist.filter(h => h.query.toLowerCase() !== q.toLowerCase());
+    let hist = getHistory().filter(h => h.query.toLowerCase() !== q.toLowerCase());
     hist.unshift({ query: q, time: Date.now() });
     localStorage.setItem("ooer_history_v2", JSON.stringify(hist.slice(0, 40)));
   }
@@ -577,19 +521,16 @@ button { cursor: pointer; border: 0; background: transparent; }
     const now = new Date();
     const isToday = d.toDateString() === now.toDateString();
     const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    if (isToday) return `Hari ini, ${timeStr}`;
-    return `${d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}, ${timeStr}`;
+    return isToday ? `Hari ini, ${timeStr}` : `${d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}, ${timeStr}`;
   }
 
   function renderHistoryList() {
     const hist = getHistory();
     historyContainer.replaceChildren();
-
     if (hist.length === 0) {
       historyContainer.innerHTML = `<div style="text-align:center; padding:30px 0; color:var(--muted); font-size:13px;">Tidak ada riwayat pencarian.</div>`;
       return;
     }
-
     hist.forEach((item, index) => {
       const row = document.createElement("div");
       row.className = "history-item";
@@ -598,21 +539,18 @@ button { cursor: pointer; border: 0; background: transparent; }
           <div class="h-query">${item.query}</div>
           <div class="h-date">${formatTime(item.time)}</div>
         </div>
-        <button class="h-del-single" title="Hapus item ini">✕</button>
+        <button class="h-del-single">✕</button>
       `;
-
       row.querySelector(".h-query").addEventListener("click", () => {
         historyModal.classList.remove("active");
         input.value = item.query;
         runSearch(item.query);
       });
-
       row.querySelector(".h-del-single").addEventListener("click", () => {
         const updated = getHistory().filter((_, i) => i !== index);
         localStorage.setItem("ooer_history_v2", JSON.stringify(updated));
         renderHistoryList();
       });
-
       historyContainer.appendChild(row);
     });
   }
@@ -648,14 +586,14 @@ button { cursor: pointer; border: 0; background: transparent; }
   });
 
   $("delAllBtn").addEventListener("click", () => {
-    if (confirm("Yakin ingin menghapus seluruh riwayat pencarian?")) {
+    if (confirm("Hapus seluruh riwayat pencarian?")) {
       localStorage.removeItem("ooer_history_v2");
       sessionStorage.clear();
       renderHistoryList();
     }
   });
 
-  /* MIC PENCARIAN SUARA */
+  /* MIC */
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
@@ -683,10 +621,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     recognition.onerror = () => micBtn.classList.remove("listening");
     recognition.onend = () => micBtn.classList.remove("listening");
-  } else {
-    micBtn.addEventListener("click", () => {
-      alert("Browser ini belum mendukung pencarian suara langsung.");
-    });
   }
 
   function openImageInspector(imgObj) {
@@ -704,7 +638,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   function streamTypewriterText(targetEl, fullText, speed = 16, onComplete) {
     if (!targetEl) return;
     if (typewriterTimer) clearInterval(typewriterTimer);
-
     targetEl.textContent = "";
     const cursor = document.createElement("span");
     cursor.className = "ai-cursor";
@@ -727,19 +660,30 @@ button { cursor: pointer; border: 0; background: transparent; }
     }, speed);
   }
 
-  /* TARIK DATA SESUAI BAHASA TERPILIH */
+  /* TARIK DATA DENGAN SISTEM AUTO-FALLBACK */
   async function fetchOpenData(keyword, lang, offset = 0) {
     const langCode = WIKI_LANG_MAP[lang] || "id";
-    const apiUrl = `https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(keyword)}&gsrsort=relevance&gsrlimit=8&gsroffset=${offset}&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=600&exintro=1&explaintext=1&exsentences=2&format=json&origin=*`;
+    const d = UI_DICT[lang] || UI_DICT["Indonesia"];
+    
+    // Coba cari dengan kata kunci asli, jika gagal coba kata kunci bersih
+    let cleanKw = offset === 0 ? extractCleanKeywords(keyword) : keyword;
+    let apiUrl = `https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(cleanKw)}&gsrsort=relevance&gsrlimit=8&gsroffset=${offset}&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=600&exintro=1&explaintext=1&exsentences=2&format=json&origin=*`;
 
     try {
-      const res = await fetch(apiUrl);
-      const data = await res.json();
+      let res = await fetch(apiUrl);
+      let data = await res.json();
+
+      // Jika masih kosong dan belum offset, coba fallback ke keyword asli
+      if ((!data || !data.query || !data.query.pages) && cleanKw !== keyword) {
+        apiUrl = `https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(keyword)}&gsrsort=relevance&gsrlimit=8&gsroffset=0&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=600&exintro=1&explaintext=1&exsentences=2&format=json&origin=*`;
+        res = await fetch(apiUrl);
+        data = await res.json();
+      }
+
       if (!data || !data.query || !data.query.pages) return { articles: [], images: [], hasMore: false };
 
       const articles = [];
       const images = [];
-      const d = UI_DICT[lang] || UI_DICT["Indonesia"];
 
       Object.values(data.query.pages).forEach(page => {
         if (page.extract) {
@@ -775,7 +719,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     resultsArea.replaceChildren();
     const d = UI_DICT[langSelect.value] || UI_DICT["Indonesia"];
 
-    // 1. TAB: Or Ai
+    // 1. TAB: Or Ai (RUANG KHUSUS JAWABAN AI)
     if (currentTab === "ai") {
       const aiCard = document.createElement("div");
       aiCard.className = "ai-card";
@@ -797,6 +741,24 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     // 2. TAB: SEMUA
     else if (currentTab === "all") {
+      // 💡 KARTU PROMO PINTAR: Arahkan pengguna ke tab Or Ai jika ada pertanyaan
+      if (activeData.query && activeData.query.split(" ").length >= 3) {
+        const pointer = document.createElement("div");
+        pointer.className = "ai-pointer-card";
+        pointer.innerHTML = `
+          <div>
+            <div class="ai-pointer-title">${d.pointerTitle || "✨ Jawaban Or Ai Sudah Siap!"}</div>
+            <div class="ai-pointer-sub">${d.pointerSub || "Pertanyaan ini memerlukan penjelasan mendalam dari AI."}</div>
+          </div>
+          <div class="ai-pointer-btn">${d.pointerBtn || "Buka Or Ai ↗"}</div>
+        `;
+        pointer.addEventListener("click", () => {
+          $("tabAi").click();
+        });
+        resultsArea.appendChild(pointer);
+      }
+
+      // Galeri Foto
       if (activeData.images && activeData.images.length > 0) {
         const gal = document.createElement("div");
         gal.className = "gallery-grid";
@@ -813,48 +775,65 @@ button { cursor: pointer; border: 0; background: transparent; }
         resultsArea.appendChild(gal);
       }
 
-      const firstBatch = (activeData.articles || []).slice(0, 3);
-      firstBatch.forEach(art => {
-        const card = document.createElement("div");
-        card.className = "article-card";
-        card.innerHTML = `
-          <div class="article-source">🌐 ${art.source}</div>
-          <div class="article-title">${art.title} ↗</div>
-          <div class="article-snippet">${art.snippet}</div>
-        `;
-        card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
-        resultsArea.appendChild(card);
-      });
-
+      // Artikel Web
       if (activeData.articles && activeData.articles.length > 0) {
+        const firstBatch = activeData.articles.slice(0, 3);
+        firstBatch.forEach(art => {
+          const card = document.createElement("div");
+          card.className = "article-card";
+          card.innerHTML = `
+            <div class="article-source">🌐 ${art.source}</div>
+            <div class="article-title">${art.title} ↗</div>
+            <div class="article-snippet">${art.snippet}</div>
+          `;
+          card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
+          resultsArea.appendChild(card);
+        });
+
+        // Saran Kata Terkait
         const suggestBox = document.createElement("div");
         suggestBox.className = "suggested-box";
         suggestBox.innerHTML = `
           <div class="suggested-title">${d.suggest}</div>
           <div class="suggested-chips">
-            <button class="s-chip" data-q="${input.value.trim()} info">${input.value.trim()} info</button>
-            <button class="s-chip" data-q="${input.value.trim()} wiki">${input.value.trim()} wiki</button>
-            <button class="s-chip" data-q="${input.value.trim()} facts">${input.value.trim()} facts</button>
+            <button class="s-chip" data-q="${input.value.trim()} penjelasan">${input.value.trim()} penjelasan</button>
+            <button class="s-chip" data-q="${input.value.trim()} efek samping">${input.value.trim()} efek samping</button>
+            <button class="s-chip" data-q="${input.value.trim()} ilmiah">${input.value.trim()} ilmiah</button>
           </div>
         `;
         suggestBox.querySelectorAll(".s-chip").forEach(btn => {
           btn.addEventListener("click", () => runSearch(btn.dataset.q));
         });
         resultsArea.appendChild(suggestBox);
-      }
 
-      const secondBatch = (activeData.articles || []).slice(3);
-      secondBatch.forEach(art => {
-        const card = document.createElement("div");
-        card.className = "article-card";
-        card.innerHTML = `
-          <div class="article-source">🌐 ${art.source}</div>
-          <div class="article-title">${art.title} ↗</div>
-          <div class="article-snippet">${art.snippet}</div>
+        const secondBatch = activeData.articles.slice(3);
+        secondBatch.forEach(art => {
+          const card = document.createElement("div");
+          card.className = "article-card";
+          card.innerHTML = `
+            <div class="article-source">🌐 ${art.source}</div>
+            <div class="article-title">${art.title} ↗</div>
+            <div class="article-snippet">${art.snippet}</div>
+          `;
+          card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
+          resultsArea.appendChild(card);
+        });
+      } else {
+        // JIKA TIDAK ADA ARTIKEL ENSIKLOPEDIA, TAMPILKAN TOMBOL PENCARIAN FORUM DISKUSI (ANTI LAYAR KOSONG!)
+        const qClean = encodeURIComponent(input.value.trim());
+        const emptyNotice = document.createElement("div");
+        emptyNotice.style.cssText = "padding:20px 0; text-align:center;";
+        emptyNotice.innerHTML = `
+          <div style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+            Topik ini adalah pertanyaan diskusi. Temukan jawaban manusia asli di forum:
+          </div>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="s-chip" onclick="window.open('https://id.quora.com/search?q=${qClean}','_blank')">🔴 Diskusi Quora</button>
+            <button class="s-chip" onclick="window.open('https://www.google.com/search?q=site:reddit.com+${qClean}','_blank')">💬 Diskusi Reddit</button>
+          </div>
         `;
-        card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
-        resultsArea.appendChild(card);
-      });
+        resultsArea.appendChild(emptyNotice);
+      }
     }
 
     // 3. TAB: GAMBAR LEGAL
@@ -896,13 +875,11 @@ button { cursor: pointer; border: 0; background: transparent; }
 
   async function loadMoreContent() {
     if (isFetchingMore || !hasMoreData || !activeData || currentTab === "ai") return;
-
     isFetchingMore = true;
     scrollLoading.style.display = "block";
     currentOffset += 8;
 
     const more = await fetchOpenData(input.value.trim(), langSelect.value, currentOffset);
-
     if (more.articles.length > 0 || more.images.length > 0) {
       activeData.articles = [...(activeData.articles || []), ...more.articles];
       activeData.images = [...(activeData.images || []), ...more.images];
@@ -916,10 +893,7 @@ button { cursor: pointer; border: 0; background: transparent; }
             const item = document.createElement("div");
             item.className = "image-item-wrap";
             item.style.aspectRatio = "1/1";
-            item.innerHTML = `
-              <img src="${img.url}" alt="Foto" loading="lazy">
-              <span class="image-license-tag">${d.legalBadge}</span>
-            `;
+            item.innerHTML = `<img src="${img.url}" alt="Foto" loading="lazy"><span class="image-license-tag">${d.legalBadge}</span>`;
             item.addEventListener("click", () => openImageInspector(img));
             grid.appendChild(item);
           });
@@ -929,10 +903,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           const card = document.createElement("div");
           card.className = "news-card";
           card.innerHTML = `
-            <div class="news-left">
-              <div class="news-title">${art.title} ↗</div>
-              <div class="news-snippet">${art.snippet}</div>
-            </div>
+            <div class="news-left"><div class="news-title">${art.title} ↗</div><div class="news-snippet">${art.snippet}</div></div>
             ${art.thumbnail ? `<img class="news-thumb" src="${art.thumbnail}" alt="Thumbnail" loading="lazy">` : `<div class="news-thumb" style="display:grid;place-items:center;color:#666;">📰</div>`}
           `;
           card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
@@ -942,11 +913,7 @@ button { cursor: pointer; border: 0; background: transparent; }
         more.articles.forEach(art => {
           const card = document.createElement("div");
           card.className = "article-card";
-          card.innerHTML = `
-            <div class="article-source">🌐 ${art.source}</div>
-            <div class="article-title">${art.title} ↗</div>
-            <div class="article-snippet">${art.snippet}</div>
-          `;
+          card.innerHTML = `<div class="article-source">🌐 ${art.source}</div><div class="article-title">${art.title} ↗</div><div class="article-snippet">${art.snippet}</div>`;
           card.addEventListener("click", () => window.open(art.url, "_blank", "noopener,noreferrer"));
           resultsArea.appendChild(card);
         });
@@ -954,20 +921,16 @@ button { cursor: pointer; border: 0; background: transparent; }
     } else {
       hasMoreData = false;
     }
-
     scrollLoading.style.display = "none";
     isFetchingMore = false;
   }
 
   const observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      loadMoreContent();
-    }
+    if (entries[0].isIntersecting) loadMoreContent();
   }, { rootMargin: "250px" });
-
   observer.observe(scrollSentinel);
 
-  /* MESIN PENCARIAN BERBASIS BAHASA AKTIF */
+  /* PENCARIAN UTAMA */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -979,7 +942,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     hasMoreData = true;
 
     const currentLang = langSelect.value;
-    const cacheKey = `ooer_v7_${q.toLowerCase()}_${currentLang}`;
+    const cacheKey = `ooer_v8_${q.toLowerCase()}_${currentLang}`;
     const localHit = sessionStorage.getItem(cacheKey);
 
     if (localHit) {
@@ -1002,7 +965,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     renderView();
 
-    // ⚡ 1. Tarik Data Wikipedia sesuai Bahasa Terpilih
+    // ⚡ 1. Tarik Data Terbuka (Menggunakan Ekstraktor Cerdas)
     fetchOpenData(q, currentLang, 0).then(fast => {
       if (fast.articles.length > 0 || fast.images.length > 0) {
         activeData.articles = fast.articles;
@@ -1053,7 +1016,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       sessionStorage.setItem(cacheKey, JSON.stringify(activeData));
     } catch (err) {
       activeData.aiLoading = false;
-      if (!activeData.answer) activeData.answer = "Information compiled via OoeR Open Archive.";
+      if (!activeData.answer) activeData.answer = "Informasi dirangkum melalui arsip terbuka OoeR.";
       if (currentTab === "ai") renderView();
     }
   }
