@@ -1,535 +1,476 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0b0e">
-<meta name="description" content="OoeR AI — Asisten kecerdasan digital premium.">
-<title>OoeR AI</title>
-
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- Font Awesome & Google Fonts -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!-- Markdown Parser -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#131314">
+<title>OoeR AI Assistant — Tanya & Diskusi Cerdas</title>
 
 <style>
 :root {
-  --bg-deep: #0a0b0e;
-  --bg-surface: #13151b;
-  --bg-card: #181b24;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.18);
-  --accent-glow: rgba(255, 255, 255, 0.05);
+  --bg: #131314;
+  --card: #1e1f20;
+  --soft: #282a2d;
+  --border: #3c4043;
+  --text: #ffffff;
+  --muted: #9aa0a6;
+  --blue: #4285f4;
+  --blue-glow: rgba(66, 133, 244, 0.2);
+  --red: #ea4335;
+  --yellow: #fbbc05;
+  --green: #34a853;
 }
 
-* { 
-  box-sizing: border-box; 
-  -webkit-tap-highlight-color: transparent;
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden; display: flex; flex-direction: column;
 }
 
-body {
-  background-color: var(--bg-deep);
-  color: #ededed;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  min-height: 100dvh;
+/* HEADER CHAT */
+header {
+  height: 58px; padding: 0 16px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--border);
+  background: rgba(19, 19, 20, 0.9); backdrop-filter: blur(10px);
+  position: relative; z-index: 10; flex-shrink: 0;
 }
+.back-btn, .action-icon-btn {
+  color: var(--text); display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 50%; text-decoration: none;
+  background: transparent; border: none; cursor: pointer; transition: background .2s;
+}
+.back-btn:hover, .action-icon-btn:hover { background: var(--soft); }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 99px;
+.header-brand {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
-
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Subtle Glow Effect */
-.bg-glow-radial {
-  background: radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
-}
-
-/* Animasi Titik Mengetik */
-@keyframes typingDot {
-  0%, 100% { transform: translateY(0); opacity: 0.3; }
-  50% { transform: translateY(-4px); opacity: 1; }
-}
-.dot-1 { animation: typingDot 1.2s infinite 0s; }
-.dot-2 { animation: typingDot 1.2s infinite 0.2s; }
-.dot-3 { animation: typingDot 1.2s infinite 0.4s; }
-
-/* Markdown Typography */
-.markdown-body {
-  line-height: 1.75;
-  overflow-wrap: anywhere;
-}
-.markdown-body p { margin-bottom: 0.8rem; }
-.markdown-body p:last-child { margin-bottom: 0; }
-.markdown-body ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 0.8rem; }
-.markdown-body ol { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.8rem; }
-.markdown-body li { margin: 0.25rem 0; }
-.markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  font-weight: 700;
-  color: #ffffff;
-  margin: 1.2rem 0 0.5rem;
-}
-.markdown-body h1 { font-size: 1.35rem; }
-.markdown-body h2 { font-size: 1.2rem; }
-.markdown-body h3 { font-size: 1.05rem; }
-.markdown-body a {
-  color: #93c5fd;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.markdown-body blockquote {
-  border-left: 3px solid rgba(255, 255, 255, 0.3);
-  padding-left: 0.85rem;
-  margin: 0.8rem 0;
-  color: #b3b3b3;
-  font-style: italic;
-}
-.markdown-body code:not(pre code) {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 0.85em;
-  font-family: 'JetBrains Mono', monospace;
-  color: #e5e7eb;
-}
-.markdown-body pre {
-  background: #0d0f14;
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin: 12px 0;
-  overflow-x: auto;
+.logo-circle {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: conic-gradient(from -43deg, var(--red) 0deg 105deg, var(--yellow) 105deg 225deg, var(--blue) 225deg 360deg);
   position: relative;
 }
-.markdown-body pre code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  color: #f3f4f6;
+.logo-circle:after {
+  content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--bg);
 }
+.brand-name { font-size: 18px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+.ai-badge {
+  background: var(--blue-glow); border: 1px solid var(--blue); color: #8ab4f8;
+  font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+}
+
+/* AREA PESAN CHAT */
+.chat-container {
+  flex: 1; overflow-y: auto; padding: 18px 16px; display: flex; flex-direction: column;
+  gap: 16px; scroll-behavior: smooth;
+}
+.chat-container::-webkit-scrollbar { width: 5px; }
+.chat-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+/* WELCOME HERO DI TENGAH */
+.welcome-hero {
+  margin: auto auto 10px; text-align: center; max-width: 440px; padding: 20px 0;
+  display: flex; flex-direction: column; align-items: center;
+}
+.hero-orb {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: conic-gradient(from 180deg, var(--blue), var(--green), var(--yellow), var(--red), var(--blue));
+  display: grid; place-items: center; margin-bottom: 16px;
+  box-shadow: 0 0 35px rgba(66, 133, 244, 0.35); animation: spinSlow 12s linear infinite;
+}
+@keyframes spinSlow { 100% { transform: rotate(360deg); } }
+.hero-orb-inner {
+  width: 54px; height: 54px; border-radius: 50%; background: var(--card);
+  display: grid; place-items: center; font-size: 26px;
+}
+
+.welcome-title { font-size: 20px; font-weight: 700; margin: 0 0 8px; color: #fff; }
+.welcome-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0 0 20px; }
+
+/* REKOMENDASI PROMPT CHIPS */
+.prompt-chips {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+}
+.chip-btn {
+  background: var(--card); border: 1px solid var(--border); color: #e3e3e3;
+  padding: 8px 14px; border-radius: 18px; font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px;
+}
+.chip-btn:hover { background: var(--soft); border-color: var(--blue); color: #fff; transform: translateY(-1px); }
+
+/* BUBBLE PESAN */
+.message-row { display: flex; gap: 10px; width: 100%; max-width: 680px; margin: 0 auto; }
+.message-row.user { justify-content: flex-end; }
+.message-row.bot { justify-content: flex-start; }
+
+.bot-avatar {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--soft);
+  border: 1px solid var(--border); display: grid; place-items: center; font-size: 16px;
+  flex-shrink: 0; margin-top: 4px;
+}
+
+.message-bubble {
+  padding: 13px 16px; border-radius: 18px; font-size: 14.5px; line-height: 1.6;
+  max-width: 85%; word-break: break-word; position: relative;
+}
+.message-row.user .message-bubble {
+  background: #2563eb; color: #ffffff; border-bottom-right-radius: 4px;
+}
+.message-row.bot .message-bubble {
+  background: var(--card); color: #e8eaed; border: 1px solid var(--border);
+  border-bottom-left-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.bubble-tools {
+  display: flex; align-items: center; gap: 12px; margin-top: 8px; padding-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: var(--muted);
+}
+.bubble-btn {
+  background: transparent; border: none; color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; gap: 4px; padding: 2px 0; font-size: 11px;
+}
+.bubble-btn:hover { color: #fff; }
+
+/* TYPING INDICATOR */
+.typing-dots { display: inline-flex; align-items: center; gap: 4px; padding: 6px 4px; }
+.typing-dots span {
+  width: 6px; height: 6px; background: #8ab4f8; border-radius: 50%;
+  animation: bounceDot 1.4s infinite ease-in-out both;
+}
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* FOOTER & INPUT BAR */
+footer {
+  padding: 10px 14px 14px; background: rgba(19, 19, 20, 0.95);
+  border-top: 1px solid var(--border); flex-shrink: 0;
+}
+.footer-wrap { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+
+.input-pill {
+  background: var(--card); border: 1px solid var(--border); border-radius: 26px;
+  display: flex; align-items: center; padding: 4px 8px 4px 16px; min-height: 50px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.input-pill:focus-within {
+  border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-glow);
+}
+
+#chatInput {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: #fff; font-size: 15px; min-width: 0; resize: none; max-height: 100px;
+  line-height: 1.4; padding: 8px 0;
+}
+#chatInput::placeholder { color: var(--muted); }
+
+.tool-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+.mic-btn, .send-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  display: grid; place-items: center; cursor: pointer; transition: all .2s;
+}
+.mic-btn { background: transparent; color: var(--muted); }
+.mic-btn:hover { background: var(--soft); color: var(--blue); }
+.mic-btn.listening {
+  color: var(--red); background: rgba(234, 67, 53, 0.15); animation: pulseRed 1.2s infinite;
+}
+@keyframes pulseRed { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+.send-btn { background: var(--blue); color: #fff; }
+.send-btn:hover { background: #3367d6; }
+.send-btn:disabled { background: var(--soft); color: var(--muted); cursor: not-allowed; opacity: 0.6; }
 </style>
 </head>
+<body>
 
-<body class="flex flex-col h-screen overflow-hidden bg-glow-radial">
+<header>
+  <a class="back-btn" href="./" title="Kembali ke Beranda OoeR">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </a>
+  <div class="header-brand">
+    <div class="logo-circle"></div>
+    <div class="brand-name">OoeR <span class="ai-badge">AI Assistant</span></div>
+  </div>
+  <button class="action-icon-btn" id="btnClearChat" title="Hapus Percakapan">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/>
+    </svg>
+  </button>
+</header>
 
-  <!-- HEADER ELEGAN & MINIMALIS -->
-  <header class="h-14 border-b border-white/[0.08] bg-[#0a0b0e]/85 backdrop-blur-md px-4 flex items-center justify-between z-30 flex-shrink-0">
-    <div class="flex items-center gap-3">
-      <a href="index.html"
-         class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition"
-         title="Kembali"
-         aria-label="Kembali">
-        <i class="fa-solid fa-arrow-left text-sm"></i>
-      </a>
-
-      <!-- LOGO OOER SERBA PUTIH + BADGE AI -->
-      <div class="flex items-center gap-2 select-none">
-        <span class="text-lg font-extrabold tracking-tight text-white">OoeR</span>
-        <span class="text-[10px] font-semibold tracking-wider px-1.5 py-0.5 rounded-full bg-white/10 text-gray-300 border border-white/10">AI</span>
-      </div>
+<div class="chat-container" id="chatArea">
+  <!-- Sambutan Awal -->
+  <div class="welcome-hero" id="welcomeHero">
+    <div class="hero-orb">
+      <div class="hero-orb-inner">✦</div>
     </div>
-
-    <!-- Tombol Hapus Riwayat -->
-    <button type="button"
-            onclick="clearChatHistory()"
-            class="text-gray-400 hover:text-white w-8 h-8 rounded-full hover:bg-white/10 transition flex items-center justify-center text-sm"
-            title="Bersihkan Percakapan"
-            aria-label="Bersihkan Percakapan">
-      <i class="fa-regular fa-trash-can"></i>
-    </button>
-  </header>
-
-  <!-- KONTEN CHAT UTAMA -->
-  <main id="chat-container" class="flex-1 overflow-y-auto px-4 py-6 space-y-6 w-full max-w-2xl mx-auto">
-
-    <!-- WELCOME HERO (LOGO PUTIH BESAR) -->
-    <div id="welcome-card" class="py-12 text-center select-none flex flex-col items-center">
-      <!-- Icon Sparkle Minimalis -->
-      <div class="w-12 h-12 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center mb-4 shadow-xl">
-        <i class="fa-solid fa-wand-magic-sparkles text-white text-lg"></i>
-      </div>
-
-      <!-- LOGO OOER BESAR SERBA PUTIH -->
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
-        OoeR
-      </h1>
-      <p class="text-xs sm:text-sm text-gray-400 max-w-xs font-normal">
-        Asisten AI pintar untuk menjawab, merangkum, dan mencari ide.
-      </p>
+    <div class="welcome-title">Ada yang bisa OoeR bantu?</div>
+    <div class="welcome-desc">Asisten AI pintar untuk menjawab pertanyaan, merangkum bacaan, dan mencari inspirasi ide kreatif.</div>
+    
+    <div class="prompt-chips">
+      <button class="chip-btn" data-prompt="Jelaskan secara singkat apa itu kecerdasan buatan (AI)">💡 Apa itu AI?</button>
+      <button class="chip-btn" data-prompt="Berikan 5 ide konten media sosial yang menarik untuk bisnis">📱 Ide Konten Medsos</button>
+      <button class="chip-btn" data-prompt="Bantu buatkan jadwal belajar produktif untuk pemula">📅 Jadwal Produktif</button>
+      <button class="chip-btn" data-prompt="Tulis pesan ucapan selamat ulang tahun yang hangat dan berkesan">🎉 Ucapan Ultah</button>
     </div>
+  </div>
+</div>
 
-    <!-- PESAN SAMBUTAN AWAL -->
-    <div id="opening-message" class="flex items-start gap-3">
-      <!-- Avatar AI Sparkle -->
-      <div class="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex-shrink-0 flex items-center justify-center text-white text-[11px] shadow-sm">
-        <i class="fa-solid fa-sparkles"></i>
-      </div>
-
-      <!-- Bubble Pembuka -->
-      <div class="bg-[#14161f] border border-white/[0.09] rounded-2xl rounded-tl-sm p-4 max-w-[88%] shadow-sm">
-        <p class="text-sm text-gray-200 leading-relaxed">Halo! Ada yang bisa saya bantu hari ini?</p>
-        <div class="mt-3 flex justify-end">
-          <button type="button"
-                  onclick="copyMessageText(this)"
-                  class="text-[11px] text-gray-400 hover:text-white transition flex items-center gap-1.5">
-            <i class="fa-regular fa-copy"></i> Salin
-          </button>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- FOOTER & INPUT KEKINIAN -->
-  <footer class="w-full bg-[#0a0b0e] border-t border-white/[0.08] px-3 pt-2.5 pb-4 sm:px-4 sm:pb-5 flex-shrink-0">
-    <div class="max-w-2xl mx-auto">
-      
-      <!-- QUICK PROMPT PILLS -->
-      <div id="quick-prompts" class="flex items-center gap-2 overflow-x-auto pb-2.5 no-scrollbar text-xs">
-        <button type="button"
-                onclick="useQuickPrompt('Rangkum teks berikut secara padat dan jelas:')"
-                class="flex items-center gap-1.5 bg-[#14161f] hover:bg-white/10 text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-white/[0.09] whitespace-nowrap transition text-[12px]">
-          <i class="fa-regular fa-file-lines text-gray-400"></i> Rangkum artikel
+<footer>
+  <div class="footer-wrap">
+    <div class="input-pill">
+      <textarea id="chatInput" rows="1" placeholder="Tanya apa saja ke OoeR AI..."></textarea>
+      <div class="tool-actions">
+        <button class="mic-btn" id="btnVoice" title="Bicara lewat Suara">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11z"/>
+          </svg>
         </button>
-
-        <button type="button"
-                onclick="useQuickPrompt('Jelaskan topik ini dengan sederhana:')"
-                class="flex items-center gap-1.5 bg-[#14161f] hover:bg-white/10 text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-white/[0.09] whitespace-nowrap transition text-[12px]">
-          <i class="fa-solid fa-book-open text-gray-400"></i> Jelaskan topik
-        </button>
-
-        <button type="button"
-                onclick="useQuickPrompt('Berikan ide kreatif dan unik untuk:')"
-                class="flex items-center gap-1.5 bg-[#14161f] hover:bg-white/10 text-gray-300 hover:text-white px-3 py-1.5 rounded-full border border-white/[0.09] whitespace-nowrap transition text-[12px]">
-          <i class="fa-regular fa-lightbulb text-gray-400"></i> Cari ide
+        <button class="send-btn" id="btnSend" title="Kirim">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
         </button>
       </div>
-
-      <!-- KOTAK INPUT PILL PREMIUM -->
-      <form id="chat-form"
-            onsubmit="handleSubmit(event)"
-            class="relative flex items-end gap-2 bg-[#13151c] border border-white/[0.12] rounded-2xl p-2 transition focus-within:border-white/30 focus-within:bg-[#161821] shadow-lg">
-
-        <textarea id="user-input"
-                  rows="1"
-                  maxlength="12000"
-                  placeholder="Ketik pesan..."
-                  aria-label="Ketik pesan"
-                  class="w-full bg-transparent text-gray-100 text-sm px-2.5 py-2 focus:outline-none resize-none max-h-32 placeholder:text-gray-500 leading-relaxed font-normal"
-                  oninput="adjustTextareaHeight(this); checkInputStatus();"
-                  onkeydown="handleKeyDown(event)"></textarea>
-
-        <div class="flex items-center gap-1.5 pb-0.5 pr-0.5">
-          <!-- Tombol Mikrofon -->
-          <button type="button"
-                  id="mic-btn"
-                  onclick="toggleSpeechRecognition()"
-                  class="w-9 h-9 text-gray-400 hover:text-white rounded-xl hover:bg-white/10 transition flex items-center justify-center text-sm"
-                  title="Input suara">
-            <i class="fa-solid fa-microphone"></i>
-          </button>
-
-          <!-- Tombol Kirim Bundar Premium -->
-          <button type="submit"
-                  id="send-btn"
-                  disabled
-                  class="w-9 h-9 bg-white text-black rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-200 flex items-center justify-center shadow-md flex-shrink-0"
-                  aria-label="Kirim">
-            <i class="fa-solid fa-arrow-up text-sm font-bold"></i>
-          </button>
-        </div>
-      </form>
-
-      <p class="text-[10px] text-gray-500 text-center mt-2 font-normal">
-        OoeR AI dapat membuat kesalahan. Harap periksa kembali info penting.
-      </p>
-
     </div>
-  </footer>
+  </div>
+</footer>
 
 <script>
-const chatContainer = document.getElementById('chat-container');
-const userInput = document.getElementById('user-input');
-const sendBtn = document.getElementById('send-btn');
-const micBtn = document.getElementById('mic-btn');
-const welcomeCard = document.getElementById('welcome-card');
+(() => {
+  "use strict";
 
-let isGenerating = false;
-let recognition = null;
+  // ENDPOINT EDGE FUNCTION SUPABASE (CHAT-GEMINI)
+  const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
+  const CHAT_ENDPOINT = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/chat-gemini";
 
-/* KONEKSI SUPABASE LAMA TETAP AMAN & AKTIF */
-const SUPABASE_URL = 'https://jhopfzmyxuafdbwwkjbf.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk';
-const EDGE_FUNCTION_NAME = 'smooth-handler';
+  const $ = id => document.getElementById(id);
+  const chatArea = $("chatArea");
+  const chatInput = $("chatInput");
+  const btnSend = $("btnSend");
+  const btnVoice = $("btnVoice");
+  const btnClearChat = $("btnClearChat");
+  const welcomeHero = $("welcomeHero");
 
-function adjustTextareaHeight(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 130) + 'px';
-}
+  let conversationHistory = [];
 
-function checkInputStatus() {
-  sendBtn.disabled = !userInput.value.trim() || isGenerating;
-}
+  // Muat riwayat tersimpan dari LocalStorage jika ada
+  try {
+    const saved = localStorage.getItem("ooer_chat_history");
+    if (saved) {
+      conversationHistory = JSON.parse(saved);
+      if (conversationHistory.length > 0) {
+        if (welcomeHero) welcomeHero.style.display = "none";
+        conversationHistory.forEach(msg => appendMessageUI(msg.role, msg.text, false));
+      }
+    }
+  } catch (e) {}
 
-function handleKeyDown(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    if (!isGenerating && userInput.value.trim()) {
-      document.getElementById('chat-form').requestSubmit();
+  function saveHistory() {
+    try {
+      localStorage.setItem("ooer_chat_history", JSON.stringify(conversationHistory.slice(-20)));
+    } catch (e) {}
+  }
+
+  function appendMessageUI(role, text, animate = true) {
+    if (welcomeHero) welcomeHero.style.display = "none";
+
+    const row = document.createElement("div");
+    row.className = `message-row ${role}`;
+
+    if (role === "bot") {
+      const avatar = document.createElement("div");
+      avatar.className = "bot-avatar";
+      avatar.textContent = "✦";
+      row.appendChild(avatar);
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
+    bubble.innerHTML = formatMessageText(text);
+
+    if (role === "bot") {
+      const tools = document.createElement("div");
+      tools.className = "bubble-tools";
+
+      // Tombol Salin
+      const btnCopy = document.createElement("button");
+      btnCopy.className = "bubble-btn";
+      btnCopy.innerHTML = "📋 Salin";
+      btnCopy.onclick = () => {
+        navigator.clipboard.writeText(text);
+        btnCopy.innerHTML = "✓ Tersalin!";
+        setTimeout(() => btnCopy.innerHTML = "📋 Salin", 2000);
+      };
+
+      // Tombol Suara (Bicara)
+      const btnSpeak = document.createElement("button");
+      btnSpeak.className = "bubble-btn";
+      btnSpeak.innerHTML = "🔊 Dengar";
+      btnSpeak.onclick = () => speakText(text);
+
+      tools.append(btnCopy, btnSpeak);
+      bubble.appendChild(tools);
+    }
+
+    row.appendChild(bubble);
+    chatArea.appendChild(row);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    const row = document.createElement("div");
+    row.className = "message-row bot";
+    row.id = "typingIndicator";
+
+    const avatar = document.createElement("div");
+    avatar.className = "bot-avatar";
+    avatar.textContent = "✦";
+
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
+    bubble.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
+
+    row.append(avatar, bubble);
+    chatArea.appendChild(row);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const el = $("typingIndicator");
+    if (el) el.remove();
+  }
+
+  function formatMessageText(str) {
+    return str
+      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+      .replace(/\*(.*?)\*/g, '<i>$1</i>')
+      .replace(/`([^`]+)`/g, '<code style="background:#282a2d;padding:2px 5px;border-radius:4px;color:#8ab4f8;">$1</code>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function speakText(text) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/[*_#`]/g, '');
+    const utter = new SpeechSynthesisUtterance(cleanText);
+    utter.lang = "id-ID";
+    utter.rate = 1.0;
+    window.speechSynthesis.speak(utter);
+  }
+
+  async function sendMessage(userText) {
+    const text = userText.trim();
+    if (!text) return;
+
+    appendMessageUI("user", text);
+    conversationHistory.push({ role: "user", text: text });
+    saveHistory();
+
+    chatInput.value = "";
+    chatInput.style.height = "auto";
+    btnSend.disabled = true;
+
+    showTypingIndicator();
+
+    try {
+      const response = await fetch(CHAT_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          message: text,
+          history: conversationHistory.slice(-6)
+        })
+      });
+
+      const data = await response.json();
+      removeTypingIndicator();
+
+      const botReply = data.reply || data.answer || data.message || "Maaf, OoeR AI sedang kesulitan memproses respon saat ini.";
+      appendMessageUI("bot", botReply);
+      conversationHistory.push({ role: "bot", text: botReply });
+      saveHistory();
+
+    } catch (err) {
+      removeTypingIndicator();
+      appendMessageUI("bot", "Koneksi terputus. Pastikan internet Anda aktif dan coba lagi.");
+    } finally {
+      btnSend.disabled = false;
     }
   }
-}
 
-function useQuickPrompt(text) {
-  if (isGenerating) return;
-  userInput.value = text;
-  adjustTextareaHeight(userInput);
-  checkInputStatus();
-  userInput.focus();
-}
+  // Event Listeners
+  btnSend.addEventListener("click", () => sendMessage(chatInput.value));
 
-async function handleSubmit(e) {
-  e.preventDefault();
-  const text = userInput.value.trim();
-  if (!text || isGenerating) return;
-
-  if (welcomeCard) welcomeCard.style.display = 'none';
-
-  userInput.value = '';
-  userInput.style.height = 'auto';
-  isGenerating = true;
-  checkInputStatus();
-
-  appendUserBubble(text);
-  const typingId = appendTypingIndicator();
-
-  try {
-    const answer = await fetchGeminiResponse(text);
-    removeElement(typingId);
-    appendAIBubble(answer);
-  } catch (error) {
-    removeElement(typingId);
-    appendAIBubble('Maaf, permintaan belum dapat dijawab.\n\n*Kendala:* ' + (error.message || 'Koneksi terputus.'));
-  } finally {
-    isGenerating = false;
-    checkInputStatus();
-    userInput.focus();
-  }
-}
-
-/* BUBBLE USER (PREMIUM ELEVATED) */
-function appendUserBubble(text) {
-  const row = document.createElement('div');
-  row.className = 'flex justify-end';
-
-  const bubble = document.createElement('div');
-  bubble.className = 'bg-[#232733] border border-white/[0.08] text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[88%] shadow-sm';
-
-  const p = document.createElement('p');
-  p.className = 'text-sm leading-relaxed whitespace-pre-wrap select-text';
-  p.textContent = text;
-
-  bubble.appendChild(p);
-  row.appendChild(bubble);
-  chatContainer.appendChild(row);
-  scrollToBottom();
-}
-
-/* BUBBLE AI DENGAN MARKDOWN & TOMBOL SALIN */
-function appendAIBubble(text) {
-  const row = document.createElement('div');
-  row.className = 'flex items-start gap-3';
-
-  const avatar = document.createElement('div');
-  avatar.className = 'w-7 h-7 rounded-full bg-white/10 border border-white/15 flex-shrink-0 flex items-center justify-center text-white text-[11px] shadow-sm';
-  avatar.innerHTML = '<i class="fa-solid fa-sparkles"></i>';
-
-  const bubble = document.createElement('div');
-  bubble.className = 'bg-[#14161f] border border-white/[0.09] rounded-2xl rounded-tl-sm p-4 max-w-[88%] shadow-sm';
-
-  const markdown = document.createElement('div');
-  markdown.className = 'markdown-body text-sm text-gray-200 select-text';
-  markdown.innerHTML = renderSafeMarkdown(text);
-
-  const actions = document.createElement('div');
-  actions.className = 'mt-3 pt-2.5 border-t border-white/[0.06] flex justify-end';
-
-  const copyBtn = document.createElement('button');
-  copyBtn.type = 'button';
-  copyBtn.className = 'text-[11px] text-gray-400 hover:text-white transition flex items-center gap-1.5';
-  copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
-  copyBtn.onclick = () => copyMessageText(copyBtn);
-
-  actions.appendChild(copyBtn);
-  bubble.append(markdown, actions);
-  row.append(avatar, bubble);
-
-  // Tombol Salin Kode di dalam blok <pre>
-  markdown.querySelectorAll('pre').forEach(pre => {
-    const codeBtn = document.createElement('button');
-    codeBtn.type = 'button';
-    codeBtn.className = 'absolute top-2.5 right-2.5 bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white px-2.5 py-1 rounded-md text-xs border border-white/10 transition';
-    codeBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode';
-
-    codeBtn.onclick = async () => {
-      const code = pre.querySelector('code');
-      if (!code) return;
-      const ok = await copyToClipboard(code.innerText);
-      codeBtn.innerHTML = ok ? '<i class="fa-solid fa-check"></i> Tersalin' : 'Gagal';
-      setTimeout(() => { codeBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode'; }, 1800);
-    };
-    pre.appendChild(codeBtn);
-  });
-
-  chatContainer.appendChild(row);
-  scrollToBottom();
-}
-
-function renderSafeMarkdown(text) {
-  const raw = window.marked
-    ? marked.parse(text, { breaks: true, gfm: true })
-    : escapeHTML(text).replace(/\n/g, '<br>');
-
-  const doc = new DOMParser().parseFromString(raw, 'text/html');
-  doc.querySelectorAll('script, iframe, object, embed, form, input, button, link, meta, style').forEach(el => el.remove());
-  return doc.body.innerHTML;
-}
-
-/* TYPING INDICATOR MODERN */
-function appendTypingIndicator() {
-  const id = 'typing-' + Date.now();
-  const row = document.createElement('div');
-  row.id = id;
-  row.className = 'flex items-start gap-3';
-
-  row.innerHTML = `
-    <div class="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex-shrink-0 flex items-center justify-center text-white text-[11px] shadow-sm">
-      <i class="fa-solid fa-sparkles"></i>
-    </div>
-    <div class="bg-[#14161f] border border-white/[0.09] rounded-2xl rounded-tl-sm px-4 py-3.5 flex items-center gap-1.5">
-      <span class="w-1.5 h-1.5 bg-gray-400 rounded-full dot-1"></span>
-      <span class="w-1.5 h-1.5 bg-gray-400 rounded-full dot-2"></span>
-      <span class="w-1.5 h-1.5 bg-gray-400 rounded-full dot-3"></span>
-    </div>`;
-
-  chatContainer.appendChild(row);
-  scrollToBottom();
-  return id;
-}
-
-/* EDGE FUNCTION SUPABASE */
-async function fetchGeminiResponse(prompt) {
-  const endpoint = `${SUPABASE_URL}/functions/v1/${EDGE_FUNCTION_NAME}`;
-
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SUPABASE_PUBLISHABLE_KEY,
-      'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
-    },
-    body: JSON.stringify({ message: prompt })
-  });
-
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error?.message || data.message || `Error HTTP ${response.status}`);
-  return (data.reply || data.answer || '').trim();
-}
-
-function clearChatHistory() {
-  if (isGenerating) return alert('Tunggu sampai jawaban selesai.');
-  if (!confirm('Hapus riwayat percakapan?')) return;
-
-  chatContainer.innerHTML = '';
-  if (welcomeCard) {
-    welcomeCard.style.display = 'flex';
-    chatContainer.appendChild(welcomeCard);
-  }
-
-  const row = document.createElement('div');
-  row.id = 'opening-message';
-  row.className = 'flex items-start gap-3';
-  row.innerHTML = `
-    <div class="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex-shrink-0 flex items-center justify-center text-white text-[11px] shadow-sm">
-      <i class="fa-solid fa-sparkles"></i>
-    </div>
-    <div class="bg-[#14161f] border border-white/[0.09] rounded-2xl rounded-tl-sm p-4 max-w-[88%] shadow-sm">
-      <p class="text-sm text-gray-200 leading-relaxed">Halo! Ada yang bisa saya bantu hari ini?</p>
-      <div class="mt-3 flex justify-end">
-        <button type="button" onclick="copyMessageText(this)" class="text-[11px] text-gray-400 hover:text-white transition flex items-center gap-1.5">
-          <i class="fa-regular fa-copy"></i> Salin
-        </button>
-      </div>
-    </div>`;
-  chatContainer.appendChild(row);
-  userInput.focus();
-}
-
-async function copyMessageText(btn) {
-  const bubble = btn.closest('.bg-\\[\\#14161f\\]') || btn.closest('div');
-  const content = bubble.querySelector('.markdown-body') || bubble.querySelector('p');
-  if (!content) return;
-
-  const ok = await copyToClipboard(content.innerText);
-  const orig = btn.innerHTML;
-  btn.innerHTML = ok ? '<i class="fa-solid fa-check"></i> Tersalin' : 'Gagal';
-  setTimeout(() => { btn.innerHTML = orig; }, 1800);
-}
-
-async function copyToClipboard(text) {
-  try {
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-      return true;
+  chatInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(chatInput.value);
     }
-  } catch {}
-  return false;
-}
+  });
 
-/* PENCARIAN SUARA */
-function toggleSpeechRecognition() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return alert('Input suara tidak didukung browser ini.');
+  // Auto-resize input
+  chatInput.addEventListener("input", () => {
+    chatInput.style.height = "auto";
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + "px";
+  });
 
-  if (!recognition) {
-    recognition = new SR();
-    recognition.lang = 'id-ID';
-    recognition.onstart = () => micBtn.classList.add('text-white', 'scale-110');
-    recognition.onresult = (e) => {
-      userInput.value += (userInput.value ? ' ' : '') + e.results[0][0].transcript;
-      adjustTextareaHeight(userInput);
-      checkInputStatus();
-    };
-    recognition.onend = () => micBtn.classList.remove('text-white', 'scale-110');
+  // Rekomendasi Prompt Pills
+  document.querySelectorAll(".chip-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const prompt = btn.dataset.prompt;
+      sendMessage(prompt);
+    });
+  });
+
+  // Hapus Chat
+  btnClearChat.addEventListener("click", () => {
+    if (confirm("Hapus seluruh riwayat percakapan?")) {
+      conversationHistory = [];
+      localStorage.removeItem("ooer_chat_history");
+      chatArea.replaceChildren();
+      if (welcomeHero) {
+        welcomeHero.style.display = "flex";
+        chatArea.appendChild(welcomeHero);
+      }
+    }
+  });
+
+  // Fitur Bicara (Microphone)
+  if (btnVoice) {
+    btnVoice.addEventListener("click", () => {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        alert("Browser Anda belum mendukung input suara.");
+        return;
+      }
+
+      const mic = new SpeechRec();
+      mic.lang = "id-ID";
+      mic.interimResults = false;
+
+      mic.onstart = () => btnVoice.classList.add("listening");
+      mic.onresult = (e) => {
+        const voiceText = e.results[0][0].transcript;
+        chatInput.value = voiceText;
+        sendMessage(voiceText);
+      };
+      mic.onend = () => btnVoice.classList.remove("listening");
+      mic.start();
+    });
   }
-  try { recognition.start(); } catch {}
-}
-
-function removeElement(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
-}
-
-function scrollToBottom() {
-  requestAnimationFrame(() => { chatContainer.scrollTop = chatContainer.scrollHeight; });
-}
-
-function escapeHTML(str) {
-  return String(str).replace(/[&<>'"]/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[ch]));
-}
-
-checkInputStatus();
+})();
 </script>
-
 </body>
 </html>
