@@ -274,7 +274,6 @@ body.light .search-buttons button.selected{background:#808080;color:#fff}
 .google-mark{font-size:21px;font-weight:bold;color:#4285f4}
 #loginMessage{min-height:20px;margin:14px 0 0;font-size:12px;color:#ffb4ab}
 
-/* KUNCI POINTER SUDAH DIHAPUS SUPAYA LAYAR TIDAK PERNAH MACET */
 body.login-locked{overflow:hidden}
 
 @media(max-width:700px){
@@ -462,6 +461,9 @@ body.login-locked{overflow:hidden}
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const SITE_URL = "https://oer-p.github.io/Media-oer/";
+
+  // ENDPOINT OTAK PENYIMPANAN AI (OOER-COLLECTOR)
+  const OOER_BRAIN_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
 
   const $ = id => document.getElementById(id);
   const form = $("searchForm");
@@ -1170,7 +1172,37 @@ body.login-locked{overflow:hidden}
     suggestions.classList.add("show");
   }
 
-  function performSearch() {
+  /* ========================================================
+     FUNGSI PENGHUBUNG OTAK AI OOER (RAPID-TASK)
+     Mengirim query & bahasa aktif agar otomatis tersimpan & memori bertambah
+     ======================================================== */
+  async function triggerOoERBrain(query, lang) {
+    try {
+      const response = await fetch(OOER_BRAIN_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          query: query,
+          lang: lang
+        })
+      });
+
+      const brainData = await response.json();
+
+      // Simpan hasil cache instan ke sessionStorage agar langsung terbaca di search.html
+      if (brainData && !brainData.error) {
+        sessionStorage.setItem("ooer_latest_vault", JSON.stringify(brainData));
+      }
+    } catch (err) {
+      console.warn("OoER Brain sync background:", err.message);
+    }
+  }
+
+  async function performSearch() {
     if (!input) return;
     const query = input.value.trim();
 
@@ -1199,8 +1231,19 @@ body.login-locked{overflow:hidden}
       return;
     }
 
+    // Ambil bahasa yang sedang aktif secara permanen
+    const activeLang = localStorage.getItem("ooer_user_lang") || (langSelectHome ? langSelectHome.value : "Indonesia");
+
+    // Tampilkan status pencarian ringan jika diperlukan
+    if (notice) notice.textContent = "✦ OoeR Brain...";
+
+    // 1. Jalankan proses simpan & panggil otak OoER Vault
+    await triggerOoERBrain(query, activeLang);
+
+    // 2. Teruskan pencarian ke halaman search.html dengan parameter query & bahasa
     const url = new URL("./search.html", location.href);
     url.searchParams.set("q", query);
+    url.searchParams.set("lang", activeLang);
     location.href = url.href;
   }
 
