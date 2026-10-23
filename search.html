@@ -113,7 +113,7 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 10px; font-weight: 600; color: #a8c7fa;
 }
 
-/* KARTU ARTIKEL / WEB (DIBUKA IN-APP) */
+/* KARTU ARTIKEL / WEB */
 .article-card {
   padding: 14px 0; border-bottom: 1px solid #282a2d; cursor: pointer;
 }
@@ -126,7 +126,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .video-card video { width: 100%; border-radius: 8px; max-height: 240px; background: #000; }
 .video-title { font-size: 14px; margin-top: 6px; color: #e8eaed; }
 
-/* MODAL 1: IN-APP WEB VIEWER */
+/* MODAL IN-APP WEB VIEWER */
 #webModal {
   display: none; position: fixed; inset: 0; z-index: 9999;
   background: var(--bg); flex-direction: column;
@@ -146,7 +146,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 .web-iframe-container { flex: 1; width: 100%; position: relative; }
 .web-iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
-/* MODAL 2: INSPEKTOR LISENSI GAMBAR RESMI & KONTEN */
+/* MODAL LISENSI GAMBAR */
 #imageModal {
   display: none; position: fixed; inset: 0; z-index: 10000;
   background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
@@ -217,11 +217,11 @@ button { cursor: pointer; border: 0; background: transparent; }
 </div>
 
 <nav class="nav-tabs">
-  <button class="tab-item active" data-tab="all">Semua</button>
-  <button class="tab-item" data-tab="ai">✨ OoeR AI</button>
-  <button class="tab-item" data-tab="images">Gambar</button>
-  <button class="tab-item" data-tab="news">Berita</button>
-  <button class="tab-item" data-tab="videos">Video</button>
+  <button class="tab-item active" data-tab="all" id="tabAll">Semua</button>
+  <button class="tab-item" data-tab="ai" id="tabAi">✨ OoeR AI</button>
+  <button class="tab-item" data-tab="images" id="tabImages">Gambar</button>
+  <button class="tab-item" data-tab="news" id="tabNews">Berita</button>
+  <button class="tab-item" data-tab="videos" id="tabVideos">Video</button>
 </nav>
 
 <main class="main-container">
@@ -229,7 +229,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   <div id="resultsArea"></div>
 </main>
 
-<!-- MODAL IN-APP WEB OOER -->
 <div id="webModal">
   <div class="web-modal-header">
     <div class="web-modal-info">
@@ -243,7 +242,6 @@ button { cursor: pointer; border: 0; background: transparent; }
   </div>
 </div>
 
-<!-- MODAL LISENSI GAMBAR RESMI -->
 <div id="imageModal">
   <div class="image-dialog">
     <img id="imgModalPreview" class="image-dialog-preview" src="" alt="Preview">
@@ -285,21 +283,89 @@ button { cursor: pointer; border: 0; background: transparent; }
   let currentTab = "all";
   let activeData = null;
 
-  /* KONFIGURASI SUPABASE DATABASE & EDGE FUNCTION */
+  /* KONFIGURASI SUPABASE & EDGE FUNCTIONS */
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
+  
+  // ENDPOINT GROK.AI PENERJEMAH BAHASA
+  const GROK_TRANSLATOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/Grok.ai";
 
-  // Inisialisasi Supabase Client
   const supabase = (window.supabase && window.supabase.createClient)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
 
-  // Muat preferensi bahasa
-  langSelect.value = localStorage.getItem("ooer_user_lang") || "Indonesia";
-  langSelect.addEventListener("change", () => {
-    localStorage.setItem("ooer_user_lang", langSelect.value);
-    if (input.value.trim()) runSearch(input.value);
+  /* KAMUS TERJEMAHAN UI */
+  const UI_DICT = {
+    "Indonesia": { all: "Semua", ai: "✨ OoeR AI", img: "Gambar", news: "Berita", vid: "Video", license: "🔍 Cek Lisensi", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori OoeR Permanen", noVid: "Tidak ada video terbuka untuk topik ini.", ph: "Telusuri di OoeR..." },
+    "English (US)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check License", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Permanent Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR..." },
+    "English (UK)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check Licence", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Permanent Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR..." },
+    "Melayu (Malaysia)": { all: "Semua", ai: "✨ OoeR AI", img: "Imej", news: "Berita", vid: "Video", license: "🔍 Semak Lesen", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori OoeR Kekal", noVid: "Tiada video dibuka untuk topik ini.", ph: "Cari di OoeR..." },
+    "Tagalog (Filipina)": { all: "Lahat", ai: "✨ OoeR AI", img: "Mga Larawan", news: "Balita", vid: "Mga Video", license: "🔍 Suriin ang Lisensya", sum: "✨ Buod ng OoeR AI", mem: "⚡ Permanenteng Memorya ng OoeR", noVid: "Walang bukas na video para sa paksang ito.", ph: "Maghanap sa OoeR..." },
+    "Thailand": { all: "ทั้งหมด", ai: "✨ OoeR AI", img: "รูปภาพ", news: "ข่าว", vid: "วิดีโอ", license: "🔍 ตรวจสอบใบอนุญาต", sum: "✨ บทสรุป OoeR AI", mem: "⚡ หน่วยความจำถาวร OoeR", noVid: "ไม่มีวิดีโอสำหรับหัวข้อนี้", ph: "ค้นหาใน OoeR..." },
+    "Vietnam": { all: "Tất cả", ai: "✨ OoeR AI", img: "Hình ảnh", news: "Tin tức", vid: "Video", license: "🔍 Kiểm tra giấy phép", sum: "✨ Tóm tắt OoeR AI", mem: "⚡ Bộ nhớ vĩnh viễn OoeR", noVid: "Không có video cho chủ đề này.", ph: "Tìm kiếm trên OoeR..." },
+    "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 永続メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索..." },
+    "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 영구 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색..." },
+    "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 永久记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索..." },
+    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR स्थायी मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें..." },
+    "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR الدائمة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR..." }
+  };
+
+  function applyUILanguage(lang) {
+    const d = UI_DICT[lang] || UI_DICT["English (US)"] || UI_DICT["Indonesia"];
+    $("tabAll").textContent = d.all;
+    $("tabAi").textContent = d.ai;
+    $("tabImages").textContent = d.img;
+    $("tabNews").textContent = d.news;
+    $("tabVideos").textContent = d.vid;
+    if (input) input.placeholder = d.ph;
+  }
+
+  // FUNGSI PENERJEMAH GROK.AI (LPU CEPAT)
+  async function terjemahkanDenganGrok(teks, targetLang) {
+    if (targetLang === "Indonesia" || !teks) return teks;
+
+    try {
+      const res = await fetch(GROK_TRANSLATOR_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          message: `Translate the following summary into ${targetLang} naturally, accurately, and without intro:\n\n${teks}`,
+          max_tokens: 800
+        })
+      });
+
+      const d = await res.json();
+      return d.reply || teks;
+    } catch (e) {
+      console.warn("Grok.ai translation offline:", e);
+      return teks;
+    }
+  }
+
+  // Muat bahasa tersimpan
+  const currentSavedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
+  langSelect.value = currentSavedLang;
+  applyUILanguage(currentSavedLang);
+
+  langSelect.addEventListener("change", async () => {
+    const chosen = langSelect.value;
+    localStorage.setItem("ooer_user_lang", chosen);
+    applyUILanguage(chosen);
+
+    // Jika sedang ada hasil pencarian di layar, langsung terjemahkan dengan Grok.ai!
+    if (activeData && activeData.answer) {
+      showStatus("Menerjemahkan dengan Grok.ai...");
+      activeData.answer = await terjemahkanDenganGrok(activeData.answer, chosen);
+      statusBox.hidden = true;
+      renderView();
+    } else if (input.value.trim()) {
+      runSearch(input.value);
+    }
   });
 
   function openInAppWeb(url, title, source) {
@@ -323,7 +389,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 
     if (imgObj.allow_content !== false) {
       imgModalBadge.className = "badge-license badge-free";
-      imgModalBadge.textContent = "✅ Bebas Digunakan Untuk Konten (CC / Domain Publik)";
+      imgModalBadge.textContent = "✅ Diperbolehkan Untuk Konten (CC / Domain Publik)";
     } else {
       imgModalBadge.className = "badge-license badge-warn";
       imgModalBadge.textContent = "⚠️ Hak Cipta Warta Media (Perlu Izin Penerbit)";
@@ -344,13 +410,14 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (!activeData) return;
     resultsArea.replaceChildren();
 
-    // 1. TAB SEMUA
+    const d = UI_DICT[langSelect.value] || UI_DICT["Indonesia"];
+
     if (currentTab === "all") {
       const aiBox = document.createElement("div");
       aiBox.className = "ai-card";
       aiBox.innerHTML = `
-        <div class="ai-header-badge">${activeData.is_memory ? "⚡ Memori OoeR Permanen" : "✨ Ringkasan OoeR AI"}</div>
-        <div class="ai-text">${activeData.answer || "Tidak ada ringkasan teks."}</div>
+        <div class="ai-header-badge">${activeData.is_memory ? d.mem : d.sum}</div>
+        <div class="ai-text">${activeData.answer || ""}</div>
       `;
       resultsArea.appendChild(aiBox);
 
@@ -363,7 +430,7 @@ button { cursor: pointer; border: 0; background: transparent; }
           const src = typeof img === "string" ? img : img.url;
           item.innerHTML = `
             <img src="${src}" alt="Foto" loading="lazy">
-            <span class="image-license-tag">🔍 Cek Lisensi</span>
+            <span class="image-license-tag">${d.license}</span>
           `;
           item.addEventListener("click", () => openImageInspector(img));
           gal.appendChild(item);
@@ -377,27 +444,21 @@ button { cursor: pointer; border: 0; background: transparent; }
           card.className = "article-card";
           card.innerHTML = `
             <div class="article-source">🌐 ${art.source || "Web"}</div>
-            <div class="article-title">${art.title || "Sumber Artikel"}</div>
+            <div class="article-title">${art.title || ""}</div>
             <div class="article-snippet">${art.snippet || ""}</div>
           `;
           card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
           resultsArea.appendChild(card);
         });
       }
-    }
-
-    // 2. TAB AI
-    else if (currentTab === "ai") {
+    } else if (currentTab === "ai") {
       resultsArea.innerHTML = `
         <div class="ai-card">
           <div class="ai-header-badge">✦ OoeR Deep AI Intel</div>
-          <div class="ai-text">${activeData.answer || "Tidak ada analisis AI."}</div>
+          <div class="ai-text">${activeData.answer || ""}</div>
         </div>
       `;
-    }
-
-    // 3. TAB GAMBAR
-    else if (currentTab === "images") {
+    } else if (currentTab === "images") {
       const gal = document.createElement("div");
       gal.className = "gallery-grid";
       (activeData.images || []).forEach(img => {
@@ -407,33 +468,27 @@ button { cursor: pointer; border: 0; background: transparent; }
         const src = typeof img === "string" ? img : img.url;
         item.innerHTML = `
           <img src="${src}" alt="Foto" loading="lazy">
-          <span class="image-license-tag">🔍 Lisensi Konten</span>
+          <span class="image-license-tag">${d.license}</span>
         `;
         item.addEventListener("click", () => openImageInspector(img));
         gal.appendChild(item);
       });
       resultsArea.appendChild(gal);
-    }
-
-    // 4. TAB BERITA
-    else if (currentTab === "news") {
+    } else if (currentTab === "news") {
       (activeData.articles || []).forEach(art => {
         const card = document.createElement("div");
         card.className = "article-card";
         card.innerHTML = `
-          <div class="article-source">📰 ${art.source || "Warta"}</div>
-          <div class="article-title">${art.title || "Berita Terkait"}</div>
+          <div class="article-source">📰 ${art.source || "News"}</div>
+          <div class="article-title">${art.title || ""}</div>
           <div class="article-snippet">${art.snippet || ""}</div>
         `;
         card.addEventListener("click", () => openInAppWeb(art.url, art.title, art.source));
         resultsArea.appendChild(card);
       });
-    }
-
-    // 5. TAB VIDEO
-    else if (currentTab === "videos") {
+    } else if (currentTab === "videos") {
       if (!activeData.videos || activeData.videos.length === 0) {
-        resultsArea.innerHTML = `<div class="status-msg">Tidak ada video terbuka untuk topik ini.</div>`;
+        resultsArea.innerHTML = `<div class="status-msg">${d.noVid}</div>`;
       } else {
         activeData.videos.forEach(vid => {
           resultsArea.innerHTML += `
@@ -447,7 +502,6 @@ button { cursor: pointer; border: 0; background: transparent; }
     }
   }
 
-  /* PENCARIAN CERDAS: CEK GUDANG MEMORI SUPABASE DULU -> PANGGIL RAPID-TASK -> SIMPAN PERMANEN */
   async function runSearch(keyword) {
     const q = keyword.trim();
     if (!q) return;
@@ -456,22 +510,7 @@ button { cursor: pointer; border: 0; background: transparent; }
     showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
     resultsArea.replaceChildren();
 
-    // 1. Cek Memori Cepat dari SessionStorage (jika dari Home)
-    try {
-      const cached = sessionStorage.getItem("ooer_latest_vault");
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (parsed.query && parsed.query.toLowerCase() === q.toLowerCase()) {
-          activeData = parsed;
-          statusBox.hidden = true;
-          renderView();
-          sessionStorage.removeItem("ooer_latest_vault");
-          return;
-        }
-      }
-    } catch(e) {}
-
-    // 2. Cek apakah sudah pernah tersimpan di Supabase ooer_ai_vault
+    // 1. Cek Cepat di Supabase Vault
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -489,23 +528,26 @@ button { cursor: pointer; border: 0; background: transparent; }
             articles: vData.articles || [],
             videos: vData.videos || []
           };
+
+          // Terjemahkan dengan Grok.ai jika bahasa aktif bukan Indonesia
+          if (langSelect.value !== "Indonesia") {
+            showStatus("Menerjemahkan dengan Grok.ai...");
+            activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
+          }
+
           statusBox.hidden = true;
           renderView();
 
-          // Naikkan hit_count
-          await supabase
-            .from("ooer_ai_vault")
-            .update({ hit_count: (vData.hit_count || 1) + 1 })
-            .eq("id", vData.id);
+          await supabase.from("ooer_ai_vault").update({
+            hit_count: (vData.hit_count || 1) + 1
+          }).eq("id", vData.id);
 
           return;
         }
-      } catch (err) {
-        console.warn("Gagal membaca vault:", err);
-      }
+      } catch (e) {}
     }
 
-    // 3. Jika belum pernah ada di stok, panggil AI Collector (Rapid Task)
+    // 2. Ambil dari AI Collector (Rapid Task)
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -522,30 +564,15 @@ button { cursor: pointer; border: 0; background: transparent; }
 
       const data = await res.json();
       activeData = data;
+
+      // Terjemahkan jawaban dengan Grok.ai jika bahasa bukan Indonesia
+      if (langSelect.value !== "Indonesia" && activeData.answer) {
+        showStatus("Menerjemahkan dengan Grok.ai...");
+        activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
+      }
+
       statusBox.hidden = true;
       renderView();
-
-      // 4. SAVE AS PERMANEN: Otomatis simpan stok kata & gambar baru ini ke database Supabase
-      if (supabase && data && data.answer) {
-        const { error: insErr } = await supabase
-          .from("ooer_ai_vault")
-          .insert([
-            {
-              query: q,
-              answer: data.answer,
-              images: data.images || [],
-              articles: data.articles || [],
-              videos: data.videos || [],
-              hit_count: 1
-            }
-          ]);
-
-        if (!insErr) {
-          console.log(`[OoeR AI Vault] Stok data "${q}" berhasil disimpan permanen!`);
-        } else {
-          console.warn("[OoeR AI Vault] Gagal menyimpan:", insErr.message);
-        }
-      }
     } catch (err) {
       showStatus("Gagal memuat data pencarian.");
     }
