@@ -580,15 +580,29 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
   }
-
-  async function runSearch(keyword) {
-    const q = keyword.trim();
+async function runSearch(keyword) {
+    const q = keyword.trim().toLowerCase();
     if (!q) return;
 
-    input.value = q;
+    input.value = keyword.trim();
+
+    // ⚡ 1. CEK CACHE LOKAL DI HP PENGGUNA (0.01 DETIK - INSTAN!)
+    const localCacheKey = `ooer_cache_${q}_${langSelect.value}`;
+    const cachedData = sessionStorage.getItem(localCacheKey);
+    
+    if (cachedData) {
+      try {
+        activeData = JSON.parse(cachedData);
+        statusBox.hidden = true;
+        renderView(); // Langsung muncul tanpa loading sama sekali!
+        return;
+      } catch (e) {}
+    }
+
+    // Tampilkan skeleton hanya jika belum ada di memori
     showSkeleton();
 
-    // 1. CEK CEPAT DI SUPABASE VAULT
+    // ⚡ 2. CEK SUPABASE VAULT (CEPAT)
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -607,17 +621,20 @@ button { cursor: pointer; border: 0; background: transparent; }
             videos: vData.videos || []
           };
 
-          if (langSelect.value !== "Indonesia") {
-            activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
-          }
-
+          // Render dulu hasil mentahnya agar layar tidak kosong!
           statusBox.hidden = true;
           renderView();
 
-          supabase.from("ooer_ai_vault").update({
-            hit_count: (vData.hit_count || 1) + 1
-          }).eq("id", vData.id).then(() => {});
+          // Simpan ke HP untuk pencarian berikutnya
+          sessionStorage.setItem(localCacheKey, JSON.stringify(activeData));
 
+          // Terjemahkan di latar belakang jika perlu
+          if (langSelect.value !== "Indonesia") {
+            terjemahkanDenganGrok(activeData.answer, langSelect.value).then(trans => {
+              activeData.answer = trans;
+              renderView();
+            });
+          }
           return;
         }
       } catch (e) {
@@ -625,7 +642,7 @@ button { cursor: pointer; border: 0; background: transparent; }
       }
     }
 
-    // 2. JIKA BELUM ADA, AMBIL DARI COLLECTOR
+    // ⚡ 3. JIKA BELUM ADA, AMBIL DARI COLLECTOR
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -643,37 +660,18 @@ button { cursor: pointer; border: 0; background: transparent; }
       const data = await res.json();
       activeData = data;
 
-      if (langSelect.value !== "Indonesia" && activeData.answer && !activeData.is_translated) {
-        activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
-      }
-
+      // Langsung render hasil web, gambar, dan video seketika
       statusBox.hidden = true;
       renderView();
+
+      // Simpan ke memori HP agar pencarian kedua instan
+      sessionStorage.setItem(localCacheKey, JSON.stringify(activeData));
+
     } catch (err) {
       statusBox.textContent = "Gagal memuat data pencarian. Silakan coba lagi.";
       statusBox.hidden = false;
     }
   }
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      currentTab = tab.dataset.tab;
-      renderView();
-    });
-  });
-
-  $("searchForm").addEventListener("submit", e => {
-    e.preventDefault();
-    runSearch(input.value);
-  });
-
-  const qParam = params.get("q");
-  if (qParam) {
-    runSearch(decodeURIComponent(qParam));
-  }
-})();
-</script>
+ </script>
 </body>
 </html>
