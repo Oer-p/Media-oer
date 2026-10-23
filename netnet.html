@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#131314">
-<title>NetNet — Alat Konverter File Gratis OoeR</title>
+<title>NetNet — OoeR Super Converter</title>
 
-<!-- Pustaka JavaScript Client-Side Resmi (Gratis & Aman) -->
+<!-- Pustaka JavaScript Client-Side (100% Gratis & Aman di HP) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.9/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 :root {
@@ -20,9 +22,9 @@
   --text: #e8eaed;
   --muted: #9aa0a6;
   --blue: #4285f4;
-  --green: #34a853;
   --red: #ea4335;
   --yellow: #fbbc05;
+  --green: #34a853;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -31,133 +33,242 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: flex; flex-direction: column;
 }
+
+/* HEADER KHAS OOER */
 header {
-  height: 56px; padding: 0 16px; display: flex; align-items: center;
+  height: 60px; padding: 0 16px; display: flex; align-items: center;
   justify-content: space-between; border-bottom: 1px solid var(--border);
+  background: var(--bg); position: sticky; top: 0; z-index: 100;
 }
 .back-btn {
   color: var(--text); display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: 50%; text-decoration: none;
+  width: 38px; height: 38px; border-radius: 50%; text-decoration: none;
 }
-.brand { font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
-.brand span { color: var(--blue); }
+.back-btn:hover { background: var(--soft); }
 
-main { max-width: 650px; margin: 0 auto; width: 100%; padding: 20px 16px; flex: 1; }
+.ooer-logo-box {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+}
+.logo-circle {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: conic-gradient(from -43deg, var(--red) 0deg 105deg, var(--yellow) 105deg 225deg, var(--blue) 225deg 360deg);
+  position: relative;
+}
+.logo-circle:after {
+  content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--bg);
+}
+.logo-title { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+.logo-title b { color: var(--blue); }
 
-.privacy-badge {
-  background: rgba(52, 168, 83, 0.15); border: 1px solid var(--green); color: #81c995;
+main { max-width: 720px; margin: 0 auto; width: 100%; padding: 18px 14px 40px; flex: 1; }
+
+.privacy-banner {
+  background: rgba(52, 168, 83, 0.12); border: 1px solid var(--green); color: #81c995;
   padding: 10px 14px; border-radius: 12px; font-size: 12px; display: flex; align-items: center;
-  gap: 8px; margin-bottom: 20px;
+  gap: 8px; margin-bottom: 18px;
 }
 
-/* Navigasi Pilihan Tab Konversi */
-.tool-nav {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px;
+/* KATEGORI FILTER PILLS */
+.category-tabs {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px;
+  scrollbar-width: none;
 }
-.tool-btn {
-  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-  color: var(--muted); padding: 12px 8px; font-size: 13px; font-weight: 600;
-  cursor: pointer; display: flex; flex-direction: column; align-items: center;
-  gap: 6px; text-align: center; transition: all .2s;
+.category-tabs::-webkit-scrollbar { display: none; }
+.cat-btn {
+  background: var(--card); border: 1px solid var(--border); color: var(--muted);
+  padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  white-space: nowrap; cursor: pointer; transition: all .2s;
 }
-.tool-btn.active {
-  background: var(--soft); color: #fff; border-color: var(--blue);
+.cat-btn.active {
+  background: var(--blue); color: #fff; border-color: var(--blue);
 }
 
-/* Area Unggah File */
-.upload-box {
-  border: 2px dashed var(--border); border-radius: 20px; padding: 35px 20px;
-  text-align: center; background: var(--card); cursor: pointer; transition: border-color .2s;
-  margin-bottom: 20px;
+/* GRID ALAT KONVERTER */
+.tools-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px;
 }
-.upload-box:hover { border-color: var(--blue); }
-.upload-icon { font-size: 38px; margin-bottom: 10px; }
-.upload-text { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.upload-hint { font-size: 12px; color: var(--muted); }
+@media (min-width: 520px) {
+  .tools-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tool-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 14px; display: flex; flex-direction: column; align-items: flex-start;
+  gap: 6px; cursor: pointer; transition: all .2s; text-align: left;
+}
+.tool-card:hover { border-color: var(--blue); background: var(--soft); }
+.tool-card.active { border-color: var(--blue); background: #25282d; box-shadow: 0 0 0 2px var(--blue); }
+.tool-icon { font-size: 26px; }
+.tool-name { font-size: 14px; font-weight: 600; color: #fff; }
+.tool-desc { font-size: 11px; color: var(--muted); line-height: 1.35; }
+
+/* WORKSPACE KONVERSI (KOTAK AKTIF) */
+.workspace {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 20px; display: flex; flex-direction: column; gap: 16px;
+}
+.workspace-title { font-size: 16px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 16px; padding: 30px 16px;
+  text-align: center; background: var(--bg); cursor: pointer; transition: border-color .2s;
+}
+.upload-zone:hover { border-color: var(--blue); }
+.upload-zone-title { font-size: 15px; font-weight: 600; margin-top: 8px; }
+.upload-zone-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
 input[type="file"] { display: none; }
 
-/* Status & Hasil */
-.action-area { display: flex; flex-direction: column; gap: 12px; }
-.primary-btn {
-  background: var(--blue); color: white; border: none; padding: 14px;
-  border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer;
-  width: 100%; display: none; align-items: center; justify-content: center; gap: 8px;
+.custom-input, .custom-select, textarea {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px; color: #fff; font-size: 14px; outline: none; font-family: inherit;
 }
-.primary-btn:hover { background: #3367d6; }
-.status-text { font-size: 13px; color: var(--muted); text-align: center; min-height: 20px; }
+.custom-input:focus, .custom-select:focus, textarea:focus { border-color: var(--blue); }
+textarea { resize: vertical; min-height: 120px; }
 
-/* Galeri Preview */
-.preview-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px; margin-top: 15px;
+.btn-primary {
+  background: var(--blue); color: #fff; border: none; border-radius: 14px;
+  padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-.preview-item {
-  aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: #000;
-  border: 1px solid var(--border); position: relative;
-}
-.preview-item img { width: 100%; height: 100%; object-fit: cover; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.select-format {
-  background: var(--soft); border: 1px solid var(--border); color: #fff;
-  padding: 10px 14px; border-radius: 10px; outline: none; font-size: 14px; margin-bottom: 12px; width: 100%;
-}
+.status-box { font-size: 13px; color: var(--muted); text-align: center; min-height: 20px; }
+.qr-preview-box { display: flex; justify-content: center; padding: 10px; background: #fff; border-radius: 12px; max-width: 200px; margin: 0 auto; }
 </style>
 </head>
 <body>
 
 <header>
-  <a class="back-btn" href="./" title="Kembali ke OoeR">
+  <a class="back-btn" href="./" title="Kembali ke Beranda OoeR">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
       <path d="M19 12H5M12 19l-7-7 7-7"/>
     </svg>
   </a>
-  <div class="brand"><span>◉</span> NetNet Converter</div>
-  <div style="width: 36px;"></div>
+  <a class="ooer-logo-box" href="./">
+    <div class="logo-circle"></div>
+    <div class="logo-title">OoeR <b>NetNet</b></div>
+  </a>
+  <div style="width: 38px;"></div>
 </header>
 
 <main>
-  <div class="privacy-badge">
-    🔒 <b>100% Aman & Gratis:</b> Semua proses konversi berjalan langsung di perangkat Anda tanpa diunggah ke internet.
+  <div class="privacy-banner">
+    🔒 <b>Privasi 100% Aman:</b> Seluruh file dikonversi langsung oleh mesin browser HP Anda. Tidak ada dokumen yang dikirim ke internet!
   </div>
 
-  <!-- Pilihan 3 Alat Utama -->
-  <div class="tool-nav">
-    <button class="tool-btn active" data-mode="img2pdf">
-      <span style="font-size: 20px;">🖼️ ➔ 📄</span>
-      Gambar ke PDF
-    </button>
-    <button class="tool-btn" data-mode="pdf2img">
-      <span style="font-size: 20px;">📄 ➔ 🖼️</span>
-      PDF ke JPG
-    </button>
-    <button class="tool-btn" data-mode="img2img">
-      <span style="font-size: 20px;">🔄</span>
-      Format Gambar
-    </button>
+  <!-- Filter Kategori -->
+  <div class="category-tabs">
+    <button class="cat-btn active" data-cat="all">Semua Fitur (12)</button>
+    <button class="cat-btn" data-cat="pdf">📄 Dokumen & PDF</button>
+    <button class="cat-btn" data-cat="img">🖼️ Gambar & Foto</button>
+    <button class="cat-btn" data-cat="util">🛠️ Utilitas & Data</button>
   </div>
 
-  <!-- Kotak Upload -->
-  <div class="upload-box" id="dropArea">
-    <div class="upload-icon" id="modeIcon">🖼️</div>
-    <div class="upload-text" id="modeTitle">Pilih Gambar (JPG, PNG, WebP)</div>
-    <div class="upload-hint" id="modeHint">Bisa pilih banyak gambar sekaligus</div>
-    <input type="file" id="fileInput" multiple accept="image/*">
+  <!-- Grid Alat Konversi -->
+  <div class="tools-grid" id="toolsGrid">
+    <!-- 1. Gambar ke PDF -->
+    <div class="tool-card active" data-tool="img2pdf" data-category="pdf">
+      <div class="tool-icon">🖼️➔📄</div>
+      <div class="tool-name">Gambar ke PDF</div>
+      <div class="tool-desc">Gabungkan banyak foto jadi 1 file PDF</div>
+    </div>
+
+    <!-- 2. PDF ke JPG -->
+    <div class="tool-card" data-tool="pdf2img" data-category="pdf">
+      <div class="tool-icon">📄➔🖼️</div>
+      <div class="tool-name">PDF ke JPG</div>
+      <div class="tool-desc">Ekstrak lembar PDF jadi gambar JPG (ZIP)</div>
+    </div>
+
+    <!-- 3. Gabung PDF -->
+    <div class="tool-card" data-tool="mergepdf" data-category="pdf">
+      <div class="tool-icon">📑➔📑</div>
+      <div class="tool-name">Gabung PDF</div>
+      <div class="tool-desc">Satukan beberapa file PDF jadi satu</div>
+    </div>
+
+    <!-- 4. PDF ke Teks -->
+    <div class="tool-card" data-tool="pdf2txt" data-category="pdf">
+      <div class="tool-icon">📄➔📝</div>
+      <div class="tool-name">PDF ke Teks</div>
+      <div class="tool-desc">Salin semua tulisan dari file PDF</div>
+    </div>
+
+    <!-- 5. Teks ke PDF -->
+    <div class="tool-card" data-tool="txt2pdf" data-category="pdf">
+      <div class="tool-icon">📝➔📄</div>
+      <div class="tool-name">Teks ke PDF</div>
+      <div class="tool-desc">Ketik teks langsung dan unduh jadi PDF</div>
+    </div>
+
+    <!-- 6. Ubah Format Gambar -->
+    <div class="tool-card" data-tool="imgformat" data-category="img">
+      <div class="tool-icon">🔄</div>
+      <div class="tool-name">Format Gambar</div>
+      <div class="tool-desc">Ubah WebP, PNG, JPG, dan BMP</div>
+    </div>
+
+    <!-- 7. Kompres Foto -->
+    <div class="tool-card" data-tool="compressimg" data-category="img">
+      <div class="tool-icon">🗜️</div>
+      <div class="tool-name">Kompres Foto</div>
+      <div class="tool-desc">Perkecil ukuran KB foto dengan cepat</div>
+    </div>
+
+    <!-- 8. Resize Dimensi -->
+    <div class="tool-card" data-tool="resizeimg" data-category="img">
+      <div class="tool-icon">📐</div>
+      <div class="tool-name">Ubah Ukuran Foto</div>
+      <div class="tool-desc">Atur lebar & tinggi pixel gambar</div>
+    </div>
+
+    <!-- 9. Hitam Putih -->
+    <div class="tool-card" data-tool="grayscale" data-category="img">
+      <div class="tool-icon">⬛⬜</div>
+      <div class="tool-name">Foto Hitam Putih</div>
+      <div class="tool-desc">Ubah gambar jadi grayscale untuk cetak</div>
+    </div>
+
+    <!-- 10. QR Code Generator -->
+    <div class="tool-card" data-tool="qrcode" data-category="util">
+      <div class="tool-icon">📱</div>
+      <div class="tool-name">Bikin QR Code</div>
+      <div class="tool-desc">Buat QR dari link web atau teks</div>
+    </div>
+
+    <!-- 11. Gambar ke Base64 -->
+    <div class="tool-card" data-tool="img2b64" data-category="util">
+      <div class="tool-icon">🔤</div>
+      <div class="tool-name">Foto ke Base64</div>
+      <div class="tool-desc">Ubah foto jadi kode teks Base64</div>
+    </div>
+
+    <!-- 12. JSON ke CSV -->
+    <div class="tool-card" data-tool="json2csv" data-category="util">
+      <div class="tool-icon">📊</div>
+      <div class="tool-name">JSON ke CSV</div>
+      <div class="tool-desc">Ubah data JSON jadi tabel Excel</div>
+    </div>
   </div>
 
-  <!-- Menu Pilihan Format Tambahan (Hanya untuk Mode Ubah Gambar) -->
-  <div id="formatOptionArea" style="display: none;">
-    <label style="font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block;">Ubah Format Menjadi:</label>
-    <select class="select-format" id="targetFormatSelect">
-      <option value="image/jpeg">JPG / JPEG (.jpg)</option>
-      <option value="image/png">PNG (.png)</option>
-      <option value="image/webp">WebP (.webp)</option>
-    </select>
-  </div>
+  <!-- WORKSPACE AKTIF -->
+  <div class="workspace" id="workspaceArea">
+    <div class="workspace-title" id="wsTitle">🖼️➔📄 Gambar ke PDF</div>
 
-  <div class="action-area">
-    <button class="primary-btn" id="convertBtn">Mulai Konversi</button>
-    <div class="status-text" id="statusMessage"></div>
-    <div class="preview-grid" id="previewContainer"></div>
+    <!-- Upload Area Standar -->
+    <div class="upload-zone" id="wsDropZone">
+      <div style="font-size: 32px;" id="wsUploadIcon">📂</div>
+      <div class="upload-zone-title" id="wsUploadTitle">Pilih Gambar dari Galeri</div>
+      <div class="upload-zone-sub" id="wsUploadSub">Bisa pilih beberapa gambar sekaligus</div>
+      <input type="file" id="mainFileInput">
+    </div>
+
+    <!-- Input Tambahan (Dinamis Sesuai Alat) -->
+    <div id="dynamicInputs"></div>
+
+    <button class="btn-primary" id="btnExecute">Mulai Konversi</button>
+    <div class="status-box" id="wsStatus"></div>
+    <div id="outputContainer"></div>
   </div>
 </main>
 
@@ -165,219 +276,331 @@ input[type="file"] { display: none; }
 (() => {
   "use strict";
 
-  // Inisialisasi PDF.js Worker
   pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
   const $ = id => document.getElementById(id);
-  const dropArea = $("dropArea");
-  const fileInput = $("fileInput");
-  const convertBtn = $("convertBtn");
-  const statusMessage = $("statusMessage");
-  const previewContainer = $("previewContainer");
-  const modeIcon = $("modeIcon");
-  const modeTitle = $("modeTitle");
-  const modeHint = $("modeHint");
-  const formatOptionArea = $("formatOptionArea");
-  const targetFormatSelect = $("targetFormatSelect");
-  const toolBtns = document.querySelectorAll(".tool-btn");
+  const mainFileInput = $("mainFileInput");
+  const wsDropZone = $("wsDropZone");
+  const wsTitle = $("wsTitle");
+  const wsUploadTitle = $("wsUploadTitle");
+  const wsUploadSub = $("wsUploadSub");
+  const dynamicInputs = $("dynamicInputs");
+  const btnExecute = $("btnExecute");
+  const wsStatus = $("wsStatus");
+  const outputContainer = $("outputContainer");
 
-  let currentMode = "img2pdf"; // img2pdf | pdf2img | img2img
-  let selectedFiles = [];
+  let activeTool = "img2pdf";
+  let loadedFiles = [];
 
-  // Pilihan Tab
-  toolBtns.forEach(btn => {
+  // Konfigurasi 12 Alat Lengkap
+  const TOOL_CONFIG = {
+    img2pdf: { title: "🖼️➔📄 Gambar ke PDF", accept: "image/*", multi: true, upTitle: "Pilih Foto Galeri", upSub: "Pilih foto yang ingin digabung ke PDF" },
+    pdf2img: { title: "📄➔🖼️ PDF ke JPG", accept: "application/pdf", multi: false, upTitle: "Pilih Dokumen PDF", upSub: "Tiap lembar akan diekstrak jadi gambar" },
+    mergepdf: { title: "📑➔📑 Gabung PDF", accept: "application/pdf", multi: true, upTitle: "Pilih File-File PDF", upSub: "Pilih 2 atau lebih file PDF untuk digabung" },
+    pdf2txt: { title: "📄➔📝 PDF ke Teks", accept: "application/pdf", multi: false, upTitle: "Pilih File PDF", upSub: "Ekstrak seluruh tulisan teks dari PDF" },
+    txt2pdf: { title: "📝➔📄 Teks ke PDF", noUpload: true },
+    imgformat: { title: "🔄 Ubah Format Gambar", accept: "image/*", multi: false, upTitle: "Pilih Gambar", upSub: "Ubah ke format JPG, PNG, atau WebP" },
+    compressimg: { title: "🗜️ Kompres Foto", accept: "image/*", multi: false, upTitle: "Pilih Gambar", upSub: "Perkecil ukuran KB tanpa merusak kualitas" },
+    resizeimg: { title: "📐 Ubah Ukuran Foto (Resize)", accept: "image/*", multi: false, upTitle: "Pilih Gambar", upSub: "Atur lebar & tinggi pixel gambar" },
+    grayscale: { title: "⬛⬜ Foto Hitam Putih", accept: "image/*", multi: false, upTitle: "Pilih Foto", upSub: "Ubah gambar jadi hitam-putih artistik" },
+    qrcode: { title: "📱 Bikin QR Code", noUpload: true },
+    img2b64: { title: "🔤 Foto ke Base64", accept: "image/*", multi: false, upTitle: "Pilih Gambar", upSub: "Ubah gambar jadi teks kode Base64" },
+    json2csv: { title: "📊 JSON ke CSV / Excel", noUpload: true }
+  };
+
+  function setTool(toolKey) {
+    activeTool = toolKey;
+    loadedFiles = [];
+    mainFileInput.value = "";
+    wsStatus.textContent = "";
+    outputContainer.replaceChildren();
+    dynamicInputs.replaceChildren();
+
+    const cfg = TOOL_CONFIG[toolKey];
+    wsTitle.textContent = cfg.title;
+
+    if (cfg.noUpload) {
+      wsDropZone.style.display = "none";
+    } else {
+      wsDropZone.style.display = "block";
+      mainFileInput.accept = cfg.accept || "*/*";
+      mainFileInput.multiple = !!cfg.multi;
+      wsUploadTitle.textContent = cfg.upTitle;
+      wsUploadSub.textContent = cfg.upSub;
+    }
+
+    // Buat input khusus
+    if (toolKey === "txt2pdf") {
+      dynamicInputs.innerHTML = `<textarea id="txtContent" placeholder="Ketik atau tempel teks dokumen di sini..."></textarea>`;
+    } else if (toolKey === "imgformat") {
+      dynamicInputs.innerHTML = `
+        <label style="font-size:12px; color:var(--muted);">Format Target:</label>
+        <select class="custom-select" id="imgTargetFmt">
+          <option value="image/jpeg">JPG / JPEG (.jpg)</option>
+          <option value="image/png">PNG (.png)</option>
+          <option value="image/webp">WebP (.webp)</option>
+        </select>`;
+    } else if (toolKey === "compressimg") {
+      dynamicInputs.innerHTML = `
+        <label style="font-size:12px; color:var(--muted);">Kualitas Kompresi:</label>
+        <select class="custom-select" id="compressQuality">
+          <option value="0.7">Sedang (Hemat 50% - Tetap Jernih)</option>
+          <option value="0.4">Kecil (Hemat 80% - Ukuran Sangat Ringan)</option>
+          <option value="0.9">Tinggi (Kualitas Maksimal)</option>
+        </select>`;
+    } else if (toolKey === "resizeimg") {
+      dynamicInputs.innerHTML = `
+        <div style="display:flex; gap:8px;">
+          <input type="number" class="custom-input" id="resizeWidth" placeholder="Lebar (px), misal: 800">
+          <input type="number" class="custom-input" id="resizeHeight" placeholder="Tinggi (px), misal: 600">
+        </div>`;
+    } else if (toolKey === "qrcode") {
+      dynamicInputs.innerHTML = `
+        <input type="text" class="custom-input" id="qrText" placeholder="Masukkan Link Web atau Teks untuk dijadikan QR...">
+        <div id="qrPreview" style="margin-top:12px; display:flex; justify-content:center;"></div>`;
+    } else if (toolKey === "json2csv") {
+      dynamicInputs.innerHTML = `<textarea id="jsonContent" placeholder='Tempel data JSON di sini, contoh:\n[{"nama": "Budi", "kota": "Jakarta"}, {"nama": "Siti", "kota": "Bandung"}]'></textarea>`;
+    }
+  }
+
+  // Navigasi Filter Kategori
+  document.querySelectorAll(".cat-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      toolBtns.forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      currentMode = btn.dataset.mode;
-      resetState();
-
-      if (currentMode === "img2pdf") {
-        modeIcon.textContent = "🖼️";
-        modeTitle.textContent = "Pilih Gambar (JPG, PNG, WebP)";
-        modeHint.textContent = "Bisa pilih banyak gambar sekaligus untuk digabung";
-        fileInput.accept = "image/*";
-        fileInput.multiple = true;
-        formatOptionArea.style.display = "none";
-      } else if (currentMode === "pdf2img") {
-        modeIcon.textContent = "📄";
-        modeTitle.textContent = "Pilih Dokumen PDF";
-        modeHint.textContent = "Tiap halaman akan diekstrak menjadi foto JPG";
-        fileInput.accept = "application/pdf";
-        fileInput.multiple = false;
-        formatOptionArea.style.display = "none";
-      } else if (currentMode === "img2img") {
-        modeIcon.textContent = "🔄";
-        modeTitle.textContent = "Pilih Gambar yang Ingin Diubah Formatnya";
-        modeHint.textContent = "Ubah WebP ke JPG, PNG ke JPG, dll.";
-        fileInput.accept = "image/*";
-        fileInput.multiple = false;
-        formatOptionArea.style.display = "block";
-      }
+      const cat = btn.dataset.cat;
+      document.querySelectorAll(".tool-card").forEach(c => {
+        c.style.display = (cat === "all" || c.dataset.category === cat) ? "flex" : "none";
+      });
     });
   });
 
-  dropArea.addEventListener("click", () => fileInput.click());
+  // Klik Kartu Alat
+  document.querySelectorAll(".tool-card").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".tool-card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+      setTool(card.dataset.tool);
+      $("workspaceArea").scrollIntoView({ behavior: "smooth" });
+    });
+  });
 
-  fileInput.addEventListener("change", e => {
-    selectedFiles = Array.from(e.target.files);
-    if (!selectedFiles.length) return;
+  wsDropZone.addEventListener("click", () => mainFileInput.click());
 
-    previewContainer.replaceChildren();
-    statusMessage.textContent = `${selectedFiles.length} file dipilih. Siap dikonversi!`;
-    convertBtn.style.display = "flex";
-
-    // Buat pratinjau thumbnail sederhana jika gambar
-    if (currentMode !== "pdf2img") {
-      selectedFiles.slice(0, 10).forEach(file => {
-        const url = URL.createObjectURL(file);
-        const div = document.createElement("div");
-        div.className = "preview-item";
-        div.innerHTML = `<img src="${url}">`;
-        previewContainer.appendChild(div);
-      });
+  mainFileInput.addEventListener("change", e => {
+    loadedFiles = Array.from(e.target.files);
+    if (loadedFiles.length) {
+      wsStatus.textContent = `✅ ${loadedFiles.length} file dipilih. Siap dikonversi!`;
     }
   });
 
-  function resetState() {
-    selectedFiles = [];
-    fileInput.value = "";
-    convertBtn.style.display = "none";
-    statusMessage.textContent = "";
-    previewContainer.replaceChildren();
-  }
-
-  // Tombol Proses Konversi
-  convertBtn.addEventListener("click", async () => {
-    if (!selectedFiles.length) return;
-
-    convertBtn.disabled = true;
-    convertBtn.textContent = "Sedang Memproses...";
+  // EKSEKUSI 12 FITUR KONVERSI
+  btnExecute.addEventListener("click", async () => {
+    btnExecute.disabled = true;
+    wsStatus.textContent = "⏳ Sedang memproses...";
 
     try {
-      if (currentMode === "img2pdf") {
-        await processImagesToPDF();
-      } else if (currentMode === "pdf2img") {
-        await processPDFToImages();
-      } else if (currentMode === "img2img") {
-        await processImageToImage();
+      // 1. Gambar ke PDF
+      if (activeTool === "img2pdf") {
+        if (!loadedFiles.length) throw new Error("Pilih minimal satu gambar.");
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        for (let i = 0; i < loadedFiles.length; i++) {
+          const dUrl = await fileToDataURL(loadedFiles[i]);
+          const img = new Image(); img.src = dUrl;
+          await new Promise(r => img.onload = r);
+          const pW = doc.internal.pageSize.getWidth(), pH = doc.internal.pageSize.getHeight();
+          const r = Math.min(pW / img.width, pH / img.height);
+          if (i > 0) doc.addPage();
+          doc.addImage(dUrl, "JPEG", (pW - img.width * r) / 2, (pH - img.height * r) / 2, img.width * r, img.height * r);
+        }
+        doc.save("NetNet-Dokumen.pdf");
+        wsStatus.textContent = "✅ Berhasil! File PDF terunduh.";
       }
+
+      // 2. PDF ke JPG (ZIP)
+      else if (activeTool === "pdf2img") {
+        if (!loadedFiles.length) throw new Error("Pilih dokumen PDF.");
+        const arr = await loadedFiles[0].arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arr }).promise;
+        const zip = new JSZip();
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const vp = page.getViewport({ scale: 2.0 });
+          const cvs = document.createElement("canvas");
+          cvs.width = vp.width; cvs.height = vp.height;
+          await page.render({ canvasContext: cvs.getContext("2d"), viewport: vp }).promise;
+          const blob = await new Promise(res => cvs.toBlob(res, "image/jpeg", 0.9));
+          zip.file(`Halaman-${p}.jpg`, blob);
+        }
+        downloadBlob(await zip.generateAsync({ type: "blob" }), "NetNet-PDF-Halaman.zip");
+        wsStatus.textContent = "✅ Berhasil! Gambar tersimpan dalam format ZIP.";
+      }
+
+      // 3. Gabung PDF (Merge)
+      else if (activeTool === "mergepdf") {
+        if (loadedFiles.length < 2) throw new Error("Pilih minimal 2 file PDF untuk digabung.");
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        for (const f of loadedFiles) {
+          const pdfBytes = await f.arrayBuffer();
+          const doc = await PDFLib.PDFDocument.load(pdfBytes);
+          const copiedPages = await mergedPdf.copyPages(doc, doc.getPageIndices());
+          copiedPages.forEach(page => mergedPdf.addPage(page));
+        }
+        const mergedBytes = await mergedPdf.save();
+        downloadBlob(new Blob([mergedBytes], { type: "application/pdf" }), "NetNet-Gabungan.pdf");
+        wsStatus.textContent = "✅ Sukses! File PDF berhasil digabungkan.";
+      }
+
+      // 4. PDF ke Teks
+      else if (activeTool === "pdf2txt") {
+        if (!loadedFiles.length) throw new Error("Pilih file PDF.");
+        const arr = await loadedFiles[0].arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arr }).promise;
+        let fullTxt = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          fullTxt += `--- HALAMAN ${i} ---\n` + content.items.map(it => it.str).join(" ") + "\n\n";
+        }
+        downloadBlob(new Blob([fullTxt], { type: "text/plain" }), "NetNet-Hasil-Teks.txt");
+        wsStatus.textContent = "✅ Sukses mengekstrak teks!";
+      }
+
+      // 5. Teks ke PDF
+      else if (activeTool === "txt2pdf") {
+        const val = $("txtContent")?.value.trim();
+        if (!val) throw new Error("Ketik teks terlebih dahulu.");
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const splitText = doc.splitTextToSize(val, 180);
+        doc.text(splitText, 15, 20);
+        doc.save("NetNet-Catatan.pdf");
+        wsStatus.textContent = "✅ Sukses mencetak teks ke PDF!";
+      }
+
+      // 6. Ubah Format Gambar
+      else if (activeTool === "imgformat") {
+        if (!loadedFiles.length) throw new Error("Pilih gambar terlebih dahulu.");
+        const targetMime = $("imgTargetFmt").value;
+        const ext = targetMime.split("/")[1].replace("jpeg", "jpg");
+        const blob = await convertImageCanvas(loadedFiles[0], targetMime, 0.95);
+        downloadBlob(blob, `NetNet-Converted.${ext}`);
+        wsStatus.textContent = `✅ Berhasil diubah ke .${ext}`;
+      }
+
+      // 7. Kompres Foto
+      else if (activeTool === "compressimg") {
+        if (!loadedFiles.length) throw new Error("Pilih gambar terlebih dahulu.");
+        const q = parseFloat($("compressQuality").value);
+        const blob = await convertImageCanvas(loadedFiles[0], "image/jpeg", q);
+        downloadBlob(blob, "NetNet-Compressed.jpg");
+        wsStatus.textContent = `✅ Foto berhasil dikompresi! Ukuran: ${(blob.size/1024).toFixed(1)} KB`;
+      }
+
+      // 8. Resize Dimensi
+      else if (activeTool === "resizeimg") {
+        if (!loadedFiles.length) throw new Error("Pilih gambar terlebih dahulu.");
+        const w = parseInt($("resizeWidth").value) || 800;
+        const h = parseInt($("resizeHeight").value) || 600;
+        const blob = await resizeImageCanvas(loadedFiles[0], w, h);
+        downloadBlob(blob, `NetNet-Resized-${w}x${h}.jpg`);
+        wsStatus.textContent = `✅ Berhasil diubah ke ukuran ${w}x${h} px!`;
+      }
+
+      // 9. Hitam Putih (Grayscale)
+      else if (activeTool === "grayscale") {
+        if (!loadedFiles.length) throw new Error("Pilih gambar terlebih dahulu.");
+        const blob = await grayscaleCanvas(loadedFiles[0]);
+        downloadBlob(blob, "NetNet-Grayscale.jpg");
+        wsStatus.textContent = "✅ Berhasil diubah ke Hitam Putih!";
+      }
+
+      // 10. QR Code Generator
+      else if (activeTool === "qrcode") {
+        const txt = $("qrText")?.value.trim();
+        if (!txt) throw new Error("Masukkan link atau teks QR.");
+        const box = $("qrPreview"); box.replaceChildren();
+        new QRCode(box, { text: txt, width: 180, height: 180 });
+        wsStatus.textContent = "✅ QR Code berhasil dibuat!";
+      }
+
+      // 11. Gambar ke Base64
+      else if (activeTool === "img2b64") {
+        if (!loadedFiles.length) throw new Error("Pilih gambar terlebih dahulu.");
+        const b64 = await fileToDataURL(loadedFiles[0]);
+        downloadBlob(new Blob([b64], { type: "text/plain" }), "NetNet-Base64.txt");
+        wsStatus.textContent = "✅ Kode Base64 berhasil diunduh!";
+      }
+
+      // 12. JSON ke CSV
+      else if (activeTool === "json2csv") {
+        const val = $("jsonContent")?.value.trim();
+        if (!val) throw new Error("Masukkan data JSON.");
+        const json = JSON.parse(val);
+        const keys = Object.keys(json[0] || {});
+        let csv = keys.join(",") + "\n";
+        json.forEach(row => { csv += keys.map(k => JSON.stringify(row[k] || "")).join(",") + "\n"; });
+        downloadBlob(new Blob([csv], { type: "text/csv" }), "NetNet-Data.csv");
+        wsStatus.textContent = "✅ Berhasil dikonversi ke CSV!";
+      }
+
     } catch (err) {
-      statusMessage.textContent = "Terjadi kesalahan: " + err.message;
+      wsStatus.textContent = "❌ " + err.message;
     } finally {
-      convertBtn.disabled = false;
-      convertBtn.textContent = "Mulai Konversi";
+      btnExecute.disabled = false;
     }
   });
 
-  /* 1. GAMBAR KE PDF (GABUNG FOTO JADI SATU PDF) */
-  async function processImagesToPDF() {
-    statusMessage.textContent = "Menggabungkan foto ke dokumen PDF...";
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
-      const dataUrl = await fileToDataURL(file);
-
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise(r => img.onload = r);
-
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-
-      // Hitung skala agar pas di halaman
-      const ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
-      const w = img.width * ratio;
-      const h = img.height * ratio;
-      const x = (pageWidth - w) / 2;
-      const y = (pageHeight - h) / 2;
-
-      if (i > 0) doc.addPage();
-      doc.addImage(dataUrl, "JPEG", x, y, w, h);
-    }
-
-    doc.save("NetNet-Dokumen.pdf");
-    statusMessage.textContent = "✅ Sukses! File PDF berhasil diunduh.";
-  }
-
-  /* 2. PDF KE GAMBAR JPG (EKSTRAK HALAMAN) */
-  async function processPDFToImages() {
-    statusMessage.textContent = "Membaca halaman PDF...";
-    const file = selectedFiles[0];
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-
-    statusMessage.textContent = `Menemukan ${pdf.numPages} halaman. Mengubah ke JPG...`;
-    const zip = new JSZip();
-
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-      const page = await pdf.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 2.0 }); // Skala tajam
-
-      const canvas = document.createElement("canvas");
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      const ctx = canvas.getContext("2d");
-
-      await page.render({ canvasContext: ctx, viewport }).promise;
-
-      // Konversi canvas ke JPG Blob
-      const blob = await new Promise(r => canvas.toBlob(r, "image/jpeg", 0.92));
-      zip.file(`Halaman-${pageNum}.jpg`, blob);
-    }
-
-    statusMessage.textContent = "Mengompresi ke ZIP...";
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-
-    // Download otomatis file ZIP
-    downloadBlob(zipBlob, "NetNet-Hasil-Halaman.zip");
-    statusMessage.textContent = "✅ Sukses! Seluruh halaman tersimpan dalam format ZIP.";
-  }
-
-  /* 3. UBAH FORMAT GAMBAR (WEBP / PNG / JPG) */
-  async function processImageToImage() {
-    statusMessage.textContent = "Mengonversi format gambar...";
-    const file = selectedFiles[0];
-    const targetMime = targetFormatSelect.value;
-    const ext = targetMime === "image/png" ? "png" : targetMime === "image/webp" ? "webp" : "jpg";
-
-    const dataUrl = await fileToDataURL(file);
-    const img = new Image();
-    img.src = dataUrl;
-    await new Promise(r => img.onload = r);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-
-    const blob = await new Promise(r => canvas.toBlob(r, targetMime, 0.95));
-    downloadBlob(blob, `NetNet-Converted.${ext}`);
-    statusMessage.textContent = `✅ Sukses! Gambar berhasil diubah ke format .${ext}`;
-  }
-
-  function fileToDataURL(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+  // UTILITAS CANVAS HELPER
+  function fileToDataURL(f) {
+    return new Promise((res, rej) => {
+      const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f);
     });
   }
 
-  function downloadBlob(blob, filename) {
+  async function convertImageCanvas(file, mime, quality) {
+    const img = new Image(); img.src = await fileToDataURL(file);
+    await new Promise(r => img.onload = r);
+    const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+    c.getContext("2d").drawImage(img, 0, 0);
+    return new Promise(res => c.toBlob(res, mime, quality));
+  }
+
+  async function resizeImageCanvas(file, w, h) {
+    const img = new Image(); img.src = await fileToDataURL(file);
+    await new Promise(r => img.onload = r);
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    c.getContext("2d").drawImage(img, 0, 0, w, h);
+    return new Promise(res => c.toBlob(res, "image/jpeg", 0.9));
+  }
+
+  async function grayscaleCanvas(file) {
+    const img = new Image(); img.src = await fileToDataURL(file);
+    await new Promise(r => img.onload = r);
+    const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const idata = ctx.getImageData(0, 0, c.width, c.height);
+    const d = idata.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const gray = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+      d[i] = gray; d[i+1] = gray; d[i+2] = gray;
+    }
+    ctx.putImageData(idata, 0, 0);
+    return new Promise(res => c.toBlob(res, "image/jpeg", 0.9));
+  }
+
+  function downloadBlob(blob, name) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
+  setTool("img2pdf");
 })();
 </script>
 </body>
