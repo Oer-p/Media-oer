@@ -38,7 +38,9 @@ button { cursor: pointer; border: 0; background: transparent; }
 .back-btn {
   color: #cfd3dc; display: flex; align-items: center;
   justify-content: center; width: 36px; height: 36px; border-radius: 50%;
+  transition: background .2s ease;
 }
+.back-btn:hover { background: #282a2d; }
 .ooer-brand {
   position: absolute; left: 50%; transform: translateX(-50%);
   font-size: 26px; font-weight: 700; color: #fff; user-select: none;
@@ -48,7 +50,9 @@ button { cursor: pointer; border: 0; background: transparent; }
 .search-pill {
   background-color: var(--search-bg); border-radius: 28px;
   display: flex; align-items: center; padding: 0 10px 0 14px; height: 48px;
+  border: 1px solid transparent; transition: border-color .2s;
 }
+.search-pill:focus-within { border-color: var(--link-blue); }
 #query {
   flex: 1; background: transparent; border: none; outline: none;
   color: var(--text); font-size: 15px; min-width: 0;
@@ -81,12 +85,37 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 
 .main-container { max-width: 650px; margin: 0 auto; padding: 14px; }
-.status-msg { padding: 20px 0; color: var(--muted); font-size: 13px; text-align: center; }
+.status-msg { padding: 16px 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+/* SKELETON ANIMASI CEPAT (SHIMMER) */
+.skeleton {
+  background: linear-gradient(90deg, #1e1f20 25%, #2a2c2e 50%, #1e1f20 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-card {
+  background-color: var(--card-bg); border-radius: 18px;
+  padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
+}
+.skeleton-line { height: 14px; margin-bottom: 10px; border-radius: 6px; }
+.skeleton-line.short { width: 35%; }
+.skeleton-line.medium { width: 70%; }
+.skeleton-line.full { width: 100%; }
 
 /* KARTU AI */
 .ai-card {
   background-color: var(--card-bg); border-radius: 18px;
   padding: 18px; margin-bottom: 16px; border: 1px solid #2d3033;
+  animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .ai-header-badge {
   display: inline-flex; align-items: center; gap: 6px;
@@ -94,7 +123,7 @@ button { cursor: pointer; border: 0; background: transparent; }
 }
 .ai-text { font-size: 14px; line-height: 1.65; color: #e3e3e3; white-space: pre-line; }
 
-/* GRID GAMBAR INTERAKTIF */
+/* GRID GAMBAR */
 .gallery-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
   margin-bottom: 16px;
@@ -113,9 +142,10 @@ button { cursor: pointer; border: 0; background: transparent; }
   font-size: 10px; font-weight: 600; color: #a8c7fa;
 }
 
-/* KARTU ARTIKEL / WEB */
+/* KARTU ARTIKEL */
 .article-card {
   padding: 14px 0; border-bottom: 1px solid #282a2d; cursor: pointer;
+  animation: fadeIn 0.25s ease;
 }
 .article-source { font-size: 11px; color: #9aa0a6; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
 .article-title { color: var(--link-blue); font-size: 17px; line-height: 1.35; margin-bottom: 4px; font-weight: 500; }
@@ -287,32 +317,30 @@ button { cursor: pointer; border: 0; background: transparent; }
   const SUPABASE_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co";
   const SUPABASE_KEY = "sb_publishable_FE4-8ZuWD3FgKCcjxjaErg_w97N3fwk";
   const COLLECTOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/rapid-task";
-  
-  // ENDPOINT GROK.AI PENERJEMAH BAHASA
   const GROK_TRANSLATOR_URL = "https://jhopfzmyxuafdbwwkjbf.supabase.co/functions/v1/Grok.ai";
 
   const supabase = (window.supabase && window.supabase.createClient)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
 
-  /* KAMUS TERJEMAHAN UI */
+  /* KAMUS TERJEMAHAN LENGKAP */
   const UI_DICT = {
-    "Indonesia": { all: "Semua", ai: "✨ OoeR AI", img: "Gambar", news: "Berita", vid: "Video", license: "🔍 Cek Lisensi", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori OoeR Permanen", noVid: "Tidak ada video terbuka untuk topik ini.", ph: "Telusuri di OoeR..." },
-    "English (US)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check License", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Permanent Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR..." },
-    "English (UK)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check Licence", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Permanent Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR..." },
-    "Melayu (Malaysia)": { all: "Semua", ai: "✨ OoeR AI", img: "Imej", news: "Berita", vid: "Video", license: "🔍 Semak Lesen", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori OoeR Kekal", noVid: "Tiada video dibuka untuk topik ini.", ph: "Cari di OoeR..." },
-    "Tagalog (Filipina)": { all: "Lahat", ai: "✨ OoeR AI", img: "Mga Larawan", news: "Balita", vid: "Mga Video", license: "🔍 Suriin ang Lisensya", sum: "✨ Buod ng OoeR AI", mem: "⚡ Permanenteng Memorya ng OoeR", noVid: "Walang bukas na video para sa paksang ito.", ph: "Maghanap sa OoeR..." },
-    "Thailand": { all: "ทั้งหมด", ai: "✨ OoeR AI", img: "รูปภาพ", news: "ข่าว", vid: "วิดีโอ", license: "🔍 ตรวจสอบใบอนุญาต", sum: "✨ บทสรุป OoeR AI", mem: "⚡ หน่วยความจำถาวร OoeR", noVid: "ไม่มีวิดีโอสำหรับหัวข้อนี้", ph: "ค้นหาใน OoeR..." },
-    "Vietnam": { all: "Tất cả", ai: "✨ OoeR AI", img: "Hình ảnh", news: "Tin tức", vid: "Video", license: "🔍 Kiểm tra giấy phép", sum: "✨ Tóm tắt OoeR AI", mem: "⚡ Bộ nhớ vĩnh viễn OoeR", noVid: "Không có video cho chủ đề này.", ph: "Tìm kiếm trên OoeR..." },
-    "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 永続メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索..." },
-    "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 영구 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색..." },
-    "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 永久记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索..." },
-    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR स्थायी मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें..." },
-    "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR الدائمة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR..." }
+    "Indonesia": { all: "Semua", ai: "✨ OoeR AI", img: "Gambar", news: "Berita", vid: "Video", license: "🔍 Cek Lisensi", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Cepat OoeR", noVid: "Tidak ada video terbuka untuk topik ini.", ph: "Telusuri di OoeR...", loading: "Menghubungkan ke Gudang Memori & Menjelajah Web...", translating: "Menerjemahkan dengan Grok.ai..." },
+    "English (US)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check License", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", loading: "Accessing Memory Vault & Searching Web...", translating: "Translating with Grok.ai..." },
+    "English (UK)": { all: "All", ai: "✨ OoeR AI", img: "Images", news: "News", vid: "Videos", license: "🔍 Check Licence", sum: "✨ OoeR AI Summary", mem: "⚡ OoeR Instant Memory", noVid: "No open videos for this topic.", ph: "Search in OoeR...", loading: "Accessing Memory Vault & Searching Web...", translating: "Translating with Grok.ai..." },
+    "Melayu (Malaysia)": { all: "Semua", ai: "✨ OoeR AI", img: "Imej", news: "Berita", vid: "Video", license: "🔍 Semak Lesen", sum: "✨ Ringkasan OoeR AI", mem: "⚡ Memori Pantas OoeR", noVid: "Tiada video dibuka untuk topik ini.", ph: "Cari di OoeR...", loading: "Menyambung ke Gudang Memori & Meneroka Web...", translating: "Menterjemah dengan Grok.ai..." },
+    "Tagalog (Filipina)": { all: "Lahat", ai: "✨ OoeR AI", img: "Mga Larawan", news: "Balita", vid: "Mga Video", license: "🔍 Suriin ang Lisensya", sum: "✨ Buod ng OoeR AI", mem: "⚡ Mabilisang Memorya ng OoeR", noVid: "Walang bukas na video para sa paksang ito.", ph: "Maghanap sa OoeR...", loading: "Kumukonekta sa Memory Vault...", translating: "Isinasalin gamit ang Grok.ai..." },
+    "Thailand": { all: "ทั้งหมด", ai: "✨ OoeR AI", img: "รูปภาพ", news: "ข่าว", vid: "วิดีโอ", license: "🔍 ตรวจสอบใบอนุญาต", sum: "✨ บทสรุป OoeR AI", mem: "⚡ หน่วยความจำด่วน OoeR", noVid: "ไม่มีวิดีโอสำหรับหัวข้อนี้", ph: "ค้นหาใน OoeR...", loading: "กำลังเชื่อมต่อคลังความจำ...", translating: "กำลังแปลภาษาด้วย Grok.ai..." },
+    "Vietnam": { all: "Tất cả", ai: "✨ OoeR AI", img: "Hình ảnh", news: "Tin tức", vid: "Video", license: "🔍 Kiểm tra giấy phép", sum: "✨ Tóm tắt OoeR AI", mem: "⚡ Bộ nhớ nhanh OoeR", noVid: "Không có video cho chủ đề này.", ph: "Tìm kiếm trên OoeR...", loading: "Đang kết nối kho dữ liệu...", translating: "Đang dịch bằng Grok.ai..." },
+    "Jepang": { all: "すべて", ai: "✨ OoeR AI", img: "画像", news: "ニュース", vid: "動画", license: "🔍 ライセンス確認", sum: "✨ OoeR AI 要約", mem: "⚡ OoeR 高速メモリ", noVid: "このトピックの動画はありません。", ph: "OoeR で検索...", loading: "メモリに接続中...", translating: "Grok.ai で翻訳中..." },
+    "Korea": { all: "전체", ai: "✨ OoeR AI", img: "이미지", news: "뉴스", vid: "동영상", license: "🔍 라이선스 확인", sum: "✨ OoeR AI 요약", mem: "⚡ OoeR 빠른 메모리", noVid: "이 주제에 대한 동영상이 없습니다.", ph: "OoeR 에서 검색...", loading: "메모리 볼트에 연결 중...", translating: "Grok.ai로 번역 중..." },
+    "Mandarin": { all: "全部", ai: "✨ OoeR AI", img: "图片", news: "新闻", vid: "视频", license: "🔍 检查许可证", sum: "✨ OoeR AI 摘要", mem: "⚡ OoeR 极速记忆", noVid: "该主题没有开放视频。", ph: "在 OoeR 中搜索...", loading: "正在连接记忆库并搜索...", translating: "正在通过 Grok.ai 翻译..." },
+    "Hindi (India)": { all: "सभी", ai: "✨ OoeR AI", img: "चित्र", news: "समाचार", vid: "वीडियो", license: "🔍 लाइसेंस जांचें", sum: "✨ OoeR AI सारांश", mem: "⚡ OoeR त्वरित मेमोरी", noVid: "इस विषय के लिए कोई वीडियो नहीं है।", ph: "OoeR में खोजें...", loading: "मेमोरी वॉल्ट से जुड़ रहा है...", translating: "Grok.ai द्वारा अनुवाद किया जा रहा है..." },
+    "Arab": { all: "الكل", ai: "✨ OoeR AI", img: "الصور", news: "الأخبار", vid: "الفيديوهات", license: "🔍 فحص الترخيص", sum: "✨ ملخص OoeR AI", mem: "⚡ ذاكرة OoeR السريعة", noVid: "لا توجد مقاطع فيديو متاحة لهذا الموضوع.", ph: "ابحث في OoeR...", loading: "جارٍ الاتصال بمستودع الذاكرة...", translating: "جارٍ الترجمة بواسطة Grok.ai..." }
   };
 
   function applyUILanguage(lang) {
-    const d = UI_DICT[lang] || UI_DICT["English (US)"] || UI_DICT["Indonesia"];
+    const d = UI_DICT[lang] || UI_DICT["Indonesia"];
     $("tabAll").textContent = d.all;
     $("tabAi").textContent = d.ai;
     $("tabImages").textContent = d.img;
@@ -321,9 +349,35 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (input) input.placeholder = d.ph;
   }
 
-  // FUNGSI PENERJEMAH GROK.AI (LPU CEPAT)
+  // TAMPILKAN ANIMASI KERANGKA (SKELETON) INSTAN
+  function showSkeleton() {
+    statusBox.hidden = true;
+    resultsArea.innerHTML = `
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-line short"></div>
+        <div class="skeleton skeleton-line full"></div>
+        <div class="skeleton skeleton-line full"></div>
+        <div class="skeleton skeleton-line medium"></div>
+      </div>
+      <div style="padding: 14px 0; border-bottom: 1px solid #282a2d;">
+        <div class="skeleton skeleton-line short" style="height:10px;"></div>
+        <div class="skeleton skeleton-line medium" style="height:16px;"></div>
+        <div class="skeleton skeleton-line full" style="height:12px;"></div>
+      </div>
+      <div style="padding: 14px 0;">
+        <div class="skeleton skeleton-line short" style="height:10px;"></div>
+        <div class="skeleton skeleton-line medium" style="height:16px;"></div>
+        <div class="skeleton skeleton-line full" style="height:12px;"></div>
+      </div>
+    `;
+  }
+
+  // PENERJEMAH GROK.AI CEPAT DENGAN TIMEOUT
   async function terjemahkanDenganGrok(teks, targetLang) {
     if (targetLang === "Indonesia" || !teks) return teks;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500); // batas tunggu 4.5 detik
 
     try {
       const res = await fetch(GROK_TRANSLATOR_URL, {
@@ -334,22 +388,26 @@ button { cursor: pointer; border: 0; background: transparent; }
           "apikey": SUPABASE_KEY
         },
         body: JSON.stringify({
-          message: `Translate the following summary into ${targetLang} naturally, accurately, and without intro:\n\n${teks}`,
-          max_tokens: 800
-        })
+          message: `Translate this summary into ${targetLang} naturally and concisely without greetings:\n\n${teks}`,
+          max_tokens: 600
+        }),
+        signal: controller.signal
       });
-
+      clearTimeout(timeoutId);
       const d = await res.json();
       return d.reply || teks;
     } catch (e) {
-      console.warn("Grok.ai translation offline:", e);
+      clearTimeout(timeoutId);
       return teks;
     }
   }
 
-  // Muat bahasa tersimpan
-  const currentSavedLang = localStorage.getItem("ooer_user_lang") || "Indonesia";
+  // DETEKSI BAHASA DARI URL ATAU LOCALSTORAGE
+  const params = new URLSearchParams(location.search);
+  const langFromUrl = params.get("lang");
+  const currentSavedLang = langFromUrl || localStorage.getItem("ooer_user_lang") || "Indonesia";
   langSelect.value = currentSavedLang;
+  localStorage.setItem("ooer_user_lang", currentSavedLang);
   applyUILanguage(currentSavedLang);
 
   langSelect.addEventListener("change", async () => {
@@ -357,9 +415,10 @@ button { cursor: pointer; border: 0; background: transparent; }
     localStorage.setItem("ooer_user_lang", chosen);
     applyUILanguage(chosen);
 
-    // Jika sedang ada hasil pencarian di layar, langsung terjemahkan dengan Grok.ai!
     if (activeData && activeData.answer) {
-      showStatus("Menerjemahkan dengan Grok.ai...");
+      const d = UI_DICT[chosen] || UI_DICT["Indonesia"];
+      statusBox.textContent = d.translating;
+      statusBox.hidden = false;
       activeData.answer = await terjemahkanDenganGrok(activeData.answer, chosen);
       statusBox.hidden = true;
       renderView();
@@ -400,11 +459,6 @@ button { cursor: pointer; border: 0; background: transparent; }
 
   $("closeImgModal").addEventListener("click", () => imageModal.classList.remove("active"));
   imageModal.addEventListener("click", e => { if (e.target === imageModal) imageModal.classList.remove("active"); });
-
-  function showStatus(text) {
-    statusBox.textContent = text;
-    statusBox.hidden = false;
-  }
 
   function renderView() {
     if (!activeData) return;
@@ -507,10 +561,9 @@ button { cursor: pointer; border: 0; background: transparent; }
     if (!q) return;
 
     input.value = q;
-    showStatus("Menghubungkan ke Gudang Memori & Menjelajah Web...");
-    resultsArea.replaceChildren();
+    showSkeleton();
 
-    // 1. Cek Cepat di Supabase Vault
+    // 1. CEK CEPAT DI SUPABASE VAULT (Prioritas Kecepatan)
     if (supabase) {
       try {
         const { data: vData } = await supabase
@@ -529,25 +582,27 @@ button { cursor: pointer; border: 0; background: transparent; }
             videos: vData.videos || []
           };
 
-          // Terjemahkan dengan Grok.ai jika bahasa aktif bukan Indonesia
+          // Terjemahkan dengan Grok jika bahasa bukan Indonesia
           if (langSelect.value !== "Indonesia") {
-            showStatus("Menerjemahkan dengan Grok.ai...");
             activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
           }
 
           statusBox.hidden = true;
           renderView();
 
-          await supabase.from("ooer_ai_vault").update({
+          // Update hit count di latar belakang tanpa menunda tampilan!
+          supabase.from("ooer_ai_vault").update({
             hit_count: (vData.hit_count || 1) + 1
-          }).eq("id", vData.id);
+          }).eq("id", vData.id).then(() => {});
 
           return;
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn("Vault check error:", e);
+      }
     }
 
-    // 2. Ambil dari AI Collector (Rapid Task)
+    // 2. JIKA BELUM ADA DI VAULT, AMBIL DARI RAPID TASK COLLECTOR
     try {
       const res = await fetch(COLLECTOR_URL, {
         method: "POST",
@@ -565,16 +620,16 @@ button { cursor: pointer; border: 0; background: transparent; }
       const data = await res.json();
       activeData = data;
 
-      // Terjemahkan jawaban dengan Grok.ai jika bahasa bukan Indonesia
-      if (langSelect.value !== "Indonesia" && activeData.answer) {
-        showStatus("Menerjemahkan dengan Grok.ai...");
+      // Jika Edge Function belum menerjemahkan, jalankan Grok Translator
+      if (langSelect.value !== "Indonesia" && activeData.answer && !activeData.is_translated) {
         activeData.answer = await terjemahkanDenganGrok(activeData.answer, langSelect.value);
       }
 
       statusBox.hidden = true;
       renderView();
     } catch (err) {
-      showStatus("Gagal memuat data pencarian.");
+      statusBox.textContent = "Gagal memuat data pencarian. Silakan coba lagi.";
+      statusBox.hidden = false;
     }
   }
 
@@ -592,9 +647,11 @@ button { cursor: pointer; border: 0; background: transparent; }
     runSearch(input.value);
   });
 
-  const params = new URLSearchParams(location.search);
+  // JALANKAN PENCARIAN DARI PARAMETER URL
   const qParam = params.get("q");
-  if (qParam) runSearch(qParam);
+  if (qParam) {
+    runSearch(decodeURIComponent(qParam));
+  }
 })();
 </script>
 </body>
